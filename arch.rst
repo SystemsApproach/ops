@@ -1,0 +1,465 @@
+Chapter 2:  Architecture
+========================
+
+This chapter identifies all the subsystems that go into building and
+operationalizing a cloud capable of running an assortment of
+cloud-native services. We use Aether to illustrate specific design
+choices, and so we start by describing why an enterprise might install
+a system like Aether in the first place.
+
+Aether is a Kubernetes-based edge cloud, augmented with a 5G-based
+connectivity service. Aether is targeted at enterprises that want to
+take advantage of 5G connectivity in support of mission-critical edge
+applications requiring predictable low latency connectivity. In short,
+“Kubernetes-based” means Aether is able to host container-based
+services, and “5G-based connectivity” means Aether is able to connect
+those services to mobile devices throughout the enterprise's physical
+plant. This combination means Aether provides a Platform-as-a-Service
+(PaaS).
+
+.. sidebar:: Industry 4.0
+
+	*Give the Industry 4.0 pitch here.*
+
+Aether supports this combination by implementing both the RAN and the
+user plane of the Mobile Core on-prem, as cloud-native workloads
+co-located on the Aether cluster. This is often referred to as local
+breakout because it enables direct communication between mobile
+devices and edge applications without data traffic leaving the
+enterprise. This scenario is depicted in :numref:`Figure %s
+<fig-hybrid>`, which does not name the edge applications, but
+substituting Internet-of-Things (IoT) would be an illustrative
+example.
+
+.. _fig-hybrid:
+.. figure:: figures/Slide2.png
+   :width: 500px
+   :align: center
+
+   Overview of Aether as a hybrid cloud, with edge apps and the 5G
+   data plane (called *local breakout*) running on-prem and various
+   management and control-related workloads running in a central
+   cloud.
+
+The approach includes both edge (on-prem) and centralized (off-prem)
+components. This is true for edge apps, which often have a centralized
+counterpart running in a commodity cloud. It is also true for the
+Mobile Core, where the on-prem User Plane (UP) is paired with a
+centralized Control Plane (CP). The central cloud shown in this figure
+might be private (i.e., operated by the enterprise), public (i.e.,
+operated by a commercial cloud provider), or some combination of the
+two (i.e., not all centralized elements need to run in the same
+cloud). Also shown in :numref:`Figure %s <fig-hybrid>` is a
+centralized *Control and Management Platform*. This represents all the
+functionality needed to offer Aether as a managed service, with system
+administrators using a portal exported by this platform to operate the
+underlying infrastructure and services. The rest of this book is about
+everything that goes into implementing that *Control and Management
+Platform*.
+
+2.1 Edge Cloud
+--------------
+
+The edge cloud, which in Aether is called ACE (Aether Connected Edge),
+is a Kubernetes-based cluster similar to the one shown in
+:numref:`Figure %s <fig-hw>` of Chapter 1. It consists of one or more
+server racks interconnected by a leaf-spine switching fabric, with an
+SDN control plane (denoted SD-Fabric) managing the fabric.
+	
+As shown in :numref:`Figure %s <fig-ace>`, ACE hosts two additional
+microservice-based subsystems on top of this substrate; they
+collectively implement *5G-Connectivity-as-a-Service*. The first
+subsystem, SD-RAN, is an SDN-based implementation of the 5G Radio
+Access Network (RAN). It controls the small cell base stations
+deployed throughout the enterprise. The second subsystem, SD-Core, is
+an SDN-based implementation of the User Plane half of the Mobile
+Core. It is responsible for forwarding traffic between the RAN and the
+Internet. The SD-Core Control Plane (CP) runs off-site, and is not
+shown in :numref:`Figure %s <fig-ace>`. Both subsystems (as well as
+the SD-Fabric), are deployed as a set of microservices, but details
+about the functionality implemented by these containers is otherwise
+not critical to this discussion. For our purposes, they are simply
+cloud native workloads. (The interested reader is referred to our 5G
+and SDN books for more information about the internal working of
+SD-RAN, SD-Core, and SD-Fabric.)
+
+.. _fig-ace:
+.. figure:: figures/Slide3.png
+   :width: 500px
+   :align: center
+
+   Aether Connected Edge (ACE) = Base Kubernetes + 5G connectivity
+   (RAN and User Plane of Mobile Core). Dotted lines (e.g., between
+   SD-RAN and the individual base stations, and between the Network OS
+   and the individual switches) represent control relationships (e.g.,
+   SD-RAN controls the small cells and SD-Fabric controls the
+   switches).
+
+Once ACE is running in this configuration, it is ready to host a
+collection of edge applications (not shown in :numref:`Figure %s
+<fig-ace>`), and as with any Kubernetes-based cluster, a Helm chart
+would be the preferred way to deploy such applications. What’s unique
+to ACE is the ability to connect such applications to mobile devices
+throughout the enterprise using the 5G Connectivity Service
+implemented by SD-RAN and SD-Core. This service is offered as a
+managed service, with enterprise system administrators able to use a
+programmatic API (and associated GUI portal) to control that service;
+that is, authorize devices, restrict access, set QoS profiles for
+different devices and applications, and so on. How to provide such a
+runtime control interface is the topic of Chapter 6.
+
+2.2 Hybrid Cloud
+-----------------
+
+While it is possible to instantiate a single ACE cluster in just one
+site, Aether is designed to support multiple ACE deployments, all of
+which are managed from the central cloud. Such a hybrid cloud scenario
+is depicted in :numref:`Figure %s <fig-aether>`, which shows two
+subsystems running in the central cloud: (1) one or more instances of
+the Mobile Core Control Plane (CP), and (2) the Aether Management
+Platform (AMP).
+
+Each SD-Core CP controls one or more SD-Core UPs, as specified by
+3GPP, the standards organization responsible for 5G. Exactly how CP
+instances (running centrally) are paired with UP instances (running at
+the edges) is a configuration-time decision, and depends on the degree
+of isolation the enterprise sites require. AMP is responsible for
+managing all the centralized and edge subsystems (as introduced in the
+next section).
+
+.. _fig-aether:
+.. figure:: figures/Slide4.png
+   :width: 500px
+   :align: center
+
+   Aether runs in a hybrid cloud configuration, with Control Plane of
+   Mobile Core and the Aether Management Platform (AMP) running in the
+   Central Cloud.
+
+There is an important aspect of this hybrid cloud that is not obvious
+from :numref:`Figure %s <fig-aether>`, which is that the “hybrid
+cloud” we keep referring to is best described as a set of Kubernetes
+clusters, rather than a set of physical clusters (similar to the one
+we started with in :numref:`Figure %s <fig-hw>` of Chapter 1). [#]_
+This is because, while each ACE site usually corresponds to a physical
+cluster built out of bare-metal components, each of the SD-Core CP
+subsystems shown in :numref:`Figure %s <fig-aether>` is actually
+deployed as a logical Kubernetes cluster on a commodity cloud. The
+same is true for AMP. Aether’s centralized components are able to run
+in Google Cloud Platform, Microsoft Azure, and Amazon’s AWS. They also
+run as an emulated cluster implemented by a system like
+KIND—Kubernetes in Docker—making it possible for developers to run
+these components on a laptop.
+
+.. [#] Confusingly, Kubernetes adopts generic terminology, such as
+       “cluster” and “service”, and gives it very specific meaning. In
+       Kubernetes-speak, a “cluster” is a logical domain in which
+       Kubernetes manages a set of containers. This “Kubernetes
+       cluster” may have a one-to-one relationship with an underlying
+       physical cluster, but it is also possible that a Kubernetes
+       cluster is instantiated inside a datacenter, as one of
+       potentially thousands of such logical clusters.
+
+2.3 Control and Management
+--------------------------
+
+We are now ready to describe the architecture of the Aether Management
+Platform (AMP), which as shown in :numref:`Figure %s <fig-amp>`,
+manages both the distributed set of ACE clusters and the other control
+clusters running in the central cloud. (AMP is also responsible for
+managing AMP.)
+
+AMP includes one or more portals targeted at different
+stakeholders. :numref:`Figure %s <fig-amp>` shows two examples: an
+User Portal intended for enterprise admins that need to manage
+services delivered to end users, and an Operations Portal intended for
+the ops team responsible for keeping Aether up-to-date and running
+smoothly. Identifying the relevant stakeholders is an important
+prerequisite for establishing a cloud service, and while the example
+we use may not be suitable for all situations (e.g., some
+organizations might delegate certain control privileges to end users,
+via a “self-service” portal), it does represent a natural division
+between those that use cloud services and those that support cloud
+services.
+
+.. _fig-amp:
+.. figure:: figures/Slide5.png
+   :width: 500px
+   :align: center
+
+   The four subsystems that comprise AMP: Resource Provisioning,
+   Lifecycle Management, Runtime Control, and Monitoring & Logging.
+   
+We do not focus on these portals, which can be thought of as offering
+a particular class of users a subset of AMP functionality, but we
+instead describe the aggregate functionality supported by AMP, which
+is organized around four subsystems:
+
+* Resource Provisioning: Responsible for initializing and configuring
+  resources (e.g., servers, switches) that add, replace, or upgrade
+  capacity for Aether.
+  
+* Lifecycle Management: Responsible for continuous integration and
+  deployment of software functionality available on Aether.
+  
+* Runtime Control: Responsible for the ongoing configuration and
+  control of the services (e.g., connectivity) provided by Aether.
+  
+* Monitoring & Logging: Responsible for collecting, archiving,
+  evaluating, and analyzing operational data generated by Aether
+  components.
+  
+Internally, each of these subsystems is implemented as a highly
+available cloud service, running as a collection of microservices. The
+design is cloud-agnostic, so AMP can be deployed in a public cloud
+(e.g., Google Cloud, AWS, Azure), an operator-owned Telco cloud, (e.g,
+AT&T’s AIC), or an enterprise-owned private cloud. For a pilot
+deployment of Aether, AMP runs in the Google Cloud.
+
+The rest of this section introduces these four subsystems, with the
+chapters that follow filling in more detail about each. Note that
+while this overview suggests four completely distinct components, they
+are interdependent with many touch-points connecting them. We will
+call out these dependencies as we add more detail.
+
+Resource Provisioning
+~~~~~~~~~~~~~~~~~~~~~
+
+Resource Provisioning configures and bootstraps resources (both
+physical and virtual), bringing them up to a state so Lifecycle
+Management can take over and manage the software running on those
+resources. It roughly corresponds to Day 0 operations, and includes
+both the hands-on aspect of installing and physically connecting
+hardware, and the inventory-tracking required to manage physical
+assets.
+
+.. _fig-provision:
+.. figure:: figures/Slide6.png
+   :width: 500px
+   :align: center
+
+   High-level overview of Resource Provisioning.
+
+:numref:`Figure %s <fig-provision>` gives a high-level overview. As a
+consequence of the operations team physically connecting resources to
+the cloud and recording attributes for those resources in an Inventory
+Repo, a Zero-Touch Provisioning system (a) generates a set of
+configuration artifacts that are stored in a Config Repo and used
+during Lifecycle Management, and (b) initializes the newly deployed
+resources so they are in a state that Lifecycle Management is able to
+control.
+	
+Clearly, the “Install & Inventory” step requires human involvement,
+and some amount of hands-on resource-prep is necessary, but the goal
+is to minimize the operator configuration steps (and associated
+expertise) and maximize the automation carried out by the Zero-Touch
+Provisioning system. We describe an approach to doing this in
+Chapter 3.
+
+Lifecycle Management
+~~~~~~~~~~~~~~~~~~~~
+
+Lifecycle Management is the process of integrating debugged, extended,
+and refactored components (often microservices) into a set of
+artifacts (e.g., Docker containers and Helm charts), and subsequently
+deploying those artifacts to the operational cloud. It includes a
+comprehensive testing regime, and typically, a procedure by which
+developers inspect and comment on each others’ code.
+
+.. _fig-lifecycle:
+.. figure:: figures/Slide7.png 
+   :width: 500px 
+   :align: center 
+
+   High-level overview of Lifecycle Management. 
+
+:numref:`Figure %s <fig-lifecycle>` gives a high-level overview, where
+it is common to split the integration and deployment phases, the
+latter of which combines the integration artifacts from the first
+phase with the configuration artifacts generated by Resource
+Provisioning described in the previous subsection. The figure does not
+show any human intervention (after development), which implies any
+patches checked into the code repo trigger integration, and any new
+integration artifacts trigger deployment. This is commonly referred to
+as Continuous Integration / Continuous Deployment (CI/CD), although in
+practice, operator discretion and other factors are also taken into
+account before deployment actually happens.
+
+One of the key responsibilities of Lifecycle Management is version
+control, which includes evaluating dependencies, but also the
+possibility that it will sometimes be necessary to both roll out new
+versions of software and rollback to old versions, as well as operate
+with multiple versions deployed simultaneously. Managing all the
+configuration state needed to successfully deploy the right version of
+each component in the system is the central challenge, a challenge we
+take up in Chapter 5.
+
+Runtime Control
+~~~~~~~~~~~~~~~
+
+Once deployed and running, Runtime Control provides a programmatic API
+that can be used by various stakeholders to manage whatever abstract
+service(s) the system offers (e.g., 5G connectivity in the case of
+Aether). As shown in :numref:`Figure %s <fig-control>`, Runtime
+Control addresses the “management silo” issue raised in Chapter 1, so
+users do not need to know that connectivity potentially spans four
+different components, or how to control/configure each of them
+individually. (Or, as in the case of the Mobile Core, that SD-Core is
+split into two sub-parts and distributed across two clouds, with the
+CP sub-part responsible for controlling the UP sub-part.) In the case
+of the connectivity service, for example, users only care about being
+able to authorize devices and set QoS parameters on an end-to-end
+basis.
+
+.. _fig-control:
+.. figure:: figures/Slide8.png
+   :width: 500px
+   :align: center
+
+   Example use case that requires ongoing runtime control.
+
+Note that :numref:`Figure %s <fig-control>` focuses on
+Connectivity-as-a-Service, but the same idea applies to all services
+the cloud offers to end users. Thus, we can generalize the figure so
+Runtime Control mediates access to any of the underlying microservices
+(or collections of microservices) the cloud designer wishes to make
+publicly accessible. In effect, Runtime Control implements an
+abstraction layer, as codified by an API.
+
+Given this mediation role, Runtime Control provides mechanisms to
+model (represent) the abstract services to be offered to users; store
+any configuration and control state associated with those models;
+apply that state to the underlying components, ensuring they remain in
+sync with the operator’s intentions; and authorize the set API calls
+users try to invoke on each service. These details are spelled out in
+Chapter 5.
+
+.. sidebar:: Configuration vs Control
+
+	*Discuss the fuzzy line between configuration and control.*
+
+Monitoring and Logging
+~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to controlling service functionality, a running system has
+to be continuously monitored so that operators can diagnose and
+respond to failures, tune performance, do root cause analysis, perform
+security audits, and understand when it is necessary to provision
+additional capacity. This requires mechanisms to observe system
+behavior, collect and archive the resulting data, analyze the data and
+trigger various actions in response, and visualize the data in human
+consumable dashboards (similar to the example shown in :numref:`Figure %s <fig-monitor>`).
+
+.. _fig-monitor:
+.. figure:: figures/Slide8.png
+   :width: 500px
+   :align: center
+
+   Example Aether dashboard, showing the health of a given instance of
+   Connectivity-as-a-Service.
+
+In broad terms, it is common to think of this aspect of cloud
+management as having two parts: a monitoring component that collects
+quantitative metrics (e.g., load averages, transmission rates,
+ops-per-second) and a logging component that collects diagnostic
+messages (i.e., text strings explaining an event). Both include a
+timestamp, so it is possible to link quantitative analysis with
+qualitative explanations in support of diagnostics and analytics.
+
+2.4 DevOps
+----------
+
+The preceding discussion focuses on the subsystems that make up the
+Control and Management Platform, but such a platform is used by
+people. This implies the need for a set of operational processes and
+procedures, which in a cloud setting, are now commonly organized
+around the DevOps model. The following gives a high-level summary,
+with a more extensive discussion of ops-related procedures presented
+in Chapter 7.
+
+DevOps has become an overused term, generally taken to mean that the
+line between the engineers that develop cloud functionality and the
+operators that deploy and manage cloud functionality is blurred, with
+the same team responsible for both. But that definition is too
+imprecise to be helpful. There are really three aspects of DevOps that
+are important to understand.
+
+First, when it comes to a set of services (or user-visible features),
+it is true that the developers play a role in deploying and operating
+those services. Enabling them to do that is exactly the value of the
+Management Platform. Consider the team responsible for SD-RAN in
+Aether, as an example. That team not only implements new SD-RAN
+features, but once their patch sets are checked into the code
+repository, those changes are integrated and deployed by the automated
+toolchain introduced in the previous section. This means the SD-RAN
+team is also responsible for:
+
+1. Adding test cases to the CI half of Lifecycle Management, and
+   writing any configuration specifications needed by the CD half of
+   Lifecycle Management.
+   
+2. Instrumenting their code so it reports into the Monitoring and
+   Logging framework, giving them the dashboards and alarms they need
+   to troubleshoot any problems that arise.
+   
+3. Augmenting the data model of Runtime Control, so their component’s
+   internal interfaces are plumbed through to the cloud’s externally
+   visible Northbound Interface.
+   
+Once deployed and operational, the SD-RAN team is also responsible for
+diagnosing any problems that cannot be resolved by a dedicated “on
+call” support staff.  [#]_ The SD-RAN team is motivated to take
+advantage of the platform’s automated mechanisms (rather than exploit
+short-term workarounds), and to document their component’s behavior
+(especially how to resolve known problems), so they do not get support
+calls in the middle of the night.
+
+.. [#] Whether traditional or DevOps-based, there is typically a
+       front-line support team, which is often said to provide Tier-1
+       support. They interact directly with users and are the first to
+       respond to alarms, resolving the issue according to a
+       well-scripted playbook. If Tier-1 support is not able to
+       resolve an issue, it is elevated to Tier-2 and eventually
+       Tier-3, the latter of which is the developers that best
+       understand implementation details.
+       
+Second, all of the activity outlined in the previous paragraph is
+possible only because of the rich set of capabilities built into the
+Control and Management Platform that is the subject of this
+book. Someone had to build that platform, which includes a testing
+framework that individual tests can be plugged into; an automated
+deployment framework that is able to roll upgrades out to a scalable
+number of servers and sites without manual intervention; a monitoring
+and logging framework that components can report into; a runtime
+control environment that can translate high-level directives into
+low-level operations on backend components; and so on. While each of
+these frameworks were once created by a team tasked with keeping some
+other service running smoothly, they have taken on a life of their
+own. The Control and Management Platform now has its own DevOps
+team(s), who in addition to continually improving the platform, also
+field operational events, and when necessary, interact with other
+teams (e.g., the SD-RAN team in Aether) to resolve issues that come
+up. They are sometimes called System Reliability Engineers (SREs), and
+in addition to being responsible for the Control and Management
+Platform, they enforce operational discipline—the third aspect of
+DevOps discussed next—on everyone else.
+
+Finally, when operating with discipline and rigor, all of these teams
+strictly adhere to two quantitative rules. The first balances *feature
+velocity* with *system reliability*. Each component is given an *error
+budget* (percentage of time it can be down), and new features cannot
+be rolled out unless the corresponding component has been operating
+within this bound. This test is a “gate” on the CI/CD pipeline. The
+second rule balances how much time is spent on *operational toil*
+(time spent by a human diagnosing or fixing problems) with time spent
+engineering new capabilities into the Control and Management Platform
+to reduce future toil. If too much time is spent toiling and too
+little time is spent making the Control and Management Platform
+better, then it is taken as a sign that additional engineering
+resources are needed.
+
+.. sidebar:: Experience at Google
+
+	*Tell the BORG/Kubernetes story here, as an example of a
+	system built to lessen toil.*
+
