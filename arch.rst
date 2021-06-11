@@ -33,7 +33,7 @@ example.
 
 .. _fig-hybrid:
 .. figure:: figures/Slide2.png
-   :width: 500px
+   :width: 700px
    :align: center
 
    Overview of Aether as a hybrid cloud, with edge apps and the 5G
@@ -85,7 +85,7 @@ SD-RAN, SD-Core, and SD-Fabric.)
 
 .. _fig-ace:
 .. figure:: figures/Slide3.png
-   :width: 500px
+   :width: 400px
    :align: center
 
    Aether Connected Edge (ACE) = Base Kubernetes + 5G connectivity
@@ -129,7 +129,7 @@ next section).
 
 .. _fig-aether:
 .. figure:: figures/Slide4.png
-   :width: 500px
+   :width: 600px
    :align: center
 
    Aether runs in a hybrid cloud configuration, with Control Plane of
@@ -184,7 +184,7 @@ services.
 
 .. _fig-amp:
 .. figure:: figures/Slide5.png
-   :width: 500px
+   :width: 600px
    :align: center
 
    The four subsystems that comprise AMP: Resource Provisioning,
@@ -268,7 +268,7 @@ developers inspect and comment on each others’ code.
 
 .. _fig-lifecycle:
 .. figure:: figures/Slide7.png 
-   :width: 500px 
+   :width: 600px 
    :align: center 
 
    High-level overview of Lifecycle Management. 
@@ -313,7 +313,7 @@ basis.
 
 .. _fig-control:
 .. figure:: figures/Slide8.png
-   :width: 500px
+   :width: 400px
    :align: center
 
    Example use case that requires ongoing runtime control.
@@ -324,7 +324,7 @@ the cloud offers to end users. Thus, we can generalize the figure so
 Runtime Control mediates access to any of the underlying microservices
 (or collections of microservices) the cloud designer wishes to make
 publicly accessible. In effect, Runtime Control implements an
-abstraction layer, as codified by an API.
+abstraction layer, codified with programmatic API.
 
 Given this mediation role, Runtime Control provides mechanisms to
 model (represent) the abstract services to be offered to users; store
@@ -336,8 +336,10 @@ Chapter 5.
 
 .. sidebar:: Configuration vs Control
 
-	*Discuss the fuzzy line between configuration and control.*
-
+	*Discuss the fuzzy line between configuration and
+	control. Relate to Controller and Orchestrator; use
+	Kubernetes as an illustrative example. (Maybe ONOS too.)*
+	
 Monitoring and Logging
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -348,15 +350,16 @@ security audits, and understand when it is necessary to provision
 additional capacity. This requires mechanisms to observe system
 behavior, collect and archive the resulting data, analyze the data and
 trigger various actions in response, and visualize the data in human
-consumable dashboards (similar to the example shown in :numref:`Figure %s <fig-monitor>`).
+consumable dashboards (similar to the example shown in :numref:`Figure
+%s <fig-monitor>`).
 
 .. _fig-monitor:
-.. figure:: figures/Slide8.png
+.. figure:: figures/Slide18.png
    :width: 500px
    :align: center
 
-   Example Aether dashboard, showing the health of a given instance of
-   Connectivity-as-a-Service.
+   Example Aether dashboard, showing the health of one of the
+   subsystems (SD-Core).
 
 In broad terms, it is common to think of this aspect of cloud
 management as having two parts: a monitoring component that collects
@@ -416,13 +419,30 @@ calls in the middle of the night.
 
 .. [#] Whether traditional or DevOps-based, there is typically a
        front-line support team, which is often said to provide Tier-1
-       support. They interact directly with users and are the first to
-       respond to alarms, resolving the issue according to a
+       support. They interact directly with customers and are the
+       first to respond to alarms, resolving the issue according to a
        well-scripted playbook. If Tier-1 support is not able to
        resolve an issue, it is elevated to Tier-2 and eventually
        Tier-3, the latter of which is the developers that best
        understand implementation details.
        
+.. sidebar:: Experience at Google
+
+	*Our brief sketch of DevOps is based on how the approach is
+	practiced at Google, and in this context, it is a great
+	example of how good things come from efforts to minimize
+	toil. As Google gained experience building and running its
+	cloud, the incremental improvements to their cloud management
+	system were assimilated in a system known as BORG. Kubernetes,
+	the open source project widely used across the industry today,
+	was spun out of BORG. The functionality embodied by Kubernetes
+	had evolved over time to deal with the operational challenges
+	of deploying, upgrading, and a set of containers, serving as a
+	great example of a "raising tide raising all boats." Given
+	enough time, it is likely that next layer of cloud management
+	machinery, roughly corresponding to the topics covered in this
+	book" will also be taken as a given.*
+
 Second, all of the activity outlined in the previous paragraph is
 possible only because of the rich set of capabilities built into the
 Control and Management Platform that is the subject of this
@@ -458,8 +478,8 @@ little time is spent making the Control and Management Platform
 better, then it is taken as a sign that additional engineering
 resources are needed.
 
-.. sidebar:: Experience at Google
+.. admonition:: Further Reading
 
-	*Tell the BORG/Kubernetes story here, as an example of a
-	system built to lessen toil.*
-
+   `Site Reliability Engineering: How Google Runs Production Systems
+   <https://www.amazon.com/Site-Reliability-Engineering-Production-Systems/dp/149192912X/ref=pd_bxgy_14_img_2/131-5109792-2268338?_encoding=UTF8&pd_rd_i=149192912X&pd_rd_r=4b77155f-234d-11e9-944e-278ce23a35b5&pd_rd_w=qIfxg&pd_rd_wg=12dE2&pf_rd_p=6725dbd6-9917-451d-beba-16af7874e407&pf_rd_r=5GN656H9VEG4WEVGB728&psc=1&refRID=5GN656H9VEG4WEVGB728>`__,
+   2016. 

@@ -381,7 +381,7 @@ described in the subsections that follow.
 
 .. _fig-hw:
 .. figure:: figures/Slide1.png
-   :width: 500px
+   :width: 400px
    :align: center
 
    Example building block components used to construct a cloud,
