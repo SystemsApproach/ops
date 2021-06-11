@@ -9,6 +9,12 @@ the software running on top of that platform. And as a reminder, we
 assume the base platform includes Linux running on each server and
 switch, plus Docker, Kubernetes, and Helm.
 
+.. todo::
+
+   Probably need to describe how to upgrade the base platform as
+   well. (Maybe in Chapter 3, since "reboot from cold start" is always
+   an option.)
+
 While we could take a narrow view of Lifecycle Management, and assume
 the software we want to rollout has already gone through an off-line
 integration-and-testing process (this is the traditional model of
@@ -358,6 +364,10 @@ built/integrated for testing is exactly the same as how they are
 built/integrated for deployment. The design principle is that there
 are no special cases; just different “off-ramps” for the end-to-end
 CI/CD pipeline.
+
+.. todo::
+
+   A simple state diagram might be helpful here.
 
 There is no topic on which developers have stronger opinions than the
 merits (and flaws) of different build tools. Old-school C coders

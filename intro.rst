@@ -267,6 +267,12 @@ applications into a mesh of single-function components. Disaggregation
 is widely viewed as an essential step in accelerating feature
 velocity. This is the opportunity side of the story.
 
+.. todo::
+
+   A couple references would be good. Also, should probably point out
+   this is a discussion about operationalizing a disaggregated system;
+   not making a case of disaggregation in the first place.
+   
 The challenge side of the story is that there are many more moving
 parts that have to be integrated, coordinated, and managed. Circling
 back to terminology, Orchestration and Lifecycle Management become the
@@ -457,6 +463,18 @@ the form of a set of Docker containers, plus the associated Helm
 Charts that specify how they are to be deployed in a Kubernetes
 cluster. Overall, we make use of over two dozen such open source
 software packages in the chapters that follow.
+
+.. todo::
+
+   Get an actual count. Maybe need to set exectations: Once we explain
+   how existing open source project fits into the big picture, we
+   don't go into a lot of depth about that component (i.e., we assume
+   you can learn about that project elsewhere).
+
+   Also, this is probably a good place to explain that Kubernetes and
+   Helm run in a single cluster (and define what a cluster is),
+   leaving the multi-cluster problem for us to address.
+
 
 Switching Fabric
 ~~~~~~~~~~~~~~~~

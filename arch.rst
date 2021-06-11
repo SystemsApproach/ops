@@ -227,6 +227,14 @@ while this overview suggests four completely distinct components, they
 are interdependent with many touch-points connecting them. We will
 call out these dependencies as we add more detail.
 
+.. todo::
+
+   Might be helpful to talk about (and diagram) "overlapping"
+   responsibilities: RP overlaps LM; LM overlaps RC; RC overlaps
+   M&L. Judgement about where to draw the lines is the **art** of
+   operationalization. (Art of Operationalization" as a Sidebar?)
+   
+
 Resource Provisioning
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -338,6 +346,10 @@ apply that state to the underlying components, ensuring they remain in
 sync with the operator’s intentions; and authorize the set API calls
 users try to invoke on each service. These details are spelled out in
 Chapter 5.
+
+.. todo::
+
+   Config vs Control Sidebar.
 
 .. sidebar:: Configuration vs Control
 

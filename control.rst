@@ -169,6 +169,15 @@ backdoor (direct) changes to that repo-maintained state, for example,
 by storing only a cached copy of that state in Runtime Control’s
 K/V-store (as an optimization).
 
+.. todo::
+
+   A detailed example from Aether would be helpful, maybe showing
+   fields in a YAML file, some of which can be accessed by Principal A
+   and some of which can be accessed by Principal B. Maybe this
+   example works:
+
+   https://gerrit.opencord.org/plugins/gitiles/aether-pod-configs/+/refs/heads/master/production/acc-gcp1/app_values/omec-control-plane.yml#20
+
 .. _fig-roc2:
 .. figure:: figures/Slide16.png
    :width: 500px
