@@ -84,6 +84,10 @@ generous set of engineering options. Finally, YANG is widely used for
 this purpose, meaning there is a robust collection of YANG-based tools
 that we can build upon.
 
+.. todo::
+
+   Write Web Frameworks Sidebar.
+
 .. sidebar:: Web Frameworks
 
 	*Talk about Frameworks like Django and Ruby on Rails and the
@@ -273,7 +277,11 @@ Control.
 
 The implementation of Runtime Control for Aether currently has its own
 homegrown RBAC models, but an effort is underway to replace this with
-Open Policy Framework (OPF). *[Need to say more.]*
+Open Policy Framework (OPF).
+
+.. todo::
+
+   Need to say more about OPF.
 
 Adapters
 ~~~~~~~~
@@ -320,7 +328,11 @@ its adapters uses gNMI, and therefore, uses mutual TLS. Distributing
 certificates between components is a problem outside the scope of
 Runtime Control. It is assumed that another tool will be responsible
 for distribution, renewing certificates before they expire,
-etc. *[Need to say more.]*
+etc.
+
+.. todo::
+
+   Need to say more about secure communication.
 
 For components that speak REST, HTTPS is used to secure the
 connection, and authentication can take place using mechanisms within
@@ -330,4 +342,7 @@ are leveraged as an authorization provider when using these REST APIs.
 5.3 Modeling Connectivity
 ----------------------------------------
 
-*[Sketch the data model for Aether's connectivity service.]*
+.. todo::
+
+   Sketch the data model for Aether's connectivity service as a way of
+   illustrating the value of Runtime Control.

@@ -17,6 +17,11 @@ those services to mobile devices throughout the enterprise's physical
 plant. This combination means Aether provides a Platform-as-a-Service
 (PaaS).
 
+.. todo::
+
+   Write sidebar talking about Industry 4.0. 
+
+
 .. sidebar:: Industry 4.0
 
 	*Give the Industry 4.0 pitch here.*

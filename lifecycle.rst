@@ -332,12 +332,14 @@ process, and so we do not discuss it further. The important takeaway
 for our purposes is that there is a well-defined interface between
 code repositories and subsequent stages of the CI/CD pipeline.
 
-*[An illustrative example or two would be helpful. Highlight the scope
-of a given patch set and the corresponding scope of what gets
-triggered. Also call out what happens “internally” to the repo (e.g.,
-CLA test, code review) and what happens “externally” (e.g., trigger
-Jenkins)... and explain why it’s not all internal in practice
-(although it could be).]*
+.. todo::
+
+   An illustrative example or two would be helpful. Highlight the
+   scope of a given patch set and the corresponding scope of what gets
+   triggered. Also call out what happens “internally” to the repo
+   (e.g., CLA test, code review) and what happens “externally” (e.g.,
+   trigger Jenkins)... and explain why it’s not all internal in
+   practice (although it could be).
 
 Build-Integrate-Test
 ~~~~~~~~~~~~~~~~~~~~
@@ -370,21 +372,29 @@ sophisticated first-level tools. Our choice for the second-level tool
 is Jenkins, which provides little more than a means to define a script
 (called a job) to run in response to some event.
 
-*[Walk through one or two illustrative examples. Highlight failures,
-but also show the end result that gets published.]*
+.. todo::
+
+   Walk through one or two illustrative examples. Highlight failures,
+   but also show the end result that gets published.
 
 Versioning Strategy
 ~~~~~~~~~~~~~~~~~~~
 
-*[Explain versioning, and how Helm Chart versions ultimately trigger
-deployment.]*
+.. todo::
+
+   Explain versioning, and how Helm Chart versions ultimately trigger
+   deployment.
 
 4.4 Continuous Deployment
 -------------------------
 
 With Kubernetes and Helm taken as a given, we can focus on how we
-deploy on multiple clusters. *[All about Rancher, Fleet, and
-Terraform. Also talk about incremental rollout, including staging.]*
+deploy on multiple clusters.
+
+.. todo::
+
+   All about Rancher, Fleet, and Terraform. Also talk about
+   incremental rollout, including staging.
 
 4.5 What about GitOps?
 ----------------------

@@ -23,3 +23,5 @@ Peterson, Baker, Bavier, Williams and Davie
    monitor.rst 
    sop.rst 
    README.rst
+   todo.rst
+
