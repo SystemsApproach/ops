@@ -466,10 +466,10 @@ software packages in the chapters that follow.
 
 .. todo::
 
-   Get an actual count. Maybe need to set exectations: Once we explain
-   how existing open source project fits into the big picture, we
-   don't go into a lot of depth about that component (i.e., we assume
-   you can learn about that project elsewhere).
+   Get an actual count. Maybe need to set expectations: Once we
+   explain how existing open source project fits into the big picture,
+   we don't go into a lot of depth about that component (i.e., we
+   assume you can learn about that project elsewhere).
 
    Also, this is probably a good place to explain that Kubernetes and
    Helm run in a single cluster (and define what a cluster is),

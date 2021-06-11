@@ -10,16 +10,19 @@ DevOps
 Docker
 Dockerfile
 ECS
+Elkstack
 GPP
 Gerrit
 Gradle
+Grafana
 IaaS
 IoT
 Istio
 Kubernetes
-Makefile
 Lifecycle
 Linkerd
+Makefile 
+NetBox
 Onos
 ONOS
 onos
@@ -37,6 +40,7 @@ Tanzu
 Telco
 Telcos
 Terraform
+Todo
 Tofino
 VM
 VMware
@@ -48,7 +52,8 @@ auth
 backend
 centric
 cloudified
-config  
+config
+customizable
 de
 deployable
 disaggregated
@@ -63,6 +68,7 @@ gNOI
 lifecycle
 linter
 liveness
+llp
 microservice
 natively
 operationalize
@@ -79,6 +85,9 @@ repos
 repurpose
 rollout
 runtime
+rst
+systemsapproach
+todolist
 toolchain
 toolset
 virtualenv

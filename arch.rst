@@ -231,7 +231,7 @@ call out these dependencies as we add more detail.
 
    Might be helpful to talk about (and diagram) "overlapping"
    responsibilities: RP overlaps LM; LM overlaps RC; RC overlaps
-   M&L. Judgement about where to draw the lines is the **art** of
+   M&L. Judgment about where to draw the lines is the **art** of
    operationalization. (Art of Operationalization" as a Sidebar?)
    
 
