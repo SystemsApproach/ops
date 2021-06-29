@@ -1,9 +1,11 @@
 Adaptor
 Aether
+Ansible
 Anthos
 Atomix
 Bavier
 Bazel
+BMC
 Config
 Davie
 DevOps
@@ -11,12 +13,16 @@ Docker
 Dockerfile
 ECS
 Elkstack
+eNB
+eNBs
 GPP
 Gerrit
 Gradle
 Grafana
 IaaS
 IoT
+IPMI
+iPXE
 Istio
 Kubernetes
 Lifecycle
@@ -78,6 +84,7 @@ operationalizing
 orchestrator
 pre
 prem
+qsfp
 rearchitecting
 recode
 repo
@@ -86,7 +93,9 @@ repurpose
 rollout
 runtime
 rst
+subnet
 systemsapproach
+textboxes
 todolist
 toolchain
 toolset

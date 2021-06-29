@@ -177,9 +177,10 @@ Categories of Tests
 With respect to what types of tests, there is a rich vocabulary for
 talking about QA, but unfortunately, the definitions are often vague,
 overlapping, and not always uniformly applied. The following gives a
-simple taxonomy for different categories of tests, organized according
-to the three stages of the CI/CD pipeline where they happen (relative
-to :numref:`Figure %s <fig-pipeline>`):
+simple taxonomy that serves our purposes, with different categories of
+tests are organized according to the three stages of the CI/CD
+pipeline where they happen (relative to :numref:`Figure %s
+<fig-pipeline>`):
 
 * **Integration Gate:** These tests are run against every attempt to
   check in a patch set, and so must complete quickly. This means they
@@ -226,17 +227,19 @@ One of the challenges in crafting a testing strategy is deciding
 whether a given test belongs in the set of Smoke tests that gate
 merging a patch, or the set of Integration tests that happen after a
 patch is merged into the code repo, but before it is deployed. There
-is no hard-and-fast rule. It’s a balancing act: you want to test new
+is no hard-and-fast rule; it’s a balancing act. You want to test new
 software as early as you realistically can, but full integration takes
 both time and resources (i.e., a realistic platform for running the
-candidate software). For this reason, testing infrastructure typically
-requires a combination of virtual resources (e.g., VMs that are
-pre-configured with much of the underlying platform already installed)
-and physical resources (e.g., small clusters that faithfully represent
-the eventual target hardware). Again, it’s not a hard-and-fast rule,
-but early (Smoke) tests tend to use virtual resources that are
-pre-configured, while later tests (Integration) tend to run on
-representative hardware, with the software built from scratch.
+candidate software).
+
+Related to this trade-off, testing infrastructure requires a
+combination of virtual resources (e.g., VMs that are pre-configured
+with much of the underlying platform already installed) and physical
+resources (e.g., small clusters that faithfully represent the eventual
+target hardware). Again, it’s not a hard-and-fast rule, but early
+(Smoke) tests tend to use virtual resources that are pre-configured,
+while later (Integration) test tend to run on representative hardware,
+with the software built from scratch.
 
 You will also note that we did not call out *Regression* tests in this
 simple taxonomy, but our view is that Regression tests are designed to
@@ -279,18 +282,24 @@ demonstrating adherence to the 3GPP standard, is a closed, commercial
 product.
 
 Selenium and Robot are the most general of the five examples. Both are
-also open source projects with an active developer community. Selenium
-is a tool for automating the testing of web browsers, and Robot is a
-general tool for generating requests to any well-defined
-interface. Both systems are frameworks in the sense that developers
-can write extensions, drivers, and plugins to test specific features
-of the User Portal and the Runtime API, respectively. They both
+open source projects with an active developer community. Selenium is a
+tool for automating the testing of web browsers, while Robot is a more
+general tool for generating requests to any well-defined interface.
+Both systems are frameworks in the sense that developers can write
+extensions, libraries, drivers, and plugins to test specific features
+of the User Portal and the Runtime API, respectively.\ [#]_ They both
 illustrate the purpose of a testing framework, which is to provide a
 means to (1) automate the execution of a range of tests; (2) collect
 and archive the resulting test results; and (3) evaluate and analyze
 the test results. In addition, is it necessary for such frameworks to
 be scalable when the system it is invoking tests against is itself
 scalable (as is the case for cloud services).
+
+.. [#] Selenium is actually available as a library that can be called
+    from within the Robot framework, which makes sense when you
+    consider that a web GUI invokes HTTP operations on a set of
+    HTML-defined elements, such as textboxes, buttons, drop-down
+    menus, and so on.
 
 Finally, as discussed in the previous subsection, each of these
 testing frameworks requires a set of resources. These resources are
