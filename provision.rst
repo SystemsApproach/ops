@@ -1,42 +1,70 @@
 Chapter 3:  Resource Provisioning
 =================================
-	
-.. todo::
-   
-   Explain how to start with bare-metal and turn it into servers
-   running Docker with Kubernetes. Describe NetBox and inventory
-   management. Include an example wiring diagram, so we can
-   connect-the-dots between the assumed hardware and resulting
-   cloud.
+
+Resource Provisioning is the process of bringing virtual and physical
+resources online. It has both a hands-on component (installing devices
+in a rack) and a bootstrap component (configuring how the resources
+boot into a "ready" state). Resource Provisioning happens when a cloud
+deployment is first installed—i.e., an initial set of resources are
+provisioned—but also incrementally over time as new resources are
+added, obsolete resources are removed, and out-of-date resources are
+upgraded.
+
+The goal of a Resource Provisioning is to be zero-touch, which is
+impossible for hardware resources because it includes an intrinsically
+manual step. (We'll take up the issue of provisioning virtual
+resources in a moment.) Realistically, the goal is to minimize the
+number and complexity of configuration steps required beyond
+physically connecting the device, keeping in mind that we are starting
+with commodity hardware received directly from a vendor (and not a
+plug-and-play appliance that has been prepped).
+
+When a cloud is built from virtual resources (e.g., VMs instantiated
+on a commercial cloud) the "install" step for is carried out by
+sequence of API calls rather a hands-on technician.  Of course, we
+want to automate the sequence of calls needed to activate virtual
+infrastructure, which has inspired an approach know as
+*infrastructure-as-code*. The general idea is to document, in a
+declarative format that can be "executed", exactly what our
+infrastructure looks like. We use Terraform as our open source
+approach to infrastructure-as-code.
+
+When a cloud is built from a combination of virtual and physical
+resources, as is the case for a hybrid cloud like like Aether, we need
+a seamless way to accommodate both. To this end, our approach is to
+first layer a *logical structure* on top of hardware resources, making
+them roughly equivalent to the virtual resources we get from a
+commercial cloud provider, resulting in a hybrid scenario similar to
+the one shown in :numref:`Figure %s <fig-infra>`. We use NetBox as our
+open source solution for constructing this logical structure on top of
+physical hardware. NetBox also helps us address the "business office"
+requirement of tracking physical inventory. 
+
+.. _fig-infra:
+.. figure:: figures/Slide19.png
+    :width: 500px
+    :align: center
+
+    Resource Provisioning in a hybrid cloud that includes both
+    physical and virtual resources.
+
+Note that the dotted arrow on the right in :numref:`Figure %s
+<fig-infra>` is to indicate that Terraform does not interact directly
+with NetBox via a well-defined API (as is the case on the left), but
+instead with artifacts left behind by the hardware provisioning
+process described in Section 3.1. One way to think about this that the
+task of booting hardware into the "ready" state involves installing
+several platform-related components, such as Kubernetes. It's these
+platform-related components that Terraform interacts with.
+
+This chapter describes both sides of :numref:`Figure %s <fig-infra>`
+starting with provisioning physical infrastructure. Our approach is to
+focus on the challenge of provisioning an entire site the first
+time. We will comment on the simpler problem of incrementally
+provisioning individual resources as relevant details emerge.
 
 
-
-3.1 Challenge
--------------
-
-.. todo::
-
-   This section is not done. The goal is to scope the problem we're
-   trying to address. This is also an opportunity to explain
-   "provisioning the first time" versus "incremental provisioning".
-
-   The general idea is to document, in a declarative format that other
-   parts of the system can "execute", exactly what our infrastructure
-   looks like. Introduce *infrastructure-as-code* but point out the
-   problem is broad, including both (a) low-level information related
-   to how server ports are wired and IP addresses assigned, and (b)
-   high-level information related to how the OS is booted and other
-   platform-level components are started. And to complicate matters,
-   this problem touches a "business office" requirement of tacking
-   physical inventory.
-
-   Make the point that while this chapter starts with a physical
-   cluster, an analogous step would be required to record how we are
-   arranging virtual resources (e.g., VMs in AWS) into a logical
-   cluster. That problem is easier, though, because the "low level"
-   half of the problem goes away.
-
-3.2 Physical Infrastructure 
+3.1 Physical Infrastructure 
 ---------------------------
 
 The process of stacking and racking hardware is inherently human
@@ -63,7 +91,7 @@ various facts and parameters about the physical infrastructure into a
 database. This information, which is used in later provisioning steps,
 is where we pick up the story.
 
-3.2.1 Document Infrastructure
+3.1.1 Document Infrastructure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Documenting the physical infrastructure involves both defining a model
@@ -250,7 +278,7 @@ the control and management of a cloud hinges on having compete and
 accurate data. Keeping this information in sync with the reality of
 the physical infrastructure is often the weakest link in this process.
 
-3.2.2 Manual Configuration
+3.1.2 Manual Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to installing the hardware and recording the relevant
@@ -268,7 +296,7 @@ POD currently includes:
 * Configure the Management Server so it boots from a provided USB key.
 
 * Install Ansible scripts needed to prep the Management Server to
-  serve as the boot server for the Compute Servers.
+  be the boot server for the Compute Servers.
 
 * Configure the Compute Servers so they iPXE boot from the Management
   Server.
@@ -285,8 +313,18 @@ In general, these manual configuration steps are limited to
 "configuring the BIOS", such that any subsequent bootstrap steps can
 be both fully automated and resilient.
 
+.. todo::
 
-3.3 Infrastructure-as-Code
+   Add more information about the Ansible scripts, and in general,
+   about how a suitable *platform* is installed on the hardware,
+   making it "ready" to respond to directives from Terraform.
+
+   Might also mention how NetBox could do more to generate the
+   Terraform templates, rather that having to write them by hand
+   (assuming that's the case). 
+
+
+3.2 Infrastructure-as-Code
 --------------------------
 
 All about Terraform, and the story behind GitOps and Infrastructure-as-Code...
