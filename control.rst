@@ -100,7 +100,7 @@ structure of Runtime Control for Aether, which has **onos-config**\—a
 microservice used in ONOS to maintain a set of YANG models for
 configuring network devices—at its core. In Aether, onos-config is
 re-purposed to use YANG models to control and configure cloud
-services. [#]_ onos-config, in turn, uses Atomix (a Key/Value-Store
+services.\ [#]_ onos-config, in turn, uses Atomix (a Key/Value-Store
 microservice), to make configuration state persistent. Because
 onos-config was originally designed to manage configuration state for
 devices, it uses gNMI as its southbound interface to communicate

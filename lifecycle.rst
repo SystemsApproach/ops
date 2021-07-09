@@ -64,16 +64,16 @@ which CD uses to parameterize its deployment plan.
     injected into the CI/CD pipeline to control when and how upgrades
     get rolled out. The import point is that all the stages in the pipeline
     are automated.*
-
+    
     *So what exactly does "Continuous Delivery" mean? Arguably, it's
-     redundant when coupled with "Continuous Integration" since the
-     set of artifacts being produced by the CI half of the pipeline
-     (e.g., Docker images) is precisely what's being delivered. There
-     is no "next step" unless you also deploy those artifacts. It's
-     hair-splitting, but some would argue CI is limited to testing new
-     code and Continuous Delivery corresponds to the final "publish
-     the artifact" step. For our purposes, we lump "publish the
-     artifact" into the CI half of the pipeline.*
+    redundant when coupled with "Continuous Integration" since the
+    set of artifacts being produced by the CI half of the pipeline
+    (e.g., Docker images) is precisely what's being delivered. There
+    is no "next step" unless you also deploy those artifacts. It's
+    hair-splitting, but some would argue CI is limited to testing new
+    code and Continuous Delivery corresponds to the final "publish
+    the artifact" step. For our purposes, we lump "publish the
+    artifact" into the CI half of the pipeline.*
 
 .. _fig-pipeline:
 .. figure:: figures/Slide10.png
@@ -112,10 +112,10 @@ The far right of :numref:`Figure %s <fig-pipeline>` shows the set of
 deployment targets, with *Staging* and *Production* called out as two
 illustrative examples. (The targets are referred to as “PODs” to
 signify a self-contained cluster, similar to the ones shown in
-:numref:`Figure %s <fig-ace>` of Chapter 2.) The idea is that new
-versions of the software are deployed first to a Staging POD, where it
-is subjected to realistic workloads for a period of time, and then
-rolled out to the Production PODs once the Staging POD gives us
+:numref:`Figure %s <fig-ace>` of Chapter 2.) The idea is that a new
+version of the software is deployed first to a set of Staging PODs,
+where it is subjected to realistic workloads for a period of time, and
+then rolled out to the Production PODs once the Staging PODs give us
 confidence that the upgrade is reliable.
 	
 This is a simplified depiction of what happens in practice. In
@@ -125,7 +125,7 @@ example, individual enterprises might elect to upgrade their local ACE
 PODs at different times (or in principle, skip an upgrade entirely),
 meaning there can be more than two versions running simultaneously. It
 is also typically the case that upgrades are rolled out incrementally
-(e.g., one site at a time over an extended period of time), meaning
+(e.g., a few sites at a time over an extended period of time), meaning
 that even the production system plays a role in “staging” new
 releases. For example, a new version might first be deployed on 10% of
 the production machines, and once it is deemed reliable, is then

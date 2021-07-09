@@ -16,8 +16,8 @@ manual step. (We'll take up the issue of provisioning virtual
 resources in a moment.) Realistically, the goal is to minimize the
 number and complexity of configuration steps required beyond
 physically connecting the device, keeping in mind that we are starting
-with commodity hardware received directly from a vendor (and not a
-plug-and-play appliance that has been prepped).
+with commodity hardware received directly from a vendor, and not a
+plug-and-play appliance that has been prepped.
 
 When a cloud is built from virtual resources (e.g., VMs instantiated
 on a commercial cloud) the "install" step for is carried out by
@@ -37,8 +37,8 @@ them roughly equivalent to the virtual resources we get from a
 commercial cloud provider, resulting in a hybrid scenario similar to
 the one shown in :numref:`Figure %s <fig-infra>`. We use NetBox as our
 open source solution for constructing this logical structure on top of
-physical hardware. NetBox also helps us address the "business office"
-requirement of tracking physical inventory. 
+physical hardware. NetBox also helps us address the requirement of
+tracking physical inventory.
 
 .. _fig-infra:
 .. figure:: figures/Slide19.png
@@ -54,14 +54,14 @@ with NetBox via a well-defined API (as is the case on the left), but
 instead with artifacts left behind by the hardware provisioning
 process described in Section 3.1. One way to think about this that the
 task of booting hardware into the "ready" state involves installing
-several platform-related components, such as Kubernetes. It's these
-platform-related components that Terraform interacts with.
+and configuring several platform subsystems. It's these platform
+subsystems that Terraform interacts with.
 
 This chapter describes both sides of :numref:`Figure %s <fig-infra>`
 starting with provisioning physical infrastructure. Our approach is to
 focus on the challenge of provisioning an entire site the first
-time. We will comment on the simpler problem of incrementally
-provisioning individual resources as relevant details emerge.
+time. We comment on the simpler problem of incrementally provisioning
+individual resources as relevant details emerge.
 
 
 3.1 Physical Infrastructure 
@@ -69,15 +69,17 @@ provisioning individual resources as relevant details emerge.
 
 The process of stacking and racking hardware is inherently human
 intensive, and includes considerations such as airflow and cable
-management. These issues are beyond the scope of this book.
-
-We focus instead on the "physical/virtual" boundary, which starts with
-the cabling plan that a hands-on technician uses as a blueprint. The
+management. These issues are beyond the scope of this book.  We focus
+instead on the "physical/virtual" boundary, which starts with the
+cabling plan that a hands-on technician uses as a blueprint. The
 details of such a plan are highly deployment specific, but we use the
 example shown in :numref:`Figure %s <fig-cable_plan>` to help
 illustrate all the steps involved. The example is based on Aether PODs
 deployed in enterprises, which serves to highlight the required level
-of specificity (including details about individual device models).
+of specificity. Considerable planning is required to specify an
+appropriate *Bill of Materials (BOM)*, including details about
+individual device models, but this aspect of the problem space is
+outside the scope of this book.
 
 .. _fig-cable_plan:
 .. figure:: figures/pronto_logical_diagram.png
@@ -85,6 +87,13 @@ of specificity (including details about individual device models).
     :align: center
 
     Example network cable plan for an edge cluster.
+
+The blueprint shown in :numref:`Figure %s <fig-cable_plan>` actually
+includes two logical clusters sharing a Management Switch and a
+Management Server. The upper cluster corresponds to a production POD,
+and includes five servers and a 2x2 leaf-spine switching fabric. The
+lower cluster corresponds to a development POD, and includes two
+servers and a single switch.
 
 In addition to following this blueprint, the technician also enters
 various facts and parameters about the physical infrastructure into a
@@ -94,9 +103,12 @@ is where we pick up the story.
 3.1.1 Document Infrastructure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Documenting the physical infrastructure involves both defining a model
-(schema) for the information being collected, and entering the
-corresponding facts into a database. It is familiar to anyone that is
+Documenting the physical infrastructure's logical structure in a
+database is how we cross the physical-to-virtual boundary. It involves
+both defining a set of models for the information being collected
+(this schema effectively represents the logical structure shown in
+:numref:`Figure %s <fig-infra>`), and entering the corresponding facts
+about the physical devices. This process is familiar to anyone that is
 responsible for managing a network of devices, whether it is the first
 stage in a larger automated framework (such as the one described in
 this book) or simply a place to record what IP address has been
@@ -134,25 +146,27 @@ and documenting all the relevant metadata for that site. This includes
 the *Name* and *Location* of the *Site*, along with the *Organization*
 the site belongs to. An *Organization* can have more than one *Site*,
 while a *Site* can (i) span one or more *Racks*, and (ii) host one or
-more *Deployments* (e.g,. a Deployment is a logical grouping of
-resources, corresponding to, for example, ``Production``, ``Staging``,
-and ``Development``).
+more *Deployments*. A *Deployment* is a logical cluster,
+corresponding, for example, to ``Production``, ``Staging``, and
+``Development``. The cabling plan shown in :numref:`Figure %s
+<fig-cable_plan>` includes two such deployments.
 
-This is also the time to specify the VLANs and IP Prefixes that are
-assigned to this particular edge deployment of Aether. Because it is
-important to maintain a clear relationship between VLANs, IP Prefixes,
-and DNS names (the last of which are auto-generated), it is helpful to
-walk through the following concrete example. We start with the minimal
-set of VLANs needed per Site:
+This is also the time to specify the VLANs and IP Prefixes assigned to
+this particular edge deployment. Because it is important to maintain a
+clear relationship between VLANs, IP Prefixes, and DNS names (the last
+of which are auto-generated), it is helpful to walk through the
+following concrete example. We start with the minimal set of VLANs
+needed per Site:
 
 * ADMIN 1
 * UPLINK 10
 * MGMT 800
 * FABRIC 801
 
-If there are multiple Deployments at a Site sharing a single
-management server, additional VLANs (incremented by 10 for
-MGMT/FABRIC) are added; e.g.:
+Of course, these are Aether-specific, but they are representative of
+VLANs a cluster typically needs. Also, if there are multiple
+Deployments at a Site sharing a single management server, additional
+VLANs (incremented by 10 for MGMT/FABRIC) are added. For example:
 
 * DEVMGMT 810
 * DEVFABRIC 811
@@ -179,19 +193,21 @@ purposes:
 
 * ``10.0.1.0/25``
 
-  * IP addresses of the qsfp0 port of the Compute Nodes to Fabric switches, devices
+  * IP addresses of the ``qsfp0`` port of the Compute Nodes to Fabric switches, devices
     connected to the Fabric like the eNB
   * Assign FABRIC 801 VLAN
   * Set the description to ``fab1.<deployment>.<site>.aetherproject.net``
 
 * ``10.0.1.128/25``
 
-  * IP addresses of the qsfp1 port of the Compute Nodes to fabric switches
+  * IP addresses of the ``qsfp1`` port of the Compute Nodes to fabric switches
   * Assign FABRIC 801 VLAN
   * Set the description to ``fab2.<deployment>.<site>.aetherproject.net``
 
 For completeness, there are other edge prefixes used by Kubernetes but
-do not need to be created in NetBox.
+do not need to be created in NetBox. Note that ``qsfp0`` and ``qsfp1``
+in this example denotes a transceiver ports connecting the switching
+fabric; *QSFP* stand for Quad (4-channel) Small Form-factor Plugable.
    
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
@@ -247,8 +263,8 @@ follows:
 
 Once this data is entered into NetBox, it is possible to generate a
 rack diagram, similar to the one shown in :numref:`Figure %s
-<fig-rack_diagram>` (which corresponds to the cabling diagram shown in
-:numref:`Figure %s <fig-cable_plan>`. Note that the diagram show two
+<fig-rack_diagram>`, which corresponds to the cabling diagram shown in
+:numref:`Figure %s <fig-cable_plan>`. Note that the diagram shows two
 logical *Deployments* (``Production`` and ``Development``), co-located
 in one physical rack.
 
@@ -267,7 +283,7 @@ they connect the set hardware in our example deployment.
 
 .. _fig-cable_list:
 .. figure:: figures/cable_list.png
-    :width: 500px
+    :width: 700px
     :align: center
 
     NetBox report of cabling.    
@@ -276,16 +292,19 @@ Finally, if all of this seems like a tedious amount of detail, then
 you get the main point of this section. Everything about automating
 the control and management of a cloud hinges on having compete and
 accurate data. Keeping this information in sync with the reality of
-the physical infrastructure is often the weakest link in this process.
+the physical infrastructure is often the weakest link in this
+process. The only saving grace is that the information is highly
+structured, and the tool we use (NetBox) helps us codify this
+structure.
 
-3.1.2 Manual Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3.1.2 Configure and Boot
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to installing the hardware and recording the relevant
 facts about the installation, the other necessary step is to configure
 the hardware so that it is "ready" for the automated procedures that
-follow. The goal is to minimize manual configuration required to bring
-up physical infrastructure like that shown in :numref:`Figure %s
+follow. The goal is to minimize manual configuration required to
+onboard physical infrastructure like that shown in :numref:`Figure %s
 <fig-cable_plan>`, but *zero-touch* is a high bar. To illustrate, the
 bootstrapping steps needed to complete provisioning for our example
 POD currently includes:
@@ -294,9 +313,6 @@ POD currently includes:
   used.
 
 * Configure the Management Server so it boots from a provided USB key.
-
-* Install Ansible scripts needed to prep the Management Server to
-  be the boot server for the Compute Servers.
 
 * Configure the Compute Servers so they iPXE boot from the Management
   Server.
@@ -313,15 +329,19 @@ In general, these manual configuration steps are limited to
 "configuring the BIOS", such that any subsequent bootstrap steps can
 be both fully automated and resilient.
 
+These subsequent steps are implemented as a set of Ansible playbooks,
+which in terms of the high-level overview shown in :numref:`Figure %s
+<fig-provision>` of Chapter 2, corresponds to the box representing the
+*"Zero-Touch Provision (System)"*. Said another way, there is no
+off-the-shelf ZTP solution we can download (i.e., someone has to write
+the playbooks), but the problem is greatly simplified by having access
+to all the configuration parameters maintained by NetBox.
+
 .. todo::
 
    Add more information about the Ansible scripts, and in general,
    about how a suitable *platform* is installed on the hardware,
    making it "ready" to respond to directives from Terraform.
-
-   Might also mention how NetBox could do more to generate the
-   Terraform templates, rather that having to write them by hand
-   (assuming that's the case). 
 
 
 3.2 Infrastructure-as-Code

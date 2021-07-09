@@ -40,7 +40,7 @@ interesting use case to study:
 
 * Aether supports both “edge services” running on these on-prem
   clusters and “centralized services” running in commodity cloud
-  datacenters. In this sense it is a hybrid cloud. [#]_
+  datacenters. In this sense it is a hybrid cloud.\ [#]_
   
 * Aether augments this edge cloud with 5G-Connectivity-as-a-Service,
   giving us a service that must be operationalized (in addition to the
@@ -234,7 +234,7 @@ Virtual Network Functions (VNFs), it is still a device-centric view of
 operations. But once a system becomes cloud native, two things happen
 that shift the balance of concerns. First, all hardware is commodity,
 and so Days 0 and 1 configurations become fully automated (and Day -1
-is minimized since all devices are identical). [#]_ Second, Day 2..N
+is minimized since all devices are identical).\ [#]_ Second, Day 2..N
 operations become a much more sophisticated process. This is because
 software-based systems are more agile, making functional upgrades more
 commonplace. This focus on *feature velocity* is one of the inherent
@@ -318,7 +318,7 @@ monitoring data in a uniform way, and (d) continually integrating and
 deploying individual microservices as they evolve over time.
 
 Finally, because a cloud is infinitely programmable, the system being
-managed has the potential to change substantially over time. [#]_  This
+managed has the potential to change substantially over time.\ [#]_  This
 means that the cloud management system must itself be easily extended
 to support new features (as well as the refactoring of existing
 features). This is accomplished in part by implementing the cloud
@@ -498,7 +498,7 @@ practice adopted by hyperscaler cloud providers. Their solutions
 remain proprietary, so we use ONOS and Stratum as open source
 examples. It is noteworthy that ONOS and Stratum are both packaged as
 Docker containers, and so can be orchestrated (on *both* servers and
-switches) by Kubernetes and Helm. [#]_
+switches) by Kubernetes and Helm.\ [#]_
 
 .. [#] Switches often include a commodity processor, typically running
        Linux and hosting control software, in addition to any

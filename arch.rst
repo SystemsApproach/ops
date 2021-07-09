@@ -145,7 +145,7 @@ There is an important aspect of this hybrid cloud that is not obvious
 from :numref:`Figure %s <fig-aether>`, which is that the “hybrid
 cloud” we keep referring to is best described as a set of Kubernetes
 clusters, rather than a set of physical clusters (similar to the one
-we started with in :numref:`Figure %s <fig-hw>` of Chapter 1). [#]_
+we started with in :numref:`Figure %s <fig-hw>` of Chapter 1).\ [#]_
 This is because, while each ACE site usually corresponds to a physical
 cluster built out of bare-metal components, each of the SD-Core CP
 subsystems shown in :numref:`Figure %s <fig-aether>` is actually
@@ -266,13 +266,18 @@ Clearly, the “Install & Inventory” step requires human involvement,
 and some amount of hands-on resource-prep is necessary, but the goal
 is to minimize the operator configuration steps (and associated
 expertise) and maximize the automation carried out by the Zero-Touch
-Provisioning system. We describe an approach to doing this in
-Chapter 3.
+Provisioning system. Also realize that :numref:`Figure %s
+<fig-provision>` is biased towards provisioning a physical cluster,
+such as the edge sites in Aether. For a hybrid cloud that also
+includes one or more virtual clusters running in central datacenters,
+it is necessary to provision those virtual resources as well. Chapter
+3 describes provisioning from this broader perspective, considering
+both physical and virtual resources.
 
 Lifecycle Management
 ~~~~~~~~~~~~~~~~~~~~
 
-Lifecycle Management is the process of integrating debugged, extended,
+Lifecycle Management is the process of integrating fixed, extended,
 and refactored components (often microservices) into a set of
 artifacts (e.g., Docker containers and Helm charts), and subsequently
 deploying those artifacts to the operational cloud. It includes a
@@ -318,11 +323,10 @@ Control addresses the “management silo” issue raised in Chapter 1, so
 users do not need to know that connectivity potentially spans four
 different components, or how to control/configure each of them
 individually. (Or, as in the case of the Mobile Core, that SD-Core is
-split into two sub-parts and distributed across two clouds, with the
-CP sub-part responsible for controlling the UP sub-part.) In the case
-of the connectivity service, for example, users only care about being
-able to authorize devices and set QoS parameters on an end-to-end
-basis.
+distributed across two clouds, with the CP sub-part responsible for
+controlling the UP sub-part.) In the case of the connectivity service,
+for example, users only care about being able to authorize devices and
+set QoS parameters on an end-to-end basis.
 
 .. _fig-control:
 .. figure:: figures/Slide8.png
@@ -428,7 +432,7 @@ team is also responsible for:
    
 Once deployed and operational, the SD-RAN team is also responsible for
 diagnosing any problems that cannot be resolved by a dedicated “on
-call” support staff.  [#]_ The SD-RAN team is motivated to take
+call” support staff.\ [#]_  The SD-RAN team is motivated to take
 advantage of the platform’s automated mechanisms (rather than exploit
 short-term workarounds), and to document their component’s behavior
 (especially how to resolve known problems), so they do not get support

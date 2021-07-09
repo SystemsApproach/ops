@@ -33,6 +33,7 @@ Onos
 ONOS
 onos
 PaaS
+Plugable
 POD
 PODs
 QoS
