@@ -29,6 +29,7 @@ Lifecycle
 Linkerd
 Makefile 
 NetBox
+Netplan
 Onos
 ONOS
 onos
@@ -38,6 +39,7 @@ POD
 PODs
 QoS
 Redfish
+Renderer
 Repo
 Repos
 Runtime

@@ -42,7 +42,7 @@ tracking physical inventory.
 
 .. _fig-infra:
 .. figure:: figures/Slide19.png
-    :width: 500px
+    :width: 450px
     :align: center
 
     Resource Provisioning in a hybrid cloud that includes both
@@ -124,7 +124,8 @@ sources. More information is readily available on the NetBox web site:
 .. _reading_netbox:
 .. admonition:: Further Reading
 
-   `NetBox <https://netbox.readthedocs.io/en/stable>`_
+   `NetBox: <https://netbox.readthedocs.io/en/stable>`_ Information
+   Resource Modeling Application.
 
 One of the key features of NetBox is the ability to customize the set
 of models used to organized all the information that is collected. For
@@ -291,10 +292,10 @@ they connect the set hardware in our example deployment.
 Finally, if all of this seems like a tedious amount of detail, then
 you get the main point of this section. Everything about automating
 the control and management of a cloud hinges on having compete and
-accurate data. Keeping this information in sync with the reality of
-the physical infrastructure is often the weakest link in this
-process. The only saving grace is that the information is highly
-structured, and the tool we use (NetBox) helps us codify this
+accurate data about its resources. Keeping this information in sync
+with the reality of the physical infrastructure is often the weakest
+link in this process. The only saving grace is that the information is
+highly structured, and the tool we use (NetBox) helps us codify this
 structure.
 
 3.1.2 Configure and Boot
@@ -313,6 +314,9 @@ POD currently includes:
   used.
 
 * Configure the Management Server so it boots from a provided USB key.
+  
+* Load Ansible roles and playbooks needed to complete configuration
+  onto Management Server.
 
 * Configure the Compute Servers so they iPXE boot from the Management
   Server.
@@ -325,23 +329,61 @@ POD currently includes:
   they will become settable through the Management Platform once the
   POD is fully initialized.
 
-In general, these manual configuration steps are limited to
-"configuring the BIOS", such that any subsequent bootstrap steps can
-be both fully automated and resilient.
+These are all manual configuration steps, requiring either console
+access or entering information into device web interface, such that
+any subsequent configuration steps can be both fully automated and
+resilient.
 
-These subsequent steps are implemented as a set of Ansible playbooks,
-which in terms of the high-level overview shown in :numref:`Figure %s
-<fig-provision>` of Chapter 2, corresponds to the box representing the
-*"Zero-Touch Provision (System)"*. Said another way, there is no
-off-the-shelf ZTP solution we can download (i.e., someone has to write
-the playbooks), but the problem is greatly simplified by having access
-to all the configuration parameters maintained by NetBox.
+As for these subsequent steps, they can be implemented as a set of
+Ansible *roles* and *playbooks*, which in terms of the high-level
+overview shown in :numref:`Figure %s <fig-provision>` of Chapter 2,
+corresponds to the box representing the *"Zero-Touch Provision
+(System)"*. Said another way, there is no off-the-shelf ZTP solution
+we can use (i.e., someone has to write the playbooks), but the problem
+is greatly simplified by having access to all the configuration
+parameters maintained by NetBox.
 
-.. todo::
+The general idea is straightforward. For every network service (e.g.,
+DNS, DHCP) and every kernel-level OS component (e.g., network
+interfaces) that needs to be configured, there is a corresponding
+Ansible role and playbook (i.e., script) that gets executed.\ [#]_
+This set is copied onto the Management Server during the manual
+configuration stage summarized above. In many cases, the playbooks use
+specific parameters—such as VLANs, IP addresses, DNS names, and so
+on—extracted from NetBox.
 
-   Add more information about the Ansible scripts, and in general,
-   about how a suitable *platform* is installed on the hardware,
-   making it "ready" to respond to directives from Terraform.
+.. [#] We gloss over the distinction between *roles* and *playbooks*
+       in Ansible, and focus on the general idea of there being a
+       script that runs with a set of input parameters.
+
+:numref:`Figure %s <fig-ansible>` illustrates the overall approach,
+and fills in a few details. For example, a home-grown Python program
+(``edgeconfig.py``) extracts data from NetBox and outputs a
+corresponding set of YAML files, crafted to serve as input to yet
+another open source tool (*Netplan*), which actually does the detailed
+work of configuring the network subsystem on the various backend
+devices (each with its own unique configuration syntax). The end
+result is that all the hardware in a given physical POD is up and
+running, ready for further instructions from the next layer of the
+provisioning stack, as we now describe.
+
+.. _fig-ansible:
+.. figure:: figures/Slide20.png
+    :width: 600px
+    :align: center
+
+    Configuring OS-level subsystems (e.g., network interfaces) using
+    NetBox data.
+
+More information about Ansible and Netplan is available on their
+respective web sites:
+
+.. _reading_ansible:
+.. admonition:: Further Reading
+
+   `Ansible: <https://www.ansible.com/>`_ Automation Platform.
+
+   `Netplan: <https://netplan.io>`_ Network Configuration Abstraction Renderer.
 
 
 3.2 Infrastructure-as-Code
