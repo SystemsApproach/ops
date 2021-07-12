@@ -57,6 +57,7 @@ VMware
 adaptor
 adaptors
 analytics
+architected
 auth
 backend
 centric
