@@ -344,39 +344,27 @@ is greatly simplified by having access to all the configuration
 parameters maintained by NetBox.
 
 The general idea is straightforward. For every network service (e.g.,
-DNS, DHCP) and every kernel-level OS component (e.g., network
-interfaces) that needs to be configured, there is a corresponding
-Ansible role and playbook (i.e., script) that gets executed.\ [#]_
-This set is copied onto the Management Server during the manual
-configuration stage summarized above. In many cases, the playbooks use
-specific parameters—such as VLANs, IP addresses, DNS names, and so
-on—extracted from NetBox.
+DNS, DHCP, Ngnix) and every per-device subsystem (e.g., Docker,
+network interfaces) that needs to be configured, there is a
+corresponding Ansible role and playbook (i.e., script).\ [#]_ This set
+is copied onto the Management Server during the manual configuration
+stage summarized above, and then executed once the management network
+is onine.
 
 .. [#] We gloss over the distinction between *roles* and *playbooks*
        in Ansible, and focus on the general idea of there being a
        script that runs with a set of input parameters.
 
-:numref:`Figure %s <fig-ansible>` illustrates the overall approach,
-and fills in a few details. For example, a home-grown Python program
-(``edgeconfig.py``) extracts data from NetBox and outputs a
-corresponding set of YAML files, crafted to serve as input to yet
-another open source tool (*Netplan*), which actually does the detailed
-work of configuring the network subsystem on the various backend
-devices (each with its own unique configuration syntax). The end
-result is that all the hardware in a given physical POD is up and
-running, ready for further instructions from the next layer of the
-provisioning stack, as we now describe.
-
-.. _fig-ansible:
-.. figure:: figures/Slide20.png
-    :width: 600px
-    :align: center
-
-    Configuring OS-level subsystems (e.g., network interfaces) using
-    NetBox data.
-
-More information about Ansible and Netplan is available on their
-respective web sites:
+In many cases, the playbooks use parameters—such as VLANs, IP
+addresses, DNS names, and so on—extracted from NetBox. :numref:`Figure
+%s <fig-ansible>` illustrates the approach, and fills in a few
+details. For example, a home-grown Python program (``edgeconfig.py``)
+extracts data from NetBox and outputs a corresponding set of YAML
+files, crafted to serve as input to yet another open source tool
+(*Netplan*), which actually does the detailed work of configuring the
+network subsystem on the various backend devices (each of which has
+its own unique configuration syntax). More information about Ansible
+and Netplan is available on their respective web sites:
 
 .. _reading_ansible:
 .. admonition:: Further Reading
@@ -384,6 +372,23 @@ respective web sites:
    `Ansible: <https://www.ansible.com/>`_ Automation Platform.
 
    `Netplan: <https://netplan.io>`_ Network Configuration Abstraction Renderer.
+
+.. _fig-ansible:
+.. figure:: figures/Slide20.png
+    :width: 600px
+    :align: center
+
+    Configuring OS-level subsystems, such as network interfaces, using
+    NetBox data.
+
+While :numref:`Figure %s <fig-ansible>` highlights how Ansible is
+paired with Netplan to configure kernel-level details, there is also
+an Ansible playbook that installs Docker on each compute server and
+fabric switch, and then launches a container running a "finalize"
+image. This image makes calls into the next layer of the provisioning
+stack, effectively signalling that the POD is running and ready for
+further instructions. We are now ready to describe that next layer of
+the stack.
 
 
 3.2 Infrastructure-as-Code
