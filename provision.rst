@@ -384,8 +384,7 @@ about Ansible and Netplan is available on their respective web sites:
     :width: 600px
     :align: center
 
-    Configuring OS-level subsystems, such as network interfaces, using
-    NetBox data.
+    Configuring network services and OS-level subsystems using NetBox data.
 
 While :numref:`Figure %s <fig-ansible>` highlights how Ansible is
 paired with Netplan to configure kernel-level details, there is also
