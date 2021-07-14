@@ -30,7 +30,7 @@ Linkerd
 Makefile 
 NetBox
 Netplan
-Nignx
+Nginx
 Onos
 ONOS
 onos

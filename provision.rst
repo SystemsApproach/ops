@@ -2,26 +2,26 @@ Chapter 3:  Resource Provisioning
 =================================
 
 Resource Provisioning is the process of bringing virtual and physical
-resources online. It has both a hands-on component (installing devices
-in a rack) and a bootstrap component (configuring how the resources
-boot into a "ready" state). Resource Provisioning happens when a cloud
-deployment is first installed—i.e., an initial set of resources are
-provisioned—but also incrementally over time as new resources are
-added, obsolete resources are removed, and out-of-date resources are
-upgraded.
+resources online. It has both a hands-on component (racking and
+connecting devices) and a bootstrap component (configuring how the
+resources boot into a "ready" state). Resource Provisioning happens
+when a cloud deployment is first installed—i.e., an initial set of
+resources are provisioned—but also incrementally over time as new
+resources are added, obsolete resources are removed, and out-of-date
+resources are upgraded.
 
-The goal of a Resource Provisioning is to be zero-touch, which is
+The goal of Resource Provisioning is to be zero-touch, which is
 impossible for hardware resources because it includes an intrinsically
 manual step. (We'll take up the issue of provisioning virtual
 resources in a moment.) Realistically, the goal is to minimize the
 number and complexity of configuration steps required beyond
 physically connecting the device, keeping in mind that we are starting
 with commodity hardware received directly from a vendor, and not a
-plug-and-play appliance that has been prepped.
+plug-and-play appliance that has already been prepped.
 
 When a cloud is built from virtual resources (e.g., VMs instantiated
-on a commercial cloud) the "install" step for is carried out by
-sequence of API calls rather a hands-on technician.  Of course, we
+on a commercial cloud) the "rack and connect" step for is carried out
+by sequence of API calls rather a hands-on technician.  Of course, we
 want to automate the sequence of calls needed to activate virtual
 infrastructure, which has inspired an approach know as
 *infrastructure-as-code*. The general idea is to document, in a
@@ -128,7 +128,7 @@ sources. More information is readily available on the NetBox web site:
    Resource Modeling Application.
 
 One of the key features of NetBox is the ability to customize the set
-of models used to organized all the information that is collected. For
+of models used to organize all the information that is collected. For
 example, an operator can define physical groupings like *Rack* and
 *Site*, but also logical groupings like *Organization* and
 *Deployment*.\ [#]_  In the following we use the Aether cable plan shown in
@@ -207,8 +207,9 @@ purposes:
 
 For completeness, there are other edge prefixes used by Kubernetes but
 do not need to be created in NetBox. Note that ``qsfp0`` and ``qsfp1``
-in this example denotes a transceiver ports connecting the switching
-fabric; *QSFP* stand for Quad (4-channel) Small Form-factor Plugable.
+in this example denote transceiver ports connecting the switching
+fabric, where *QSFP* stand for Quad (4-channel) Small Form-factor
+Plugable.
    
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
@@ -303,28 +304,28 @@ structure.
 
 In addition to installing the hardware and recording the relevant
 facts about the installation, the other necessary step is to configure
-the hardware so that it is "ready" for the automated procedures that
-follow. The goal is to minimize manual configuration required to
-onboard physical infrastructure like that shown in :numref:`Figure %s
-<fig-cable_plan>`, but *zero-touch* is a high bar. To illustrate, the
-bootstrapping steps needed to complete provisioning for our example
-POD currently includes:
+and boot the hardware so that it is "ready" for the automated
+procedures that follow. The goal is to minimize manual configuration
+required to onboard physical infrastructure like that shown in
+:numref:`Figure %s <fig-cable_plan>`, but *zero-touch* is a high
+bar. To illustrate, the bootstrapping steps needed to complete
+provisioning for our example POD currently includes:
 
 * Configuring the Management Switch to know the set of VLANs being
   used.
 
-* Configure the Management Server so it boots from a provided USB key.
+* Configuring the Management Server so it boots from a provided USB key.
   
-* Load Ansible roles and playbooks needed to complete configuration
-  onto Management Server.
+* Loading Ansible roles and playbooks needed to complete configuration
+  onto the Management Server.
 
-* Configure the Compute Servers so they iPXE boot from the Management
-  Server.
+* Configuring the Compute Servers so they boot from the Management
+  Server (via iPXE).
 
-* Configure the Fabric Switches so they boot from the Management
-  Server.
+* Configuring the Fabric Switches so they boot from the Management
+  Server (via Nginx).
 
-* Configure the eNBs (cellular base stations) so they know their IP
+* Configuring the eNBs (cellular base stations) so they know their IP
   addresses. Various radio parameters can be set at this time, but
   they will become settable through the Management Platform once the
   POD is fully initialized.
@@ -344,16 +345,22 @@ is greatly simplified by having access to all the configuration
 parameters maintained by NetBox.
 
 The general idea is straightforward. For every network service (e.g.,
-DNS, DHCP, Ngnix) and every per-device subsystem (e.g., Docker,
-network interfaces) that needs to be configured, there is a
+DNS, DHCP, iPXE, Nginx) and every per-device subsystem (e.g., network
+interfaces, Docker) that needs to be configured, there is a
 corresponding Ansible role and playbook (i.e., script).\ [#]_ This set
 is copied onto the Management Server during the manual configuration
 stage summarized above, and then executed once the management network
-is onine.
+is online.
 
 .. [#] We gloss over the distinction between *roles* and *playbooks*
        in Ansible, and focus on the general idea of there being a
        script that runs with a set of input parameters.
+
+The Ansible playbooks instantiate the network services on the
+Management Server. The role of DNS and DHCP are obvious. As for iPXE
+and Nginx, they serve as boot servers for the rest of the
+infrastructure: the compute servers are configured to boot from the
+former and the fabric switches are configured to boot from the latter.
 
 In many cases, the playbooks use parameters—such as VLANs, IP
 addresses, DNS names, and so on—extracted from NetBox. :numref:`Figure
@@ -362,9 +369,8 @@ details. For example, a home-grown Python program (``edgeconfig.py``)
 extracts data from NetBox and outputs a corresponding set of YAML
 files, crafted to serve as input to yet another open source tool
 (*Netplan*), which actually does the detailed work of configuring the
-network subsystem on the various backend devices (each of which has
-its own unique configuration syntax). More information about Ansible
-and Netplan is available on their respective web sites:
+network subsystem on the various backend devices. More information
+about Ansible and Netplan is available on their respective web sites:
 
 .. _reading_ansible:
 .. admonition:: Further Reading
@@ -384,11 +390,11 @@ and Netplan is available on their respective web sites:
 While :numref:`Figure %s <fig-ansible>` highlights how Ansible is
 paired with Netplan to configure kernel-level details, there is also
 an Ansible playbook that installs Docker on each compute server and
-fabric switch, and then launches a container running a "finalize"
-image. This image makes calls into the next layer of the provisioning
-stack, effectively signalling that the POD is running and ready for
-further instructions. We are now ready to describe that next layer of
-the stack.
+fabric switch, and then launches a Docker container running a
+"finalize" image. This image makes calls into the next layer of the
+provisioning stack (e.g., Terraform), effectively signalling that the
+POD is running and ready for further instructions. We are now ready to
+describe that next layer of the stack.
 
 
 3.2 Infrastructure-as-Code
