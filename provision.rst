@@ -400,11 +400,65 @@ provisioning stack (e.g., Terraform), effectively signalling that the
 POD is running and ready for further instructions. We are now ready to
 describe that next layer of the stack.
 
+3.1.3 Provisioning API
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+As a result of the steps described so far, we can assume each server
+and switch is up-and-running, and ready to host Kubernetes
+workloads. But we still have a little work to do to prepare our
+bare-metal clusters for the next layer in the provisioning stack,
+essentially establishing parity between the left- and right-hand sides
+of the hybrid cloud shown in :numref:`Figure %s <fig-infra>`. If you
+think in terms of *"What would Google do?"* this reduces to the task
+of setting up a GCP-like API for the bare-metal edge clouds, which in
+principle is not a lot more than the Kubernetes API, but is in
+practice a bit more involved. This layer is is reponsible for
+*managing* Kubernetes.
+
+More specifically, we need an API that makes can be used to set up
+accounts (and associated credentials) for using a given Kubernetes
+cluster. It also provides a way to manage independent projects that
+are to be deployed on a given cluster, which primarily correponds to
+setting up independant name spaces for each.
+
+.. todo::
+
+   This woefully inadequate, but it's not clear what value Rancher
+   provides anymore. We proabably also need to talk about how projects
+   overlap, and we are now using a reduced subset of Rancher.
+
+As an example, Aether currently uses Rancher as its Kubernetes
+management API, with one centralized instance of Rancher being
+responsible for managing all the edge sites. This results in the
+configuration shown in :numref:`Figure %s <fig-rancher>`, which to
+emphasize its scope, showns multiple edge clusters.
+
+.. _fig-rancher:
+.. figure:: figures/Slide21.png
+    :width: 450px
+    :align: center
+
+    Resource Provisioning in a hybrid cloud that includes both
+    physical and virtual resources.
+
+We're done here, but this is as good of place as any to note that not
+all Kubernetes are equal:
+
+* Microsoft Azure offers the Azure Kubernetes Service (AKS)
+* AWS offers the Amazon Elastic Kubernetes Service (EKS)
+* Google Cloud offers the Google Kubernetes Engine (GKE)
+* Our home-grown version (open source)
+
+We don't resolve this issue here, but just note that portability is
+not quite as simple as the above discussion might suggest.
 
 3.2 Infrastructure-as-Code
 --------------------------
 
-All about Terraform, and the story behind GitOps and Infrastructure-as-Code...
+All about Terraform, and the story behind GitOps and
+Infrastructure-as-Code... Need to emphasize the hybrid/multi-cloud
+aspect since one could argue 3.1.3 left a single edge site in a
+sufficiently reponsive state.
 
 
 
