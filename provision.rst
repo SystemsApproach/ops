@@ -20,8 +20,8 @@ with commodity hardware received directly from a vendor, and not a
 plug-and-play appliance that has already been prepped.
 
 When a cloud is built from virtual resources (e.g., VMs instantiated
-on a commercial cloud) the "rack and connect" step for is carried out
-by sequence of API calls rather a hands-on technician.  Of course, we
+on a commercial cloud) the "rack and connect" step is carried out by
+sequence of API calls rather a hands-on technician.  Of course, we
 want to automate the sequence of calls needed to activate virtual
 infrastructure, which has inspired an approach know as
 *infrastructure-as-code*. The general idea is to document, in a
@@ -34,7 +34,7 @@ resources, as is the case for a hybrid cloud like like Aether, we need
 a seamless way to accommodate both. To this end, our approach is to
 first layer a *logical structure* on top of hardware resources, making
 them roughly equivalent to the virtual resources we get from a
-commercial cloud provider, resulting in a hybrid scenario similar to
+commercial cloud provider. This results in a hybrid scenario similar to
 the one shown in :numref:`Figure %s <fig-infra>`. We use NetBox as our
 open source solution for constructing this logical structure on top of
 physical hardware. NetBox also helps us address the requirement of
@@ -54,13 +54,13 @@ with NetBox via a well-defined API (as is the case on the left), but
 instead with artifacts left behind by the hardware provisioning
 process described in Section 3.1. One way to think about this that the
 task of booting hardware into the "ready" state involves installing
-and configuring several platform subsystems. It's these platform
+and configuring several platform subsystems. It is these platform
 subsystems that Terraform interacts with.
 
 This chapter describes both sides of :numref:`Figure %s <fig-infra>`
 starting with provisioning physical infrastructure. Our approach is to
-focus on the challenge of provisioning an entire site the first
-time. We comment on the simpler problem of incrementally provisioning
+focus on the challenge of provisioning an entire site the first time.
+We comment on the simpler problem of incrementally provisioning
 individual resources as relevant details emerge.
 
 
@@ -79,7 +79,7 @@ deployed in enterprises, which serves to highlight the required level
 of specificity. Considerable planning is required to specify an
 appropriate *Bill of Materials (BOM)*, including details about
 individual device models, but this aspect of the problem space is
-outside the scope of this book.
+also outside our scope.
 
 .. _fig-cable_plan:
 .. figure:: figures/pronto_logical_diagram.png
@@ -96,9 +96,9 @@ lower cluster corresponds to a development POD, and includes two
 servers and a single switch.
 
 In addition to following this blueprint, the technician also enters
-various facts and parameters about the physical infrastructure into a
-database. This information, which is used in later provisioning steps,
-is where we pick up the story.
+various facts about the physical infrastructure into a database. This
+information, which is used in later provisioning steps, is where we
+pick up the story.
 
 3.1.1 Document Infrastructure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -146,7 +146,7 @@ The first step is to create a record for the site being provisioned,
 and documenting all the relevant metadata for that site. This includes
 the *Name* and *Location* of the *Site*, along with the *Organization*
 the site belongs to. An *Organization* can have more than one *Site*,
-while a *Site* can (i) span one or more *Racks*, and (ii) host one or
+while a *Site* can (a) span one or more *Racks*, and (b) host one or
 more *Deployments*. A *Deployment* is a logical cluster,
 corresponding, for example, to ``Production``, ``Staging``, and
 ``Development``. The cabling plan shown in :numref:`Figure %s
@@ -164,17 +164,20 @@ needed per Site:
 * MGMT 800
 * FABRIC 801
 
-Of course, these are Aether-specific, but they are representative of
-VLANs a cluster typically needs. Also, if there are multiple
-Deployments at a Site sharing a single management server, additional
-VLANs (incremented by 10 for MGMT/FABRIC) are added. For example:
+These are Aether-specific, of course, but they do illustrate the set
+of VLANs a cluster might need. Minimally, one would expect to see at
+least a "management" network (MGMT in this example) and a "data"
+network (FABRIC in this example) in any cluster. Also specific to
+Aether (but generally applicable), if there are multiple Deployments
+at a Site sharing a single management server, additional VLANs
+(incremented by 10 for MGMT/FABRIC) are added. For example:
 
 * DEVMGMT 810
 * DEVFABRIC 811
 
 IP Prefixes are then associated with VLANs, with all edge IP prefixes
 fitting into a ``/22`` sized block. This block is then partitioned in
-a way that works in concert with how DNS names are managed (i.e.,
+a way that works in concert with how DNS names are managed; i.e.,
 names are generated by combining the first ``<devname>`` component of
 the *Device* names (see below) with this suffix. Using ``10.0.0.0/22``
 as an example, there are four edge prefixes, with the following
@@ -229,7 +232,7 @@ Note there is typically both a primary and management (e.g., BMC/IPMI)
 interface, where the *Device Type* implies the specific interfaces.
 
 Finally, the virtual interfaces for the Device must be specified, with
-it's ``label`` field set to the physical network interface that it is
+its ``label`` field set to the physical network interface that it is
 assigned. IP addresses are then assigned to the physical and virtual
 interfaces we have defined. The Management Server should always have
 the first IP address in each range, and they should be incremental, as
@@ -311,21 +314,21 @@ required to onboard physical infrastructure like that shown in
 bar. To illustrate, the bootstrapping steps needed to complete
 provisioning for our example POD currently includes:
 
-* Configuring the Management Switch to know the set of VLANs being
+* Configure the Management Switch to know the set of VLANs being
   used.
 
-* Configuring the Management Server so it boots from a provided USB key.
+* Configure the Management Server so it boots from a provided USB key.
   
-* Loading Ansible roles and playbooks needed to complete configuration
+* Load Ansible roles and playbooks needed to complete configuration
   onto the Management Server.
 
-* Configuring the Compute Servers so they boot from the Management
+* Configure the Compute Servers so they boot from the Management
   Server (via iPXE).
 
-* Configuring the Fabric Switches so they boot from the Management
+* Configure the Fabric Switches so they boot from the Management
   Server (via Nginx).
 
-* Configuring the eNBs (cellular base stations) so they know their IP
+* Configure the eNBs (mobile base stations) so they know their IP
   addresses. Various radio parameters can be set at this time, but
   they will become settable through the Management Platform once the
   POD is fully initialized.
@@ -333,7 +336,9 @@ provisioning for our example POD currently includes:
 These are all manual configuration steps, requiring either console
 access or entering information into device web interface, such that
 any subsequent configuration steps can be both fully automated and
-resilient.
+resilient. Note that while these steps can't be automated away, they
+do not necessarily have to be performed in the field; hardware shipped
+to a remote site can first be prepped accordingly.
 
 As for these subsequent steps, they can be implemented as a set of
 Ansible *roles* and *playbooks*, which in terms of the high-level

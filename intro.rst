@@ -461,15 +461,20 @@ publicly available Helm Charts.
 The cloud management software described in this book is available in
 the form of a set of Docker containers, plus the associated Helm
 Charts that specify how they are to be deployed in a Kubernetes
-cluster. Overall, we make use of over two dozen such open source
-software packages in the chapters that follow.
+cluster. Overall, we make use of over 20 such open source software
+packages in the chapters that follow. Our goal is to show how all
+these open building blocks can be assembled into a comprehensive cloud
+management platform. We describe each tool in enough detail to
+appreciate how all the parts fit together—providing full coverage by
+connecting all the dots—plus links to full documentation for those
+that want to dig deeper into the details.
 
 .. todo::
 
-   Get an actual count. Maybe need to set expectations: Once we
-   explain how existing open source project fits into the big picture,
-   we don't go into a lot of depth about that component (i.e., we
-   assume you can learn about that project elsewhere).
+   List: NexBox, Ansible, Netplan, Terraform, Rancher, Fleet,
+   Prometheus, Grafana, AlertManager, Jenkins, Robot, Selenium,
+   onos-config, Atomix, OPF, Kibana, Logstash, Elasticsearch,
+   Kubernetes, Helm, Docker (21)
 
    Also, this is probably a good place to explain that Kubernetes and
    Helm run in a single cluster (and define what a cluster is),

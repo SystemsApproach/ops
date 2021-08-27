@@ -24,9 +24,11 @@ IoT
 IPMI
 iPXE
 Istio
+Kibana
 Kubernetes
 Lifecycle
 Linkerd
+Logstash
 Makefile 
 NetBox
 Netplan
