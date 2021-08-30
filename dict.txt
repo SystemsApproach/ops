@@ -15,6 +15,7 @@ ECS
 Elkstack
 eNB
 eNBs
+GCP
 GPP
 Gerrit
 Gradle
@@ -45,6 +46,7 @@ Redfish
 Renderer
 Repo
 Repos
+RKE
 Runtime
 Sami
 Sys
@@ -83,6 +85,7 @@ linter
 liveness
 llp
 microservice
+mindshare
 natively
 operationalize
 operationalized

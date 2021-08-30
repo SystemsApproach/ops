@@ -24,10 +24,14 @@ on a commercial cloud) the "rack and connect" step is carried out by
 sequence of API calls rather a hands-on technician.  Of course, we
 want to automate the sequence of calls needed to activate virtual
 infrastructure, which has inspired an approach know as
-*infrastructure-as-code*. The general idea is to document, in a
+*infrastructure-as-code*..\ [#]_ The general idea is to document, in a
 declarative format that can be "executed", exactly what our
 infrastructure looks like. We use Terraform as our open source
 approach to infrastructure-as-code.
+
+.. [#] *Infrastructure-as-Code* is a special case of the more general
+       concept of *Configuration-as-Code*, which we discuss in much
+       more detail in Chapter 4.
 
 When a cloud is built from a combination of virtual and physical
 resources, as is the case for a hybrid cloud like like Aether, we need
@@ -305,14 +309,14 @@ structure.
 3.1.2 Configure and Boot
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to installing the hardware and recording the relevant
-facts about the installation, the other necessary step is to configure
-and boot the hardware so that it is "ready" for the automated
-procedures that follow. The goal is to minimize manual configuration
-required to onboard physical infrastructure like that shown in
-:numref:`Figure %s <fig-cable_plan>`, but *zero-touch* is a high
-bar. To illustrate, the bootstrapping steps needed to complete
-provisioning for our example POD currently includes:
+After installing the hardware and recording the relevant facts about
+the installation, the next step is to configure and boot the hardware
+so that it is "ready" for the automated procedures that follow. The
+goal is to minimize manual configuration required to onboard physical
+infrastructure like that shown in :numref:`Figure %s
+<fig-cable_plan>`, but *zero-touch* is a high bar. To illustrate, the
+bootstrapping steps needed to complete provisioning for our example
+POD currently includes:
 
 * Configure the Management Switch to know the set of VLANs being
   used.
@@ -396,69 +400,98 @@ paired with Netplan to configure kernel-level details, there is also
 an Ansible playbook that installs Docker on each compute server and
 fabric switch, and then launches a Docker container running a
 "finalize" image. This image makes calls into the next layer of the
-provisioning stack (e.g., Terraform), effectively signalling that the
-POD is running and ready for further instructions. We are now ready to
-describe that next layer of the stack.
+provisioning stack, effectively signalling that the POD is running and
+ready for further instructions. We are now ready to describe that next
+layer of the stack.
+
 
 3.1.3 Provisioning API
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 As a result of the steps described so far, we can assume each server
-and switch is up-and-running, and ready to host Kubernetes
-workloads. But we still have a little work to do to prepare our
-bare-metal clusters for the next layer in the provisioning stack,
-essentially establishing parity between the left- and right-hand sides
-of the hybrid cloud shown in :numref:`Figure %s <fig-infra>`. If you
-think in terms of *"What would Google do?"* this reduces to the task
-of setting up a GCP-like API for the bare-metal edge clouds, which in
-principle is not a lot more than the Kubernetes API, but is in
-practice a bit more involved. This layer is is reponsible for
-*managing* Kubernetes.
+and switch is up-and-running, but we still have a little work to do to
+prepare our bare-metal clusters for the next layer in the provisioning
+stack, essentially establishing parity between the left- and
+right-hand sides of the hybrid cloud shown in :numref:`Figure %s
+<fig-infra>`. If you think in terms of *"What would Google do?"* this
+reduces to the task of setting up a GCP-like API for the bare-metal
+edge clouds, which in principle is not a lot more than the Kubernetes
+API, but is in practice also responsible for *managing* Kubernetes
+(rather than just *using* Kubernetes).
 
-More specifically, we need an API that makes can be used to set up
-accounts (and associated credentials) for using a given Kubernetes
-cluster. It also provides a way to manage independent projects that
-are to be deployed on a given cluster, which primarily correponds to
-setting up independant name spaces for each.
+In short, the remaining task is to turn a set of interconnected
+servers and switches into a Kubernetes cluster. For starters, the API
+needs to provide a means to install and configure Kubernetes on each
+physical cluster. This includes specifying which version of Kubernetes
+to run, selecting the right combination of CNI plugins (virtual
+network adaptors), and connecting Kubernetes to the local network (and
+any VPNs it might need). This layer also needs to provide a means to
+set up accounts (and associated credentials) for accessing and using
+each Kubernetes cluster, as well as provide a way to manage
+independent projects that are to be deployed on a given cluster (i.e.,
+manage name spaces for multiple applications). (Rather than go into
+more detail about prepping the cluster to support Kubernetes
+workloads, we discuss the challenge in the following section, in the
+context of the Infrastructure-as-Code layer that *uses* this API.)
 
-.. todo::
-
-   This woefully inadequate, but it's not clear what value Rancher
-   provides anymore. We proabably also need to talk about how projects
-   overlap, and we are now using a reduced subset of Rancher.
-
-As an example, Aether currently uses Rancher as its Kubernetes
-management API, with one centralized instance of Rancher being
-responsible for managing all the edge sites. This results in the
+As an example, Aether currently uses Rancher to manage Kubernetes on
+the bare-metal clusters, with one centralized instance of Rancher
+being responsible for managing all the edge sites. This results in the
 configuration shown in :numref:`Figure %s <fig-rancher>`, which to
-emphasize its scope, showns multiple edge clusters.
+emphasize its scope, shows multiple edge clusters.
 
 .. _fig-rancher:
 .. figure:: figures/Slide21.png
     :width: 450px
     :align: center
 
-    Resource Provisioning in a hybrid cloud that includes both
-    physical and virtual resources.
+    Provisioning in a hybrid cloud that includes includes an API layer
+    for managing Kubernetes running on multiple bare-metal clusters.
 
-We're done here, but this is as good of place as any to note that not
-all Kubernetes are equal:
+We conclude this discussion by noting that while we often treat
+Kubernetes as though it is an industry-wide standard, it is not. Each
+cloud provider offers its own customized version:
 
 * Microsoft Azure offers the Azure Kubernetes Service (AKS)
 * AWS offers the Amazon Elastic Kubernetes Service (EKS)
 * Google Cloud offers the Google Kubernetes Engine (GKE)
-* Our home-grown version (open source)
+* Aether edges run the Rancher-certified version of Kubernetes (RKE)
 
-We don't resolve this issue here, but just note that portability is
-not quite as simple as the above discussion might suggest.
+We don't resolve this issue, which is the subject of ongoing work
+across the industry, but just to caution that the portability of
+microservices across Kubernetes clusters is not as simple as the
+discussion might suggest. Our job, at the cloud management layer, is
+to provide operators with a means to expose and manage this
+heterogeneity.
 
 3.2 Infrastructure-as-Code
 --------------------------
 
-All about Terraform, and the story behind GitOps and
-Infrastructure-as-Code... Need to emphasize the hybrid/multi-cloud
-aspect since one could argue 3.1.3 left a single edge site in a
-sufficiently reponsive state.
+All Terraform provides is a declarative way of saying what your want
+from your infrastructure; how the assorted Kubernetes clusters (some
+running at the edges on bare-metal and some instantiated in GCP) are
+to be configured. Since declarative suggests WSIWG, the best thing to
+do is walk through an example. *[Need some setup to understand .tf
+vs .tfvars (and modules). Also give a conceptual overview. Remember,
+Terraform just says what; the Provisioning API makes it so.]*
 
+Top level says what kinds of clusters are in play...
 
+.. literalinclude:: code/provider.tf
 
+Then fill in details (define values) for a couple examples. First is
+the GCP cluster we run AMP in:
+
+.. literalinclude:: code/cluster-gcp_val.tfvars
+
+And then the cluster we run at edge site X:		    
+
+.. literalinclude:: code/cluster-edge_val.tfvars
+
+GCP does a lot of work for us, but we need to provide more details
+about how Kubernetes is to be configured on the bare-metal edge
+clusters (an RKE-specific module):
+
+.. literalinclude:: code/main-rke.tf
+		    
+Then tie up some loose ends (e.g., VPNs)...
