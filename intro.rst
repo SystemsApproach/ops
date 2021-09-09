@@ -549,41 +549,40 @@ underlying infrastructure for that PaaS.
 
 .. sidebar:: What's the Master Plan?
 
-  Beyond the narrow issue specific technologies, there is a bigger
-  issue of how one makes engineering choices about what combination of
-  software packages to use. Ignoring the plethora of commercial
-  offerings, just the number of open source projects at the Linux
-  Foundation and the Apache Foundation available to help you build and
-  operate a cloud is (by our count) approaching 100. These projects
-  are largely independent, and in many cases, competing for mindshare.
-  This results in significant overlap in functionality, with any Venn
-  diagram you try to draw constantly shifting over time as projects
-  add and deprecate features.
+  Beyond narrow questions about individual technologies, there is a
+  general issue of how one makes engineering choices about what
+  combination of software packages to use. Ignoring the plethora of
+  commercial offerings, just the number of open source projects at the
+  Linux Foundation and the Apache Foundation available to help you
+  build and operate a cloud is (by our count) approaching 100. These
+  projects are largely independent, and in many cases, competing for
+  mindshare.  This results in significant overlap in functionality,
+  with any Venn diagram you try to draw constantly shifting over time
+  as projects add and deprecate features.
 
   This is all to say, there is no master plan for what a cloud
   management stack should look like. If you start with component X as
   the centerpiece of your approach—perhaps because it claims to solve
-  your most pressing set of problems today—you will end up adding
+  your most pressing problem of the today—you will end up adding
   dozens of other components over time to fully complete the system.
   Moreover, the end result will likely look different from the system
   someone else constructs starting with component Y. There simply is
   no consensus framework for which you get to select a component from
   column A, a second complementary component from column B, and so on.
-
-  This is also true for the Aether cloud we use as an exemplar. As a
-  consequence, this book takes a first principles approach: Start by
-  identifying the fundamental set of requirements to be addressed;
-  next explore the design space and available engineering choices; and
-  only as a final step select an existing software component (or
-  implement a new one if necessary).  This approach naturally results
-  in a solution that assembles *many* smaller components—and tends to
-  avoid bundled/multi-faceted solutions—which is consistent with the
-  value proposition of disaggregation in the first place. This does
-  not inoculate you from having to evolve the system over time, but it
-  does help you approach the topic with your eyes open to the full
-  scope and complexity of the design space. And even if you end up
-  with a bundled solution, understanding all the trade-offs being made
-  under the covers will help you make a more informed choice.
+  This is also true for the Aether cloud we use as an exemplar.
+  
+  This makes it all the more important that we take a first principles
+  approach. Start by identifying the fundamental set of requirements
+  and explore the design space. Only as a final step do we select an
+  existing software component (or implement a new one if necessary).
+  This approach naturally results in an end-to-end solution that
+  assembles *many* smaller components, and tends to avoid
+  bundled/multi-faceted solutions. This does not inoculate us from
+  having to evolve the system over time, but it does help to approach
+  the topic with your eyes open to the full scope and complexity of
+  the design space. And even if you end up going with a bundled
+  solution, understanding all the trade-offs being made under the
+  covers will help you make a more informed choice.
 
 1.4 Future of the Sys-Admin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

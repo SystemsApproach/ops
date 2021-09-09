@@ -412,8 +412,10 @@ deploy on multiple clusters.
 
 .. todo::
 
-   All about Rancher, Fleet, and Terraform. Also talk about
-   incremental rollout, including staging.
+   All about Fleet (and fold in Terraform, which continuously updates
+   the underlying Platform). Also talk about incremental rollout,
+   including staging. At least a sidebar about Fleet performance (and
+   the load it puts on repos).
 
 4.5 What about GitOps?
 ----------------------

@@ -168,13 +168,13 @@ needed per Site:
 * MGMT 800
 * FABRIC 801
 
-These are Aether-specific, of course, but they do illustrate the set
-of VLANs a cluster might need. Minimally, one would expect to see at
-least a "management" network (MGMT in this example) and a "data"
-network (FABRIC in this example) in any cluster. Also specific to
-Aether (but generally applicable), if there are multiple Deployments
-at a Site sharing a single management server, additional VLANs
-(incremented by 10 for MGMT/FABRIC) are added. For example:
+These are Aether-specific, but they do illustrate the set of VLANs a
+cluster might need. Minimally, one would expect to see a "management"
+network (MGMT in this example) and a "data" network (FABRIC in this
+example) in any cluster. Also specific to Aether (but generally
+applicable), if there are multiple Deployments at a Site sharing a
+single management server, additional VLANs (incremented by 10 for
+MGMT/FABRIC) are added. For example:
 
 * DEVMGMT 810
 * DEVFABRIC 811
@@ -212,11 +212,10 @@ purposes:
   * Assign FABRIC 801 VLAN
   * Set the description to ``fab2.<deployment>.<site>.aetherproject.net``
 
-For completeness, there are other edge prefixes used by Kubernetes but
-do not need to be created in NetBox. Note that ``qsfp0`` and ``qsfp1``
-in this example denote transceiver ports connecting the switching
-fabric, where *QSFP* stand for Quad (4-channel) Small Form-factor
-Plugable.
+There are other edge prefixes used by Kubernetes, but do not need to be
+created in NetBox. Note that ``qsfp0`` and ``qsfp1`` in this example
+denote transceiver ports connecting the switching fabric, where *QSFP*
+stand for Quad (4-channel) Small Form-factor Plugable.
    
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
@@ -270,9 +269,9 @@ follows:
 
   * ``eth0`` or other primary interface - 10.0.1.4/25 (next of FABRIC)
 
-Once this data is entered into NetBox, it is possible to generate a
+Once this data is entered into NetBox, it can be used to generate a
 rack diagram, similar to the one shown in :numref:`Figure %s
-<fig-rack_diagram>`, which corresponds to the cabling diagram shown in
+<fig-rack_diagram>`, corresponding to the cabling diagram shown in
 :numref:`Figure %s <fig-cable_plan>`. Note that the diagram shows two
 logical *Deployments* (``Production`` and ``Development``), co-located
 in one physical rack.
@@ -340,7 +339,7 @@ POD currently includes:
 These are all manual configuration steps, requiring either console
 access or entering information into device web interface, such that
 any subsequent configuration steps can be both fully automated and
-resilient. Note that while these steps can't be automated away, they
+resilient. Note that while these steps cannot be automated away, they
 do not necessarily have to be performed in the field; hardware shipped
 to a remote site can first be prepped accordingly.
 
@@ -429,10 +428,10 @@ any VPNs it might need). This layer also needs to provide a means to
 set up accounts (and associated credentials) for accessing and using
 each Kubernetes cluster, as well as provide a way to manage
 independent projects that are to be deployed on a given cluster (i.e.,
-manage name spaces for multiple applications). (Rather than go into
+manage name spaces for multiple applications). Rather than go into
 more detail about prepping the cluster to support Kubernetes
 workloads, we discuss the challenge in the following section, in the
-context of the Infrastructure-as-Code layer that *uses* this API.)
+context of the Infrastructure-as-Code layer that *uses* this API.
 
 As an example, Aether currently uses Rancher to manage Kubernetes on
 the bare-metal clusters, with one centralized instance of Rancher
@@ -467,12 +466,12 @@ heterogeneity.
 3.2 Infrastructure-as-Code
 --------------------------
 
-All Terraform provides is a declarative way of saying what your want
-from your infrastructure; how the assorted Kubernetes clusters (some
+Terraform provides a declarative way of saying what you want from
+your infrastructure; how the assorted Kubernetes clusters (some
 running at the edges on bare-metal and some instantiated in GCP) are
 to be configured. Since declarative suggests WSIWG, the best thing to
-do is walk through an example. *[Need some setup to understand .tf
-vs .tfvars (and modules). Also give a conceptual overview. Remember,
+do is walk through an example. *[Need some setup to understand .tf vs
+.tfvars (and modules). Also give a conceptual overview. Remember,
 Terraform just says what; the Provisioning API makes it so.]*
 
 Top level says what kinds of clusters are in play...
