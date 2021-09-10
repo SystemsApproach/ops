@@ -367,7 +367,7 @@ from “problems that remain and how we address them.” The following
 identifies the technology we assume.
 
 Hardware Platform
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 The assumed hardware building blocks are straightforward. We start
 with bare-metal servers and switches, built using merchant
@@ -380,10 +380,8 @@ Redfish).
 A physical cloud cluster is then constructed with the hardware
 building blocks arranged as shown in :numref:`Figure %s <fig-hw>`: one
 or more racks of servers connected by a leaf-spine switching
-fabric. (The servers are shown above the switching fabric to emphasize
-that software running on the servers controls the switches.) The
-figure also includes the assumed low-level software components
-described in the subsections that follow.
+fabric. The servers are shown above the switching fabric to emphasize
+that software running on the servers controls the switches.
 
 .. _fig-hw:
 .. figure:: figures/Slide1.png
@@ -394,6 +392,17 @@ described in the subsections that follow.
    including commodity servers and switches, interconnected by a
    leaf-spine switching fabric.
    
+:numref:`Figure %s <fig-hw>` also includes the assumed low-level
+software components, which we describe next. Collectively, all the
+hardware and software components shown in the figure form the
+*substrate*. Where we draw the line between what's *in the substrate*
+and what runs *on top of the substrate* will become clear in later
+chapters, but the summary is that different mechanisms will be
+responsible for (a) bringing up the substrate and prepping it to host
+workloads, and (b) managing the various workloads that need to be
+deployed on that substrate.
+
+
 Server Virtualization
 ~~~~~~~~~~~~~~~~~~~~~
 

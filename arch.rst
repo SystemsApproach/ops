@@ -67,9 +67,10 @@ Platform*.
 
 The edge cloud, which in Aether is called ACE (Aether Connected Edge),
 is a Kubernetes-based cluster similar to the one shown in
-:numref:`Figure %s <fig-hw>` of Chapter 1. It consists of one or more
-server racks interconnected by a leaf-spine switching fabric, with an
-SDN control plane (denoted SD-Fabric) managing the fabric.
+:numref:`Figure %s <fig-hw>` of Chapter 1. It is a substrate that
+consists of one or more server racks interconnected by a leaf-spine
+switching fabric, with an SDN control plane (denoted SD-Fabric)
+managing the fabric.
 	
 As shown in :numref:`Figure %s <fig-ace>`, ACE hosts two additional
 microservice-based subsystems on top of this substrate; they
@@ -93,12 +94,12 @@ SD-RAN, SD-Core, and SD-Fabric.)
    :width: 400px
    :align: center
 
-   Aether Connected Edge (ACE) = Base Kubernetes + 5G connectivity
-   (RAN and User Plane of Mobile Core). Dotted lines (e.g., between
-   SD-RAN and the individual base stations, and between the Network OS
-   and the individual switches) represent control relationships (e.g.,
-   SD-RAN controls the small cells and SD-Fabric controls the
-   switches).
+   Aether Connected Edge (ACE) = The cloud substrate (Kubernetes and
+   SD-Fabric) plus the 5G connectivity service (RAN and User Plane of
+   Mobile Core). Dotted lines (e.g., between SD-RAN and the individual
+   base stations, and between the Network OS and the individual
+   switches) represent control relationships (e.g., SD-RAN controls
+   the small cells and SD-Fabric controls the switches).
 
 Once ACE is running in this configuration, it is ready to host a
 collection of edge applications (not shown in :numref:`Figure %s
@@ -184,7 +185,7 @@ prerequisite for establishing a cloud service, and while the example
 we use may not be suitable for all situations (e.g., some
 organizations might delegate certain control privileges to end users,
 via a “self-service” portal), it does represent a natural division
-between those that use cloud services and those that support cloud
+between those that *use* cloud services and those that *support* cloud
 services.
 
 .. _fig-amp:
@@ -250,7 +251,9 @@ Repo, a Zero-Touch Provisioning system (a) generates a set of
 configuration artifacts that are stored in a Config Repo and used
 during Lifecycle Management, and (b) initializes the newly deployed
 resources so they are in a state that Lifecycle Management is able to
-control.
+control. This is why we called out the "substrate" in Chapter 1:
+Resource Provisioning has to get the substrate up-and-running before
+Lifecycle Management can do it's job.
 	
 Clearly, the “Install & Inventory” step requires human involvement,
 and some amount of hands-on resource-prep is necessary, but the goal

@@ -58,8 +58,8 @@ with NetBox via a well-defined API (as is the case on the left), but
 instead with artifacts left behind by the hardware provisioning
 process described in Section 3.1. One way to think about this that the
 task of booting hardware into the "ready" state involves installing
-and configuring several platform subsystems. It is these platform
-subsystems that Terraform interacts with.
+and configuring several subsystems that collectively form the cloud
+substrate. It is these subsystems that Terraform interacts with.
 
 This chapter describes both sides of :numref:`Figure %s <fig-infra>`
 starting with provisioning physical infrastructure. Our approach is to
@@ -126,11 +126,11 @@ site; and how devices are connected to consoles, networks, and power
 sources. More information is readily available on the NetBox web site:
 
 .. _reading_netbox:
-.. admonition:: Further Reading
+.. admonition:: Further Reading  
 
-   `NetBox: <https://netbox.readthedocs.io/en/stable>`_ Information
-   Resource Modeling Application.
-
+   `NetBox: <https://netbox.readthedocs.io/en/stable>`_ Information  
+   Resource Modeling Application.  
+ 
 One of the key features of NetBox is the ability to customize the set
 of models used to organize all the information that is collected. For
 example, an operator can define physical groupings like *Rack* and
@@ -355,14 +355,13 @@ parameters maintained by NetBox.
 The general idea is straightforward. For every network service (e.g.,
 DNS, DHCP, iPXE, Nginx) and every per-device subsystem (e.g., network
 interfaces, Docker) that needs to be configured, there is a
-corresponding Ansible role and playbook (i.e., script).\ [#]_ This set
-is copied onto the Management Server during the manual configuration
-stage summarized above, and then executed once the management network
-is online.
+corresponding Ansible role and playbook.\ [#]_ This set is copied onto
+the Management Server during the manual configuration stage summarized
+above, and then executed once the management network is online.
 
 .. [#] We gloss over the distinction between *roles* and *playbooks*
        in Ansible, and focus on the general idea of there being a
-       script that runs with a set of input parameters.
+       *script* that runs with a set of input parameters.
 
 The Ansible playbooks instantiate the network services on the
 Management Server. The role of DNS and DHCP are obvious. As for iPXE
@@ -412,32 +411,29 @@ and switch is up-and-running, but we still have a little work to do to
 prepare our bare-metal clusters for the next layer in the provisioning
 stack, essentially establishing parity between the left- and
 right-hand sides of the hybrid cloud shown in :numref:`Figure %s
-<fig-infra>`. If you think in terms of *"What would Google do?"* this
+<fig-infra>`. If you ask yourself *"What would Google do?"* this
 reduces to the task of setting up a GCP-like API for the bare-metal
 edge clouds, which in principle is not a lot more than the Kubernetes
-API, but is in practice also responsible for *managing* Kubernetes
-(rather than just *using* Kubernetes).
+API, but is in practice also responsible for *managing* Kubernetes,
+rather than just *using* Kubernetes.
 
 In short, the remaining task is to turn a set of interconnected
-servers and switches into a Kubernetes cluster. For starters, the API
-needs to provide a means to install and configure Kubernetes on each
-physical cluster. This includes specifying which version of Kubernetes
-to run, selecting the right combination of CNI plugins (virtual
-network adaptors), and connecting Kubernetes to the local network (and
-any VPNs it might need). This layer also needs to provide a means to
-set up accounts (and associated credentials) for accessing and using
-each Kubernetes cluster, as well as provide a way to manage
-independent projects that are to be deployed on a given cluster (i.e.,
-manage name spaces for multiple applications). Rather than go into
-more detail about prepping the cluster to support Kubernetes
-workloads, we discuss the challenge in the following section, in the
-context of the Infrastructure-as-Code layer that *uses* this API.
+servers and switches into a fully-instantiated Kubernetes cluster. For
+starters, the API needs to provide a means to install and configure
+Kubernetes on each physical cluster. This includes specifying which
+version of Kubernetes to run, selecting the right combination of CNI
+plugins (virtual network adaptors), and connecting Kubernetes to the
+local network (and any VPNs it might need). This layer also needs to
+provide a means to set up accounts (and associated credentials) for
+accessing and using each Kubernetes cluster, as well as provide a way
+to manage independent projects that are to be deployed on a given
+cluster (i.e., manage name spaces for multiple applications).
 
 As an example, Aether currently uses Rancher to manage Kubernetes on
 the bare-metal clusters, with one centralized instance of Rancher
 being responsible for managing all the edge sites. This results in the
 configuration shown in :numref:`Figure %s <fig-rancher>`, which to
-emphasize its scope, shows multiple edge clusters.
+emphasize Rancher's scope, shows multiple edge clusters.
 
 .. _fig-rancher:
 .. figure:: figures/Slide21.png
@@ -466,31 +462,99 @@ heterogeneity.
 3.2 Infrastructure-as-Code
 --------------------------
 
-Terraform provides a declarative way of saying what you want from
-your infrastructure; how the assorted Kubernetes clusters (some
+Terraform provides a declarative way of saying what your
+infrastructure is to look like: What set of Kubernetes clusters (some
 running at the edges on bare-metal and some instantiated in GCP) are
-to be configured. Since declarative suggests WSIWG, the best thing to
-do is walk through an example. *[Need some setup to understand .tf vs
-.tfvars (and modules). Also give a conceptual overview. Remember,
-Terraform just says what; the Provisioning API makes it so.]*
+to be instantiated, and how each is to be configured. Remember, our
+goal is to provision the substrate, bringing it to a "ready" state so
+it is able to participate in lifecycle management (which in turn
+ensures that a specified set of services is running).
 
-Top level says what kinds of clusters are in play...
+Since Terraform specifications are declarative, the best way to
+understand them is to walk through a specific example. In doing so,
+our goal isn't to document Terraform (online documentation and
+step-by-step tutorials are available for those those interested in
+more detail), but rather, to build some intuition about the role this
+layer plays in managing a cloud.
+
+.. _reading_terraform:
+.. admonition:: Further Reading 
+
+   `Terraform Documentation <https://www.terraform.io/docs>`_.
+
+   `Terraform Getting Started Tutorials
+   <https://learn.hashicorp.com/terraform?utm_source=terraform_io>`__.
+
+To make sense of the example, the main thing you need to know about
+the Terraform configuration language is that it provides a means to
+both (1) specify *templates* for different kinds of resources (these
+are ``.tf`` files), and (2) fill in the *variables* for specific
+instances of those resource templates (these are ``.tfvars`` files).
+Then given a set of ``.tf`` and ``tfvars`` files, Terraform implements
+a two-stage process. In the first stage it constructs an execution
+plan, based on what has changed since the previous plan it carried
+out. In the second stage, Terraform carries out the sequence of tasks
+required to bring the underlying infrastructure "up to spec" with the
+latest definition.
+
+Now to the specific files. At the top-most level, the operator defines
+the set of *providers* they plan to incorporate into their
+infrastructure.  We can think of each provider as corresponding to a
+cloud backend, including the corresponding provisioning API depicted
+in :numref:`Figure %s <fig-rancher>`. In our example, we show only two
+providers: the Rancher-managed edge clusters and the GCP-managed
+centralized clusters. Note that the example file declares a set of
+relevant variables for each provider (e.g., ``url``, ``access-key``),
+which are "filled in" in by instance-specific variable files described
+next.
 
 .. literalinclude:: code/provider.tf
 
-Then fill in details (define values) for a couple examples. First is
-the GCP cluster we run AMP in:
+The next step is to fill in the details (define values) for the actual
+set of clusters we want to provision. Let's look at two examples,
+corresponding to the two providers we just specified. The first shows
+a GCP-provided cluster (named ``amp-gcp``) that is to host the AMP
+workload. The labels associated with this particular cluster (e.g.,
+``env = "production"``) establish linkage between Terraform (which
+assigns the label to each cluster it instantiates) and other layers of
+the management stack (which selectively take different actions based
+on the associated labels).
 
 .. literalinclude:: code/cluster-gcp_val.tfvars
 
-And then the cluster we run at edge site X:		    
+The second example shows an edge cluster (named ``ace-X``) to be
+instantiated at *Site X*. As shown in the example code, this is a
+bare-metal cluster consisting of five servers and four switches (two
+leaf switches and two spine switches). The address for each device
+must match the one assigned during the hardware-provisioning stage
+outlined in Section 3.1. Ideally, the NetBox (and related) tool chain
+described in that section would auto-generate these Terraform
+variables files, but in practice, manually entering the data is often
+still be required.
 
 .. literalinclude:: code/cluster-edge_val.tfvars
 
-GCP does a lot of work for us, but we need to provide more details
-about how Kubernetes is to be configured on the bare-metal edge
-clusters (an RKE-specific module):
+The final piece of the puzzle is to to fill in the remaining details
+about exactly how Kubernetes is to be provisioned for each cluster. In
+this case, we show just the RKE-specific module used to configure the
+edge clusters, where the details are straightforward if you understand
+Kubernetes. For example, the module specifies that each edge cluster
+should load the ``calico`` and ``multus`` CNI plugins. It also defines
+how to invoke ``kubeclt`` to configure Kubernetes according to these
+specifications. (All references to ``SCTPSupport`` indicate whether
+or not that particular Kubernetes cluster needs to support SCTP, a
+Telco-oriented network protocol that is not included in a vanilla
+Kubernetes deployment.)
 
 .. literalinclude:: code/main-rke.tf
 		    
-Then tie up some loose ends (e.g., VPNs)...
+There are other loose ends that need to be tied up, such as defining
+the VPN to be used to connect edge clusters to their counterparts in
+GCP, but the above examples are sufficient to illustrate the role
+Infrastructure-as-Code plays in the cloud management stack. The key
+takeaway is that everything Terraform handles could have been done by
+a human operator making a sequence of CLI calls (or GUI clicks) on the
+backend Provisioning APIs, but experience has shown that approach to
+be error-prone and a difficult to make consistently repeatable.
+Starting with declarative language and auto-generating the right
+sequence of API calls is a proven way to overcome that problem.
