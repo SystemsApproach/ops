@@ -9,12 +9,6 @@ the software running on top of that platform. And as a reminder, we
 assume the base platform includes Linux running on each server and
 switch, plus Docker, Kubernetes, and Helm.
 
-.. todo::
-
-   Probably need to describe how to upgrade the base platform as
-   well. (Maybe in Chapter 3, since "reboot from cold start" is always
-   an option.)
-
 While we could take a narrow view of Lifecycle Management, and assume
 the software we want to rollout has already gone through an off-line
 integration-and-testing process (this is the traditional model of
@@ -50,9 +44,19 @@ Chapter 2. The key thing to focus on is the Image and Config Repos in
 the middle. They represent the “interface” between the two halves: CI
 produces Docker Image and Helm Charts, storing them in the respective
 Repositories, while CD consumes Docker Images and Helm Charts, pulling
-them from the respective Repositories. The Config Repo also contains
-hardware configuration artifacts produced by Resource Provisioning,
-which CD uses to parameterize its deployment plan.
+them from the respective Repositories.
+
+The Config Repo also contains declarative specifications of the
+infrastructure artifacts produced by Resource Provisioning,
+specifically, the Terraform templates and variable files. While the
+"hands-on" and "data entry" aspects of Resource Provisioning described
+in Section 3.1 happen outside the CI/CD pipeline, the ultimate output
+of provisioning is the Infrastructure-as-Code that gets checked into
+the Config Repository. These files are input to Lifecycle Management,
+which implies that Terraform gets invoked as part of CI/CD whenever
+these files change. In other words, CI/CD keeps both the
+software-related components underlying cloud substrate and the
+microservice workloads that run on top of that substrate up-to-date.
 
 .. sidebar:: Continuous Delivery vs Deployment
 	     
@@ -89,7 +93,7 @@ loosely coupled, and able to perform their respective tasks
 independently. The second is that all authoritative state needed to
 successfully build and deploy the system is contained within the
 pipeline, specifically, as declarative specifications in the Config
-Repo. This is sometimes referred to as *configuration-as-code*, and it
+Repo. This is sometimes referred to as *Configuration-as-Code*, and it
 is the cornerstone of GitOps, the cloud native approach to CI/CD that
 we are describing in this book.
 
@@ -407,15 +411,36 @@ Versioning Strategy
 4.4 Continuous Deployment
 -------------------------
 
-With Kubernetes and Helm taken as a given, we can focus on how we
-deploy on multiple clusters.
+We are now ready to act on the configuration-as-code checked into the
+Config Repo, which includes both the set of Terraform Forms that
+specify the underlying infrastructure (we've been calling this the
+cloud substrate) and the set of Helm Charts that specify the
+collection of microservices (sometimes called applications) that is to
+be deployed on that infrastructure. We already know about Terraform
+from Chapter 3 (it's the agent that actually "acts on" the
+infrastructure-related forms); for its counterpart on the microservice
+side we use an open source project called Fleet.
+
+:numref:`Figure %s <fig-fleet>` shows the big picture we are working
+towards. Notice that both Fleet and Terraform depend on the
+Provisioning API exported by each backend cloud provider, although
+roughly speaking, Terraform invokes the "manage Kubernetes" aspects of
+those APIs, and Fleet invokes the "use Kubernetes" aspects of those
+APIs.
+
+.. _fig-fleet:
+.. figure:: figures/Slide22.png
+   :width: 500px
+   :align: center
+
+   Relationship between the main CD agents (Terraform and Fleet) and
+   the backend Kubernetes clusters.
 
 .. todo::
 
-   All about Fleet (and fold in Terraform, which continuously updates
-   the underlying Platform). Also talk about incremental rollout,
-   including staging. At least a sidebar about Fleet performance (and
-   the load it puts on repos).
+   Say more about Fleet and also talk about incremental rollout,
+   including staging. A sidebar about Fleet performance (and the load
+   it puts on repos) would be good.
 
 4.5 What about GitOps?
 ----------------------

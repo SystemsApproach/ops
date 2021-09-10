@@ -495,7 +495,9 @@ a two-stage process. In the first stage it constructs an execution
 plan, based on what has changed since the previous plan it carried
 out. In the second stage, Terraform carries out the sequence of tasks
 required to bring the underlying infrastructure "up to spec" with the
-latest definition.
+latest definition. (Note that our job here is the write these
+specification files, and check them into the Config Repo. Terraform
+gets invoked as part of the CI/CD pipeline described in Chapter 4.)
 
 Now to the specific files. At the top-most level, the operator defines
 the set of *providers* they plan to incorporate into their
