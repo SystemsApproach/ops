@@ -24,7 +24,7 @@ on a commercial cloud) the "rack and connect" step is carried out by
 sequence of API calls rather a hands-on technician.  Of course, we
 want to automate the sequence of calls needed to activate virtual
 infrastructure, which has inspired an approach know as
-*infrastructure-as-code*..\ [#]_ The general idea is to document, in a
+*infrastructure-as-code*.\ [#]_ The general idea is to document, in a
 declarative format that can be "executed", exactly what our
 infrastructure looks like. We use Terraform as our open source
 approach to infrastructure-as-code.
@@ -36,11 +36,11 @@ approach to infrastructure-as-code.
 When a cloud is built from a combination of virtual and physical
 resources, as is the case for a hybrid cloud like like Aether, we need
 a seamless way to accommodate both. To this end, our approach is to
-first layer a *logical structure* on top of hardware resources, making
-them roughly equivalent to the virtual resources we get from a
-commercial cloud provider. This results in a hybrid scenario similar to
-the one shown in :numref:`Figure %s <fig-infra>`. We use NetBox as our
-open source solution for constructing this logical structure on top of
+first overlay a *logical structure* on top of hardware resources,
+making them roughly equivalent to the virtual resources we get from a
+commercial cloud provider. This results in a hybrid scenario similar
+to the one shown in :numref:`Figure %s <fig-infra>`. We use NetBox as
+our open source solution for layering this logical structure on top of
 physical hardware. NetBox also helps us address the requirement of
 tracking physical inventory.
 
@@ -97,7 +97,10 @@ includes two logical clusters sharing a Management Switch and a
 Management Server. The upper cluster corresponds to a production POD,
 and includes five servers and a 2x2 leaf-spine switching fabric. The
 lower cluster corresponds to a development POD, and includes two
-servers and a single switch.
+servers and a single switch. Defining such logical groupings of
+hardware resources is not unique to Aether; we can ask a commercial
+cloud provider to provision multiple logical clusters, so being able
+to do the same on physical resources is a natural requirement.
 
 In addition to following this blueprint, the technician also enters
 various facts about the physical infrastructure into a database. This
@@ -168,13 +171,14 @@ needed per Site:
 * MGMT 800
 * FABRIC 801
 
-These are Aether-specific, but they do illustrate the set of VLANs a
+These are Aether-specific, but they illustrate the set of VLANs a
 cluster might need. Minimally, one would expect to see a "management"
 network (MGMT in this example) and a "data" network (FABRIC in this
 example) in any cluster. Also specific to Aether (but generally
 applicable), if there are multiple Deployments at a Site sharing a
 single management server, additional VLANs (incremented by 10 for
-MGMT/FABRIC) are added. For example:
+MGMT/FABRIC) are added. For example, a ``Development`` deployment
+might define:
 
 * DEVMGMT 810
 * DEVFABRIC 811
@@ -343,7 +347,7 @@ resilient. Note that while these steps cannot be automated away, they
 do not necessarily have to be performed in the field; hardware shipped
 to a remote site can first be prepped accordingly.
 
-As for these subsequent steps, they can be implemented as a set of
+The automated aspects of configuration are implemented as a set of
 Ansible *roles* and *playbooks*, which in terms of the high-level
 overview shown in :numref:`Figure %s <fig-provision>` of Chapter 2,
 corresponds to the box representing the *"Zero-Touch Provision
@@ -433,7 +437,10 @@ As an example, Aether currently uses Rancher to manage Kubernetes on
 the bare-metal clusters, with one centralized instance of Rancher
 being responsible for managing all the edge sites. This results in the
 configuration shown in :numref:`Figure %s <fig-rancher>`, which to
-emphasize Rancher's scope, shows multiple edge clusters.
+emphasize Rancher's scope, shows multiple edge clusters. Although not
+shown in the Figure, like Rancher, the GCP-provided API also spans
+multiple Google sites (e.g., ``us-west1-a``, ``europe-north1-b``,
+``asia-south2-c``, and so on).
 
 .. _fig-rancher:
 .. figure:: figures/Slide21.png
@@ -457,18 +464,32 @@ across the industry, but just to caution that the portability of
 microservices across Kubernetes clusters is not as simple as the
 discussion might suggest. Our job, at the cloud management layer, is
 to provide operators with a means to expose and manage this
-heterogeneity.
+heterogeneity. The architectural assumption we make is that for each
+such variant, there is a corresponding provisioning API, with the
+expectation that someone is responsible for provisioning the
+Kubernetes cluster instantiated by that API (where that someone might
+be us, as outlined in this section).
 
 3.2 Infrastructure-as-Code
 --------------------------
 
-Terraform provides a declarative way of saying what your
-infrastructure is to look like: What set of Kubernetes clusters (some
+The provisioning interface for each of the Kubernetes variants just
+described includes a programmatic API, a command line interface (CLI),
+and a Graphical User Interface (GUI), where if you try any of the
+tutorials we recommended throughout this book, you'll likely use one
+of the latter two. For operational deployments, however, having a
+human operator interact with a CLI or GUI is problematic. This is not
+only because humans are error-prone, but also because it's nearly
+impossible to repeat a sequence of configuration steps in a consistent
+way.
+
+The solution is to find a declarative way of saying what your
+infrastructure is to look like—what set of Kubernetes clusters (some
 running at the edges on bare-metal and some instantiated in GCP) are
-to be instantiated, and how each is to be configured. Remember, our
-goal is to provision the substrate, bringing it to a "ready" state so
-it is able to participate in lifecycle management (which in turn
-ensures that a specified set of services is running).
+to be instantiated, and how each is to be configured—and then automate
+the task of making calls against the programmatic API to make it
+so. This is the essence of Infrastructure-as-Code, and as we've
+already said, we use Terraform as our open source example.
 
 Since Terraform specifications are declarative, the best way to
 understand them is to walk through a specific example. In doing so,
@@ -549,7 +570,45 @@ Telco-oriented network protocol that is not included in a vanilla
 Kubernetes deployment.)
 
 .. literalinclude:: code/main-rke.tf
-		    
+
+.. sidebar:: Where To Draw the Line
+
+  The art of defining a system architecture, in our case a management
+  framework for a hybrid cloud, is deciding where to draw the line
+  between what's included *inside* the platform and what is considered
+  an application running *on top of* the platform. For Aether, we have
+  decided to include SD-Fabric inside the platform (along with
+  Kubernetes), with SD-Core and SD-RAN treated as applications, even
+  though all three are implemented as Kubernetes-based
+  microservices. One consequence of this decision is that SD-Fabric is
+  initialized as part of the provisioning system described in this
+  chapter (with NetBox, Ansible, Rancher, and Terraform playing a
+  role), whereas SD-Core and SD-RAN are deployed using the mechanisms
+  described in Chapter 4.
+  
+  There are also other edge applications running running as Kubernetes
+  workloads, which complicates the story because from *their*
+  perspective, all of Aether (including the 5G connectivity that
+  SD-Core and SD-RAN implements) is assumed to be part of the
+  platform. In other words, Aether draws two lines, one demarcating
+  the Aether *substrate* (Kubernetes plus SD-Fabric) and a second
+  demarcating the Aether *platform* (Aether substrate plus SD-Core
+  and SD-RAN). Even AMP itself runs as a set of microservices on top
+  of the Aether substrate. Of course, "substrate" is just a synonym
+  for "platform", making Aether like any other system—it's a series of
+  platforms, all the way down. We're purposely including the
+  complexity of multiple platform layers because doing so reveals the
+  true scope of the management challenge.
+
+  In some respects this is just a matter of terminology, which is
+  certainly important, but the relevance to our discussion is that
+  because we have multiple overlapping mechanisms at our disposal,
+  giving us more than one way to solve each engineering problem we
+  encounter, it is easy to end up with an implementation that
+  unnecessarily conflates separable concerns. Being explicit and
+  consistent about what is platform and what is application is a
+  prerequisite for a sound overall design.
+
 There are other loose ends that need to be tied up, such as defining
 the VPN to be used to connect edge clusters to their counterparts in
 GCP, but the above examples are sufficient to illustrate the role
@@ -560,3 +619,14 @@ backend Provisioning APIs, but experience has shown that approach to
 be error-prone and a difficult to make consistently repeatable.
 Starting with declarative language and auto-generating the right
 sequence of API calls is a proven way to overcome that problem.
+
+We conclude this chapter by drawing attention to the fact that while
+we now have a declarative specification for our cloud infrastructure
+(the *Aether Substrate*), these specification files are yet another
+software artifact that we check into the configuration repo. This
+repo, in turn, feeds the lifecycle management pipeline described in
+the next chapter. The physical provisioning steps described in Section
+3.1 happen "outside" the pipeline (which is why we don't just fold
+resource provisioning into the Lifecycle Management chapter), but it
+is fair to think of resource provisioning as "stage 0" of lifecycle
+management.

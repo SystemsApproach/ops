@@ -7,7 +7,8 @@ provisioning the hardware and installing the base software platform
 (Chapter 3), and so now turn our attention to continually upgrading
 the software running on top of that platform. And as a reminder, we
 assume the base platform includes Linux running on each server and
-switch, plus Docker, Kubernetes, and Helm.
+switch, plus Docker, Kubernetes, and Helm, with SD-Fabric controlling
+the network.
 
 While we could take a narrow view of Lifecycle Management, and assume
 the software we want to rollout has already gone through an off-line

@@ -556,6 +556,16 @@ Infrastructure-as-a-Service (IaaS), although later chapters will
 describe how to introduce VMs as an optional way to provision the
 underlying infrastructure for that PaaS.
 
+.. todo::
+
+   Should probably talk about platform-specific examples too, such as
+   Intel's SmartEdge (formerly OpenNess). This is where hardware
+   acceleration (e.g., SR-IOV, DPDK, OVS/BESS) is managed. And to make
+   such platforms standalone, they often include their own Lifecycle
+   Management mechanism... yet again highlighting the relevance of the
+   "What's the Master Plan?" sidebar. See:
+   https://www.openness.org/docs/openness_releasenotes/
+
 .. sidebar:: What's the Master Plan?
 
   Beyond narrow questions about individual technologies, there is a
