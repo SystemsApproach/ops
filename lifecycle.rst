@@ -98,7 +98,7 @@ Repo. This is sometimes referred to as *Configuration-as-Code*, and it
 is the cornerstone of GitOps, the cloud native approach to CI/CD that
 we are describing in this book.
 
-.. _reading_k8s:
+.. _reading_gitops:
 .. admonition:: Further Reading
 
    `Guide to GitOps
@@ -401,25 +401,17 @@ is Jenkins, which provides little more than a means to define a script
    Walk through one or two illustrative examples. Highlight failures,
    but also show the end result that gets published.
 
-Versioning Strategy
-~~~~~~~~~~~~~~~~~~~
-
-.. todo::
-
-   Explain versioning, and how Helm Chart versions ultimately trigger
-   deployment.
-
 4.4 Continuous Deployment
 -------------------------
 
 We are now ready to act on the configuration-as-code checked into the
 Config Repo, which includes both the set of Terraform Forms that
 specify the underlying infrastructure (we've been calling this the
-cloud platform) and the set of Helm Charts that specify the
-collection of microservices (sometimes called applications) that are to
-be deployed on that infrastructure. We already know about Terraform
-from Chapter 3 (it's the agent that actually "acts on" the
-infrastructure-related forms); for its counterpart on the microservice
+cloud platform) and the set of Helm Charts that specify the collection
+of microservices (sometimes called applications) that are to be
+deployed on that infrastructure. We already know about Terraform from
+Chapter 3 (it's the agent that actually "acts on" the
+infrastructure-related forms). For its counterpart on the application
 side we use an open source project called Fleet.
 
 :numref:`Figure %s <fig-fleet>` shows the big picture we are working
@@ -427,7 +419,7 @@ towards. Notice that both Fleet and Terraform depend on the
 Provisioning API exported by each backend cloud provider, although
 roughly speaking, Terraform invokes the "manage Kubernetes" aspects of
 those APIs, and Fleet invokes the "use Kubernetes" aspects of those
-APIs.
+APIs. Consider each in turn.
 
 .. _fig-fleet:
 .. figure:: figures/Slide22.png
@@ -437,11 +429,61 @@ APIs.
    Relationship between the main CD agents (Terraform and Fleet) and
    the backend Kubernetes clusters.
 
+The Terraform side of :numref:`Figure %s <fig-fleet>` is responsible
+for deploying (and configuring) the latest platform level software.
+For example, if the operator wants to add a server (or VM) to a given
+cluster, upgrade the version of Kubernetes, change the CNI
+plug-in Kubernetes uses, the desired configuration is specified in the
+Terraform config files. (Recall that Terraform computes the delta
+between the existing and desired state, and executes the calls
+required to bring the former in line with the latter.)
+
+The Fleet side of :numref:`Figure %s <fig-fleet>` is responsible
+installing the collection of microservices that are to run on each
+cluster. These microservices, organized as one or more applications,
+are specified by Helm Charts. If we were trying to deploy a single
+Chart on just one one Kubernetes cluster, they we'd be done: Helm is
+exactly the right tool to carry out that task. The value of Fleet is
+that it scales up that process, helping us manage the deployment of
+multiple charts across multiple clusters. (Fleet is a spin-off from
+Rancher, but is an independent project that can be used directly with
+Helm.)
+
+.. _reading_fleet:
+.. admonition:: Further Reading
+
+   `Fleet: GitOps at Scale
+   <https://fleet.rancher.io/>`__.
+
+Fleet defines three concepts that are relevant to our discussion. The
+first is a *Bundle*, which defines the fundamental unit of what gets
+deployed. In our case, a Bundle is equivalent to a set of one or more
+Helm Charts. The second is a *Cluster Group*, which identifies a set of
+Kubernetes clusters that are to be treated in an equivalent way. In our
+case, the set of all clusters labeled ``Production`` could be treated
+as one such a group, and all clusters labeled ``Staging`` could be
+treated another such group. (Here, we are talking about the label
+assigned to each cluster in its Terraform spec, as illustrated in the
+examples shown in Section 3.2.) The third is a *GitRepo*, which is a
+repository to watch for changes to bundle artifacts. In our case, new
+are Helm Charts into a "Helm Chart repo".
+
+Understanding Fleet is then straightforward. It provides a way to
+associate Bundles, Cluster Groups, and GitRepos, such that whenever a
+new Helm chart is checked into a GitRepo, all Bundles that contain
+that chart are deployed on all associated Cluster Groups.
+
 .. todo::
 
-   Say more about Fleet and also talk about incremental rollout,
-   including staging. A sidebar about Fleet performance (and the load
-   it puts on repos) would be good.
+     Talk about the load Fleet puts on the GitRepo
+
+
+.. todo::
+
+   Explain versioning, and how Helm Chart versions ultimately trigger
+   deployment. (Ties back to CI... could include this discussion the
+   CI section instead of here, or both.
+
 
 4.5 What about GitOps?
 ----------------------
