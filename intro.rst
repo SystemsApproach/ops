@@ -395,12 +395,12 @@ that software running on the servers controls the switches.
 :numref:`Figure %s <fig-hw>` also includes the assumed low-level
 software components, which we describe next. Collectively, all the
 hardware and software components shown in the figure form the
-*substrate*. Where we draw the line between what's *in the substrate*
-and what runs *on top of the substrate* will become clear in later
+*platform*. Where we draw the line between what's *in the platform*
+and what runs *on top of the platform* will become clear in later
 chapters, but the summary is that different mechanisms will be
-responsible for (a) bringing up the substrate and prepping it to host
+responsible for (a) bringing up the platform and prepping it to host
 workloads, and (b) managing the various workloads that need to be
-deployed on that substrate.
+deployed on that platform.
 
 
 Server Virtualization
@@ -525,7 +525,7 @@ Other Options
 ~~~~~~~~~~~~~
 
 Just as important as what building blocks we take for granted are the
-technologies we do not include. We discuss two here.
+technologies we do not include. We discuss three here.
 
 First, you might have expected Service Mesh frameworks like Istio or
 Linkerd to be included. While it is true that anyone running
@@ -556,52 +556,60 @@ Infrastructure-as-a-Service (IaaS), although later chapters will
 describe how to introduce VMs as an optional way to provision the
 underlying infrastructure for that PaaS.
 
-.. todo::
-
-   Should probably talk about platform-specific examples too, such as
-   Intel's SmartEdge (formerly OpenNess). This is where hardware
-   acceleration (e.g., SR-IOV, DPDK, OVS/BESS) is managed. And to make
-   such platforms standalone, they often include their own Lifecycle
-   Management mechanism... yet again highlighting the relevance of the
-   "What's the Master Plan?" sidebar. See:
-   https://www.openness.org/docs/openness_releasenotes/
-
 .. sidebar:: What's the Master Plan?
 
-  Beyond narrow questions about individual technologies, there is a
-  general issue of how one makes engineering choices about what
-  combination of software packages to use. Ignoring the plethora of
-  commercial offerings, just the number of open source projects at the
-  Linux Foundation and the Apache Foundation available to help you
-  build and operate a cloud is (by our count) approaching 100. These
-  projects are largely independent, and in many cases, competing for
-  mindshare.  This results in significant overlap in functionality,
-  with any Venn diagram you try to draw constantly shifting over time
-  as projects add and deprecate features.
+  *There is a general issue of how one makes engineering choices about
+  what combination of software packages to use in a cloud-based system
+  like this book describes. Ignoring the plethora of commercial
+  offerings, just the number of open source projects at the Linux
+  Foundation and the Apache Foundation available to help you build and
+  operate a cloud is (by our count) approaching 100. These projects
+  are largely independent, and in many cases, competing for mindshare.
+  This results in significant overlap in functionality, with any Venn
+  diagram you try to draw constantly shifting over time as projects
+  add and deprecate features.*
 
-  This is all to say, there is no master plan for what a cloud
+  *This is all to say, there is no master plan for what a cloud
   management stack should look like. If you start with component X as
-  the centerpiece of your approach—perhaps because it claims to solve
-  your most pressing problem of the today—you will end up adding
-  dozens of other components over time to fully complete the system.
-  Moreover, the end result will likely look different from the system
-  someone else constructs starting with component Y. There simply is
-  no consensus framework for which you get to select a component from
-  column A, a second complementary component from column B, and so on.
-  This is also true for the Aether cloud we use as an exemplar.
+  the centerpiece of your approach—perhaps because it solves your most
+  immediate problem—you will end up adding dozens of other components
+  over time to fully complete the system.  Moreover, the end result
+  will likely look different from the system someone else constructs
+  starting with component Y. There simply is no consensus framework
+  for which you get to select a component from column A, a second
+  complementary component from column B, and so on.  This is also true
+  for the Aether managed service we use as an exemplar.*
   
-  This makes it all the more important that we take a first principles
-  approach. Start by identifying the fundamental set of requirements
-  and explore the design space. Only as a final step do we select an
+  *This makes it all the more important that we take a first principles
+  approach, which starts by identifying the set of requirements and
+  exploring the design space. Only as a final step do we select an
   existing software component (or implement a new one if necessary).
   This approach naturally results in an end-to-end solution that
-  assembles *many* smaller components, and tends to avoid
+  assembles many smaller components, and tends to avoid
   bundled/multi-faceted solutions. This does not inoculate us from
   having to evolve the system over time, but it does help to approach
-  the topic with your eyes open to the full scope and complexity of
-  the design space. And even if you end up going with a bundled
-  solution, understanding all the trade-offs being made under the
-  covers will help you make a more informed choice.
+  the topic with visibility into the full scope and complexity of the
+  design space. And even if one ends up adopting a bundled solution,
+  understanding all the trade-offs being made under the covers will
+  help to make a more informed decision.*
+
+Finally, the Aether edge cloud we use as an example is similar to many
+other edge cloud platforms now being promoted. That Kubernetes-based
+on-prem/edge clouds are becoming so popular is one reason they make
+for such a good case study. Another open source example is *Smart Edge
+Open* (formerly known as OpenNESS), which is unique in that it
+includes several Intel-specific acceleration technologies (e.g., DPDK,
+SR-IOV, OVS/OVN). For our purposes, however, the exact set of
+components that make-up the platform is less important how the
+platform, along with all the cloud services that run on top of it, are
+managed as a whole. The Aether example allows us to be specific, but
+hopefully not at the expense of general applicability.
+
+.. _reading_openness:
+.. admonition:: Further Reading
+
+   `OpenNESS: Open Network Edge Services Software
+   <https://www.openness.org/>`__.
 
 1.4 Future of the Sys-Admin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

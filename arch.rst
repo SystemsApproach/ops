@@ -67,13 +67,13 @@ Platform*.
 
 The edge cloud, which in Aether is called ACE (Aether Connected Edge),
 is a Kubernetes-based cluster similar to the one shown in
-:numref:`Figure %s <fig-hw>` of Chapter 1. It is a substrate that
+:numref:`Figure %s <fig-hw>` of Chapter 1. It is a platform that
 consists of one or more server racks interconnected by a leaf-spine
 switching fabric, with an SDN control plane (denoted SD-Fabric)
 managing the fabric.
 	
 As shown in :numref:`Figure %s <fig-ace>`, ACE hosts two additional
-microservice-based subsystems on top of this substrate; they
+microservice-based subsystems on top of this platform; they
 collectively implement *5G-Connectivity-as-a-Service*. The first
 subsystem, SD-RAN, is an SDN-based implementation of the 5G Radio
 Access Network (RAN). It controls the small cell base stations
@@ -94,7 +94,7 @@ SD-RAN, SD-Core, and SD-Fabric.)
    :width: 400px
    :align: center
 
-   Aether Connected Edge (ACE) = The cloud substrate (Kubernetes and
+   Aether Connected Edge (ACE) = The cloud platform (Kubernetes and
    SD-Fabric) plus the 5G connectivity service (RAN and User Plane of
    Mobile Core). Dotted lines (e.g., between SD-RAN and the individual
    base stations, and between the Network OS and the individual
@@ -251,8 +251,8 @@ Repo, a Zero-Touch Provisioning system (a) generates a set of
 configuration artifacts that are stored in a Config Repo and used
 during Lifecycle Management, and (b) initializes the newly deployed
 resources so they are in a state that Lifecycle Management is able to
-control. This is why we called out the "substrate" in Chapter 1:
-Resource Provisioning has to get the substrate up-and-running before
+control. This is why we called out the "Aether platform" in Chapter 1:
+Resource Provisioning has to get the platform up-and-running before
 Lifecycle Management can do it's job.
 	
 Clearly, the “Install & Inventory” step requires human involvement,
@@ -384,8 +384,8 @@ the case. It's more accurate to say that the system evolved bottom up,
 solving the next immediate problem one at a time, all the while
 creating a large ecosystem of open source components that can be used
 in different combinations. What we are presenting in this book is a
-retrospective description of the end result (as of today), organized
-into four subsystems to help make sense of it all.
+retrospective description of the end result, organized into four
+subsystems to help make sense of it all.
 
 There are, in practice, many ah hoc interactions among the four
 components, and in some cases, there are overlapping concerns that

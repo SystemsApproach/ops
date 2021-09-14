@@ -12,11 +12,11 @@ resources are upgraded.
 
 The goal of Resource Provisioning is to be zero-touch, which is
 impossible for hardware resources because it includes an intrinsically
-manual step. (We'll take up the issue of provisioning virtual
-resources in a moment.) Realistically, the goal is to minimize the
-number and complexity of configuration steps required beyond
-physically connecting the device, keeping in mind that we are starting
-with commodity hardware received directly from a vendor, and not a
+manual step. (We take up the issue of provisioning virtual resources
+in a moment.) Realistically, the goal is to minimize the number and
+complexity of configuration steps required beyond physically
+connecting the device, keeping in mind that we are starting with
+commodity hardware received directly from a vendor, and not a
 plug-and-play appliance that has already been prepped.
 
 When a cloud is built from virtual resources (e.g., VMs instantiated
@@ -26,7 +26,7 @@ want to automate the sequence of calls needed to activate virtual
 infrastructure, which has inspired an approach know as
 *infrastructure-as-code*.\ [#]_ The general idea is to document, in a
 declarative format that can be "executed", exactly what our
-infrastructure looks like. We use Terraform as our open source
+infrastructure is to look like. We use Terraform as our open source
 approach to infrastructure-as-code.
 
 .. [#] *Infrastructure-as-Code* is a special case of the more general
@@ -59,7 +59,7 @@ instead with artifacts left behind by the hardware provisioning
 process described in Section 3.1. One way to think about this that the
 task of booting hardware into the "ready" state involves installing
 and configuring several subsystems that collectively form the cloud
-substrate. It is these subsystems that Terraform interacts with.
+platform. It is this platform that Terraform interacts with.
 
 This chapter describes both sides of :numref:`Figure %s <fig-infra>`
 starting with provisioning physical infrastructure. Our approach is to
@@ -111,7 +111,7 @@ pick up the story.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Documenting the physical infrastructure's logical structure in a
-database is how we cross the physical-to-virtual boundary. It involves
+database is how we cross the physical-to-virtual divide. It involves
 both defining a set of models for the information being collected
 (this schema effectively represents the logical structure shown in
 :numref:`Figure %s <fig-infra>`), and entering the corresponding facts
@@ -121,12 +121,12 @@ stage in a larger automated framework (such as the one described in
 this book) or simply a place to record what IP address has been
 assigned to each network appliance.
 
-There are a plethora of open source tools available for the task. Our
-choice is NetBox. It supports IP address management (IPAM);
-inventory-related information about types of devices and where they
-are installed; how infrastructure is organized (racked) by group and
-site; and how devices are connected to consoles, networks, and power
-sources. More information is readily available on the NetBox web site:
+There are several open source tools available for this task. Our choice
+is NetBox. It supports IP address management (IPAM); inventory-related
+information about types of devices and where they are installed; how
+infrastructure is organized (racked) by group and site; and how
+devices are connected to consoles, networks, and power sources. More
+information is readily available on the NetBox web site:
 
 .. _reading_netbox:
 .. admonition:: Further Reading  
@@ -144,10 +144,10 @@ focusing on what happens when provisioning a single Aether site (but
 keeping in mind that Aether spans multiple sites, as outlined in
 Chapter 2).
 
-.. [#] In this section, we will denote models in italics (e.g.,
-       *Site*) and specific values assigned to an instance of a model
-       as a constant (e.g., ``10.0.0.0/22``). Field names are not
-       specially denoted, but they should be obvious from the context.
+.. [#] In this section, we denote models in italics (e.g., *Site*) and
+       specific values assigned to an instance of a model as a
+       constant (e.g., ``10.0.0.0/22``). Field names are not specially
+       denoted, but they should be obvious from the context.
        
 The first step is to create a record for the site being provisioned,
 and documenting all the relevant metadata for that site. This includes
@@ -177,8 +177,8 @@ network (MGMT in this example) and a "data" network (FABRIC in this
 example) in any cluster. Also specific to Aether (but generally
 applicable), if there are multiple Deployments at a Site sharing a
 single management server, additional VLANs (incremented by 10 for
-MGMT/FABRIC) are added. For example, a ``Development`` deployment
-might define:
+MGMT/FABRIC) are added. For example, a second ``Development``
+deployment might define:
 
 * DEVMGMT 810
 * DEVFABRIC 811
@@ -306,7 +306,7 @@ the control and management of a cloud hinges on having compete and
 accurate data about its resources. Keeping this information in sync
 with the reality of the physical infrastructure is often the weakest
 link in this process. The only saving grace is that the information is
-highly structured, and the tool we use (NetBox) helps us codify this
+highly structured, and tools like NetBox help us codify this
 structure.
 
 3.1.2 Configure and Boot
@@ -354,10 +354,10 @@ corresponds to the box representing the *"Zero-Touch Provision
 (System)"*. Said another way, there is no off-the-shelf ZTP solution
 we can use (i.e., someone has to write the playbooks), but the problem
 is greatly simplified by having access to all the configuration
-parameters maintained by NetBox.
+parameters that NetBox maintains.
 
-The general idea is straightforward. For every network service (e.g.,
-DNS, DHCP, iPXE, Nginx) and every per-device subsystem (e.g., network
+The general idea is as follows. For every network service (e.g., DNS,
+DHCP, iPXE, Nginx) and every per-device subsystem (e.g., network
 interfaces, Docker) that needs to be configured, there is a
 corresponding Ansible role and playbook.\ [#]_ This set is copied onto
 the Management Server during the manual configuration stage summarized
@@ -417,21 +417,22 @@ stack, essentially establishing parity between the left- and
 right-hand sides of the hybrid cloud shown in :numref:`Figure %s
 <fig-infra>`. If you ask yourself *"What would Google do?"* this
 reduces to the task of setting up a GCP-like API for the bare-metal
-edge clouds, which in principle is not a lot more than the Kubernetes
-API, but is in practice also responsible for *managing* Kubernetes,
-rather than just *using* Kubernetes.
+edge clouds. This API primarily subsumes the Kubernetes API, but it
+goes beyond providing a way to *use* Kubernetes to also include calls
+that can be used to *manage* Kubernetes.
 
-In short, the remaining task is to turn a set of interconnected
-servers and switches into a fully-instantiated Kubernetes cluster. For
-starters, the API needs to provide a means to install and configure
-Kubernetes on each physical cluster. This includes specifying which
-version of Kubernetes to run, selecting the right combination of CNI
-plugins (virtual network adaptors), and connecting Kubernetes to the
-local network (and any VPNs it might need). This layer also needs to
-provide a means to set up accounts (and associated credentials) for
-accessing and using each Kubernetes cluster, as well as provide a way
-to manage independent projects that are to be deployed on a given
-cluster (i.e., manage name spaces for multiple applications).
+In short, this "manage Kubernetes" task is to turn a set of
+interconnected servers and switches into a fully-instantiated
+Kubernetes cluster. For starters, the API needs to provide a means to
+install and configure Kubernetes on each physical cluster. This
+includes specifying which version of Kubernetes to run, selecting the
+right combination of CNI plugins (virtual network adaptors), and
+connecting Kubernetes to the local network (and any VPNs it might
+need). This layer also needs to provide a means to set up accounts
+(and associated credentials) for accessing and using each Kubernetes
+cluster, as well as provide a way to manage independent projects that
+are to be deployed on a given cluster (i.e., manage name spaces for
+multiple applications).
 
 As an example, Aether currently uses Rancher to manage Kubernetes on
 the bare-metal clusters, with one centralized instance of Rancher
@@ -481,7 +482,8 @@ of the latter two. For operational deployments, however, having a
 human operator interact with a CLI or GUI is problematic. This is not
 only because humans are error-prone, but also because it's nearly
 impossible to repeat a sequence of configuration steps in a consistent
-way.
+way. And being able to continuously repeat the process is at the heart
+of Lifecycle Management described in the next chapter.
 
 The solution is to find a declarative way of saying what your
 infrastructure is to look like—what set of Kubernetes clusters (some
@@ -513,10 +515,10 @@ are ``.tf`` files), and (2) fill in the *variables* for specific
 instances of those resource templates (these are ``.tfvars`` files).
 Then given a set of ``.tf`` and ``tfvars`` files, Terraform implements
 a two-stage process. In the first stage it constructs an execution
-plan, based on what has changed since the previous plan it carried
-out. In the second stage, Terraform carries out the sequence of tasks
-required to bring the underlying infrastructure "up to spec" with the
-latest definition. (Note that our job here is the write these
+plan, based on what has changed since the previous plan it
+executed. In the second stage, Terraform carries out the sequence of
+tasks required to bring the underlying infrastructure "up to spec"
+with the latest definition. (Note that our job here is the write these
 specification files, and check them into the Config Repo. Terraform
 gets invoked as part of the CI/CD pipeline described in Chapter 4.)
 
@@ -537,11 +539,12 @@ The next step is to fill in the details (define values) for the actual
 set of clusters we want to provision. Let's look at two examples,
 corresponding to the two providers we just specified. The first shows
 a GCP-provided cluster (named ``amp-gcp``) that is to host the AMP
-workload. The labels associated with this particular cluster (e.g.,
-``env = "production"``) establish linkage between Terraform (which
-assigns the label to each cluster it instantiates) and other layers of
-the management stack (which selectively take different actions based
-on the associated labels).
+workload. (There's a similar ``sdcore-gcp`` that hosts an instance of
+the SD-Core.) The labels associated with this particular cluster
+(e.g., ``env = "production"``) establish linkage between Terraform
+(which assigns the label to each cluster it instantiates) and other
+layers of the management stack (which selectively take different
+actions based on the associated labels).
 
 .. literalinclude:: code/cluster-gcp_val.tfvars
 
@@ -553,61 +556,59 @@ must match the one assigned during the hardware-provisioning stage
 outlined in Section 3.1. Ideally, the NetBox (and related) tool chain
 described in that section would auto-generate these Terraform
 variables files, but in practice, manually entering the data is often
-still be required.
+still necessary.
 
 .. literalinclude:: code/cluster-edge_val.tfvars
 
 The final piece of the puzzle is to to fill in the remaining details
 about exactly how Kubernetes is to be provisioned for each cluster. In
 this case, we show just the RKE-specific module used to configure the
-edge clusters, where the details are straightforward if you understand
-Kubernetes. For example, the module specifies that each edge cluster
-should load the ``calico`` and ``multus`` CNI plugins. It also defines
-how to invoke ``kubeclt`` to configure Kubernetes according to these
-specifications. (All references to ``SCTPSupport`` indicate whether
-or not that particular Kubernetes cluster needs to support SCTP, a
-Telco-oriented network protocol that is not included in a vanilla
-Kubernetes deployment.)
+edge clusters, where most of the details are straightforward if you
+understand Kubernetes. For example, the module specifies that each
+edge cluster should load the ``calico`` and ``multus`` CNI plugins. It
+also defines how to invoke ``kubeclt`` to configure Kubernetes
+according to these specifications. Less familiar, all references to
+``SCTPSupport`` indicate whether or not that particular Kubernetes
+cluster needs to support SCTP, a Telco-oriented network protocol that
+is not included in a vanilla Kubernetes deployment.
 
 .. literalinclude:: code/main-rke.tf
 
 .. sidebar:: Where To Draw the Line
 
-  The art of defining a system architecture, in our case a management
+  *The art of defining a system architecture, in our case a management
   framework for a hybrid cloud, is deciding where to draw the line
-  between what's included *inside* the platform and what is considered
-  an application running *on top of* the platform. For Aether, we have
+  between what's included inside the platform and what is considered
+  an application running on top of the platform. For Aether, we have
   decided to include SD-Fabric inside the platform (along with
   Kubernetes), with SD-Core and SD-RAN treated as applications, even
   though all three are implemented as Kubernetes-based
   microservices. One consequence of this decision is that SD-Fabric is
   initialized as part of the provisioning system described in this
   chapter (with NetBox, Ansible, Rancher, and Terraform playing a
-  role), whereas SD-Core and SD-RAN are deployed using the mechanisms
-  described in Chapter 4.
+  role), whereas SD-Core and SD-RAN are deployed using the
+  application-level mechanisms described in Chapter 4.*
   
-  There are also other edge applications running running as Kubernetes
-  workloads, which complicates the story because from *their*
+  *There are also other edge applications running as Kubernetes
+  workloads, which complicates the story because from their
   perspective, all of Aether (including the 5G connectivity that
   SD-Core and SD-RAN implements) is assumed to be part of the
   platform. In other words, Aether draws two lines, one demarcating
-  the Aether *substrate* (Kubernetes plus SD-Fabric) and a second
-  demarcating the Aether *platform* (Aether substrate plus SD-Core
-  and SD-RAN). Even AMP itself runs as a set of microservices on top
-  of the Aether substrate. Of course, "substrate" is just a synonym
-  for "platform", making Aether like any other system—it's a series of
-  platforms, all the way down. We're purposely including the
-  complexity of multiple platform layers because doing so reveals the
-  true scope of the management challenge.
+  Aether's base platform (Kubernetes plus SD-Fabric) and a second
+  demarcating the Aether PaaS (which includes SD-Core and SD-RAN
+  running on top of the platform, plus AMP managing the whole
+  system). The distinction between "base platform" and "PaaS" is
+  subtle, but essentially corresponds to the difference between a
+  software stack and a managed service, respectively.*
 
-  In some respects this is just a matter of terminology, which is
+  *In some respects this is just a matter of terminology, which is
   certainly important, but the relevance to our discussion is that
   because we have multiple overlapping mechanisms at our disposal,
   giving us more than one way to solve each engineering problem we
   encounter, it is easy to end up with an implementation that
   unnecessarily conflates separable concerns. Being explicit and
   consistent about what is platform and what is application is a
-  prerequisite for a sound overall design.
+  prerequisite for a sound overall design.*
 
 There are other loose ends that need to be tied up, such as defining
 the VPN to be used to connect edge clusters to their counterparts in
@@ -622,11 +623,11 @@ sequence of API calls is a proven way to overcome that problem.
 
 We conclude this chapter by drawing attention to the fact that while
 we now have a declarative specification for our cloud infrastructure
-(the *Aether Substrate*), these specification files are yet another
+(the *Aether Platform*), these specification files are yet another
 software artifact that we check into the configuration repo. This
 repo, in turn, feeds the lifecycle management pipeline described in
 the next chapter. The physical provisioning steps described in Section
 3.1 happen "outside" the pipeline (which is why we don't just fold
-resource provisioning into the Lifecycle Management chapter), but it
+resource provisioning into the Lifecycle Management mechanism), but it
 is fair to think of resource provisioning as "stage 0" of lifecycle
 management.

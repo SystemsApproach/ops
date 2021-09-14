@@ -56,8 +56,8 @@ of provisioning is the Infrastructure-as-Code that gets checked into
 the Config Repository. These files are input to Lifecycle Management,
 which implies that Terraform gets invoked as part of CI/CD whenever
 these files change. In other words, CI/CD keeps both the
-software-related components underlying cloud substrate and the
-microservice workloads that run on top of that substrate up-to-date.
+software-related components underlying cloud platform and the
+microservice workloads that run on top of that platform up-to-date.
 
 .. sidebar:: Continuous Delivery vs Deployment
 	     
@@ -415,8 +415,8 @@ Versioning Strategy
 We are now ready to act on the configuration-as-code checked into the
 Config Repo, which includes both the set of Terraform Forms that
 specify the underlying infrastructure (we've been calling this the
-cloud substrate) and the set of Helm Charts that specify the
-collection of microservices (sometimes called applications) that is to
+cloud platform) and the set of Helm Charts that specify the
+collection of microservices (sometimes called applications) that are to
 be deployed on that infrastructure. We already know about Terraform
 from Chapter 3 (it's the agent that actually "acts on" the
 infrastructure-related forms); for its counterpart on the microservice
