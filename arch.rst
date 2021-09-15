@@ -14,17 +14,14 @@ applications requiring predictable low latency connectivity. In short,
 “Kubernetes-based” means Aether is able to host container-based
 services, and “5G-based connectivity” means Aether is able to connect
 those services to mobile devices throughout the enterprise's physical
-plant. This combination means Aether provides a Platform-as-a-Service
-(PaaS).
-
-.. todo::
-
-   Write sidebar talking about Industry 4.0. 
+plant. This combination, coupled with Aether being offered as a
+managed service, means Aether can fairly be characterized as a
+Platform-as-a-Service (PaaS).
 
 
 .. sidebar:: Industry 4.0
 
-	*Give the Industry 4.0 pitch here.*
+	*Tell the Industry 4.0 story here.*
 
 Aether supports this combination by implementing both the RAN and the
 user plane of the Mobile Core on-prem, as cloud-native workloads
@@ -172,8 +169,9 @@ these components on a laptop.
 We are now ready to describe the architecture of the Aether Management
 Platform (AMP), which as shown in :numref:`Figure %s <fig-amp>`,
 manages both the distributed set of ACE clusters and the other control
-clusters running in the central cloud. (AMP is also responsible for
-managing AMP.)
+clusters running in the central cloud. And illustrating the recursive
+nature of the management challenge, AMP is also responsible for
+managing AMP!
 
 AMP includes one or more portals targeted at different
 stakeholders. :numref:`Figure %s <fig-amp>` shows two examples: an
@@ -185,8 +183,8 @@ prerequisite for establishing a cloud service, and while the example
 we use may not be suitable for all situations (e.g., some
 organizations might delegate certain control privileges to end users,
 via a “self-service” portal), it does represent a natural division
-between those that *use* cloud services and those that *support* cloud
-services.
+between those that *use* cloud services and those that *support* or
+*perate* cloud services.
 
 .. _fig-amp:
 .. figure:: figures/Slide5.png
@@ -251,9 +249,15 @@ Repo, a Zero-Touch Provisioning system (a) generates a set of
 configuration artifacts that are stored in a Config Repo and used
 during Lifecycle Management, and (b) initializes the newly deployed
 resources so they are in a state that Lifecycle Management is able to
-control. This is why we called out the "Aether platform" in Chapter 1:
-Resource Provisioning has to get the platform up-and-running before
-Lifecycle Management can do it's job.
+control.
+
+Recall from Chapter 1 that we called out the "Aether platform" as
+distinct from the cloud-native workloads that are hosted on the
+platform. This is relevant here because Resource Provisioning has to
+get this platform up-and-running before Lifecycle Management can do
+it's job. But in another example of circular dependencies, Lifecycle
+Management then plays a role in keeping the underlying platform
+up-to-date.
 	
 Clearly, the “Install & Inventory” step requires human involvement,
 and some amount of hands-on resource-prep is necessary, but the goal
@@ -303,7 +307,7 @@ versions of software and rollback to old versions, as well as operate
 with multiple versions deployed simultaneously. Managing all the
 configuration state needed to successfully deploy the right version of
 each component in the system is the central challenge, a challenge we
-take up in Chapter 5.
+take up in Chapter 4.
 
 Runtime Control
 ~~~~~~~~~~~~~~~
@@ -384,13 +388,13 @@ the case. It's more accurate to say that the system evolved bottom up,
 solving the next immediate problem one at a time, all the while
 creating a large ecosystem of open source components that can be used
 in different combinations. What we are presenting in this book is a
-retrospective description of the end result, organized into four
+retrospective description of an end result, organized into four
 subsystems to help make sense of it all.
 
-There are, in practice, many ah hoc interactions among the four
-components, and in some cases, there are overlapping concerns that
-lead to considerable debate. For example, it's difficult to draw a
-crisp line between where resource provisioning ends and lifecycle
+There are, in practice, many opportunities for interactions among the
+four components, and in some cases, there are overlapping concerns
+that lead to considerable debate. For example, it's difficult to draw
+a crisp line between where resource provisioning ends and lifecycle
 management begins. One could view provisioning as "Step 0" of
 lifecycle management. As an other example, the runtime control and
 monitoring subsystems are often combined in a single user interface,
@@ -411,13 +415,14 @@ traffic/workload the change is), but at the end of the day, it doesn't
 matter what you call it, as long as the mechanisms you use meet all of
 your requirements.
 
-Of course, an operational system can't tolerate such ambiguities. Each
-aspect of management has to be supported in a well-defined, efficient
-and repeatable way. That's why we include a description of a concrete
-realization of each of the four subsystems, reflecting one particular
-set of design choices. We call out the opportunities to make different
-engineering decisions, along with the design rationale behind our
-choices, as we add more details in the chapters that follow.
+Of course, an operational system doesn't tolerate such ambiguities
+very well. Each aspect of management has to be supported in a
+well-defined, efficient and repeatable way. That's why we include a
+description of a concrete realization of each of the four subsystems,
+reflecting one particular set of design choices. We call out the
+opportunities to make different engineering decisions, along with the
+design rationale behind our choices, as we add more details in the
+chapters that follow.
 
 2.4 DevOps
 ----------
@@ -491,21 +496,21 @@ calls in the middle of the night.
 	great example of a "raising tide raising all boats." Given
 	enough time, it is likely that next layer of cloud management
 	machinery, roughly corresponding to the topics covered in this
-	book" will also be taken as a given.*
+	book will also be taken as a given.*
 
 Second, all of the activity outlined in the previous paragraph is
 possible only because of the rich set of capabilities built into the
 Control and Management Platform that is the subject of this
-book. Someone had to build that platform, which includes a testing
-framework that individual tests can be plugged into; an automated
-deployment framework that is able to roll upgrades out to a scalable
-number of servers and sites without manual intervention; a monitoring
-and logging framework that components can report into; a runtime
-control environment that can translate high-level directives into
-low-level operations on backend components; and so on. While each of
-these frameworks were once created by a team tasked with keeping some
-other service running smoothly, they have taken on a life of their
-own. The Control and Management Platform now has its own DevOps
+book.\ [#]_ Someone had to build that platform, which includes a
+testing framework that individual tests can be plugged into; an
+automated deployment framework that is able to roll upgrades out to a
+scalable number of servers and sites without manual intervention; a
+monitoring and logging framework that components can report into; a
+runtime control environment that can translate high-level directives
+into low-level operations on backend components; and so on. While each
+of these frameworks were once created by a team tasked with keeping
+some other service running smoothly, they have taken on a life of
+their own. The Control and Management Platform now has its own DevOps
 team(s), who in addition to continually improving the platform, also
 field operational events, and when necessary, interact with other
 teams (e.g., the SD-RAN team in Aether) to resolve issues that come
@@ -513,6 +518,12 @@ up. They are sometimes called System Reliability Engineers (SREs), and
 in addition to being responsible for the Control and Management
 Platform, they enforce operational discipline—the third aspect of
 DevOps discussed next—on everyone else.
+
+.. [#] This we why we refer to the management system as a "platform",
+  with AMP as an illustrative example. It serves as a common framework
+  that developers of all the other cloud components can plug into and
+  leverage. This is how you ultimately address the "management silo"
+  problem.
 
 Finally, when operating with discipline and rigor, all of these teams
 strictly adhere to two quantitative rules. The first balances *feature

@@ -349,9 +349,9 @@ throughout this book.
 Before identifying these building blocks, we need to acknowledge that
 we are venturing into a gray area, having to do with what you consider
 to be “part of the platform being managed” versus “part of the
-subsystem that manages the platform.” To make matters worse, where you
-draw the line shifts over time as technology matures and becomes
-ubiquitous.
+subsystem that manages the platform.” To further complicate matters,
+where you draw the line shifts over time as technology matures and
+becomes ubiquitous.
 
 For example, if you start with the premise that a cloud hosts a set of
 containers, then your management layer would be responsible for
@@ -428,7 +428,7 @@ which effectively defines all the dependencies required by the
 software that’s to run in the container, making the corresponding
 container image portable across servers. We also assume one or more
 repositories of Docker containers that we will want to deploy in our
-cloud, of which https://hub.docker.com/ is the best known
+cloud, of which `<https://hub.docker.com/>`__ is the best known
 example.
 
 .. _reading_docker:
@@ -441,9 +441,9 @@ Kubernetes is a container management system. It provides a
 programmatic interface for scaling container instances up and down,
 setting up virtual networks to interconnect those instances, and
 opening service ports that external clients can use to access those
-instances. Behind the scenes, Kubernetes monitors the liveness of those
-containers, and automatically restarts any that have failed. In other
-words, if you instruct Kubernetes to spin up three instances of
+instances. Behind the scenes, Kubernetes monitors the liveness of
+those containers, and automatically restarts any that have failed. In
+other words, if you instruct Kubernetes to spin up three instances of
 microservice X, Kubernetes will do its best to keep three instances of
 the container that implements X running at all times.
 
@@ -458,7 +458,7 @@ calls against the Kubernetes API according to an operator-provided
 specification, known as a *Helm Chart*. It is now common practice for
 cloud applications built from a set of microservices to publish a Helm
 chart that defines how the application is to be deployed on a
-Kubernetes cluster. See https://artifacthub.io/ for a collection of
+Kubernetes cluster. See `<https://artifacthub.io/>`__ for a collection of
 publicly available Helm Charts.
 
 .. _reading_helm:
@@ -474,21 +474,15 @@ cluster. Overall, we make use of over 20 such open source software
 packages in the chapters that follow. Our goal is to show how all
 these open building blocks can be assembled into a comprehensive cloud
 management platform. We describe each tool in enough detail to
-appreciate how all the parts fit together—providing full coverage by
-connecting all the dots—plus links to full documentation for those
-that want to dig deeper into the details.
+appreciate how all the parts fit together—providing end-to-end
+coverage by connecting all the dots—plus links to full documentation
+for those that want to dig deeper into the details.
 
-.. todo::
-
+..
    List: NexBox, Ansible, Netplan, Terraform, Rancher, Fleet,
    Prometheus, Grafana, AlertManager, Jenkins, Robot, Selenium,
    onos-config, Atomix, OPF, Kibana, Logstash, Elasticsearch,
    Kubernetes, Helm, Docker (21)
-
-   Also, this is probably a good place to explain that Kubernetes and
-   Helm run in a single cluster (and define what a cluster is),
-   leaving the multi-cluster problem for us to address.
-
 
 Switching Fabric
 ~~~~~~~~~~~~~~~~
@@ -520,6 +514,26 @@ switches) by Kubernetes and Helm.\ [#]_
        this processor, and exports a northbound API that ONOS uses to
        configure and control the switch.
        
+Repositories
+~~~~~~~~~~~~~~~~
+
+For completeness, we need to mention that nearly every mechanism
+described in this book takes advantage of cloud-hosted repositories,
+most notably GitHub, but also artifact-specific repos like DockerHub
+and ArtifactHub. We also assume complementary systems like Gerrit,
+which layer a code-review mechanism on top GitHub, but having direct
+experience with Gerrit is not critical to understanding the material.
+
+.. _reading_github:
+.. admonition:: Further Reading
+
+   `GitHub Tutorial
+   <https://guides.github.com/activities/hello-world/>`__.
+
+   `Gerrt Code Review
+   <https://www.gerritcodereview.com/>`__.
+
+
 
 Other Options
 ~~~~~~~~~~~~~
@@ -531,7 +545,7 @@ First, you might have expected Service Mesh frameworks like Istio or
 Linkerd to be included. While it is true that anyone running
 applications on top of Kubernetes might decide to use Istio or Linkerd
 to help do that job—and this includes us, since much of the management
-subsystem described in this book is implemented as a set of
+system described in this book is implemented as a set of
 microservices—we happen to not take that approach. This is primarily
 an engineering choice: Service Meshes provide more features than we
 need, and correspondingly, we are able to realize the necessary
@@ -547,7 +561,7 @@ would have been VM-based. The main reason for this choice is that
 containers are rapidly becoming the de facto way to deploy scalable
 and highly available functionality, and operationalizing such
 functionality in enterprises is our primary use case. Containers are
-sometimes deployed on top of VMs (rather than directly on physical
+sometimes deployed inside of VMs (rather than directly on physical
 machines), but in that case, the VMs can be viewed as part of the
 underlying infrastructure (rather than a service that is offered to
 users). Another way of saying this is that this book focuses on how to
@@ -559,7 +573,7 @@ underlying infrastructure for that PaaS.
 .. sidebar:: What's the Master Plan?
 
   *There is a general issue of how one makes engineering choices about
-  what combination of software packages to use in a cloud-based system
+  the combination of software packages to use in a cloud-based system
   like this book describes. Ignoring the plethora of commercial
   offerings, just the number of open source projects at the Linux
   Foundation and the Apache Foundation available to help you build and
@@ -580,24 +594,24 @@ underlying infrastructure for that PaaS.
   complementary component from column B, and so on.  This is also true
   for the Aether managed service we use as an exemplar.*
   
-  *This makes it all the more important that we take a first principles
-  approach, which starts by identifying the set of requirements and
-  exploring the design space. Only as a final step do we select an
-  existing software component (or implement a new one if necessary).
-  This approach naturally results in an end-to-end solution that
-  assembles many smaller components, and tends to avoid
-  bundled/multi-faceted solutions. This does not inoculate us from
-  having to evolve the system over time, but it does help to approach
-  the topic with visibility into the full scope and complexity of the
-  design space. And even if one ends up adopting a bundled solution,
-  understanding all the trade-offs being made under the covers will
-  help to make a more informed decision.*
+  *This makes it all the more important that we take a first
+  principles approach, which starts by identifying the set of
+  requirements and exploring the design space. Only as a final step do
+  we select an existing software component.  This approach naturally
+  results in an end-to-end solution that assembles many smaller
+  components, and tends to avoid bundled/multi-faceted solutions. This
+  does not inoculate us from having to evolve the system over time,
+  but it does help to approach the topic with visibility into the full
+  scope and complexity of the design space. And even if one ends up
+  adopting a bundled solution, understanding all the trade-offs being
+  made under the covers will help to make a more informed decision.*
 
 Finally, the Aether edge cloud we use as an example is similar to many
-other edge cloud platforms now being promoted. That Kubernetes-based
-on-prem/edge clouds are becoming so popular is one reason they make
-for such a good case study. Another open source example is *Smart Edge
-Open* (formerly known as OpenNESS), which is unique in that it
+other edge cloud platforms now being promoted as an enabling
+technology for Internet-of-Things. That Kubernetes-based on-prem/edge
+clouds are becoming so popular is one reason they make for such a good
+case study. For example, *Smart Edge Open* (formerly known as
+OpenNESS) is another open source edge platform, unique in that it
 includes several Intel-specific acceleration technologies (e.g., DPDK,
 SR-IOV, OVS/OVN). For our purposes, however, the exact set of
 components that make-up the platform is less important how the
