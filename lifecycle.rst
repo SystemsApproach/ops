@@ -15,10 +15,10 @@ the software we want to rollout has already gone through an off-line
 integration-and-testing process (this is the traditional model of
 vendors releasing a new version of their product), we take a more
 expansive approach that starts with development process—the creation
-of new features and capabilities. As depicted in :numref:`Figure %s
-<fig-cycle>`, including the “innovation” step, the goal is to sustain
-a virtuous cycle, which the cloud industry has taught us leads to
-greater *feature velocity*.
+of new features and capabilities. Including the “innovation” step
+closes the virtuous cycle depicted in :numref:`Figure %s<fig-cycle>`,
+which the cloud industry has taught us leads to greater *feature
+velocity*.
 
 .. _fig-cycle:
 .. figure:: figures/Slide9.png
@@ -49,15 +49,20 @@ them from the respective Repositories.
 
 The Config Repo also contains declarative specifications of the
 infrastructure artifacts produced by Resource Provisioning,
-specifically, the Terraform templates and variable files. While the
-"hands-on" and "data entry" aspects of Resource Provisioning described
-in Section 3.1 happen outside the CI/CD pipeline, the ultimate output
-of provisioning is the Infrastructure-as-Code that gets checked into
-the Config Repository. These files are input to Lifecycle Management,
-which implies that Terraform gets invoked as part of CI/CD whenever
-these files change. In other words, CI/CD keeps both the
-software-related components underlying cloud platform and the
-microservice workloads that run on top of that platform up-to-date.
+specifically, the Terraform templates and variable files.\ [#]_ While
+the "hands-on" and "data entry" aspects of Resource Provisioning
+described in Section 3.1 happen outside the CI/CD pipeline, the
+ultimate output of provisioning is the Infrastructure-as-Code that
+gets checked into the Config Repository. These files are input to
+Lifecycle Management, which implies that Terraform gets invoked as
+part of CI/CD whenever these files change. In other words, CI/CD keeps
+both the software-related components in the underlying cloud platform
+and the microservice workloads that run on top of that platform
+up-to-date.
+
+.. [#] We use the term "Config Repo" generically to denote one or more
+       GitHub repositories, for example, one storing all the Helm
+       Charts and another storing all the Terraform Templates.
 
 .. sidebar:: Continuous Delivery vs Deployment
 	     
@@ -226,7 +231,8 @@ pipeline where they happen (relative to :numref:`Figure %s
     on a complete system, through a combination of artificially
     generated traffic and requests from real users. Because the full
     system is integrated and deployed, these tests also serve to
-    validate the CI/CD mechanisms.
+    validate the CI/CD mechanisms, including for example, the specs
+    checked into the Config Repo.
     
 One of the challenges in crafting a testing strategy is deciding
 whether a given test belongs in the set of Smoke tests that gate
@@ -405,7 +411,7 @@ is Jenkins, which provides little more than a means to define a script
 -------------------------
 
 We are now ready to act on the configuration-as-code checked into the
-Config Repo, which includes both the set of Terraform Forms that
+Config Repo, which includes both the set of Terraform Templates that
 specify the underlying infrastructure (we've been calling this the
 cloud platform) and the set of Helm Charts that specify the collection
 of microservices (sometimes called applications) that are to be
@@ -432,11 +438,14 @@ APIs. Consider each in turn.
 The Terraform side of :numref:`Figure %s <fig-fleet>` is responsible
 for deploying (and configuring) the latest platform level software.
 For example, if the operator wants to add a server (or VM) to a given
-cluster, upgrade the version of Kubernetes, change the CNI
-plug-in Kubernetes uses, the desired configuration is specified in the
+cluster, upgrade the version of Kubernetes, change the CNI plug-in
+Kubernetes uses, the desired configuration is specified in the
 Terraform config files. (Recall that Terraform computes the delta
 between the existing and desired state, and executes the calls
-required to bring the former in line with the latter.)
+required to bring the former in line with the latter.) Anytime new
+hardware is added to an existing POD, the corresponding Terraform file
+is modified accordingly and checked into the Config Repo, triggering
+the deployment task.
 
 The Fleet side of :numref:`Figure %s <fig-fleet>` is responsible
 installing the collection of microservices that are to run on each
@@ -446,8 +455,8 @@ Chart on just one one Kubernetes cluster, they we'd be done: Helm is
 exactly the right tool to carry out that task. The value of Fleet is
 that it scales up that process, helping us manage the deployment of
 multiple charts across multiple clusters. (Fleet is a spin-off from
-Rancher, but is an independent project that can be used directly with
-Helm.)
+Rancher, but is an independent mechanism that can be used directly
+with Helm.)
 
 .. _reading_fleet:
 .. admonition:: Further Reading
@@ -458,34 +467,107 @@ Helm.)
 Fleet defines three concepts that are relevant to our discussion. The
 first is a *Bundle*, which defines the fundamental unit of what gets
 deployed. In our case, a Bundle is equivalent to a set of one or more
-Helm Charts. The second is a *Cluster Group*, which identifies a set of
-Kubernetes clusters that are to be treated in an equivalent way. In our
-case, the set of all clusters labeled ``Production`` could be treated
-as one such a group, and all clusters labeled ``Staging`` could be
-treated another such group. (Here, we are talking about the label
-assigned to each cluster in its Terraform spec, as illustrated in the
-examples shown in Section 3.2.) The third is a *GitRepo*, which is a
-repository to watch for changes to bundle artifacts. In our case, new
-are Helm Charts into a "Helm Chart repo".
+Helm Charts. The second is a *Cluster Group*, which identifies a set
+of Kubernetes clusters that are to be treated in an equivalent way. In
+our case, the set of all clusters labeled ``Production`` could be
+treated as one such a group, and all clusters labeled ``Staging``
+could be treated another such group. (Here, we are talking about the
+``env`` label assigned to each cluster in its Terraform spec, as
+illustrated in the examples shown in Section 3.2.) The third is a
+*GitRepo*, which is a repository to watch for changes to bundle
+artifacts. In our case, new are Helm Charts into a "Helm Chart repo".
 
 Understanding Fleet is then straightforward. It provides a way to
-associate Bundles, Cluster Groups, and GitRepos, such that whenever a
-new Helm chart is checked into a GitRepo, all Bundles that contain
-that chart are deployed on all associated Cluster Groups.
+define associations between Bundles, Cluster Groups, and GitRepos,
+such that whenever a new Helm chart is checked into a GitRepo, all
+Bundles that contain that chart are (re-)deployed on all associated
+Cluster Groups.
 
 .. todo::
 
-     Talk about the load Fleet puts on the GitRepo
+     Talk about the load Fleet puts on the Repo
 
+4.5 Version Control
+-------------------
 
-.. todo::
+The CI/CD toolchain introduced in this chapter works only when applied
+in concert with an end-to-end versioning strategy, ensuring that the
+right combination of source modules get integrated, and later, the
+right combination of images get deployed.
 
-   Explain versioning, and how Helm Chart versions ultimately trigger
-   deployment. (Ties back to CI... could include this discussion the
-   CI section instead of here, or both.
+Our starting point is to adopt the widely-accepted practice of
+*Semantic Versioning*, where each component is assigned a three-part
+version number *MAJOR.MINOR.PATCH* (e.g., ``3.2.4``), where the
+*MAJOR* version increments whenever you make an incompatible API
+change, the *MINOR* version increments when you add functionality in a
+backward compatible way, and the *PATCH* corresponds to a backwards
+compatible bug fix.
 
+.. _reading_semver:
+.. admonition:: Further Reading
 
-4.5 What about GitOps?
+   `Semantic Versioning 2.0.0 <https://semver.org/>`__.
+
+The following sketches one possible interplay between versioning and
+the CI/CD toolchain, keeping in mind there are different approaches to
+the problem. We break the sequence down to the three main stages of
+the software lifecycle:
+
+**Development Time**
+   
+* Every patch checked into a source code repo includes an up-to-date
+  semantic version number in a ``VERSION`` file in the repository.
+  Note that every *patch* does not necessarily equal every *commit*,
+  as it is not uncommon to make multiple changes to an "in
+  development" version, sometimes denoted ``3.2.4-dev``, for
+  example. This ``VERSION`` file is primarily used by developers, as a
+  convenient way to keep track of the current version number.
+
+* The commit that does correspond to a finalized patch is also tagged
+  (in the repo) with the corresponding semantic version number. In
+  GitHub, this tag is bound to a hash that unambiguously identifies
+  the commit, making it the authoritative way of binding a version
+  number to a particular instance of the source code.
+
+* For repos that correspond to microservices, the repo also has a
+  Dockerfile that gives the recipe for building a Docker image from
+  that (and other) software module(s).
+
+**Integration Time**   
+
+* The CI toolchain does a sanity check on each component's version
+  number, ensuring it doesn't regress, and when it sees a new number
+  for a microservice, builds a new image and uploads it to the image
+  repo. By convention, this image includes the corresponding source
+  code version number in the unique name assigned to the image.
+  
+**Deployment Time**
+
+* The CD toolchain instantiates the set of Docker Images, as specified
+  by name in one or more Helm Charts. Since these image names include
+  the semantic version number, by know the corresponding software
+  version being deployed.
+
+* Each Helm Chart is also checked into a repository, and hence, has
+  its own version number. Each time a Helm Chart changes, because the
+  version of a constituent Docker Image changes, the chart's version
+  number also changes.
+
+* Helm Charts can be organized hierarchically, that is, with one Chart
+  including one or more other Charts (each with their own version
+  number), with the version of the root Chart effectively identifying
+  the version of the system as a whole being deployed.
+
+While some of the Source Code :math:`\rightarrow` Docker Image
+:math:`\rightarrow` Kubernetes Container relationships just outlined
+can be codified in the toolchain, at least at the level of automated
+sanity tests that catch obvious mistakes, responsibility ultimately
+falls to the developers checking in source code and the operators
+checking in configuration code; they must correctly specify the
+versions they intended. But having a simple and clear versioning
+strategy is a requirement for doing that job.
+
+4.6 What about GitOps?
 ----------------------
 
 The CI/CD pipeline described in this chapter is consistent with

@@ -26,8 +26,8 @@ want to automate the sequence of calls needed to activate virtual
 infrastructure, which has inspired an approach know as
 *infrastructure-as-code*.\ [#]_ The general idea is to document, in a
 declarative format that can be "executed", exactly what our
-infrastructure is to look like. We use Terraform as our open source
-approach to infrastructure-as-code.
+infrastructure is to look like; how it is to be configured. We use
+Terraform as our open source approach to infrastructure-as-code.
 
 .. [#] *Infrastructure-as-Code* is a special case of the more general
        concept of *Configuration-as-Code*, which we discuss in much
@@ -144,13 +144,12 @@ focusing on what happens when provisioning a single Aether site (but
 keeping in mind that Aether spans multiple sites, as outlined in
 Chapter 2).
 
-.. [#] In this section, we denote models in italics (e.g., *Site*) and
-       specific values assigned to an instance of a model as a
-       constant (e.g., ``10.0.0.0/22``). Field names are not specially
-       denoted, but they should be obvious from the context.
+.. [#] In this section, we denote models and model fields in italics
+       (e.g., *Site*, *Address*) and specific values assigned to an
+       instance of a model as a constant (e.g., ``10.0.0.0/22``).
        
 The first step is to create a record for the site being provisioned,
-and documenting all the relevant metadata for that site. This includes
+and document all the relevant metadata for that site. This includes
 the *Name* and *Location* of the *Site*, along with the *Organization*
 the site belongs to. An *Organization* can have more than one *Site*,
 while a *Site* can (a) span one or more *Racks*, and (b) host one or
@@ -239,7 +238,7 @@ Note there is typically both a primary and management (e.g., BMC/IPMI)
 interface, where the *Device Type* implies the specific interfaces.
 
 Finally, the virtual interfaces for the Device must be specified, with
-its ``label`` field set to the physical network interface that it is
+its *Label* field set to the physical network interface that it is
 assigned. IP addresses are then assigned to the physical and virtual
 interfaces we have defined. The Management Server should always have
 the first IP address in each range, and they should be incremental, as
@@ -336,16 +335,20 @@ POD currently includes:
   Server (via Nginx).
 
 * Configure the eNBs (mobile base stations) so they know their IP
-  addresses. Various radio parameters can be set at this time, but
-  they will become settable through the Management Platform once the
-  POD is fully initialized.
+  addresses.
 
 These are all manual configuration steps, requiring either console
 access or entering information into device web interface, such that
 any subsequent configuration steps can be both fully automated and
 resilient. Note that while these steps cannot be automated away, they
 do not necessarily have to be performed in the field; hardware shipped
-to a remote site can first be prepped accordingly.
+to a remote site can first be prepped accordingly. Also note that care
+should be taken to *not* overload this step with configuration that
+can be done later. For example, various radio parameters can be set on
+the eNBs when it is physically installed, but those parameters will
+become settable through the Management Platform once the POD is
+brought online. Configuration work done at this stage should be
+minimized.
 
 The automated aspects of configuration are implemented as a set of
 Ansible *roles* and *playbooks*, which in terms of the high-level
@@ -369,9 +372,9 @@ above, and then executed once the management network is online.
 
 The Ansible playbooks instantiate the network services on the
 Management Server. The role of DNS and DHCP are obvious. As for iPXE
-and Nginx, they serve as boot servers for the rest of the
-infrastructure: the compute servers are configured to boot from the
-former and the fabric switches are configured to boot from the latter.
+and Nginx, they are boot servers for the rest of the infrastructure:
+the compute servers are configured to boot from the former and the
+fabric switches are configured to boot from the latter.
 
 In many cases, the playbooks use parameters—such as VLANs, IP
 addresses, DNS names, and so on—extracted from NetBox. :numref:`Figure
@@ -392,7 +395,7 @@ about Ansible and Netplan is available on their respective web sites:
 
 .. _fig-ansible:
 .. figure:: figures/Slide20.png
-    :width: 600px
+    :width: 550px
     :align: center
 
     Configuring network services and OS-level subsystems using NetBox data.
@@ -419,7 +422,7 @@ right-hand sides of the hybrid cloud shown in :numref:`Figure %s
 reduces to the task of setting up a GCP-like API for the bare-metal
 edge clouds. This API primarily subsumes the Kubernetes API, but it
 goes beyond providing a way to *use* Kubernetes to also include calls
-that can be used to *manage* Kubernetes.
+to *manage* Kubernetes.
 
 In short, this "manage Kubernetes" task is to turn a set of
 interconnected servers and switches into a fully-instantiated
@@ -439,9 +442,9 @@ the bare-metal clusters, with one centralized instance of Rancher
 being responsible for managing all the edge sites. This results in the
 configuration shown in :numref:`Figure %s <fig-rancher>`, which to
 emphasize Rancher's scope, shows multiple edge clusters. Although not
-shown in the Figure, like Rancher, the GCP-provided API also spans
-multiple Google sites (e.g., ``us-west1-a``, ``europe-north1-b``,
-``asia-south2-c``, and so on).
+shown in the Figure, the GCP-provided API, just like Rancher, also
+spans multiple physical sites (e.g., ``us-west1-a``,
+``europe-north1-b``, ``asia-south2-c``, and so on).
 
 .. _fig-rancher:
 .. figure:: figures/Slide21.png
@@ -469,28 +472,28 @@ heterogeneity. The architectural assumption we make is that for each
 such variant, there is a corresponding provisioning API, with the
 expectation that someone is responsible for provisioning the
 Kubernetes cluster instantiated by that API (where that someone might
-be us, as outlined in this section).
+be us, as just outlined in this section).
 
 3.2 Infrastructure-as-Code
 --------------------------
 
 The provisioning interface for each of the Kubernetes variants just
-described includes a programmatic API, a command line interface (CLI),
+described includes a programmatic API, a Command Line Interface (CLI),
 and a Graphical User Interface (GUI), where if you try any of the
 tutorials we recommended throughout this book, you'll likely use one
 of the latter two. For operational deployments, however, having a
 human operator interact with a CLI or GUI is problematic. This is not
 only because humans are error-prone, but also because it's nearly
-impossible to repeat a sequence of configuration steps in a consistent
-way. And being able to continuously repeat the process is at the heart
-of Lifecycle Management described in the next chapter.
+impossible to consistently repeat a sequence of configuration steps.
+Being able to continuously repeat the process is at the heart of
+Lifecycle Management described in the next chapter.
 
 The solution is to find a declarative way of saying what your
-infrastructure is to look like—what set of Kubernetes clusters (some
-running at the edges on bare-metal and some instantiated in GCP) are
-to be instantiated, and how each is to be configured—and then automate
-the task of making calls against the programmatic API to make it
-so. This is the essence of Infrastructure-as-Code, and as we've
+infrastructure is to look like—what set of Kubernetes clusters (e.g.,
+some running at the edges on bare-metal and some instantiated in GCP)
+are to be instantiated, and how each is to be configured—and then
+automate the task of making calls against the programmatic API to make
+it so. This is the essence of Infrastructure-as-Code, and as we've
 already said, we use Terraform as our open source example.
 
 Since Terraform specifications are declarative, the best way to
@@ -518,9 +521,10 @@ a two-stage process. In the first stage it constructs an execution
 plan, based on what has changed since the previous plan it
 executed. In the second stage, Terraform carries out the sequence of
 tasks required to bring the underlying infrastructure "up to spec"
-with the latest definition. (Note that our job here is the write these
-specification files, and check them into the Config Repo. Terraform
-gets invoked as part of the CI/CD pipeline described in Chapter 4.)
+with the latest definition. Note that our job, for now, is the write
+these specification files, and check them into the Config Repo.
+Terraform gets invoked as part of the CI/CD pipeline described in
+Chapter 4.
 
 Now to the specific files. At the top-most level, the operator defines
 the set of *providers* they plan to incorporate into their
@@ -544,7 +548,8 @@ the SD-Core.) The labels associated with this particular cluster
 (e.g., ``env = "production"``) establish linkage between Terraform
 (which assigns the label to each cluster it instantiates) and other
 layers of the management stack (which selectively take different
-actions based on the associated labels).
+actions based on the associated labels). We'll see an example of these
+labels being used in Section 4.4.
 
 .. literalinclude:: code/cluster-gcp_val.tfvars
 
@@ -561,7 +566,7 @@ still necessary.
 .. literalinclude:: code/cluster-edge_val.tfvars
 
 The final piece of the puzzle is to to fill in the remaining details
-about exactly how Kubernetes is to be provisioned for each cluster. In
+about exactly how each Kubernetes cluster is to be instantiated. In
 this case, we show just the RKE-specific module used to configure the
 edge clusters, where most of the details are straightforward if you
 understand Kubernetes. For example, the module specifies that each
@@ -622,12 +627,12 @@ Starting with declarative language and auto-generating the right
 sequence of API calls is a proven way to overcome that problem.
 
 We conclude this chapter by drawing attention to the fact that while
-we now have a declarative specification for our cloud infrastructure
-(the *Aether Platform*), these specification files are yet another
-software artifact that we check into the configuration repo. This
-repo, in turn, feeds the lifecycle management pipeline described in
-the next chapter. The physical provisioning steps described in Section
-3.1 happen "outside" the pipeline (which is why we don't just fold
-resource provisioning into the Lifecycle Management mechanism), but it
-is fair to think of resource provisioning as "stage 0" of lifecycle
+we now have a declarative specification for our cloud infrastructure,
+which we refer to as the *Aether Platform*, these specification files
+are yet another software artifact that we check into the Config Repo.
+This repo, in turn, feeds the lifecycle management pipeline described
+in the next chapter. The physical provisioning steps described in
+Section 3.1 happen "outside" the pipeline (which is why we don't just
+fold resource provisioning into Lifecycle Management), but it is fair
+to think of resource provisioning as "Stage 0" of lifecycle
 management.
