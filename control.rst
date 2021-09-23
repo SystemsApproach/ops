@@ -83,10 +83,6 @@ generous set of engineering options. Finally, YANG is widely used for
 this purpose, meaning there is a robust collection of YANG-based tools
 that we can build upon.
 
-.. todo::
-
-   Write Web Frameworks Sidebar.
-
 .. sidebar:: Web Frameworks
 
 	*Talk about Frameworks like Django and Ruby on Rails and the
@@ -167,15 +163,6 @@ principals), we need to be careful about the consequences of any
 backdoor (direct) changes to that repo-maintained state, for example,
 by storing only a cached copy of that state in Runtime Control’s
 K/V-store (as an optimization).
-
-.. todo::
-
-   A detailed example from Aether would be helpful, maybe showing
-   fields in a YAML file, some of which can be accessed by Principal A
-   and some of which can be accessed by Principal B. Maybe this
-   example works:
-
-   https://gerrit.opencord.org/plugins/gitiles/aether-pod-configs/+/refs/heads/master/production/acc-gcp1/app_values/omec-control-plane.yml#20
 
 .. _fig-roc2:
 .. figure:: figures/Slide16.png
@@ -287,10 +274,6 @@ The implementation of Runtime Control for Aether currently has its own
 homegrown RBAC models, but an effort is underway to replace this with
 Open Policy Framework (OPF).
 
-.. todo::
-
-   Need to say more about OPF.
-
 Adapters
 ~~~~~~~~
 
@@ -338,10 +321,6 @@ Runtime Control. It is assumed that another tool will be responsible
 for distribution, renewing certificates before they expire,
 etc.
 
-.. todo::
-
-   Need to say more about secure communication.
-
 For components that speak REST, HTTPS is used to secure the
 connection, and authentication can take place using mechanisms within
 the HTTPS protocol (basic auth, tokens, etc). Oath2 and OpenID Connect
@@ -349,8 +328,3 @@ are leveraged as an authorization provider when using these REST APIs.
 
 5.3 Modeling Connectivity
 ----------------------------------------
-
-.. todo::
-
-   Sketch the data model for Aether's connectivity service as a way of
-   illustrating the value of Runtime Control.

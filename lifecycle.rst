@@ -358,15 +358,6 @@ process, and so we do not discuss it further. The important takeaway
 for our purposes is that there is a well-defined interface between
 code repositories and subsequent stages of the CI/CD pipeline.
 
-.. todo::
-
-   An illustrative example or two would be helpful. Highlight the
-   scope of a given patch set and the corresponding scope of what gets
-   triggered. Also call out what happens “internally” to the repo
-   (e.g., CLA test, code review) and what happens “externally” (e.g.,
-   trigger Jenkins)... and explain why it’s not all internal in
-   practice (although it could be).
-
 Build-Integrate-Test
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -385,10 +376,6 @@ built/integrated for deployment. The design principle is that there
 are no special cases; just different “off-ramps” for the end-to-end
 CI/CD pipeline.
 
-.. todo::
-
-   A simple state diagram might be helpful here.
-
 There is no topic on which developers have stronger opinions than the
 merits (and flaws) of different build tools. Old-school C coders
 raised on Unix prefer Make. Google developed Bazel, and made it
@@ -401,11 +388,6 @@ simple second-level tool to integrate the output of all those
 sophisticated first-level tools. Our choice for the second-level tool
 is Jenkins, which provides little more than a means to define a script
 (called a job) to run in response to some event.
-
-.. todo::
-
-   Walk through one or two illustrative examples. Highlight failures,
-   but also show the end result that gets published.
 
 4.4 Continuous Deployment
 -------------------------
@@ -482,10 +464,6 @@ define associations between Bundles, Cluster Groups, and GitRepos,
 such that whenever a new Helm chart is checked into a GitRepo, all
 Bundles that contain that chart are (re-)deployed on all associated
 Cluster Groups.
-
-.. todo::
-
-     Talk about the load Fleet puts on the Repo
 
 4.5 Version Control
 -------------------

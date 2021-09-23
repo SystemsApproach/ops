@@ -266,12 +266,6 @@ another example of disaggregation—it breaks monolithic cloud
 applications into a mesh of single-function components. Disaggregation
 is widely viewed as an essential step in accelerating feature
 velocity. This is the opportunity side of the story.
-
-.. todo::
-
-   A couple references would be good. Also, should probably point out
-   this is a discussion about operationalizing a disaggregated system;
-   not making a case of disaggregation in the first place.
    
 The challenge side of the story is that there are many more moving
 parts that have to be integrated, coordinated, and managed. Circling

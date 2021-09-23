@@ -15,13 +15,13 @@ Peterson, Baker, Bavier, Williams and Davie
    :maxdepth: 2 
    :caption: Table of Contents 
 
+   preface.rst
    intro.rst
    arch.rst 
    provision.rst 
    lifecycle.rst 
    control.rst 
    monitor.rst 
-   sop.rst 
    README.rst
-   todo.rst
+
 
