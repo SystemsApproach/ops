@@ -571,15 +571,16 @@ strategy is a requirement for doing that job.
 Finally, because versioning is inherently related to APIs, with the
 *MAJOR* version number incremented whenever the API changes in
 non-backward-compatible way, developers are responsible for ensuring
-their software is able to correctly invoke consume any APIs they
-depend on. Doing so becomes problematic when there is persistent state
-involved, by which we mean state that must persist across multiple
-version of the software that access it. This is a problem that
-operational system that run continuously have to deal with, and
-typically requires a *data migration* strategy. Solving this problem
-in a general way for application is beyond the scope of this book, but
-solving it for the cloud management system (which has its own
-persistent state) is a topic we take up in the next chapter.
+their software is able to correctly consume any APIs they depend
+on. Doing so becomes problematic when there is persistent state
+involved, by which we mean state that must be preserved across
+multiple version of the software that accesses it. This is a problem
+that all operational systems that run continuously have to deal with,
+and typically requires a *data migration* strategy. Solving this
+problem in a general way for application-level state is beyond the
+scope of this book, but solving it for the cloud management system
+(which has its own persistent state) is a topic we take up in the next
+chapter.
 
 4.6 What about GitOps?
 ----------------------
