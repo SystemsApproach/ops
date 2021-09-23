@@ -328,3 +328,6 @@ are leveraged as an authorization provider when using these REST APIs.
 
 5.3 Modeling Connectivity
 ----------------------------------------
+
+Sketch the data model for Aether's connectivity service as a way of
+illustrating the role Runtime Control plays.
