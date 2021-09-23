@@ -21,7 +21,24 @@ Platform-as-a-Service (PaaS).
 
 .. sidebar:: Industry 4.0
 
-	*Tell the Industry 4.0 story here.*
+       *Edge clouds like Aether are an important component of a trend
+       called Industry 4.0: A combination of intelligent devices,
+       robust wireless connectivity, and cloud-based AI/ML
+       capabilities, all working together to enable software-based
+       optimization and innovation.*
+
+       *Connecting industry assets to the cloud has the potential to
+       bring transformative benefits. This starts with collecting deep
+       operational data on assets and infrastructure, from sensors,
+       video feeds and telemetry from machinery. It also includes
+       applying ML to this data to gain insights, identify patterns
+       and predict outcomes (e.g., when a device is likely to fail),
+       followed by automating industrial processes so as to minimize
+       human intervention and enable remote operations (e.g., power
+       optimization, idling quiescent machinery). In general, the goal
+       is to create an IT foundation for continually improving
+       industrial operations through software.*
+
 
 Aether supports this combination by implementing both the RAN and the
 user plane of the Mobile Core on-prem, as cloud-native workloads

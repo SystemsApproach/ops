@@ -531,7 +531,8 @@ the software lifecycle:
 
 * For repos that correspond to microservices, the repo also has a
   Dockerfile that gives the recipe for building a Docker image from
-  that (and other) software module(s).
+  that (and other) software module(s). This would not be the case for
+  software modules that are consumed as libraries.
 
 **Integration Time**   
 
@@ -566,6 +567,19 @@ falls to the developers checking in source code and the operators
 checking in configuration code; they must correctly specify the
 versions they intended. But having a simple and clear versioning
 strategy is a requirement for doing that job.
+
+Finally, because versioning is inherently related to APIs, with the
+*MAJOR* version number incremented whenever the API changes in
+non-backward-compatible way, developers are responsible for ensuring
+their software is able to correctly invoke consume any APIs they
+depend on. Doing so becomes problematic when there is persistent state
+involved, by which we mean state that must persist across multiple
+version of the software that access it. This is a problem that
+operational system that run continuously have to deal with, and
+typically requires a *data migration* strategy. Solving this problem
+in a general way for application is beyond the scope of this book, but
+solving it for the cloud management system (which has its own
+persistent state) is a topic we take up in the next chapter.
 
 4.6 What about GitOps?
 ----------------------

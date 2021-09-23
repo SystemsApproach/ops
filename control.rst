@@ -6,20 +6,19 @@ users, operators) can make changes to a running system, primarily by
 specifying new values for one or more runtime parameters.
 
 Using Aether’s 5G connectivity service as an example, suppose an
-enterprise user (or an enterprise admin, on behalf of that user) wants
+enterprise user (or an enterprise admin, on that user's behalf) wants
 to change the *QoS-Profile* for their mobile device from *Standard* to
-*High-Priority*, or alternatively, imagine a privileged operator wants
-to add a new *Mission-Critical* option to the existing set of
-supported *QoS-Profiles*. Without worrying about the exact syntax of
-the API call(s) for these operations, the Runtime Control subsystem
-needs to
+*High-Priority*, or imagine a privileged operator wants to add a new
+*Mission-Critical* option to the existing set of supported
+*QoS-Profiles*. Without worrying about the exact syntax of the API
+call(s) for these operations, the Runtime Control subsystem needs to
 
 1. Authenticate the principal wanting to perform the operation.
    
 2. Determine if that user has sufficient privilege to carry out the
    operation.
    
-3.Push the new parameter setting(s) to one or more backend components.
+3. Push the new parameter setting(s) to one or more backend components.
 
 4. Record the specified parameter setting(s), so the new value(s)
    persist.
@@ -35,14 +34,14 @@ responsible for QoS in the mobile core user plane), and SD-Core CP
 
 In short, Runtime Control defines an abstraction layer on top of a
 collection of backend components, effectively turning them into
-externally visible (and controllable) services. Sometimes a single
-backend component implements the entirety of a service, in which case
-Runtime Control may add little more than a Triple-A layer. But for a
-cloud constructed from a collection of disaggregated components,
-Runtime Control is where we define an API that logically integrates
-those components into a unified and coherent set of abstract
-services. It is also an opportunity to “raise the level of
-abstraction” for the underlying subsystem.
+externally visible (and controllable) cloud services. Sometimes a
+single backend component implements the entirety of a service, in
+which case Runtime Control may add little more than a Triple-A
+layer. But for a cloud constructed from a collection of disaggregated
+components, Runtime Control is where we define an API that logically
+integrates those components into a unified and coherent set of
+abstract services. It is also an opportunity to “raise the level of
+abstraction” for the underlying subsystems.
 
 5.1 Design Overview
 -------------------
@@ -51,7 +50,7 @@ At a high level, the purpose of Runtime Control is to offer an API
 that various stakeholders can use to configure and control cloud
 services. In doing so, Runtime Control must:
 
-* Support new end-to-end abstractions that may cross multiple
+* Support new end-to-end abstractions that may cross multiple backend
   subsystems.
   
 * Associate control and configuration state with those abstractions.
@@ -301,9 +300,9 @@ translate between gNMI and the service’s native API. In Aether, for
 example, a gNMI :math:`\rightarrow` REST adapter translates between
 the Runtime Control’s southbound gNMI calls and the SD-Core
 subsystem’s RESTful northbound interface. The adapter is not
-necessarily only a syntactic translation, but may also be a semantic
-translation. This supports a logical decoupling of the models stored
-in onos-config and the interface used by the southbound
+necessarily just a syntactic translator, but may also include its own
+semantic layer. This supports a logical decoupling of the models
+stored in onos-config and the interface used by the southbound
 device/service, allowing the southbound device/service and Runtime
 Control to evolve independently. It also allows for southbound
 devices/services to be replaced without affecting the northbound
