@@ -85,11 +85,35 @@ that we can build upon.
 
 .. sidebar:: Web Frameworks
 
-	*Talk about Frameworks like Django and Ruby on Rails and the
-	role they play in SaaS. Call out declarative vs imparative
-	design principle.*
+	*The role Runtime Control plays in operationalizing a cloud is
+	similar to the role a Web Framework plays in operationalizing
+	a web service. If you start with the assumption that certain
+	classes of users will interact with your system (in our case,
+	an edge cloud) via a GUI, then either you write that GUI in a
+	language like PHP (as early web deverlopers did), our you take
+	advantage of a framework like Django or Ruby on Rails. What
+	such frameworks provide is a way to define a set of
+	user-friendely abstractions (these are called Models), a means
+	to visualize those abstractions in a GUI (these are called
+	Views), and a means to affect change on collection of backend
+	systems based on user input (these are called Controllers). It
+	is not an accident that Model-View-Controller (MVP) is a
+	well-understood design paradigm.*
 
-	
+	*The Runtime Control system described in this chapter adopts a
+	similar approach, but instead of defining the models in Python
+	(as with Django) or Ruby (as with Ruby on Rails), we define
+	models using a declarative language—YANG—which is in turn used
+	to generate a programmatic API. This API can then be invoked
+	from (1) a GUI, which is itself typically built using another
+	framework, such as AngularJS; (2) a CLI; or (3) a closed-loop
+	control program. There are other differences—for example,
+	Adaptors (a kind of Controller) use gNMI as a standard
+	interface for controlling backend components, and persistent
+	state is stored in a K/V Store instead of a SQL DB—but the
+	biggest difference is the use of a declarative rather than an
+	imparative language to define models.*
+
 With this background, :numref:`Figure %s <fig-roc>` shows the internal
 structure of Runtime Control for Aether, which has **onos-config**\—a
 microservice used in ONOS to maintain a set of YANG models for
