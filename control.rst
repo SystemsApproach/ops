@@ -7,11 +7,13 @@ specifying new values for one or more runtime parameters.
 
 Using Aether’s 5G connectivity service as an example, suppose an
 enterprise user (or an enterprise admin, on that user's behalf) wants
-to change the *QoS-Profile* for their mobile device from *Standard* to
-*High-Priority*, or imagine a privileged operator wants to add a new
-*Mission-Critical* option to the existing set of supported
-*QoS-Profiles*. Without worrying about the exact syntax of the API
-call(s) for these operations, the Runtime Control subsystem needs to
+to change the *QoS-Profile* setting for their mobile device. This
+might include modifying the *Uplink* or *Downlink* bandwidth, or even
+selecting a different *Traffic Class*. Similarly, imagine a privileged
+operator wants to add a new *Mission-Critical* option to the existing
+set of *Traffic Classes* that *QoS-Profiles* can adopt. Without
+worrying about the exact syntax of the API call(s) for these
+operations, the Runtime Control subsystem needs to
 
 1. Authenticate the principal wanting to perform the operation.
    
@@ -285,18 +287,33 @@ Runtime Control leverages an external identity database (i.e. LDAP
 server) to store user data such as account names and passwords for
 users who are able to log in. This LDAP server also has the capability
 to associate users with groups. For example, adding administrators to
-AetherAdmin would be a way to grant those people administrative
-privileges within the ROC.
+the ``AetherAdmin`` group would be an obvious way to grant those
+individuals with administrative privileges within Runtime Control.
 
-An external authentication service (DEX) is used to authenticate the
-user, handling the mechanics of accepting the password, validating it,
-and securely returning the group the user belongs to. The group
-identifier is then used to grant access to resources within Runtime
-Control.
+An external authentication service, Dex, serves as a frontend to a
+database like LDAP. It authenticates the user, handles the mechanics
+of accepting the password, validating it, and securely returning the
+group the user belongs to. 
 
-The implementation of Runtime Control for Aether currently has its own
-homegrown RBAC models, but an effort is underway to replace this with
-Open Policy Framework (OPF).
+.. _reading_dex:
+.. admonition:: Further Reading
+
+   `Dex: A Federated OpenID Connect Provider
+   <https://dexidp.io/>`__.
+
+The group identifier is then used to grant access to resources within
+Runtime Control, which points to the related problem of establishing
+which classes of users are allowed to create/read/write/delete various
+collections of objects. Like identity management, defining such RBAC
+policies is well understood, and supported by open source tools. In
+the case of Aether, Open Policy Agent (OPA) serves this role.
+
+.. _reading_opf:
+.. admonition:: Further Reading
+
+   `Policy-based control for cloud native environments
+   <https://www.openpolicyagent.org/>`__.
+
 
 Adapters
 ~~~~~~~~
@@ -350,8 +367,181 @@ connection, and authentication can take place using mechanisms within
 the HTTPS protocol (basic auth, tokens, etc). Oath2 and OpenID Connect
 are leveraged as an authorization provider when using these REST APIs.
 
-5.3 Modeling Connectivity
+5.3 Modeling Connectivity Service
 ----------------------------------------
 
-Sketch the data model for Aether's connectivity service as a way of
-illustrating the role Runtime Control plays.
+This section sketches the data model for Aether's connectivity service
+as a way of illustrating the role Runtime Control plays. These models
+are specified in YANG (for which we include an concrete example), but
+since the Control API is generated from these specs, it is equally
+valid to think in terms of an API that supports RESTful's GET, POST,
+PATCH, DELETE operations on a set of objects (sometimes called resources):
+
+* GET: Retrieve an object.
+* POST: Create an object.
+* PUT,  PATCH: Modify an existing object.
+* DELETE: Delete an object.
+
+Each object is an instance of one of the YANG-defined models, where
+every object contains an `id` field that is used to identify the
+object.
+
+Some objects contain references to other objects. For example, as
+we'll see in the example below, many objects contain references to the
+`Enterprise` object, which allows them to be associated with a
+particular enterprise. That is, references are constructed using the
+`id` field of the referenced object. Note that one of the features of
+the mechanisms described in the previous section is that they flag
+attempts to create a reference to an object that does not exist and
+attempts to delete an object while there are open references to it
+from other objects as errors.
+
+In addition to the `id` field, several other fields are also common to
+all models. These include:
+
+* `description`: A human-readable description, used to store additional context about the object.
+* `display-name`: A human-readable name that is shown in the GUI.
+
+As these fields are common to all models, we omit from the per-model
+descriptions that follow. Note that in the model-specific details that
+follow, we use upper case to denote a model (e.g., `Enterprise`) and
+lower case to denote a field within a model (e.g., `enterprise`).
+
+Enterprises
+~~~~~~~~~~~~
+
+Aether is deployed in enterprises, and so needs to define
+representative set of organizational abstractions. These include
+`Enterprise`, which forms the root of a customer-specific
+hierarchy. The `Enterprise` model is referenced by many other objects,
+and allows those objects to be scoped to a particular Enterprise for
+ownership and role-based access control purposes. `Enterprise`
+contains the following fields:
+
+* `connectivity-service`: A list of backend subsystems that implement
+  connectivity for this enterprise. Corresponds to an API endpoint to
+  the SD-Core, SD-Fabric, and SD-RAN.
+
+`Enterprises` are further divided into `Sites`. A site is a point of
+presence for an `Enterprise` and may be either physical or logical
+(i.e. a single geographic location could contain several logical
+sites). `Site` contains the following fields:
+
+* `enterprise`: A link to the `Enterprise` that owns this site.
+* `imsi-definition`: A description of how IMSIs are constructed for
+  this site. Contains the following sub-fields:
+
+   * `mcc`: Mobile country code.
+   * `mnc`: Mobile network code.
+   * `enterprise`: A numeric enterprise id.
+   * `format`: A mask that allows the above three fields to be
+     embedded into an IMSI. For example `CCCNNNEEESSSSSS` will
+     construct IMSIs using a 3-digit MCC, 3-digit MNC, 3-digit ENT,
+     and a 6-digit subscriber.
+
+The `imsi-definition` is specific to the mobile cellular network, and
+corresponds to the unique identifier burned into every SIM card.
+
+Connectivity Service
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The managed service Aether offers enterprises is 5G connectivity,
+which we can abstractly think of a means to connect mobile devices to
+application programs. This results in the following model definitions,
+starting with `Virtual Cellular Service (VCS)`. The `VCS` model
+connects a `Device-Group` to an `Application`, and has the following
+fields:
+
+* `device-group`: A list of `Device-Group` objects that can participate in this `VCS`. Each
+  entry in the list contains both the reference to the `Device-Group` as well as an `enable`
+  field which may be used to temporarily remove access to the group.
+* `application`: A list of `Application` objects that are either allowed or denied for this
+  `VCS`. Each entry in the list contains both a reference to the `Application` as well as an
+  `allow` field which can be set to `true` to allow the application or `false` to deny it.
+* `template`: Reference to the `Template` that was used to initialize this `VCS`.
+* `upf`: Reference to the User Plane Function (`UPF`) that should be used to process packets
+  for this `VCS`. It's permitted for multiple `VCS` to share a single `UPF`.
+* `ap`: Reference to an Access Point List (`AP-List`) that lists the access points for this
+  `VCS`.
+* `enterprise`: Reference to the `Enterprise` that owns this `VCS`.
+* `sst`, `sd`, `uplink`, `downlink`, `traffic-class`: Parameters that
+  are initialized using a selected `template` (described below).
+
+At one end of the connectivity service is a `Device-Group`, which
+identifies a set of devices that are to be treated the same.
+`Device-Group` contains the following fields:
+
+* `imsis`: A list of IMSI ranges. Each range has the following
+  fields:
+
+   * `name`: Name of the range. Used as a key.
+   * `imsi-range-from`: First subscriber in the range.
+   * `imsi-range-to`: Last subscriber in the range. Can be omitted if
+     the range only contains one IMSI.
+* `ip-domain`: Reference to an `IP-Domain` object that describes the
+  IP and DNS settings for UEs within this group.
+* `site`: Reference to the site where this `Device-Group` may be
+  used. Indirectly identifies the `Enterprise` as `Site` contains a
+  reference to `Enterprise`.
+
+At the other end of the connectivity service is an `Application`,
+which specifies the endpoints for the program devices talk to. It
+contains the following fields:
+
+* `endpoint`: A list of endpoints. Each has the following
+  fields:
+
+   * `name`: Name of the endpoint. Used as a key.
+   * `address`: The DNS name or IP address of the endpoint.
+   * `port-start`: Starting port number.
+   * `port-end`. Ending port number.
+   * `protocol`: `TCP|UDP`, specifies the protocol for the endpoint.
+* `enterprise`: Link to an `Enterprise` object that owns this application. May be left empty
+  to indicate a global application that may be used by multiple enterprises.
+
+QoS Profiles
+~~~~~~~~~~~~~~~~~~~~~
+
+Associated with each connection is a QoS-related profile that governs
+how traffic that connection carries is treated. This starts with a
+`Template` model, which defines the valid (accepted) connectivity
+settings. Aether Operations is responsible for defining these (the
+features they offer must be supported by the backend subsystems), with
+enterprises selecting the template they want applied to any instances
+of the connectivity service they create (e.g., via a drop-down
+menu). That is, templates are used to initialize `VCS` objects, and
+`Template` has the following fields:
+
+* `sst`, `sd`: Slice identifiers.
+* `uplink`, `downlink`: Guaranteed uplink and downlink bandwidth.
+* `traffic-class`: Link to a `Traffic-Class` object that describes the
+  type of traffic.
+
+Note that a *slice*, like and *imsi*, is a 5G-specific term, which you
+can think of as representing an isolated channel with associated QoS
+parameters.
+  
+The `Traffic-Class` model, in turn, specifies the classes of traffic,
+and includes the following fields:
+
+* `qci`: QoS class identifier.
+* `pelr`: Packet error loss rate.
+* `pdb`: Packet delay budget.
+
+For completeness, the following shows the corresponding YANG for the
+`Template` model. The example omits some introductory boilerplate for
+the sake of brevity. The example highlights the nested nature of the
+model declarations, with both ``container`` and ``leaf`` fields.
+
+.. literalinclude:: code/template.yang
+
+Other Models
+~~~~~~~~~~~~~~~~
+
+The above description references other models, which we do not fully
+described here. They include `AP-List`, which specifies a list of
+access points (radios); `IP-Domain`, which specifies IP and DNS
+settings); and `UPF`, which specifies the User Plane Function (the data
+plane element of the SD-Core) that should forward packets on behalf
+of this particular instance of the connectivity service.
+

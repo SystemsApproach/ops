@@ -509,8 +509,7 @@ the software lifecycle:
 
 * For repos that correspond to microservices, the repo also has a
   Dockerfile that gives the recipe for building a Docker image from
-  that (and other) software module(s). This would not be the case for
-  software modules that are consumed as libraries.
+  that (and other) software module(s).
 
 **Integration Time**   
 

@@ -1,0 +1,81 @@
+module onf-template {
+  ...
+  description 
+    "The aether vcs-template holds common parameters used
+     by a virtual connectivity service. Templates are used to
+     populate a VCS.";
+  typedef template-id {
+        type yg:yang-identifier {
+            length 1..32;
+        }
+  }
+  container template {
+    description "The top level container";
+    list template {
+      key "id";
+      description
+        "List of vcs templates";
+      leaf id {
+        type template-id;
+        description "ID for this vcs template.";
+      }
+      leaf display-name {
+        type string {
+            length 1..80;
+        }
+        description "display name to use in GUI or CLI";
+      }
+      leaf sst {
+        type at:sst;
+        description "Slice/Service type";
+      }
+      leaf sd {
+        type at:sd;
+        description "Slice differentiator";
+      }
+      container device {
+        description "Per-device QOS Settings";
+        container mbr {
+          description "Maximum bitrate";
+          leaf uplink {
+            type at:bitrate;
+            units bps;
+            description "Per-device mbr uplink data rate in mbps";
+          }
+          leaf downlink {
+            type at:bitrate;
+            units bps;
+            description "Per-device mbr downlink data rate in mbps";
+          }
+        }
+      }
+      container slice {
+        description "Per-Slice QOS Settings";
+        container mbr {
+          description "Maximum bitrate";
+          leaf uplink {
+            type at:bitrate;
+            units bps;
+            description "Per-Slice mbr uplink data rate in mbps";
+          }
+          leaf downlink {
+            type at:bitrate;
+            units bps;
+            description "Per-Slice mbr downlink data rate in mbps";
+          }
+        }
+      }      
+      leaf traffic-class {
+        type leafref {
+          path "/tc:traffic-class/tc:traffic-class/tc:id";
+        }          
+        description
+          "Link to traffic class";
+      } 
+      leaf description {
+        type at:description;
+        description "description of this vcs template";
+      }
+    }
+  } 
+}
