@@ -372,10 +372,11 @@ are leveraged as an authorization provider when using these REST APIs.
 
 This section sketches the data model for Aether's connectivity service
 as a way of illustrating the role Runtime Control plays. These models
-are specified in YANG (for which we include an concrete example), but
-since the Control API is generated from these specs, it is equally
-valid to think in terms of an API that supports RESTful's GET, POST,
-PATCH, DELETE operations on a set of objects (sometimes called resources):
+are specified in YANG (for which we include a concrete example of one
+of the modeld), but since the Control API is generated from these
+specs, it is equally valid to think in terms of an API that supports
+REST's GET, POST, PATCH, DELETE operations on a set of objects
+(resources):
 
 * GET: Retrieve an object.
 * POST: Create an object.
@@ -384,7 +385,8 @@ PATCH, DELETE operations on a set of objects (sometimes called resources):
 
 Each object is an instance of one of the YANG-defined models, where
 every object contains an `id` field that is used to identify the
-object.
+object. These identifiers are unique to the model, but not necessarily
+across all models.
 
 Some objects contain references to other objects. For example, as
 we'll see in the example below, many objects contain references to the
@@ -509,8 +511,8 @@ settings. Aether Operations is responsible for defining these (the
 features they offer must be supported by the backend subsystems), with
 enterprises selecting the template they want applied to any instances
 of the connectivity service they create (e.g., via a drop-down
-menu). That is, templates are used to initialize `VCS` objects, and
-`Template` has the following fields:
+menu). That is, templates are used to initialize `VCS` objects. The
+`Template` model has the following fields:
 
 * `sst`, `sd`: Slice identifiers.
 * `uplink`, `downlink`: Guaranteed uplink and downlink bandwidth.
