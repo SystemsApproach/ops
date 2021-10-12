@@ -1,23 +1,22 @@
 Chapter 5:  Runtime Control
 ===========================
 	
-Runtime Control provides an API by which various principals (e.g.,
-users, operators) can make changes to a running system, primarily by
-specifying new values for one or more runtime parameters.
+Runtime Control provides an API by which various principals, such as
+end-users or privileged admins, can make changes to a running system,
+primarily by specifying new values for one or more runtime parameters.
 
 Using Aether’s 5G connectivity service as an example, suppose an
-enterprise user (or an enterprise admin, on that user's behalf) wants
-to change the *QoS-Profile* setting for their mobile device. This
-might include modifying the *Uplink* or *Downlink* bandwidth, or even
-selecting a different *Traffic Class*. Similarly, imagine a privileged
-operator wants to add a new *Mission-Critical* option to the existing
-set of *Traffic Classes* that *QoS-Profiles* can adopt. Without
-worrying about the exact syntax of the API call(s) for these
-operations, the Runtime Control subsystem needs to
+end-user wants to change the *QoS-Profile* setting for their mobile
+device. This might include modifying the *Uplink* or *Downlink*
+bandwidth, or even selecting a different *Traffic Class*. Similarly,
+imagine a privileged admin wants to add a new *Mission-Critical*
+option to the existing set of *Traffic Classes* that *QoS-Profiles*
+can adopt. Without worrying about the exact syntax of the API call(s)
+for these operations, the Runtime Control subsystem needs to
 
 1. Authenticate the principal wanting to perform the operation.
    
-2. Determine if that user has sufficient privilege to carry out the
+2. Determine if that principal has sufficient privilege to carry out the
    operation.
    
 3. Push the new parameter setting(s) to one or more backend components.
@@ -44,6 +43,18 @@ components, Runtime Control is where we define an API that logically
 integrates those components into a unified and coherent set of
 abstract services. It is also an opportunity to “raise the level of
 abstraction” for the underlying subsystems.
+
+One of the surprising challenges in defining abstractions is the
+rather pedestrian chore of coming up with suitable names for those
+abstractions. Terminology is often overloaded. That is certainly the
+case with our exemplar 5G connectivity service, starting with how we
+refer to various principals. In the following, a *user* refers to a
+person using the API or GUI portal (who may or may not have
+privileged access), and a *subscriber* refers to someone who uses a
+mobile device (it is a term borrowed from the Telco industry). To
+further complicate matters, not all devices have subscribers, since
+for example, IoT devices are not necessarily associated with a
+particular human.
 
 5.1 Design Overview
 -------------------
@@ -117,31 +128,29 @@ that we can build upon.
 	imparative language to define models.*
 
 With this background, :numref:`Figure %s <fig-roc>` shows the internal
-structure of Runtime Control for Aether, which has **onos-config**\—a
-microservice used in ONOS to maintain a set of YANG models for
-configuring network devices—at its core. In Aether, onos-config is
-re-purposed to use YANG models to control and configure cloud
-services.\ [#]_ onos-config, in turn, uses Atomix (a Key/Value-Store
-microservice), to make configuration state persistent. Because
-onos-config was originally designed to manage configuration state for
-devices, it uses gNMI as its southbound interface to communicate
-configuration changes to devices (or in our case, software
-services). An Adaptor has to be written for any service/device that
-does not support gNMI natively. These adaptors are shown as part of
-Runtime Control in :numref:`Figure %s <fig-roc>`, but it is equally
-correct to view each adaptor as part of the backend component,
-responsible for making that component management-ready. Finally,
-Runtime Control includes a Workflow Engine that is responsible for
-executing multi-step operations on the data model. This happens, for
-example, when a change to one model triggers some action on another
-model. Each of these components are described in more detail in the
-next section.
+structure of Runtime Control for Aether, which has **x-config**\—a
+microservice that maintains a set of YANG models—at its core.\ [#]_
+x-config, in turn, uses Atomix (a Key/Value-Store microservice), to
+make configuration state persistent. Because x-config was originally
+designed to manage configuration state for devices, it uses gNMI as
+its southbound interface to communicate configuration changes to
+devices (or in our case, software services). An Adaptor has to be
+written for any service/device that does not support gNMI
+natively. These adaptors are shown as part of Runtime Control in
+:numref:`Figure %s <fig-roc>`, but it is equally correct to view each
+adaptor as part of the backend component, responsible for making that
+component management-ready. Finally, Runtime Control includes a
+Workflow Engine that is responsible for executing multi-step
+operations on the data model. This happens, for example, when a change
+to one model triggers some action on another model. Each of these
+components are described in more detail in the next section.
 
-.. [#] Because ONOS is part of the SD-Fabric and SD-RAN, which are
-       responsible for configuring a set of devices, multiple
-       onos-config microservices run within a single Aether
-       cluster. Here, we focus on its role in managing services. It's
-       a general (reusable) tool.
+.. [#] x-config is general-purpose, model-agnostic tool. In Aether, it
+       manages YANG models for cloud services, but it is also used by
+       SD-Fabric to manage YANG models for a set of network switches
+       and by SD-RAN to manage YANG models for a set of RAN elements.
+       This means multiple instances of the x-config microservice run
+       in a give Aether edge cluster.
        
 .. _fig-roc:
 .. figure:: figures/Slide15.png
@@ -163,9 +172,8 @@ illustrated in :numref:`Figure %s <fig-roc2>`, where the key takeaway
 is that (1) we want RBAC and auditing for all operations; (2) we want
 a single source of authoritative configuration state; and (3) we want
 to grant limited (fine-grained) access to management functions to
-arbitrary principals rather than assume that only privileged operators
-ever touch, say, some aspect of deployment. (We’ll see an example of
-the latter in Section 5.3.)
+arbitrary principals rather than assume that only a single privileged
+class of operators.
 
 Of course, the private APIs of the underlying subsystems still exist,
 and operators can directly use them. This can be especially useful
@@ -192,23 +200,44 @@ K/V-store (as an optimization).
 
 .. _fig-roc2:
 .. figure:: figures/Slide16.png
-   :width: 500px
+   :width: 450px
    :align: center
 
    Runtime Control also mediates access to the other Management
    Services.
 
-One final aspect of :numref:`Figure %s <fig-roc2>` worth noting is
+Another aspect of :numref:`Figure %s <fig-roc2>` worth noting is
 that, while Runtime Control mediates all control-related activity, it
 is not in the “data path” for the subsystems it controls. This means,
 for example, that monitoring data returned by the Monitoring & Logging
 subsystem does not pass through Runtime Control; it is delivered
-directly to dashboards and applications running on top of AMP. Runtime
-Control is only involved in authorizing access to such data. It is
-also the case that Runtime Control and the Monitoring subsystem have
-their own, independent data stores: it is the Atomix K/V-Store for
-Runtime Control and a Time-Series DB for Monitoring (as discussed in
-more detail in Chapter 6).
+directly to dashboards and applications running on top of the
+API. Runtime Control is only involved in authorizing access to such
+data. It is also the case that Runtime Control and the Monitoring
+subsystem have their own, independent data stores: it is the Atomix
+K/V-Store for Runtime Control and a Time-Series DB for Monitoring (as
+discussed in more detail in Chapter 6).
+
+In summary, the value of a unified Runtime Control API is best
+illustrated by the ability to implement closed-loop control
+applications (and other dashboards) that "read" data collected by the
+Monitoring subsystem; perform some kind of analysis on that data,
+possibly resulting in a decision to take corrective action; and then
+"write" new control directives, which x-config passes along to, some
+combination of SD-RAN, SD-Core, and SD-Fabric, or even to the
+Lifecycle Management subsystem. (We'll see an example the latter in
+Section 5.3.) This closed-loop scenario is depicted in :numref:`Figure
+%s <fig-roc3>`, which gives a different perspective by showing the
+Monitoring subsystem as a "peer" of Runtime Control (rather than below
+it), although both perspectives are valid.
+
+.. _fig-roc3:
+.. figure:: figures/Slide17.png
+   :width: 500px
+   :align: center
+
+   Another perspective of Runtime Control, illustrating the value of a
+   unified API that supports closed-loop control applications.
 
 5.2 Implementation Details
 --------------------------
@@ -219,14 +248,14 @@ focusing on the role each plays in cloud management.
 Models & State
 ~~~~~~~~~~~~~~
 
-Onos-config is the core of the Runtime Control. Its job is to store
-and version configuration data. Configuration is pushed to onos-config
+x-config is the core of the Runtime Control. Its job is to store
+and version configuration data. Configuration is pushed to x-config
 through its northbound gNMI interface, stored in an persistent
 Key/Value-store, and pushed to backend subsystems using a southbound
 gNMI interface.
 
 A collection of YANG-based models define the schema for this
-configuration state. These models are loaded into onos-config, and
+configuration state. These models are loaded into x-config, and
 collectively define the data model for all the configuration and
 control state that Runtime Control is responsible for. As an example,
 the data model (schema) for Aether is sketched in Section 5.3, but
@@ -236,37 +265,47 @@ network devices.
 There are three details of note:
 
 * **Persistent Store:** Atomix is the cloud native K/V-store used to
-  persist data in onos-config. Atomix supports a distributed map
+  persist data in x-config. Atomix supports a distributed map
   abstraction, which implements the Raft consensus algorithm to
-  achieve fault-tolerance and scalable performance. Onos-config writes
+  achieve fault-tolerance and scalable performance. x-config writes
   data to and reads data from Atomix using a simple GET/PUT interface
   common to NoSQL databases.
   
 * **Loading Models:** A Kubernetes Operator (not shown in the figure),
-  is responsible for configuring the models within onos-config. Models
-  to load into onos-config are specified by a Helm chart. The operator
-  compiles them on demand and incorporates them into onos-config. This
+  is responsible for configuring the models within x-config. Models
+  to load into x-config are specified by a Helm chart. The operator
+  compiles them on demand and incorporates them into x-config. This
   eliminates dynamic load compatibility issues that are a problem when
-  models and onos-config are built separately.
+  models and x-config are built separately.
   
-* **Migration:** All the models loaded into onos-config are versioned,
+* **Migration:** All the models loaded into x-config are versioned,
   and the process of updating those models triggers the migration of
   persistent state from one version of the data model to another. The
   migration mechanism supports simultaneous operation of multiple
   versions.
+
+Note that because Atomix is fault-tolerant as long as it runs on
+multiple physical servers, it can be built on top of unreliable local
+(per-server) storage. There is no reason to use highly available
+cloud storage. On the other hand, prudence dictates that all the state
+the Runtime Control subsystem maintains be backed up periodically, in
+case it needs to be restarted from scratch due to a catastrophic
+failure. These checkpoints, plus all the configuration-as-code files
+stored in GitHub, collectively define the entirety of the
+authoritative state needed to (re-)instantiate a cloud deployment.
   
-Control API
-~~~~~~~~~~~
+Runtime Control API
+~~~~~~~~~~~~~~~~~~~
 
-A Control API provides an *interface wrapper* that sits between
-onos-config and higher-layer portals and applications. Northbound, it
-offers a RESTful API. Southbound, it speaks gNMI to onos-config. It is
-entirely possible to auto-generate the REST API from the set of models
-loaded into onos-config, although one is also free to augment this set
-with additional “hand-crafted” calls for the sake of convenience
-(although typically this will mean the API is no longer RESTful).
+An API provides an *interface wrapper* that sits between x-config and
+higher-layer portals and applications. Northbound, it offers a RESTful
+API. Southbound, it speaks gNMI to x-config. It is entirely possible
+to auto-generate the REST API from the set of models loaded into
+x-config, although one is also free to augment this set with
+additional “hand-crafted” calls for the sake of convenience (although
+typically this will mean the API is no longer RESTful).
 
-The Control API layer serves multiple purposes:
+The Runtime Control API layer serves multiple purposes:
 
 * Unlike gNMI (which supports only **GET** and **SET** operations), a
   RESTful API (which supports **GET**, **PUT**, **POST**, **PATCH**,
@@ -290,16 +329,16 @@ to associate users with groups. For example, adding administrators to
 the ``AetherAdmin`` group would be an obvious way to grant those
 individuals with administrative privileges within Runtime Control.
 
-An external authentication service, Dex, serves as a frontend to a
-database like LDAP. It authenticates the user, handles the mechanics
+An external authentication service, Keycloak, serves as a frontend to
+a database like LDAP. It authenticates the user, handles the mechanics
 of accepting the password, validating it, and securely returning the
-group the user belongs to. 
+group the user belongs to.
 
 .. _reading_dex:
 .. admonition:: Further Reading
 
-   `Dex: A Federated OpenID Connect Provider
-   <https://dexidp.io/>`__.
+   `Keycloak: Open Source Identity and Access Management
+   <https://www.keycloak.org/>`__.
 
 The group identifier is then used to grant access to resources within
 Runtime Control, which points to the related problem of establishing
@@ -326,7 +365,7 @@ the Runtime Control’s southbound gNMI calls and the SD-Core
 subsystem’s RESTful northbound interface. The adapter is not
 necessarily just a syntactic translator, but may also include its own
 semantic layer. This supports a logical decoupling of the models
-stored in onos-config and the interface used by the southbound
+stored in x-config and the interface used by the southbound
 device/service, allowing the southbound device/service and Runtime
 Control to evolve independently. It also allows for southbound
 devices/services to be replaced without affecting the northbound
@@ -335,7 +374,7 @@ interface.
 Workflow Engine
 ~~~~~~~~~~~~~~~
 
-The workflow engine, to the left of the onos-config in :numref:`Figure
+The workflow engine, to the left of the x-config in :numref:`Figure
 %s <fig-roc>`, is where multi-step workflows are implemented. For
 example, defining a new Slice or associating subscribers with an
 existing slice is a multi-step process, using several models and
@@ -355,7 +394,7 @@ Secure Communication
 
 gNMI naturally lends itself to mutual TLS for authentication, and that
 is the recommended way to secure communications between components
-that speak gNMI. For example, communication between onos-config and
+that speak gNMI. For example, communication between x-config and
 its adapters uses gNMI, and therefore, uses mutual TLS. Distributing
 certificates between components is a problem outside the scope of
 Runtime Control. It is assumed that another tool will be responsible
@@ -373,10 +412,10 @@ are leveraged as an authorization provider when using these REST APIs.
 This section sketches the data model for Aether's connectivity service
 as a way of illustrating the role Runtime Control plays. These models
 are specified in YANG (for which we include a concrete example of one
-of the modeld), but since the Control API is generated from these
-specs, it is equally valid to think in terms of an API that supports
-REST's GET, POST, PATCH, DELETE operations on a set of objects
-(resources):
+of the models), but since the Runtime Control API is generated from
+these specs, it is equally valid to think in terms of an API that
+supports REST's GET, POST, PATCH, DELETE operations on a set of
+objects (resources):
 
 * GET: Retrieve an object.
 * POST: Create an object.
@@ -505,8 +544,8 @@ QoS Profiles
 ~~~~~~~~~~~~~~~~~~~~~
 
 Associated with each connection is a QoS-related profile that governs
-how traffic that connection carries is treated. This starts with a
-`Template` model, which defines the valid (accepted) connectivity
+how traffic that connection carries is to be treated. This starts with
+a `Template` model, which defines the valid (accepted) connectivity
 settings. Aether Operations is responsible for defining these (the
 features they offer must be supported by the backend subsystems), with
 enterprises selecting the template they want applied to any instances
@@ -519,9 +558,16 @@ menu). That is, templates are used to initialize `VCS` objects. The
 * `traffic-class`: Link to a `Traffic-Class` object that describes the
   type of traffic.
 
-Note that a *slice*, like and *imsi*, is a 5G-specific term, which you
+Note that a `slice`, like an `imsi`, is a 5G-specific term, which you
 can think of as representing an isolated channel with associated QoS
-parameters.
+parameters. It is of particular note, however, because although it is
+"hidden" within the `Template` model (i.e., it is an implementation
+detail), it is realized (in part) by spinning up an entirely new copy
+of the SD-Core. This is done to ensure isolation, but it also
+illustrates a touch-point between Runtime Control and the Lifecycle
+Management subsystem: Runtime Control, via an Adaptor, engages
+Lifecycle Management to launch the necessary set of Kubernetes
+containers.
   
 The `Traffic-Class` model, in turn, specifies the classes of traffic,
 and includes the following fields:

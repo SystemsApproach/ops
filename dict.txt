@@ -25,6 +25,7 @@ IoT
 IPMI
 iPXE
 Istio
+Keycloak
 Kibana
 Kubernetes
 Lifecycle
@@ -74,6 +75,7 @@ deployable
 disaggregated
 downlink
 facto
+frontend
 hoc
 hyperscale
 hyperscaler
