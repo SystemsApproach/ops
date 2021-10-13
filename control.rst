@@ -2,14 +2,15 @@ Chapter 5:  Runtime Control
 ===========================
 	
 Runtime Control provides an API by which various principals, such as
-end-users or privileged admins, can make changes to a running system,
-primarily by specifying new values for one or more runtime parameters.
+end-users, enterprise admins, or cloud operators, can make changes to
+a running system, by specifying new values for one or more runtime
+parameters.
 
 Using Aether’s 5G connectivity service as an example, suppose an
 end-user wants to change the *QoS-Profile* setting for their mobile
 device. This might include modifying the *Uplink* or *Downlink*
 bandwidth, or even selecting a different *Traffic Class*. Similarly,
-imagine a privileged admin wants to add a new *Mission-Critical*
+imagine an enterprise admin wants to add a new *Mission-Critical*
 option to the existing set of *Traffic Classes* that *QoS-Profiles*
 can adopt. Without worrying about the exact syntax of the API call(s)
 for these operations, the Runtime Control subsystem needs to
@@ -42,19 +43,22 @@ layer. But for a cloud constructed from a collection of disaggregated
 components, Runtime Control is where we define an API that logically
 integrates those components into a unified and coherent set of
 abstract services. It is also an opportunity to “raise the level of
-abstraction” for the underlying subsystems.
+abstraction” for the underlying subsystems and hidding implementation
+details.
 
 One of the surprising challenges in defining abstractions is the
 rather pedestrian chore of coming up with suitable names for those
-abstractions. Terminology is often overloaded. That is certainly the
-case with our exemplar 5G connectivity service, starting with how we
-refer to various principals. In the following, a *user* refers to a
-person using the API or GUI portal (who may or may not have
-privileged access), and a *subscriber* refers to someone who uses a
-mobile device (it is a term borrowed from the Telco industry). To
-further complicate matters, not all devices have subscribers, since
-for example, IoT devices are not necessarily associated with a
-particular human.
+abstractions. Terminology is often overloaded, and different
+subsystems may use different names for the same concept. That is
+certainly the case with our exemplar 5G connectivity service, starting
+with how we refer to various principals. In the following, a *user*
+refers to a person using the API or GUI portal (who may or may not
+have privileged access), and a *subscriber* refers to someone who uses
+a mobile device (it is a term borrowed from the Telco industry). There
+is not necessarily a one-to-one relationship between these two
+entities, and further to complicate matters, not all devices have
+subscribers (e.g., IoT devices are often not associated with a
+particular human).
 
 5.1 Design Overview
 -------------------
@@ -145,12 +149,12 @@ operations on the data model. This happens, for example, when a change
 to one model triggers some action on another model. Each of these
 components are described in more detail in the next section.
 
-.. [#] x-config is general-purpose, model-agnostic tool. In Aether, it
+.. [#] x-config is a general-purpose, model-agnostic tool. In AMP, it
        manages YANG models for cloud services, but it is also used by
        SD-Fabric to manage YANG models for a set of network switches
        and by SD-RAN to manage YANG models for a set of RAN elements.
        This means multiple instances of the x-config microservice run
-       in a give Aether edge cluster.
+       in a given Aether edge cluster.
        
 .. _fig-roc:
 .. figure:: figures/Slide15.png
@@ -223,13 +227,13 @@ illustrated by the ability to implement closed-loop control
 applications (and other dashboards) that "read" data collected by the
 Monitoring subsystem; perform some kind of analysis on that data,
 possibly resulting in a decision to take corrective action; and then
-"write" new control directives, which x-config passes along to, some
-combination of SD-RAN, SD-Core, and SD-Fabric, or even to the
-Lifecycle Management subsystem. (We'll see an example the latter in
-Section 5.3.) This closed-loop scenario is depicted in :numref:`Figure
-%s <fig-roc3>`, which gives a different perspective by showing the
-Monitoring subsystem as a "peer" of Runtime Control (rather than below
-it), although both perspectives are valid.
+"write" new control directives, which x-config passes along to some
+combination of SD-RAN, SD-Core, and SD-Fabric, or sometimes even to
+the Lifecycle Management subsystem. (We'll see an example the latter
+in Section 5.3.) This closed-loop scenario is depicted in
+:numref:`Figure %s <fig-roc3>`, which gives a different perspective by
+showing the Monitoring subsystem as a "peer" of Runtime Control
+(rather than below it), although both perspectives are valid.
 
 .. _fig-roc3:
 .. figure:: figures/Slide17.png
@@ -374,10 +378,10 @@ interface.
 Workflow Engine
 ~~~~~~~~~~~~~~~
 
-The workflow engine, to the left of the x-config in :numref:`Figure
-%s <fig-roc>`, is where multi-step workflows are implemented. For
-example, defining a new Slice or associating subscribers with an
-existing slice is a multi-step process, using several models and
+The workflow engine, to the left of the x-config in :numref:`Figure %s
+<fig-roc>`, is where multi-step workflows are implemented. For
+example, defining a new 5G connection or associating devices with an
+existing connection is a multi-step process, using several models and
 impacting multiple backend subsystems. In our experience, there may
 even be complex state machines that implement those steps.
 
@@ -398,8 +402,7 @@ that speak gNMI. For example, communication between x-config and
 its adapters uses gNMI, and therefore, uses mutual TLS. Distributing
 certificates between components is a problem outside the scope of
 Runtime Control. It is assumed that another tool will be responsible
-for distribution, renewing certificates before they expire,
-etc.
+for distributing, revoking, and renewing certificates.
 
 For components that speak REST, HTTPS is used to secure the
 connection, and authentication can take place using mechanisms within
@@ -427,15 +430,14 @@ every object contains an `id` field that is used to identify the
 object. These identifiers are unique to the model, but not necessarily
 across all models.
 
-Some objects contain references to other objects. For example, as
-we'll see in the example below, many objects contain references to the
-`Enterprise` object, which allows them to be associated with a
-particular enterprise. That is, references are constructed using the
-`id` field of the referenced object. Note that one of the features of
-the mechanisms described in the previous section is that they flag
-attempts to create a reference to an object that does not exist and
-attempts to delete an object while there are open references to it
-from other objects as errors.
+Some objects contain references to other objects. For example, many
+objects contain references to the `Enterprise` object, which allows
+them to be associated with a particular enterprise. That is,
+references are constructed using the `id` field of the referenced
+object. Note that one of the features of the mechanisms described in
+the previous section is that they flag attempts to create a reference
+to an object that does not exist and attempts to delete an object
+while there are open references to it from other objects as errors.
 
 In addition to the `id` field, several other fields are also common to
 all models. These include:
@@ -560,14 +562,14 @@ menu). That is, templates are used to initialize `VCS` objects. The
 
 Note that a `slice`, like an `imsi`, is a 5G-specific term, which you
 can think of as representing an isolated channel with associated QoS
-parameters. It is of particular note, however, because although it is
-"hidden" within the `Template` model (i.e., it is an implementation
-detail), it is realized (in part) by spinning up an entirely new copy
-of the SD-Core. This is done to ensure isolation, but it also
+parameters. It is of particular note to our discussion because,
+although it is "hidden" within the `Template` model (i.e., it is an
+implementation detail), it is realized by spinning up an entirely new
+copy of the SD-Core. This is done to ensure isolation, but it also
 illustrates a touch-point between Runtime Control and the Lifecycle
 Management subsystem: Runtime Control, via an Adaptor, engages
 Lifecycle Management to launch the necessary set of Kubernetes
-containers.
+containers that implement an isolated slice.
   
 The `Traffic-Class` model, in turn, specifies the classes of traffic,
 and includes the following fields:
@@ -589,7 +591,17 @@ Other Models
 The above description references other models, which we do not fully
 described here. They include `AP-List`, which specifies a list of
 access points (radios); `IP-Domain`, which specifies IP and DNS
-settings); and `UPF`, which specifies the User Plane Function (the data
-plane element of the SD-Core) that should forward packets on behalf
-of this particular instance of the connectivity service.
+settings; and `UPF`, which specifies the User Plane Function (the data
+plane element of the SD-Core) that should forward packets on behalf of
+this particular instance of the connectivity service. The `UPF` model
+is necessary because Aether supports two different implementations:
+one runs as a microservice on a server and the other runs as a P4
+program loaded into the switching fabric, as described in a companion
+book.
+
+.. _reading_sdn:
+.. admonition:: Further Reading 
+
+   `Software-Defined Networks: A Systems Approach 
+   <https://sdn.systemsapproach.org>`__
 

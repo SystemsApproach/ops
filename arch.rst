@@ -85,6 +85,18 @@ is a Kubernetes-based cluster similar to the one shown in
 consists of one or more server racks interconnected by a leaf-spine
 switching fabric, with an SDN control plane (denoted SD-Fabric)
 managing the fabric.
+
+.. _fig-ace:
+.. figure:: figures/Slide3.png
+   :width: 400px
+   :align: center
+
+   Aether Connected Edge (ACE) = The cloud platform (Kubernetes and
+   SD-Fabric) plus the 5G connectivity service (RAN and User Plane of
+   Mobile Core). Dotted lines (e.g., between SD-RAN and the individual
+   base stations, and between the Network OS and the individual
+   switches) represent control relationships (e.g., SD-RAN controls
+   the small cells and SD-Fabric controls the switches).
 	
 As shown in :numref:`Figure %s <fig-ace>`, ACE hosts two additional
 microservice-based subsystems on top of this platform; they
@@ -98,22 +110,19 @@ Internet. The SD-Core Control Plane (CP) runs off-site, and is not
 shown in :numref:`Figure %s <fig-ace>`. Both subsystems (as well as
 the SD-Fabric), are deployed as a set of microservices, but details
 about the functionality implemented by these containers is otherwise
-not critical to this discussion. For our purposes, they are simply
-cloud native workloads. (The interested reader is referred to our 5G
-and SDN books for more information about the internal working of
-SD-RAN, SD-Core, and SD-Fabric.)
+not critical to this discussion. For our purposes, they are
+representative of any cloud native workload. (The interested reader is
+referred to our 5G and SDN books for more information about the
+internal working of SD-RAN, SD-Core, and SD-Fabric.)
 
-.. _fig-ace:
-.. figure:: figures/Slide3.png
-   :width: 400px
-   :align: center
+.. _reading_5g:
+.. admonition:: Further Reading 
 
-   Aether Connected Edge (ACE) = The cloud platform (Kubernetes and
-   SD-Fabric) plus the 5G connectivity service (RAN and User Plane of
-   Mobile Core). Dotted lines (e.g., between SD-RAN and the individual
-   base stations, and between the Network OS and the individual
-   switches) represent control relationships (e.g., SD-RAN controls
-   the small cells and SD-Fabric controls the switches).
+   `5G Mobile Networks: A Systems Approach 
+   <https://5G.systemsapproach.org>`__
+   
+   `Software-Defined Networks: A Systems Approach 
+   <https://sdn.systemsapproach.org>`__
 
 Once ACE is running in this configuration, it is ready to host a
 collection of edge applications (not shown in :numref:`Figure %s
@@ -505,15 +514,18 @@ calls in the middle of the night.
 	example of how good things come from efforts to minimize
 	toil. As Google gained experience building and running its
 	cloud, the incremental improvements to their cloud management
-	system were assimilated in a system known as BORG. Kubernetes,
-	the open source project widely used across the industry today,
-	was spun out of BORG. The functionality embodied by Kubernetes
-	had evolved over time to deal with the operational challenges
-	of deploying, upgrading, and a set of containers, serving as a
-	great example of a "raising tide raising all boats." Given
-	enough time, it is likely that next layer of cloud management
-	machinery, roughly corresponding to the topics covered in this
-	book will also be taken as a given.*
+	system were assimilated in a system known as BORG.*
+
+	*Kubernetes, the open source project widely used across the
+	industry today, was spun out of BORG. The functionality
+	embodied by Kubernetes evolved over time to deal with the
+	operational challenges of deploying, upgrading, and monitoring
+	a set of containers, serving as a great example of how a
+	"rising tide lifts all boats." Given enough time, it may be
+	the case that next layer of cloud management machinery,
+	roughly corresponding to the topics covered in this book, will
+	also be taken as a given. The challenge, as we will see, is
+	the multi-dimensional scope of the problem.*
 
 Second, all of the activity outlined in the previous paragraph is
 possible only because of the rich set of capabilities built into the
@@ -556,6 +568,7 @@ little time is spent making the Control and Management Platform
 better, then it is taken as a sign that additional engineering
 resources are needed.
 
+.. _reading_sre:
 .. admonition:: Further Reading
 
    `Site Reliability Engineering: How Google Runs Production Systems
