@@ -1,0 +1,5 @@
+{
+  "time": "2020-08-18 05:35:54.842Z",
+  "logLevel": "INFO",  "component": "DistributedP4RuntimeTableMirror",
+  "log": "Synchronized TABLE_ENTRY mirror for device:leaf1: 0 removed, 2 updated, 4 added"
+}
