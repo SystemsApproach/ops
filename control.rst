@@ -43,7 +43,7 @@ layer. But for a cloud constructed from a collection of disaggregated
 components, Runtime Control is where we define an API that logically
 integrates those components into a unified and coherent set of
 abstract services. It is also an opportunity to “raise the level of
-abstraction” for the underlying subsystems and hidding implementation
+abstraction” for the underlying subsystems and hiding implementation
 details.
 
 One of the surprising challenges in defining abstractions is the

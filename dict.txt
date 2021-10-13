@@ -1,5 +1,6 @@
 Adaptor
 Aether
+Alertmanager
 Ansible
 Anthos
 Atomix
@@ -13,6 +14,9 @@ Docker
 Dockerfile
 ECS
 Elkstack
+ElasticStack
+Fluentbit
+Fluentd
 eNB
 eNBs
 GCP
@@ -76,10 +80,12 @@ disaggregated
 downlink
 facto
 frontend
+heatmap
 hoc
 hyperscale
 hyperscaler
 hyperscalers
+instantiation
 invariants
 gNMI 
 gNOI

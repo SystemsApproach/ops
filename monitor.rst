@@ -10,7 +10,7 @@ requirements for cloud deployments. That there are two (and not just
 one) is indicative of how the problem space naturally divides into
 two, mostly independent sub-problems: *monitoring* and *logging*.
 
-The monitoring stack collects periodic quantative data. These include
+The monitoring stack collects periodic quantitative data. These include
 common performance metrics like link bandwidth, CPU utilization, and
 memory usage, but also binary results corresponding to "up" and
 "down". These values are produced and collected periodically (e.g.,
@@ -56,9 +56,9 @@ functions might be implemented in the following sections.
 The standard open source monitoring stack uses Prometheus to collect
 and store platform and service metrics, Grafana to visualize metrics
 over time, and Alertmanager to notify the operations team of events
-that require attention.  In Aether, Prometheus is instantated on each
-edge cluster, with a single instantiation of Grafana and Alertmanger
-running centerally in the cloud. More information about each tool is
+that require attention.  In Aether, Prometheus is instantiated on each
+edge cluster, with a single instantiation of Grafana and Alertmanager
+running centrally in the cloud. More information about each tool is
 available online, so we focus more narrowly on (1) how individual
 Aether components "opt into" this stack, and (2) how the stack can be
 customized in service-specific ways.
@@ -110,7 +110,7 @@ deployment-specific information (e.g., per-enterprise or per-cluster
 in Aether).
 
 Briefly, a dashboard is constructed from a set of *panels*, where each
-panel has a well-defined *type* (e.g., graph, table, gage, heatmap)
+panel has a well-defined *type* (e.g., graph, table, gauge, heatmap)
 bound to a particular Prometheus *query*. New dashboards are created
 using the Grafana GUI, and the resulting configuration then saved as a
 JSON file. This configuration file is then committed to the
@@ -133,7 +133,7 @@ repo, and then loaded into Alertmanager as a custom resources
 specified in the corresponding Helm Chart.
 
 In Aether, the Alertmanager is configured to send alerts with
-*critical* or *warning* severity to a general set of recivers.  If it
+*critical* or *warning* severity to a general set of receivers.  If it
 is desirable to route a specific alert to a different receiver (e.g.,
 a component-specific Slack channel), one can change the Alertmanager
 configuration accordingly.
