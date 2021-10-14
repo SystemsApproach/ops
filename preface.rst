@@ -31,23 +31,26 @@ example). The team was able to do this by leveraging 20+ open source
 components, but selecting those components is just a start. There were
 dozens of technical decisions to make along the way, and a few
 thousand lines of configuration code to write. We believe this is a
-repeatable exercise, which we report in this book. (Plus, our code is
-available as open source.)
+repeatable exercise, which we report in this book. (And the code
+behind the book is open source, for those that want to pursue the
+approach even further.)
 
 Our roadmap may not be the right one for all circumstances, but it
 does shine a light on the challenges and fundamental trade-offs
-involved in operationalizing a cloud. As we can attest, it’s a
-complicated design space with an overabundance of terminology and
-storylines to untangle. Whether you plan to stand up your own edge
-cloud in your enterprise, or end up selecting a cloud provider to do
-that for you, understanding everything that goes into such an endeavor
-is a critical first step in the decision making process.
+involved in operationalizing a cloud. As we can attest based on our
+experience, it’s a complicated design space with an overabundance of
+terminology and storylines to untangle. Whether you plan to stand up
+your own edge cloud in an enterprise, or end up selecting a cloud
+provider to do that for you, understanding everything that goes into
+such an endeavor is a critical first step in the decision making
+process.
 
 How to operationalize a computing system is a question that’s as old
 as, well, *Operating Systems*. Operationalizing a cloud is just
-today’s version of that fundamental problem, which is made all the
-more interesting as we move from managing *devices* to managing
-*services*. This makes it a topic worth studying.
+today’s version of that fundamental problem, which has become all the
+more interesting as we move up the stack, from managing *devices* to
+managing *services*. This makes it a topic everyone should know
+something about.
 
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
 | October 2021
