@@ -33,7 +33,7 @@ dozens of technical decisions to make along the way, and a few
 thousand lines of configuration code to write. We believe this is a
 repeatable exercise, which we report in this book. (And the code
 behind the book is open source, for those that want to pursue the
-approach even further.)
+topic even further.)
 
 Our roadmap may not be the right one for all circumstances, but it
 does shine a light on the challenges and fundamental trade-offs
