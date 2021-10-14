@@ -2,7 +2,7 @@ Chapter 5:  Runtime Control
 ===========================
 	
 Runtime Control provides an API by which various principals, such as
-end-users, enterprise admins, or cloud operators, can make changes to
+end-users, enterprise admins, and cloud operators, can make changes to
 a running system, by specifying new values for one or more runtime
 parameters.
 

@@ -11,6 +11,8 @@ Operationalizing a Cloud: A Systems Approach
 Peterson, Baker, Bavier, Williams and Davie
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+|
+
 .. toctree::
    :maxdepth: 2 
    :caption: Table of Contents 

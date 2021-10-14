@@ -1,17 +1,3 @@
-# Copyright 2019-present Open Networking Foundation
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
@@ -32,9 +18,23 @@
 
 import os
 
+from subprocess import check_output, CalledProcessError
+
 def get_version():
-    with open("VERSION") as f:
-        return f.read().strip()
+    
+    try:
+        version = check_output(['cat', 'VERSION'],
+                               universal_newlines=True)
+    except CalledProcessError:
+        return 'unknown version'
+
+    return version.rstrip()
+
+# "version" is used for html build
+version = get_version()
+# "release" is used for LaTeX build
+release = version
+
 
 # -- Project information -----------------------------------------------------
 
@@ -42,11 +42,6 @@ project = u'Operationalizing a Cloud: A Systems Approach'
 copyright = u'2021'
 author = u'Peterson, Baker, Bavier, Williams, Davie'
 
-# The short X.Y version
-version = get_version()
-
-# The full version, including alpha/beta/rc tags
-release = get_version()
 
 # -- General configuration ---------------------------------------------------
 
@@ -61,15 +56,27 @@ warning_is_error = True
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones. ***Replace "mathjax" with "imgmath" for epub output.***
 extensions = [
-    'sphinx.ext.coverage',
-    'sphinx.ext.graphviz',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx.ext.todo',
     'sphinxcontrib.spelling',
     "sphinx_multiversion",
 ]
+
+#extensions = [
+#    'recommonmark',
+#    'sphinx.ext.coverage',
+#    'sphinx.ext.ifconfig',
+#    'sphinx.ext.mathjax',
+#    'sphinx.ext.todo',
+#    'sphinx.ext.autosectionlabel',
+#    'sphinxcontrib.actdiag',
+#    'sphinxcontrib.blockdiag',
+#    'sphinxcontrib.nwdiag',
+#    'sphinxcontrib.packetdiag',
+#    'sphinxcontrib.rackdiag',
+#    'sphinxcontrib.seqdiag',
+#]
 
 # Text files with lists of words that shouldn't fail the spellchecker:
 spelling_word_list_filename=['dict.txt', ]
@@ -81,7 +88,7 @@ templates_path = ['_templates']
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = ['.rst', '.md']
+source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
@@ -96,7 +103,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = [u'_build', 'doc_venv', 'requirements.txt', 'Thumbs.db', '.DS_Store', 'repos', '*/vendor', 'sidebars', 'private', 'status.rst', '*/README.rst', 'CONTRIBUTING.rst']
+exclude_patterns = [u'_build', 'doc_venv', 'requirements.txt', 'Thumbs.db', 'private', '.DS_Store', '*/README.rst']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
@@ -110,7 +117,7 @@ numfig_format = {
 
 # Ignore link check for the following websites
 # linkcheck_ignore = [
-#     'https://ops.systemspproach.org/',
+#     'https://SDN.systemspproach.org/',
 # ]
 
 # -- Options for HTML output -------------------------------------------------
@@ -157,6 +164,7 @@ htmlhelp_basename = 'SystemsApproach'
 
 
 # -- Options for LaTeX output ------------------------------------------------
+#latex_engine = 'xelatex'
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
@@ -168,8 +176,13 @@ latex_elements = {
     'pointsize': '11pt',
 
     # Additional stuff for the LaTeX preamble.
+    
     #
     # 'preamble': 'private/latex/preamble.tex',
+    #
+    # Get unicode to work
+
+    'fontenc': '\\usepackage[LGR,T1]{fontenc}',
 
     # Latex figure (float) alignment
     #
@@ -203,7 +216,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Operationalizing a Cloud', u'Software-Defined Networks',
+    (master_doc, 'Operationalizing a Cloud', u'Operationalizing a Cloud',
      author, 'Peterson, Baker, Bavier, Williams, and Davie', 'A Systems Approach',
      'Miscellaneous'),
 ]
@@ -211,7 +224,7 @@ texinfo_documents = [
 
 # -- Options for Epub output -------------------------------------------------
 epub_title = project
-epub_description = 'The New Network Software Stack'
+epub_description = 'Building a Cloud Management Platform'
 epub_cover = ('_static/cover.jpg', '')
 epub_show_urls = 'False'
 epub_use_index = False
@@ -231,31 +244,11 @@ epub_exclude_files = ['search.html']
 
 # -- Extension configuration -------------------------------------------------
 
-# blockdiag/etc. config
-
-rackdiag_antialias = True
-rackdiag_html_image_format = "SVG"
-rackdiag_fontpath = [
-    "_static/fonts/Inconsolata-Regular.ttf",
-    "_static/fonts/Inconsolata-Bold.ttf",
-]
-
-nwdiag_antialias = True
-nwdiag_html_image_format = "SVG"
-nwdiag_fontpath = [
-    "_static/fonts/Inconsolata-Regular.ttf",
-    "_static/fonts/Inconsolata-Bold.ttf",
-]
 
 # -- Options for todo extension ----------------------------------------------
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
-# -- Configure recommonmark to use AutoStructify -----------------------------
-# Docs: https://recommonmark.readthedocs.io/en/latest/auto_structify.html
-
-#import recommonmark
-#from recommonmark.transform import AutoStructify
 
 # -- Set up Google Analytics
 # -- using approach at https://stackoverflow.com/questions/9444342/adding-a-javascript-script-tag-some-place-so-that-it-works-for-every-file-in-sph/41885884#41885884
@@ -266,18 +259,13 @@ GA_INVOKE_JS = """
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-QLSP3FJWGT');
+  gtag('config', 'G-K101Q1MWLM');
 """
 
 def setup(app):
 
     app.add_css_file('css/rtd_theme_mods.css')
 
-    app.add_config_value('recommonmark_config', {
-            'auto_toc_tree_section': 'Contents',
-            }, True)
 
-#    app.add_transform(AutoStructify)
-
-    app.add_js_file('https://www.googletagmanager.com/gtag/js?id=G-QLSP3FJWGT')
+    app.add_js_file('https://www.googletagmanager.com/gtag/js?id=G-K101Q1MWLM')
     app.add_js_file(None, body=GA_INVOKE_JS)

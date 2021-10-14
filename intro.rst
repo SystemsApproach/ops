@@ -349,7 +349,7 @@ becomes ubiquitous.
 
 For example, if you start with the premise that a cloud hosts a set of
 containers, then your management layer would be responsible for
-detecting and restarting failed containers. On the other hand, if
+detecting and restarting failed containers. On the other hand, if you
 assume containers are resilient (i.e., able to auto-recover), then the
 management layer would not need to include that functionality
 (although it probably still needs to detect when the auto-recovery
