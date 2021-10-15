@@ -44,8 +44,8 @@ interesting use case to study:
   
 * Aether augments this edge cloud with 5G-Connectivity-as-a-Service,
   giving us a service that must be operationalized (in addition to the
-  underlying cloud). The end result is that Aether provides PaaS as a
-  managed service.
+  underlying cloud). The end result is that Aether provides managed
+  Platform-as-a-Service (PaaS).
   
 * Aether is built entirely from open source components. The only thing
   it adds is the “glue code” and “specification directives” required
@@ -244,7 +244,7 @@ set of challenges to management.
 .. [#] Colloquially, this is sometimes referred to as a shift from
        taking care of pets to one of herding cattle.
        
-1.1 Disaggregation
+1.2 Disaggregation
 ------------------
 
 To fully understand the challenge of operationalizing a cloud, we have
