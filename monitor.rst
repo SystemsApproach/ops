@@ -142,11 +142,14 @@ configuration accordingly.
 ------------------
 
 The standard open source logging stack uses Fluentd to collect
-(aggregate) log messages written by a set of components, with the
-Fluentbit client-side library running in each component; ElasticSearch
-to store, search, and analyze those messages; and Kibana to display
-and visualize the results. The general flow of data is shown in
-:numref:`Figure %s <fig-log>`.
+(aggregate, buffer, and route) log messages written by a set of
+components, with the Fluentbit client-side library running in each
+component helping developers normalize their log
+messages. ElasticSearch is then used to store, search, and analyze
+those messages, with Kibana used to display and visualize the
+results. The general flow of data is shown in :numref:`Figure %s
+<fig-log>`, using the main Aether subsystems as illustrataive sources
+of log messages.
 
 .. _fig-log:
 .. figure:: figures/Slide23.png
@@ -173,10 +176,10 @@ developed independent of each other. Fluentbit plays a role in
 normalizing these messages by supporting a set of filters. These
 filters parse "raw" log messages written by the component (an ASCII
 string), and output "canonical" log messages as structured JSON. In
-the process, these filters also add globally-defined state, such as a
-timestamp and a log level (e.g., ERROR, WARNING, INFO). For example,
-developers for the SD-Fabric component might write a Fluentbit filter
-that transforms
+the process, these filters also add globally agreed upon state, such
+as a timestamp and a log level (e.g., ERROR, WARNING, INFO). For
+example, developers for the SD-Fabric component might write a
+Fluentbit filter that transforms
 
 .. literalinclude:: code/log.ascii
 
