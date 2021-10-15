@@ -52,14 +52,14 @@ tracking physical inventory.
     Resource Provisioning in a hybrid cloud that includes both
     physical and virtual resources.
 
-Note that the dotted arrow on the right in :numref:`Figure %s
-<fig-infra>` is to indicate that Terraform does not interact directly
-with NetBox via a well-defined API (as is the case on the left), but
-instead with artifacts left behind by the hardware provisioning
-process described in Section 3.1. One way to think about this that the
-task of booting hardware into the "ready" state involves installing
-and configuring several subsystems that collectively form the cloud
-platform. It is this platform that Terraform interacts with.
+Note that the Provisioning API shown on the right in :numref:`Figure
+%s <fig-infra>` is *not* the NetBox API. Terraform does not interact
+directly with NetBox, but instead with artifacts left behind by the
+hardware provisioning process described in Section 3.1. One way to
+think about this that the task of booting hardware into the "ready"
+state involves installing and configuring several subsystems that
+collectively form the cloud platform. It is this platform that
+Terraform interacts with through a well-defined API we describe below.
 
 This chapter describes both sides of :numref:`Figure %s <fig-infra>`
 starting with provisioning physical infrastructure. Our approach is to
