@@ -360,8 +360,8 @@ need to decide on a line that separates “technology that is assumed”
 from “problems that remain and how we address them.” The following
 identifies the technology we assume.
 
-Hardware Platform
-~~~~~~~~~~~~~~~~~
+1.3.1 Hardware Platform
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The assumed hardware building blocks are straightforward. We start
 with bare-metal servers and switches, built using merchant
@@ -397,8 +397,8 @@ workloads, and (b) managing the various workloads that need to be
 deployed on that platform.
 
 
-Server Virtualization
-~~~~~~~~~~~~~~~~~~~~~
+1.3.2 Server Virtualization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We assume three software technologies virtualize the computing
 resources, all running on the commodity processors in the cluster:
@@ -478,8 +478,8 @@ for those that want to dig deeper into the details.
    onos-config, Atomix, OPF, Kibana, Logstash, Elasticsearch,
    Kubernetes, Helm, Docker (21)
 
-Switching Fabric
-~~~~~~~~~~~~~~~~
+1.3.3 Switching Fabric
+~~~~~~~~~~~~~~~~~~~~~~
 
 We assume the cloud is constructed using an SDN-based switching
 fabric, with a disaggregated control plane running in the same cloud
@@ -508,8 +508,8 @@ switches) by Kubernetes and Helm.\ [#]_
        this processor, and exports a northbound API that ONOS uses to
        configure and control the switch.
        
-Repositories
-~~~~~~~~~~~~~~~~
+1.3.4 Repositories
+~~~~~~~~~~~~~~~~~~
 
 For completeness, we need to mention that nearly every mechanism
 described in this book takes advantage of cloud-hosted repositories,
@@ -529,8 +529,8 @@ experience with Gerrit is not critical to understanding the material.
 
 
 
-Other Options
-~~~~~~~~~~~~~
+1.3.5 Other Options
+~~~~~~~~~~~~~~~~~~~
 
 Just as important as what building blocks we take for granted are the
 technologies we do not include. We discuss three here.
@@ -620,7 +620,7 @@ hopefully not at the expense of general applicability.
    <https://www.openness.org/>`__.
 
 1.4 Future of the Sys-Admin
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 System administrators have been responsible for operating enterprise
 networks since the first file servers, client workstations, and LANs

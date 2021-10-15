@@ -74,8 +74,8 @@ customized in service-specific ways.
    `Alertmanager <https://prometheus.io/docs/alerting/latest/alertmanager/>`__.
 
 
-Exporting Metrics to Prometheus
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6.1.1 Exporting Metrics
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Individual components implement a *Prometheus Exporter* to expose
 their metrics to Prometheus.  An exporter provides the current values
@@ -93,8 +93,8 @@ Service can tell Prometheus to scrape this endpoint by defining a
 Helm Chart that installs the component.
 
 
-Grafana Dashboards
-~~~~~~~~~~~~~~~~~~
+6.1.2 Creating Dashboards
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The metrics collected and stored by Prometheus running on each local
 cluster are visualized centrally using Grafana dashboards.  In Aether,
@@ -117,8 +117,8 @@ JSON file. This configuration file is then committed to the
 configuration repo, and later loaded into Grafana whenever is is
 restarted as part of Lifecycle Management.
 
-Defining Alerts
-~~~~~~~~~~~~~~~
+6.1.3 Defining Alerts
+~~~~~~~~~~~~~~~~~~~~~
 
 Alerts can be triggered in Prometheus when a component metric crosses
 some threshold.  The Alertmanager then routes the alert to one or more

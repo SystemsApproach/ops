@@ -181,8 +181,8 @@ development cycle, that is, on the left side of the pipeline shown in
 have to understand what types of tests you need. Then you can set up
 the infrastructure required to automate those tests.
 
-Categories of Tests
-~~~~~~~~~~~~~~~~~~~
+4.2.1 Categories of Tests
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 With respect to what types of tests, there is a rich vocabulary for
 talking about QA, but unfortunately, the definitions are often vague,
@@ -260,8 +260,8 @@ can be added to Unit, Smoke, or Integration, Performance, or Soak
 tests. Most tests, in practice, are Regression tests, independent of
 where they run in the CI/CD pipeline.
 
-Testing Framework
-~~~~~~~~~~~~~~~~~
+4.2.2 Testing Framework
+~~~~~~~~~~~~~~~~~~~~~~~
 
 With respect to a testing framework, :numref:`Figure %s
 <fig-tests>` shows an illustrative example drawn from
@@ -343,8 +343,8 @@ plan (Helm).
 But this story overlooks a few important details that we now discuss,
 in part by filling in some specific mechanisms.
 
-Code Repositories
-~~~~~~~~~~~~~~~~~
+4.3.1 Code Repositories
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Code Repositories, such as GitHub and Gerrit, typically provide a
 means to tentatively submit a patch set, triggering a set of static
@@ -358,8 +358,8 @@ process, and so we do not discuss it further. The important takeaway
 for our purposes is that there is a well-defined interface between
 code repositories and subsequent stages of the CI/CD pipeline.
 
-Build-Integrate-Test
-~~~~~~~~~~~~~~~~~~~~
+4.3.2 Build-Integrate-Test
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The heart of the CI pipeline is a mechanism for executing a set of
 processes that (a) build the component(s) impacted by a given patch
@@ -398,8 +398,8 @@ specify the underlying infrastructure (we've been calling this the
 cloud platform) and the set of Helm Charts that specify the collection
 of microservices (sometimes called applications) that are to be
 deployed on that infrastructure. We already know about Terraform from
-Chapter 3 (it's the agent that actually "acts on" the
-infrastructure-related forms). For its counterpart on the application
+Chapter 3: it's the agent that actually "acts on" the
+infrastructure-related forms. For its counterpart on the application
 side we use an open source project called Fleet.
 
 :numref:`Figure %s <fig-fleet>` shows the big picture we are working
@@ -433,7 +433,7 @@ The Fleet side of :numref:`Figure %s <fig-fleet>` is responsible
 installing the collection of microservices that are to run on each
 cluster. These microservices, organized as one or more applications,
 are specified by Helm Charts. If we were trying to deploy a single
-Chart on just one one Kubernetes cluster, they we'd be done: Helm is
+Chart on just one one Kubernetes cluster, then we'd be done: Helm is
 exactly the right tool to carry out that task. The value of Fleet is
 that it scales up that process, helping us manage the deployment of
 multiple charts across multiple clusters. (Fleet is a spin-off from
@@ -523,8 +523,8 @@ the software lifecycle:
 
 * The CD toolchain instantiates the set of Docker Images, as specified
   by name in one or more Helm Charts. Since these image names include
-  the semantic version number, by know the corresponding software
-  version being deployed.
+  the semantic version number, by convention, we know the
+  corresponding software version being deployed.
 
 * Each Helm Chart is also checked into a repository, and hence, has
   its own version number. Each time a Helm Chart changes, because the

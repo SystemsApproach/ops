@@ -250,8 +250,8 @@ The rest of this section introduces these four subsystems, with the
 chapters that follow filling in more detail about each. 
    
 
-Resource Provisioning
-~~~~~~~~~~~~~~~~~~~~~
+2.3.1 Resource Provisioning
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Resource Provisioning configures and bootstraps resources (both
 physical and virtual), bringing them up to a state so Lifecycle
@@ -297,8 +297,8 @@ it is necessary to provision those virtual resources as well. Chapter
 3 describes provisioning from this broader perspective, considering
 both physical and virtual resources.
 
-Lifecycle Management
-~~~~~~~~~~~~~~~~~~~~
+2.3.2 Lifecycle Management
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Lifecycle Management is the process of integrating fixed, extended,
 and refactored components (often microservices) into a set of
@@ -335,8 +335,8 @@ configuration state needed to successfully deploy the right version of
 each component in the system is the central challenge, which we
 address in Chapter 4.
 
-Runtime Control
-~~~~~~~~~~~~~~~
+2.3.3 Runtime Control
+~~~~~~~~~~~~~~~~~~~~~
 
 Once deployed and running, Runtime Control provides a programmatic API
 that can be used by various stakeholders to manage whatever abstract
@@ -376,8 +376,8 @@ users try to invoke on each service. These details are spelled out in
 Chapter 5.
 
 	
-Monitoring and Logging
-~~~~~~~~~~~~~~~~~~~~~~
+2.3.4 Monitoring and Logging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to controlling service functionality, a running system has
 to be continuously monitored so that operators can diagnose and
@@ -405,8 +405,8 @@ messages (i.e., text strings explaining various event). Both include a
 timestamp, so it is possible to link quantitative analysis with
 qualitative explanations in support of diagnostics and analytics.
 
-Summary
-~~~~~~~~~~
+2.3.5 Summary
+~~~~~~~~~~~~~
 
 This overview of the management architecture could lead one to
 conclude that these four subsystems were architected, in a rigorous,

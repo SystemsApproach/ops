@@ -249,8 +249,8 @@ showing the Monitoring subsystem as a "peer" of Runtime Control
 This section describes each of the components in Runtime Control,
 focusing on the role each plays in cloud management.
 
-Models & State
-~~~~~~~~~~~~~~
+5.2.1 Models & State
+~~~~~~~~~~~~~~~~~~~~
 
 x-config is the core of the Runtime Control. Its job is to store
 and version configuration data. Configuration is pushed to x-config
@@ -298,8 +298,8 @@ failure. These checkpoints, plus all the configuration-as-code files
 stored in GitHub, collectively define the entirety of the
 authoritative state needed to (re-)instantiate a cloud deployment.
   
-Runtime Control API
-~~~~~~~~~~~~~~~~~~~
+5.2.2 Runtime Control API
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An API provides an *interface wrapper* that sits between x-config and
 higher-layer portals and applications. Northbound, it offers a RESTful
@@ -323,8 +323,8 @@ The Runtime Control API layer serves multiple purposes:
 * The API layer is an opportunity to implement semantic translation,
   adding methods that go beyond the auto-generated calls.
   
-Identity Management
-~~~~~~~~~~~~~~~~~~~
+5.2.3 Identity Management
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Runtime Control leverages an external identity database (i.e. LDAP
 server) to store user data such as account names and passwords for
@@ -358,8 +358,8 @@ the case of Aether, Open Policy Agent (OPA) serves this role.
    <https://www.openpolicyagent.org/>`__.
 
 
-Adapters
-~~~~~~~~
+5.2.4 Adapters
+~~~~~~~~~~~~~~
 
 Not every service or subsystem beneath Runtime Control supports gNMI,
 and in the case where it is not supported, an adapter is written to
@@ -375,8 +375,8 @@ Control to evolve independently. It also allows for southbound
 devices/services to be replaced without affecting the northbound
 interface.
 
-Workflow Engine
-~~~~~~~~~~~~~~~
+5.2.5 Workflow Engine
+~~~~~~~~~~~~~~~~~~~~~
 
 The workflow engine, to the left of the x-config in :numref:`Figure %s
 <fig-roc>`, is where multi-step workflows are implemented. For
@@ -393,8 +393,8 @@ target set of models and taking appropriate action whenever they
 change. Defining a more rigorous approach to workflows is a subject of
 ongoing development.
 
-Secure Communication
-~~~~~~~~~~~~~~~~~~~~
+5.2.6 Secure Communication
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 gNMI naturally lends itself to mutual TLS for authentication, and that
 is the recommended way to secure communications between components
@@ -450,8 +450,8 @@ descriptions that follow. Note that in the model-specific details that
 follow, we use upper case to denote a model (e.g., `Enterprise`) and
 lower case to denote a field within a model (e.g., `enterprise`).
 
-Enterprises
-~~~~~~~~~~~~
+5.3.1 Enterprises
+~~~~~~~~~~~~~~~~~
 
 Aether is deployed in enterprises, and so needs to define
 representative set of organizational abstractions. These include
@@ -485,8 +485,8 @@ sites). `Site` contains the following fields:
 The `imsi-definition` is specific to the mobile cellular network, and
 corresponds to the unique identifier burned into every SIM card.
 
-Connectivity Service
-~~~~~~~~~~~~~~~~~~~~~~~~
+5.3.2 Connectivity Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The managed service Aether offers enterprises is 5G connectivity,
 which we can abstractly think of a means to connect mobile devices to
@@ -542,8 +542,8 @@ contains the following fields:
 * `enterprise`: Link to an `Enterprise` object that owns this application. May be left empty
   to indicate a global application that may be used by multiple enterprises.
 
-QoS Profiles
-~~~~~~~~~~~~~~~~~~~~~
+5.3.3 QoS Profiles
+~~~~~~~~~~~~~~~~~~
 
 Associated with each connection is a QoS-related profile that governs
 how traffic that connection carries is to be treated. This starts with
@@ -585,8 +585,8 @@ model declarations, with both ``container`` and ``leaf`` fields.
 
 .. literalinclude:: code/template.yang
 
-Other Models
-~~~~~~~~~~~~~~~~
+5.3.4 Other Models
+~~~~~~~~~~~~~~~~~~
 
 The above description references other models, which we do not fully
 described here. They include `AP-List`, which specifies a list of
