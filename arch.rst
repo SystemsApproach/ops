@@ -210,7 +210,7 @@ we use may not be suitable for all situations (e.g., some
 organizations might delegate certain control privileges to end users,
 via a “self-service” portal), it does represent a natural division
 between those that *use* cloud services and those that *support* or
-*perate* cloud services.
+*operate* cloud services.
 
 .. _fig-amp:
 .. figure:: figures/Slide5.png
@@ -332,8 +332,8 @@ possibility that it will sometimes be necessary to both roll out new
 versions of software and rollback to old versions, as well as operate
 with multiple versions deployed simultaneously. Managing all the
 configuration state needed to successfully deploy the right version of
-each component in the system is the central challenge, a challenge we
-take up in Chapter 4.
+each component in the system is the central challenge, which we
+address in Chapter 4.
 
 Runtime Control
 ~~~~~~~~~~~~~~~
@@ -363,8 +363,9 @@ Connectivity-as-a-Service, but the same idea applies to all services
 the cloud offers to end users. Thus, we can generalize the figure so
 Runtime Control mediates access to any of the underlying microservices
 (or collections of microservices) the cloud designer wishes to make
-publicly accessible. In effect, Runtime Control implements an
-abstraction layer, codified with programmatic API.
+publicly accessible, including the rest of AMP! In effect, Runtime
+Control implements an abstraction layer, codified with programmatic
+API.
 
 Given this mediation role, Runtime Control provides mechanisms to
 model (represent) the abstract services to be offered to users; store
@@ -400,7 +401,7 @@ In broad terms, it is common to think of this aspect of cloud
 management as having two parts: a monitoring component that collects
 quantitative metrics (e.g., load averages, transmission rates,
 ops-per-second) and a logging component that collects diagnostic
-messages (i.e., text strings explaining an event). Both include a
+messages (i.e., text strings explaining various event). Both include a
 timestamp, so it is possible to link quantitative analysis with
 qualitative explanations in support of diagnostics and analytics.
 
@@ -410,8 +411,8 @@ Summary
 This overview of the management architecture could lead one to
 conclude that these four subsystems were architected, in a rigorous,
 top-down fashion, to be are completely independent.  But that is not
-the case. It's more accurate to say that the system evolved bottom up,
-solving the next immediate problem one at a time, all the while
+the case. It is more accurate to say that the system evolved bottom
+up, solving the next immediate problem one at a time, all the while
 creating a large ecosystem of open source components that can be used
 in different combinations. What we are presenting in this book is a
 retrospective description of an end result, organized into four
@@ -419,27 +420,27 @@ subsystems to help make sense of it all.
 
 There are, in practice, many opportunities for interactions among the
 four components, and in some cases, there are overlapping concerns
-that lead to considerable debate. For example, it's difficult to draw
-a crisp line between where resource provisioning ends and lifecycle
-management begins. One could view provisioning as "Step 0" of
-lifecycle management. As an other example, the runtime control and
-monitoring subsystems are often combined in a single user interface,
-giving operators a way to both read (monitor) and write (control)
-various parameters of a running system. Connecting those two
-subsystems is how we build closed loop control.
+that lead to considerable debate. This is what makes operationalizing
+a cloud a thorny problem. For example, it's difficult to draw a crisp
+line between where resource provisioning ends and lifecycle management
+begins. One could view provisioning as "Step 0" of lifecycle
+management. As an other example, the runtime control and monitoring
+subsystems are often combined in a single user interface, giving
+operators a way to both read (monitor) and write (control) various
+parameters of a running system. Connecting those two subsystems is how
+we build closed loop control.
 
-A third example is even more nebulous. Lifecycle management usually
+A third example is even more ambiguous. Lifecycle management usually
 takes responsibility for *configuring* each component, while runtime
 control takes responsibility for *controlling* each component. Where
 you draw the line between configuration and control is somewhat
 arbitrary. Do configuration changes only happen when you first boot a
 component, or can you change the configuration of a running system,
-and if you do, how does that differ from changing a control
-parameter? The difference is usually related to frequency-of-change
-(which is in turn related to how disruptive to existing
-traffic/workload the change is), but at the end of the day, it doesn't
-matter what you call it, as long as the mechanisms you use meet all of
-your requirements.
+and if you do, how does that differ from changing a control parameter?
+The difference is usually related to frequency-of-change (which is in
+turn related to how disruptive to existing traffic/workload the change
+is), but at the end of the day, it doesn't matter what you call it, as
+long as the mechanisms you use meet all of your requirements.
 
 Of course, an operational system doesn't tolerate such ambiguities
 very well. Each aspect of management has to be supported in a
