@@ -59,7 +59,7 @@ hardware provisioning process described in Section 3.1. One way to
 think about this that the task of booting hardware into the "ready"
 state involves installing and configuring several subsystems that
 collectively form the cloud platform. It is this platform that
-Terraform interacts with through a well-defined API we describe below.
+Terraform interacts, using an API we describe at the end of Section 3.1.
 
 This chapter describes both sides of :numref:`Figure %s <fig-infra>`
 starting with provisioning physical infrastructure. Our approach is to

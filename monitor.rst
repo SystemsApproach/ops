@@ -148,7 +148,7 @@ component helping developers normalize their log
 messages. ElasticSearch is then used to store, search, and analyze
 those messages, with Kibana used to display and visualize the
 results. The general flow of data is shown in :numref:`Figure %s
-<fig-log>`, using the main Aether subsystems as illustrataive sources
+<fig-log>`, using the main Aether subsystems as illustrative sources
 of log messages.
 
 .. _fig-log:

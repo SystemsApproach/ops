@@ -5,8 +5,8 @@
 
 |
 	    
-Operationalizing a Cloud: A Systems Approach
-=============================================
+Operationalizing an Edge Cloud: A Systems Approach
+==================================================
 
 Peterson, Baker, Bavier, Williams and Davie
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

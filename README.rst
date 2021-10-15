@@ -11,7 +11,7 @@ and new material under the same terms.
 If you make use of this work, the attribution should include the
 following information:
 
-| *Title: Operationalizing a Cloud: A Systems Approach* 
+| *Title: Operationalizing an Edge Cloud: A Systems Approach* 
 | *Authors: Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, Bruce Davie*
 | *Source:* https://github.com/SystemsApproach/ops 
 | *License:* \ `CC BY-NC-ND 4.0 <https://creativecommons.org/licenses/by-nc-nd/4.0>`__

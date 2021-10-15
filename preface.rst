@@ -51,6 +51,41 @@ interesting as we move up the stack, from managing *devices* to
 managing *services*. This makes it a topic everyone should know
 something about.
 
+Guided Tour of Open Source
+--------------------------
+
+The good news is that there is a wealth of open source components that
+can be assembled to help manage cloud platforms and scalable
+applications built on those platforms. That's also the bad news. With
+several dozen cloud-related projects available at open source
+consortia like the Linux Foundation, Apache Foundation, and Open
+Networking Foundation, navigating the project space is one of the
+biggest challenges we faced in putting together a cloud management
+platform. This is in large part because these projects are competing
+for mindshare, with significant overlap in the functionality they
+offer.
+
+One way to read this book is as a guided tour of the open source
+landscape for cloud control and management. And in that spirit, we do
+not attempt to replicate the fantastic documentation those projects
+already offer. Our goal is to explain how the various puzzle pieces
+fit together to build a coherent whole, which in some cases involves
+using only a subset of a given component's available feature set. We
+include links to project-specific documentation, which often includes
+tutorials that we encourage you to try. 
+
+Acknowledgements
+------------------
+
+The software described in this book is due to the hard work of the ONF
+engineering team and the open source community that works with
+them. We acknowledge their contributions, with a special thank-you to
+Hyunsun Moon, Sean Condon, and HungWei Chiu for their significant
+contributions to Aether's control and management platform, and to Oguz
+Sunay for his influence on its overall architecture. We will also happily
+thank, by name, anyone that provides feedback on early drafts of the
+manuscript.
+
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
 | October 2021
 
