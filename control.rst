@@ -309,8 +309,8 @@ Image) to be deployed. This means the version of the Runtime Control
 Helm chart effectively specifies the version of the Runtime Control
 API, since as we'll see in a the next subsection, that API is
 auto-generated from the set of models. All of this is to say that
-version control for the Northbound Interface of the cloud as an
-aggregated whole is managed in exactly the same way as version control
+version control for the Northbound Interface of the cloud, as an
+aggregated whole, is managed in exactly the same way as version control
 for each functional building block that contributes to the cloud's
 internal implementation.
   

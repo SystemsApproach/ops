@@ -88,7 +88,7 @@ up-to-date.
 
 .. _fig-pipeline:
 .. figure:: figures/Slide10.png
-   :width: 500px
+   :width: 600px
    :align: center
 
    Overview of the CI/CD pipeline.
