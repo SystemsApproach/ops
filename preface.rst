@@ -23,19 +23,20 @@ cloud providers will happily manage those edge clusters as a logical
 extension of their datacenters, they do not have a lock on the
 know-how for making that happen.
 
-This book lays out one roadmap that a small team of engineers followed
+This book lays out a roadmap that a small team of engineers followed
 over a course of a year to stand-up and operationalize a hybrid cloud
 spanning a dozen enterprises, and hosting a non-trivial cloud native
 service (5G connectivity in our case, but that’s just an example). The
-team was able to do this by leveraging 20+ open source components, but
-selecting those components is just a start. There were dozens of
+team was able to do this by leveraging 20+ open source components,
+but selecting those components is just a start. There were dozens of
 technical decisions to make along the way, and a few thousand lines of
 configuration code to write. We believe this is a repeatable exercise,
-which we report in this book. (And the code behind the book is open
-source, for those that want to pursue the topic in more depth.)
+which we report in this book. (And the code for those configuation
+files is open source, for those that want to pursue the topic in more
+detail.)
 
 Our roadmap may not be the right one for all circumstances, but it
-does shine a light on the challenges and fundamental trade-offs
+does shine a light on the fundamental challenges and trade-offs
 involved in operationalizing a cloud. As we can attest based on our
 experience, it’s a complicated design space with an overabundance of
 terminology and storylines to untangle. Whether you plan to stand up
@@ -48,8 +49,10 @@ How to operationalize a computing system is a question that’s as old
 as *Operating Systems*. Operationalizing a cloud is just today’s
 version of that fundamental problem, which has become all the more
 interesting as we move up the stack, from managing *devices* to
-managing *services*. This makes it a topic everyone should know
-something about.
+managing *services*. The fact that this topic is both timely and
+rooted in the fundamental principles of computing are among the
+reasons it is worth studying.
+
 
 Guided Tour of Open Source
 --------------------------
@@ -67,12 +70,11 @@ offer.
 
 One way to read this book is as a guided tour of the open source
 landscape for cloud control and management. And in that spirit, we do
-not attempt to replicate the fantastic documentation those projects
-already offer. Our goal is to explain how the various puzzle pieces
-fit together to build a coherent whole, which in some cases involves
-using only a subset of a given component's available feature set. We
-include links to project-specific documentation, which often includes
-tutorials that we encourage you to try. 
+not replicate the fantastic documentation those projects already
+provide. Our goal is to explain how the various puzzle pieces fit
+together to build an end-to-end. We include links to project-specific
+documentation, which often includes tutorials that we encourage you to
+try.
 
 Acknowledgements
 ------------------
@@ -82,7 +84,7 @@ engineering team and the open source community that works with
 them. We acknowledge their contributions, with a special thank-you to
 Hyunsun Moon, Sean Condon, and HungWei Chiu for their significant
 contributions to Aether's control and management platform, and to Oguz
-Sunay for his influence on its overall architecture. We will also happily
+Sunay for his influence on its overall design. We will also happily
 thank, by name, anyone that provides feedback on early drafts of the
 manuscript.
 
