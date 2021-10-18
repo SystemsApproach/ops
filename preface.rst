@@ -50,8 +50,8 @@ as *Operating Systems*. Operationalizing a cloud is just today’s
 version of that fundamental problem, which has become all the more
 interesting as we move up the stack, from managing *devices* to
 managing *services*. The fact that this topic is both timely and
-rooted in the fundamental principles of computing are among the
-reasons it is worth studying.
+rooted in the foundations of computing are among the reasons it is
+worth studying.
 
 
 Guided Tour of Open Source
