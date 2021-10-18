@@ -266,7 +266,7 @@ the data model (schema) for Aether is sketched in Section 5.3, but
 another example would be the set of OpenConfig models used to manage
 network devices.
 
-There are three details of note:
+There are three important aspects of this mechanism:
 
 * **Persistent Store:** Atomix is the cloud native K/V-store used to
   persist data in x-config. Atomix supports a distributed map
@@ -288,15 +288,31 @@ There are three details of note:
   migration mechanism supports simultaneous operation of multiple
   versions.
 
-Note that because Atomix is fault-tolerant as long as it runs on
-multiple physical servers, it can be built on top of unreliable local
-(per-server) storage. There is no reason to use highly available
-cloud storage. On the other hand, prudence dictates that all the state
-the Runtime Control subsystem maintains be backed up periodically, in
-case it needs to be restarted from scratch due to a catastrophic
-failure. These checkpoints, plus all the configuration-as-code files
-stored in GitHub, collectively define the entirety of the
-authoritative state needed to (re-)instantiate a cloud deployment.
+Two points require further elaboration. First, because Atomix is
+fault-tolerant as long as it runs on multiple physical servers, it can
+be built on top of unreliable local (per-server) storage. There is no
+reason to use highly available cloud storage. On the other hand,
+prudence dictates that all the state the Runtime Control subsystem
+maintains be backed up periodically, in case it needs to be restarted
+from scratch due to a catastrophic failure. These checkpoints, plus
+all the configuration-as-code files stored in GitHub, collectively
+define the entirety of the authoritative state needed to
+(re-)instantiate a cloud deployment.
+
+Second, the set of model definitions are like any other piece of
+configuration-as-code. They are checked into the code repository and
+versioned, just as described in Section 4.5. Moreover, the Helm chart
+that specifies how to deploy the Runtime Control subsystem identifies
+the version of the models that are to be loaded, analogous to the way
+Helm charts already identify the version of each microservice (Docker
+Image) to be deployed. This means the version of the Runtime Control
+Helm chart effectively specifies the version of the Runtime Control
+API, since as we'll see in a the next subsection, that API is
+auto-generated from the set of models. All of this is to say that
+version control for the Northbound Interface of the cloud as an
+aggregated whole is managed in exactly the same way as version control
+for each functional building block that contributes to the cloud's
+internal implementation.
   
 5.2.2 Runtime Control API
 ~~~~~~~~~~~~~~~~~~~~~~~~~
