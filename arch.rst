@@ -187,7 +187,11 @@ these components on a laptop.
        cluster” may have a one-to-one relationship with an underlying
        physical cluster, but it is also possible that a Kubernetes
        cluster is instantiated inside a datacenter, as one of
-       potentially thousands of such logical clusters.
+       potentially thousands of such logical clusters. And as we'll
+       see in a later chapter, even an ACE edge site sometimes hosts
+       more than one Kubernetes cluster (e.g., one running production
+       services and one used for development and testing of new
+       services).
 
 2.3 Control and Management
 --------------------------

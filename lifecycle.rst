@@ -61,8 +61,9 @@ and the microservice workloads that run on top of that platform
 up-to-date.
 
 .. [#] We use the term "Config Repo" generically to denote one or more
-       GitHub repositories, for example, one storing all the Helm
-       Charts and another storing all the Terraform Templates.
+       GitHub repositories storing all the configuration-related
+       files.  In practice, there might be one repo for Helm Charts
+       and another for Terraform Templates.
 
 .. sidebar:: Continuous Delivery vs Deployment
 	     
@@ -154,8 +155,8 @@ that testing also happens in the Staging PODs, as part of the CD end
 of the pipeline. One might naturally ask what about the Production
 PODs; how do we continue to test the software after it is running in
 production?  That happens, of course, but we tend to call it
-Monitoring & Logging rather than testing. This is the subject of
-Chapter 6.
+Monitoring & Logging (and subsequent diagnostics) rather than
+testing. This is the subject of Chapter 6.
 
 We will explore each of the stages in :numref:`Figure %s
 <fig-pipeline>` in more detail in the sections that follow, but
@@ -429,7 +430,7 @@ hardware is added to an existing POD, the corresponding Terraform file
 is modified accordingly and checked into the Config Repo, triggering
 the deployment task.
 
-The Fleet side of :numref:`Figure %s <fig-fleet>` is responsible
+The Fleet side of :numref:`Figure %s <fig-fleet>` is responsible for
 installing the collection of microservices that are to run on each
 cluster. These microservices, organized as one or more applications,
 are specified by Helm Charts. If we were trying to deploy a single
@@ -457,7 +458,9 @@ could be treated another such group. (Here, we are talking about the
 ``env`` label assigned to each cluster in its Terraform spec, as
 illustrated in the examples shown in Section 3.2.) The third is a
 *GitRepo*, which is a repository to watch for changes to bundle
-artifacts. In our case, new are Helm Charts into a "Helm Chart repo".
+artifacts. In our case, new are Helm Charts are checked into the
+Config Repo (but as indicated in at the first of this chapter, there
+is likely a dedicated "Helm Repo" in practice).
 
 Understanding Fleet is then straightforward. It provides a way to
 define associations between Bundles, Cluster Groups, and GitRepos,

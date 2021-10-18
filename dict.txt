@@ -59,6 +59,7 @@ Repos
 RKE
 Runtime
 Sami
+Suchitra
 Sunay
 Sys
 Tanzu
@@ -67,6 +68,7 @@ Telcos
 Terraform
 Todo
 Tofino
+Vemuri
 VM
 VMware
 

@@ -605,3 +605,67 @@ book.
    `Software-Defined Networks: A Systems Approach 
    <https://sdn.systemsapproach.org>`__
 
+5.4 Revisiting GitOps
+---------------------
+
+As we did at the end of Chapter 4, it is instructive to revisit the
+question of how to distinguish between configuration state and control
+state, with Lifecycle Management (and its Config Repo) responsible for
+the former, and Runtime Control (and its Key/Value store) responsible
+for the latter. Now that we have seen the Runtime Control subsystem in
+more detail, it is clear that one critical factor is whether or not a
+programmatic interface (with its implied access control mechanism) is
+required for accessing and changing that state.
+
+Cloud operators and DevOps teams are perfectly capable of checking
+configuration changes into a Config Repo, which can make it tempting
+to view all state that *could* be specified in a configuration file as
+Lifecycle-managed configuration state. The availability of enhanced
+configuration mechanisms, such as Kubernetes *Operators*, make that
+temptation even greater. But any state that might be touched by
+someone other than an operator—including enterprise admins and runtime
+control applications—needs to be accessed via a well-defined API.
+Giving enterprises the ability to set isolation and QoS parameters is
+an illustrative example in Aether.  Auto-generating that API from a
+set of models is an attractive approach to realizing such a control
+interface, if for no other reason than it forces a decoupling of the
+interface from the implementation (with Adaptors bridging the gap).
+
+On this latter point, one can imagine an implementation of a runtime
+control operation that involves checking a configuration change into
+the Config Repo and triggering a redeployment. Whether you view such
+an approach as elegant or clunky is a matter of taste, but how such
+engineering decisions are resolved depends in large part on how the
+backend components are implemented. For example, if a configuration
+change requires a container restart, then there may be little choice.
+But ideally, microservices are implemented with their own well-defined
+management interfaces, which can be invoked from either a
+configuration-time Operator (to initialize the component at boot time)
+or a control-time Adaptor (to change the component at runtime).
+
+For resource-related operations, like spinning up additional
+containers in response to a changing workload or a user request (e.g.,
+the *slice* model in Aether), a similar implementation strategy is
+feasible. The Kubernetes API can be called from either Helm (to
+initialize a microservice at boot time) or from a Runtime Control
+Adaptor (to add resources at runtime). The remaining challenge is
+deciding which subsystem maintains the authoritative copy of that
+state, and ensuring that decision is enforced as a system
+invariant.\ [#]_ Such decisions are often situation dependent, but our
+experience is that using Runtime Control as the single source-of-truth
+is a sound approach.
+
+.. [#] It is also possible to maintain two authoritative copies of the
+       state, and implement a mechanism to keep them in-sync. The
+       problem with such a strategy is avoiding backdoor access that
+       by-passes the synchronization mechanism.
+
+Of course there are two sides to this coin. It is also tempting to
+provide runtime control of configuration parameters that, at the end
+of the day, only cloud operators need to be able to change.
+Configuring the RBAC (e.g., adding groups and defining what objects a
+given group is allowed to access) is an illustrative example. Unless
+there is a compelling reason to open such configuration decisions to
+end users, keeping RBAC-related configuration state (i.e., OPA spec
+files) in the Config Repo, under the purview of Lifecycle Management,
+makes complete sense.

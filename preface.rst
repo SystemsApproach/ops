@@ -31,7 +31,7 @@ team was able to do this by leveraging 20+ open source components,
 but selecting those components is just a start. There were dozens of
 technical decisions to make along the way, and a few thousand lines of
 configuration code to write. We believe this is a repeatable exercise,
-which we report in this book. (And the code for those configuation
+which we report in this book. (And the code for those configuration
 files is open source, for those that want to pursue the topic in more
 detail.)
 
@@ -46,12 +46,11 @@ such an endeavor is a critical first step in the decision making
 process.
 
 How to operationalize a computing system is a question that’s as old
-as *Operating Systems*. Operationalizing a cloud is just today’s
-version of that fundamental problem, which has become all the more
-interesting as we move up the stack, from managing *devices* to
+as the field of *Operating Systems*. Operationalizing a cloud is just
+today’s version of that fundamental problem, which has become all the
+more interesting as we move up the stack, from managing *devices* to
 managing *services*. The fact that this topic is both timely and
-rooted in the foundations of computing are among the reasons it is
-worth studying.
+foundational are among the reasons it is worth studying.
 
 
 Guided Tour of Open Source
@@ -84,9 +83,10 @@ engineering team and the open source community that works with
 them. We acknowledge their contributions, with a special thank-you to
 Hyunsun Moon, Sean Condon, and HungWei Chiu for their significant
 contributions to Aether's control and management platform, and to Oguz
-Sunay for his influence on its overall design. We will also happily
-thank, by name, anyone that provides feedback on early drafts of the
-manuscript.
+Sunay for his influence on its overall design. Suchitra Vemuri's
+insights into testing and quality assurance were also invaluable. We
+will also happily thank, by name, anyone that provides feedback on
+early drafts of the manuscript.
 
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
 | October 2021
