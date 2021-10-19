@@ -107,7 +107,7 @@ we are describing in this book.
 .. _reading_gitops:
 .. admonition:: Further Reading
 
-   `Guide to GitOps
+   Weaveworks. `Guide to GitOps
    <https://www.weave.works/technologies/gitops/>`__.
 
 The third repository shown in :numref:`Figure %s <fig-pipeline>` is

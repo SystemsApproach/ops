@@ -255,7 +255,8 @@ bundled and purpose-built network appliances that came before, and so
 from the management perspective, it is helpful to identify what
 becomes easier and what becomes harder when you make this
 transition. This is both the challenge and the opportunity of
-disaggregation.
+disaggregation. (For a brief introduction to disagggregation and the
+trend to cloud native designs, so the
 
 Broadly speaking, disaggregation is the process of breaking large
 bundled components into a set of smaller constituent parts. SDN is one
@@ -264,8 +265,15 @@ planes, with the former running as a cloud service and the latter
 running in commodity switches. The microservice architecture is
 another example of disaggregation—it breaks monolithic cloud
 applications into a mesh of single-function components. Disaggregation
-is widely viewed as an essential step in accelerating feature
-velocity. This is the opportunity side of the story.
+is widely viewed as an essential step in accelerating feature velocity.
+This is the opportunity side of the story, which is nicely summarized
+by Weaveworks.
+
+.. _reading_disaggregate:
+.. admonition:: Further Reading
+
+   Weaveworks. `What You Need to Know for Cloud Native
+   <https://www.weave.works/technologies/going-cloud-native-6-essential-things-you-need-to-know>`__.
    
 The challenge side of the story is that there are many more moving
 parts that have to be integrated, coordinated, and managed. Circling
