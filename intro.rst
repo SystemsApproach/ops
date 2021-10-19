@@ -255,8 +255,7 @@ bundled and purpose-built network appliances that came before, and so
 from the management perspective, it is helpful to identify what
 becomes easier and what becomes harder when you make this
 transition. This is both the challenge and the opportunity of
-disaggregation. (For a brief introduction to disagggregation and the
-trend to cloud native designs, so the
+disaggregation.
 
 Broadly speaking, disaggregation is the process of breaking large
 bundled components into a set of smaller constituent parts. SDN is one

@@ -71,6 +71,7 @@ Tofino
 Vemuri
 VM
 VMware
+Weaveworks
 
 adaptor
 adaptors
