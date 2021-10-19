@@ -464,7 +464,7 @@ people. This implies the need for a set of operational processes and
 procedures, which in a cloud setting, are now commonly organized
 around the DevOps model. The following gives a high-level summary,
 with a more extensive discussion of ops-related procedures presented
-in Chapter 7.
+throughout the book.
 
 DevOps has become an overused term, generally taken to mean that the
 line between the engineers that develop cloud functionality and the
