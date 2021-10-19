@@ -1,14 +1,6 @@
 Preface
 =======
 
-.. admonition:: First Draft / Feedback Welcome
-		
-   This is a pre-release and still very much a work-in-progress.
-   Please send us your comments and feedback using the `Issues Link
-   <https://github.com/SystemsApproach/ops/issues>`__. See the `Wiki
-   <https://github.com/SystemsApproach/ops/wiki>`__ for the latest
-   todo list.
-
 The cloud is ubiquitous. Everyone uses the cloud to either access or
 deliver services, but not everyone will build a cloud. So why should
 anyone care about how to turn a pile of servers and switches into a
@@ -71,9 +63,9 @@ One way to read this book is as a guided tour of the open source
 landscape for cloud control and management. And in that spirit, we do
 not replicate the fantastic documentation those projects already
 provide. Our goal is to explain how the various puzzle pieces fit
-together to build an end-to-end. We include links to project-specific
-documentation, which often includes tutorials that we encourage you to
-try.
+together to build an end-to-end management system. We include links to
+project-specific documentation, which often includes tutorials that we
+encourage you to try.
 
 Acknowledgements
 ------------------
@@ -84,9 +76,14 @@ them. We acknowledge their contributions, with a special thank-you to
 Hyunsun Moon, Sean Condon, and HungWei Chiu for their significant
 contributions to Aether's control and management platform, and to Oguz
 Sunay for his influence on its overall design. Suchitra Vemuri's
-insights into testing and quality assurance were also invaluable. We
-will also happily thank, by name, anyone that provides feedback on
-early drafts of the manuscript.
+insights into testing and quality assurance were also invaluable.
+
+This book is still very much a work-in-progress, and we will happily
+acknowledge anyone that provides feedback. Please send us your
+comments using the `Issues Link
+<https://github.com/SystemsApproach/ops/issues>`__.  Also see the
+`Wiki <https://github.com/SystemsApproach/ops/wiki>`__ for the TODO
+list we're working on.
 
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
 | October 2021
