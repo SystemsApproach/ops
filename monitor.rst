@@ -4,7 +4,7 @@ Chapter 6:  Monitoring and Logging
 Collecting data about a running system, so that operators can evaluate
 performance, make informed provisioning decisions, respond to
 failures, identify attacks, and diagnose problems is an essential
-function of many management platform. And correspondingly, there are
+function of any management platform. And correspondingly, there are
 two widely used open source software stacks that address these
 requirements for cloud deployments. That there are two (and not just
 one) is indicative of how the problem space naturally divides into
@@ -112,44 +112,47 @@ in Aether).
 Briefly, a dashboard is constructed from a set of *panels*, where each
 panel has a well-defined *type* (e.g., graph, table, gauge, heatmap)
 bound to a particular Prometheus *query*. New dashboards are created
-using the Grafana GUI, and the resulting configuration then saved as a
-JSON file. This configuration file is then committed to the
-configuration repo, and later loaded into Grafana whenever is is
-restarted as part of Lifecycle Management.
+using the Grafana GUI, and the resulting configuration then saved in a
+JSON file. This configuration file is then committed to the Config
+Repo, and later loaded into Grafana whenever is is restarted as part
+of Lifecycle Management.
 
 6.1.3 Defining Alerts
 ~~~~~~~~~~~~~~~~~~~~~
 
 Alerts can be triggered in Prometheus when a component metric crosses
-some threshold.  The Alertmanager then routes the alert to one or more
-receivers, such as an email address or Slack channel.
+some threshold.  Alertmanager is a tool that then routes the alert to
+one or more receivers, such as an email address or Slack channel.
 
-Alerts for a particular component are defined by a *PrometheusRule*,
+Alerts for a particular component are defined by a *Prometheus Rule*,
 an expression involving a Prometheus query, such that whenever it
 evaluates to true for the indicated time period, triggers a
 corresponding message to be routed to a set of receivers. These rules
-are recorded as a YAML file that is checked into the configuration
-repo, and then loaded into Alertmanager as a custom resources
-specified in the corresponding Helm Chart.
+are recorded in a YAML file that is checked into the Config Repo, and
+then loaded into Alertmanager as a custom resource specified in the
+corresponding Helm Chart.
 
 In Aether, the Alertmanager is configured to send alerts with
 *critical* or *warning* severity to a general set of receivers.  If it
 is desirable to route a specific alert to a different receiver (e.g.,
-a component-specific Slack channel), one can change the Alertmanager
-configuration accordingly.
+a Slack channel used by the developers for that particular component),
+the Alertmanager configuration is changed accordingly.
 
 6.2 Logging
 ------------------
 
-The standard open source logging stack uses Fluentd to collect
-(aggregate, buffer, and route) log messages written by a set of
-components, with the Fluentbit client-side library running in each
-component helping developers normalize their log
-messages. ElasticSearch is then used to store, search, and analyze
-those messages, with Kibana used to display and visualize the
-results. The general flow of data is shown in :numref:`Figure %s
-<fig-log>`, using the main Aether subsystems as illustrative sources
-of log messages.
+OS programmers have been writing diagnostic messages to a *syslog*
+since the earliest days of Unix. Originally collected in a local file,
+the syslog abstraction has been adapted to cloud environments by
+adding a suite of scalable services. Today, the standard open source
+logging stack uses Fluentd to collect (aggregate, buffer, and route)
+log messages written by a set of components, with the Fluentbit
+serving as client-side agent running in each component helping
+developers normalize their log messages. ElasticSearch is then used to
+store, search, and analyze those messages, with Kibana used to display
+and visualize the results. The general flow of data is shown in
+:numref:`Figure %s <fig-log>`, using the main Aether subsystems as
+illustrative sources of log messages.
 
 .. _fig-log:
 .. figure:: figures/Slide23.png
@@ -171,21 +174,26 @@ of log messages.
 
 The key challenge in logging is to adopt a uniform message format
 across all components, a requirement that is complicated by the fact
-that all the components integrated in a complex system are typically
-developed independent of each other. Fluentbit plays a role in
-normalizing these messages by supporting a set of filters. These
+that the various components integrated in a complex system are
+typically developed independent of each other. Fluentbit plays a role
+in normalizing these messages by supporting a set of filters. These
 filters parse "raw" log messages written by the component (an ASCII
 string), and output "canonical" log messages as structured JSON. In
 the process, these filters also add globally agreed upon state, such
 as a timestamp and a log level (e.g., ERROR, WARNING, INFO). For
 example, developers for the SD-Fabric component might write a
-Fluentbit filter that transforms
+a log message that looks like this:
 
 .. literalinclude:: code/log.ascii
 
-into
+where a Fluentbit filter transforms into a structure that looks like
+this:
 
 .. literalinclude:: code/log.json
 
 Note that this example is simplified, but it does serve to illustrate
-the basic idea.
+the basic idea, which is that the central challenge for the DevOps
+team building the management platform is to agree to a meaningful set
+of name/value pairs. This assumes all the components are adequately
+instrumented to write log messages, which is of course a prerequisite
+for building an effective logging system.

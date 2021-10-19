@@ -630,7 +630,7 @@ state, with Lifecycle Management (and its Config Repo) responsible for
 the former, and Runtime Control (and its Key/Value store) responsible
 for the latter. Now that we have seen the Runtime Control subsystem in
 more detail, it is clear that one critical factor is whether or not a
-programmatic interface (with its implied access control mechanism) is
+programmatic interface (coupled with an access control mechanism) is
 required for accessing and changing that state.
 
 Cloud operators and DevOps teams are perfectly capable of checking
@@ -645,19 +645,21 @@ Giving enterprises the ability to set isolation and QoS parameters is
 an illustrative example in Aether.  Auto-generating that API from a
 set of models is an attractive approach to realizing such a control
 interface, if for no other reason than it forces a decoupling of the
-interface from the implementation (with Adaptors bridging the gap).
+interface definition from the underlying implementation (with Adaptors
+bridging the gap).
 
-On this latter point, one can imagine an implementation of a runtime
-control operation that involves checking a configuration change into
-the Config Repo and triggering a redeployment. Whether you view such
-an approach as elegant or clunky is a matter of taste, but how such
-engineering decisions are resolved depends in large part on how the
-backend components are implemented. For example, if a configuration
-change requires a container restart, then there may be little choice.
-But ideally, microservices are implemented with their own well-defined
-management interfaces, which can be invoked from either a
-configuration-time Operator (to initialize the component at boot time)
-or a control-time Adaptor (to change the component at runtime).
+On this latter point, it is easy to imagine an implementation of a
+runtime control operation that involves checking a configuration
+change into the Config Repo and triggering a redeployment. Whether you
+view such an approach as elegant or clunky is a matter of taste, but
+how such engineering decisions are resolved depends in large part on
+how the backend components are implemented. For example, if a
+configuration change requires a container restart, then there may be
+little choice.  But ideally, microservices are implemented with their
+own well-defined management interfaces, which can be invoked from
+either a configuration-time Operator (to initialize the component at
+boot time) or a control-time Adaptor (to change the component at
+runtime).
 
 For resource-related operations, like spinning up additional
 containers in response to a changing workload or a user request (e.g.,
@@ -673,8 +675,8 @@ is a sound approach.
 
 .. [#] It is also possible to maintain two authoritative copies of the
        state, and implement a mechanism to keep them in-sync. The
-       problem with such a strategy is avoiding backdoor access that
-       by-passes the synchronization mechanism.
+       difficulty with such a strategy is avoiding backdoor access
+       that by-passes the synchronization mechanism.
 
 Of course there are two sides to this coin. It is also tempting to
 provide runtime control of configuration parameters that, at the end
