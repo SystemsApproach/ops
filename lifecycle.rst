@@ -388,8 +388,8 @@ referring to in generic terms as subsystems), and we will employ a
 simple second-level tool to integrate the output of all those
 sophisticated first-level tools. Our choice for the second-level tool
 is Jenkins, which provides little more than a means to define a
-sequence of scripts to run in response to some event (such as a patch
-being checked into the Code Repo).
+sequence of scripts (called jobs) to run in response to some event,
+such as a patch being checked into the Code Repo.
 
 .. _reading_jenkins:
 .. admonition:: Further Reading
@@ -398,7 +398,7 @@ being checked into the Code Repo).
 
 Like many of the tools described in this book, Jenkins has a graphical
 dashboard that can be used to create, execute, and view the results of
-a set of jobs, but this is mostly useful for toy examples. Because
+a set of jobs, but this is mostly useful for simple examples. Because
 Jenkins plays a central role in our CI pipeline, it is managed like
 all the other components we are building—via a declarative
 specification file. This file, called a *Jenkinsfile*, is then checked
@@ -407,25 +407,33 @@ in yet another example of the recursive nature of Lifecycle
 Management, manages the Jenkins CI service.
 
 In many ways, Jenkins lets you do anything you want since it is
-fundamentally a mechanism that executes shell scripts.  When used in a
-disciplined way, however, Jenkins provides a means to define a
-*Pipeline* consisting of a sequence of *Stages*. Each stage then
-executes some script and tests whether the script succeed or
-failed. In principle then, Jenkins could be the centerpiece of the
-entire CI/CD pipeline since one could define a "Build" stage, followed
-by a "Test" stage, and then conditional upon success, conclude with a
-"Deploy" stage. In practice, however, Jenkins is used more narrowly to
-build-and-test individual components; integrate-and-test various
-combinations of components; and under limited circumstances, includes
-a "Publish" stage that copies an artifact that's just been built
-(e.g., a Docker Image) to the Image Repo.
+fundamentally a mechanism that executes shell scripts. (Jenkins
+supports a wide collection of *plugins*, for example interfacing to
+GitHub and the various build tools mentioned at the start of this
+section, but these essentially provide a convenient way to package
+functionality that can be scripted.) When used in a disciplined way,
+Jenkins provides a means to define a *Pipeline* consisting of a
+sequence of *Stages*. Each stage then executes some script and tests
+whether it succeeded or failed. In principle then, Jenkins could be
+the centerpiece of the entire CI/CD pipeline since one could define a
+"Build" stage, followed by a "Test" stage, and then conditional upon
+success, conclude with a "Deploy" stage. In practice, however, Jenkins
+is used more narrowly to build-and-test individual components;
+integrate-and-test various combinations of components; and under
+limited conditions, includes a "Publish" stage that copies the
+artifact that has just been built (e.g., a Docker Image) to the Image
+Repo.
 
-The main challenge in using Jenkins is establishing a suitable set of
-environments for running tests, which we discussed briefly in Section
-4.2. Environments can be built from scratch (which takes time but
-validates end-to-end integration), or use pre-built containers or VMs
-(which is more expedient but risks missing regressions in the
-software). No amount of tooling resolves this fundamental trade-off.
+The important takeaway from this discussion is that there is no
+single/global CI job. There are many per-component jobs that
+independently publish deployable artifacts when conditions dictate.
+Those conditions include: (1) the component passes the required tests,
+and (2) the component's version indicates whether or not a new
+artifact is warranted. We have already talked about the testing
+strategy in Section 4.2 and we describe the versioning strategy in
+Section 4.5. These two concerns are at the heart of realizing a sound
+approach to Continuous Integration. The tooling—in our case Jenkins—is
+just an implementation detail.
 
 4.4 Continuous Deployment
 -------------------------
@@ -505,8 +513,8 @@ such that whenever a new Helm chart is checked into a GitRepo, all
 Bundles that contain that chart are (re-)deployed on all associated
 Cluster Groups.
 
-4.5 Version Control
--------------------
+4.5 Versioning Strategy
+-----------------------
 
 The CI/CD toolchain introduced in this chapter works only when applied
 in concert with an end-to-end versioning strategy, ensuring that the
