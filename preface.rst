@@ -56,16 +56,17 @@ consortia like the Linux Foundation, Apache Foundation, and Open
 Networking Foundation, navigating the project space is one of the
 biggest challenges we faced in putting together a cloud management
 platform. This is in large part because these projects are competing
-for mindshare, with significant overlap in the functionality they
-offer.
+for mindshare, with both significant overlap in the functionality they
+offer and extraneous dependencies on each other.
 
 One way to read this book is as a guided tour of the open source
 landscape for cloud control and management. And in that spirit, we do
 not replicate the fantastic documentation those projects already
-provide. Our goal is to explain how the various puzzle pieces fit
-together to build an end-to-end management system. We include links to
-project-specific documentation, which often includes tutorials that we
-encourage you to try.
+provide, but instead include links to project-specific documentation
+(which often includes tutorials that we encourage you to try).  Our
+goal is to explain how the various puzzle pieces fit together to build
+an end-to-end management system, and in doing so, identify what hard
+problems no amount of tooling can eliminate.
 
 Acknowledgements
 ------------------
