@@ -72,6 +72,12 @@ perspective on the problem. We return to the confluence of enterprise,
 cloud, access technologies later in this chapter, but we start by
 addressing the terminology challenge.
 
+.. _reading_aether:
+.. admonition:: Further Reading
+
+   `Aether: 5G-Connected Edge Cloud
+   <https://opennetworking.org/aether/>`__.
+
 1.1 Terminology
 ---------------
 
@@ -107,7 +113,7 @@ terminology.
   * **OSS/BSS:** Another Telco acronym (Operations Support System,
     Business Support System), referring to the subsystem that
     implements both operational logic (OSS) and business logic
-    (BSS). Usually the top-most component in the overall O&M
+    (BSS). It is usually the top-most component in the overall O&M
     hierarchy.
     
   * **EMS:**  Yet another Telco acronym (Element Management System),
@@ -164,23 +170,23 @@ terminology.
   * **Continuous Integration / Continuous Deployment (CI/CD):** An
     approach to Lifecycle Management in which the path from
     development (producing new functionality) to testing, integration,
-    and ultimately deployment is an automated pipeline. Typically
-    implies continuously making small incremental changes rather than
-    performing large disruptive upgrades.
+    and ultimately deployment is an automated pipeline. CI/CD
+    typically implies continuously making small incremental changes
+    rather than performing large disruptive upgrades.
     
   * **DevOps:** An engineering discipline (usually implied by CI/CD)
     that balances feature velocity against system stability. It is a
     practice typically associated with container-based (also known as
-    *cloud native*) systems, and typified by *Site Reliability
+    *cloud native*) systems, as typified by *Site Reliability
     Engineering (SRE)* practiced by cloud providers like Google.
     
   * **In-Service Software Upgrade (ISSU):** A requirement that a
     component continue running during the deployment of an upgrade,
     with minimal disruption to the service delivered to
-    end-users. Generally implies the ability to incrementally roll-out
-    (and roll-back) an upgrade, but is specifically a requirement on
-    individual components (as opposed to the underlying platform used
-    to manage a set of components).
+    end-users. ISSU generally implies the ability to incrementally
+    roll-out (and roll-back) an upgrade, but is specifically a
+    requirement on individual components (as opposed to the underlying
+    platform used to manage a set of components).
     
 * **Monitoring & Logging:** Collecting data from system components to aid
   in management decisions. This includes diagnosing faults, tuning
@@ -188,10 +194,10 @@ terminology.
   and provisioning additional capacity.
   
   * **Analytics:** A program (often using statistical models) that
-    produces additional insights (value) from raw data. Can be used to
-    close a control loop (i.e., auto-reconfigure a system based on
+    produces additional insights (value) from raw data. It can be used
+    to close a control loop (i.e., auto-reconfigure a system based on
     these insights), but could also be targeted at a human operator
-    (that subsequently takes some action).
+    that subsequently takes some action.
     
 Another way to talk about operations is in terms of stages, leading to
 a characterization that is common for traditional network devices:
@@ -301,9 +307,9 @@ manageable:
   majority of configuration involves initiating software parameters,
   which is more readily automated.
   
-* Cloud native implies a set best-practices for addressing many of the
-  FCAPS requirements, especially as they relate to availability and
-  performance, both of which are achieved through horizontal
+* Cloud native implies a set of best-practices for addressing many of
+  the FCAPS requirements, especially as they relate to availability
+  and performance, both of which are achieved through horizontal
   scaling. Secure communication is also typically built into cloud RPC
   mechanisms.
   
@@ -319,17 +325,19 @@ monitoring data in a uniform way, and (d) continually integrating and
 deploying individual microservices as they evolve over time.
 
 Finally, because a cloud is infinitely programmable, the system being
-managed has the potential to change substantially over time.\ [#]_  This
-means that the cloud management system must itself be easily extended
-to support new features (as well as the refactoring of existing
-features). This is accomplished in part by implementing the cloud
-management system as a cloud service, but it also points to taking
-advantage of declarative specifications of how all the disaggregated
-pieces fit together. These specifications can then be used to generate
-elements of the management system, rather than having to manually
-recode them. This is a subtle issue we will return to in later
-chapters, but ultimately, we want to be able to auto-configure the
-subsystem responsible for auto-configuring the rest of the system.
+managed has the potential to change substantially over time.\ [#]_
+This means that the cloud management system must itself be easily
+extended to support new features (as well as the refactoring of
+existing features). This is accomplished in part by implementing the
+cloud management system as a cloud service, which means we will see a
+fair amount of recursive dependencies throughout this book. It also
+points to taking advantage of declarative specifications of how all
+the disaggregated pieces fit together. These specifications can then
+be used to generate elements of the management system, rather than
+having to manually recode them. This is a subtle issue we will return
+to in later chapters, but ultimately, we want to be able to
+auto-configure the subsystem responsible for auto-configuring the rest
+of the system.
 
 .. [#] For example, compare the two services Amazon offered ten years
        ago (EC2 and S3) with the well over 100 services available on
@@ -371,12 +379,18 @@ identifies the technology we assume.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 The assumed hardware building blocks are straightforward. We start
-with bare-metal servers and switches, built using merchant
-silicon. These might, for example, be ARM or x86 processor chips and
+with bare-metal servers and switches, built using merchant silicon
+chips. These might, for example, be ARM or x86 processor chips and
 Tomahawk or Tofino switching chips, respectively. The bare-metal boxes
 also include a bootstrap mechanism (e.g., BIOS for servers and ONIE
 for switches), and a remote device management interface (e.g., IPMI or
 Redfish).
+
+.. _reading_redfish:
+.. admonition:: Further Reading
+
+   Distributed Management Task Force (DMTF) `Redfish
+   <https://www.dmtf.org/standards/redfish>`__.
 
 A physical cloud cluster is then constructed with the hardware
 building blocks arranged as shown in :numref:`Figure %s <fig-hw>`: one
@@ -397,11 +411,11 @@ that software running on the servers controls the switches.
 software components, which we describe next. Collectively, all the
 hardware and software components shown in the figure form the
 *platform*. Where we draw the line between what's *in the platform*
-and what runs *on top of the platform* will become clear in later
-chapters, but the summary is that different mechanisms will be
-responsible for (a) bringing up the platform and prepping it to host
-workloads, and (b) managing the various workloads that need to be
-deployed on that platform.
+and what runs *on top of the platform*, and why it is important, will
+become clear in later chapters, but the summary is that different
+mechanisms will be responsible for (a) bringing up the platform and
+prepping it to host workloads, and (b) managing the various workloads
+that need to be deployed on that platform.
 
 
 1.3.2 Server Virtualization
@@ -415,7 +429,7 @@ resources, all running on the commodity processors in the cluster:
 2. Kubernetes instantiates and interconnects containers.
 
 3. Helm charts specify how collections of related containers are
-   interconnected.
+   interconnected to build applications.
    
 These are all well known and ubiquitous, and so we only summarize them
 here. Links to related information for anyone that is not familiar

@@ -42,8 +42,8 @@ Platform-as-a-Service (PaaS).
 
 Aether supports this combination by implementing both the RAN and the
 user plane of the Mobile Core on-prem, as cloud-native workloads
-co-located on the Aether cluster. This is often referred to as local
-breakout because it enables direct communication between mobile
+co-located on the Aether cluster. This is often referred to as *local
+breakout* because it enables direct communication between mobile
 devices and edge applications without data traffic leaving the
 enterprise. This scenario is depicted in :numref:`Figure %s
 <fig-hybrid>`, which does not name the edge applications, but
@@ -62,7 +62,7 @@ example.
 
 The approach includes both edge (on-prem) and centralized (off-prem)
 components. This is true for edge apps, which often have a centralized
-counterpart running in a commodity cloud. It is also true for the
+counterpart running in a commodity cloud. It is also true for the 5G
 Mobile Core, where the on-prem User Plane (UP) is paired with a
 centralized Control Plane (CP). The central cloud shown in this figure
 might be private (i.e., operated by the enterprise), public (i.e.,
@@ -72,9 +72,9 @@ cloud). Also shown in :numref:`Figure %s <fig-hybrid>` is a
 centralized *Control and Management Platform*. This represents all the
 functionality needed to offer Aether as a managed service, with system
 administrators using a portal exported by this platform to operate the
-underlying infrastructure and services. The rest of this book is about
-everything that goes into implementing that *Control and Management
-Platform*.
+underlying infrastructure and services within their enterprise. The
+rest of this book is about everything that goes into implementing that
+*Control and Management Platform*.
 
 2.1 Edge Cloud
 --------------
@@ -112,8 +112,8 @@ the SD-Fabric), are deployed as a set of microservices, but details
 about the functionality implemented by these containers is otherwise
 not critical to this discussion. For our purposes, they are
 representative of any cloud native workload. (The interested reader is
-referred to our 5G and SDN books for more information about the
-internal working of SD-RAN, SD-Core, and SD-Fabric.)
+referred to our companion 5G and SDN books for more information about
+the internal working of SD-RAN, SD-Core, and SD-Fabric.)
 
 .. _reading_5g:
 .. admonition:: Further Reading 
@@ -151,8 +151,8 @@ Platform (AMP).
 Each SD-Core CP controls one or more SD-Core UPs, as specified by
 3GPP, the standards organization responsible for 5G. Exactly how CP
 instances (running centrally) are paired with UP instances (running at
-the edges) is a configuration-time decision, and depends on the degree
-of isolation the enterprise sites require. AMP is responsible for
+the edges) is a runtime decision, and depends on the degree of
+isolation the enterprise sites require. AMP is responsible for
 managing all the centralized and edge subsystems (as introduced in the
 next section).
 
@@ -173,12 +173,12 @@ we started with in :numref:`Figure %s <fig-hw>` of Chapter 1).\ [#]_
 This is because, while each ACE site usually corresponds to a physical
 cluster built out of bare-metal components, each of the SD-Core CP
 subsystems shown in :numref:`Figure %s <fig-aether>` is actually
-deployed as a logical Kubernetes cluster on a commodity cloud. The
+deployed in a logical Kubernetes cluster on a commodity cloud. The
 same is true for AMP. Aether’s centralized components are able to run
 in Google Cloud Platform, Microsoft Azure, and Amazon’s AWS. They also
 run as an emulated cluster implemented by a system like
 KIND—Kubernetes in Docker—making it possible for developers to run
-these components on a laptop.
+these components on their laptop.
 
 .. [#] Confusingly, Kubernetes adopts generic terminology, such as
        “cluster” and “service”, and gives it very specific meaning. In
@@ -190,8 +190,7 @@ these components on a laptop.
        potentially thousands of such logical clusters. And as we'll
        see in a later chapter, even an ACE edge site sometimes hosts
        more than one Kubernetes cluster (e.g., one running production
-       services and one used for development and testing of new
-       services).
+       services and one used for trial deployments of new services).
 
 2.3 Control and Management
 --------------------------
@@ -304,7 +303,7 @@ both physical and virtual resources.
 2.3.2 Lifecycle Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Lifecycle Management is the process of integrating fixed, extended,
+Lifecycle Management is the process of integrating debugged, extended,
 and refactored components (often microservices) into a set of
 artifacts (e.g., Docker containers and Helm charts), and subsequently
 deploying those artifacts to the operational cloud. It includes a
@@ -368,7 +367,7 @@ the cloud offers to end users. Thus, we can generalize the figure so
 Runtime Control mediates access to any of the underlying microservices
 (or collections of microservices) the cloud designer wishes to make
 publicly accessible, including the rest of AMP! In effect, Runtime
-Control implements an abstraction layer, codified with programmatic
+Control implements an abstraction layer, codified with a programmatic
 API.
 
 Given this mediation role, Runtime Control provides mechanisms to
@@ -434,7 +433,7 @@ operators a way to both read (monitor) and write (control) various
 parameters of a running system. Connecting those two subsystems is how
 we build closed loop control.
 
-A third example is even more ambiguous. Lifecycle management usually
+A third example is even more nebulous. Lifecycle management usually
 takes responsibility for *configuring* each component, while runtime
 control takes responsibility for *controlling* each component. Where
 you draw the line between configuration and control is somewhat

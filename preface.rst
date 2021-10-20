@@ -11,21 +11,21 @@ job of it.
 The answer, we believe, is that the cloud is becoming ubiquitous in
 another way, as it moves from hundreds of datacenters to tens of
 thousands of enterprises. And while it is clear that the commodity
-cloud providers will happily manage those edge clusters as a logical
+cloud providers are eager to manage those edge clusters as a logical
 extension of their datacenters, they do not have a lock on the
 know-how for making that happen.
 
 This book lays out a roadmap that a small team of engineers followed
-over a course of a year to stand-up and operationalize a hybrid cloud
-spanning a dozen enterprises, and hosting a non-trivial cloud native
-service (5G connectivity in our case, but that’s just an example). The
-team was able to do this by leveraging 20+ open source components,
-but selecting those components is just a start. There were dozens of
-technical decisions to make along the way, and a few thousand lines of
-configuration code to write. We believe this is a repeatable exercise,
-which we report in this book. (And the code for those configuration
-files is open source, for those that want to pursue the topic in more
-detail.)
+over the course of a year to stand-up and operationalize a hybrid
+cloud that spans a dozen enterprises, and hosts a non-trivial cloud
+native service (5G connectivity in our case, but that’s just an
+example). The team was able to do this by leveraging 20+ open source
+components, but selecting those components is just a start. There were
+dozens of technical decisions to make along the way, and a few
+thousand lines of configuration code to write. We believe this is a
+repeatable exercise, which we report in this book. (And the code for
+those configuration files is open source, for those that want to
+pursue the topic in more detail.)
 
 Our roadmap may not be the right one for all circumstances, but it
 does shine a light on the fundamental challenges and trade-offs
@@ -41,8 +41,8 @@ How to operationalize a computing system is a question that’s as old
 as the field of *Operating Systems*. Operationalizing a cloud is just
 today’s version of that fundamental problem, which has become all the
 more interesting as we move up the stack, from managing *devices* to
-managing *services*. The fact that this topic is both timely and
-foundational are among the reasons it is worth studying.
+managing *services*. That this topic is both timely and foundational
+are among the reasons it is worth studying.
 
 
 Guided Tour of Open Source
@@ -80,11 +80,11 @@ Sunay for his influence on its overall design. Suchitra Vemuri's
 insights into testing and quality assurance were also invaluable.
 
 This book is still very much a work-in-progress, and we will happily
-acknowledge anyone that provides feedback. Please send us your
+acknowledge everyone that provides feedback. Please send us your
 comments using the `Issues Link
 <https://github.com/SystemsApproach/ops/issues>`__.  Also see the
 `Wiki <https://github.com/SystemsApproach/ops/wiki>`__ for the TODO
-list we're working on.
+list we're currently working on.
 
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
 | October 2021
