@@ -16,7 +16,7 @@ extension of their datacenters, they do not have a lock on the
 know-how for making that happen.
 
 This book lays out a roadmap that a small team of engineers followed
-over the course of a year to stand-up and operationalize a hybrid
+over the course of a year to stand-up and operationalize an edge
 cloud that spans a dozen enterprises, and hosts a non-trivial cloud
 native service (5G connectivity in our case, but that’s just an
 example). The team was able to do this by leveraging 20+ open source
@@ -26,6 +26,15 @@ thousand lines of configuration code to write. We believe this is a
 repeatable exercise, which we report in this book. (And the code for
 those configuration files is open source, for those that want to
 pursue the topic in more detail.)
+
+What do we mean by an edge cloud? We're drawing a distinction between
+clouds run by the hyperscale cloud providers in their massive data
+centers, which we think of as the core, and those run by enterprises
+(or managed for them) at the edge. The edge is where the "real world"
+meets the cloud. For example, it is the place where data from physical
+sensors is likely to be gathered and processed, and where services
+that need to be close to the end user for reasons of latency or
+bandwidth are delivered.
 
 Our roadmap may not be the right one for all circumstances, but it
 does shine a light on the fundamental challenges and trade-offs
