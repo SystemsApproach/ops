@@ -37,13 +37,6 @@ provider to do that for you, understanding everything that goes into
 such an endeavor is a critical first step in the decision making
 process.
 
-How to operationalize a computing system is a question that’s as old
-as the field of *Operating Systems*. Operationalizing a cloud is just
-today’s version of that fundamental problem, which has become all the
-more interesting as we move up the stack, from managing *devices* to
-managing *services*. That this topic is both timely and foundational
-are among the reasons it is worth studying.
-
 
 Guided Tour of Open Source
 --------------------------
@@ -65,8 +58,17 @@ not replicate the fantastic documentation those projects already
 provide, but instead include links to project-specific documentation
 (which often includes tutorials that we encourage you to try).  Our
 goal is to explain how the various puzzle pieces fit together to build
-an end-to-end management system, and in doing so, identify what hard
-problems no amount of tooling can eliminate.
+an end-to-end management system, and in doing so, identify the hard
+problems that no amount of tooling can eliminate.
+
+That there are challenging technical issues to address (despite
+marketing claims to the contrary) should come as no surprise.
+After all, how to operationalize a computing system is a question
+that’s as old as the field of *Operating Systems*. Operationalizing a
+cloud is just today’s version of that fundamental problem, which has
+become all the more interesting as we move up the stack, from managing
+*devices* to managing *services*. That this topic is both timely and
+foundational are among the reasons it is worth studying.
 
 Acknowledgements
 ------------------
