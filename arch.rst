@@ -209,7 +209,7 @@ described in this book can accommodate them, we do not elaborate on
 that possibility.
 
 The architecture we describe is multi-tenant in the sense that it
-isolates these stakeholders. This makes the approach agnostic to as to
+isolates these stakeholders. This makes the approach agnostic as to
 whether all the edge sites belong to a single organization (with that
 organization also responsible for operating the cloud), or having a
 separate organization offer a managed service to a set of distinct
