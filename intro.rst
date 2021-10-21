@@ -13,16 +13,23 @@ managed services to users.
 Few of us are likely to have reason to instantiate a hyperscale
 datacenter, but deploying private edge clouds in an enterprise—and
 optionally connecting that edge to a datacenter to form a hybrid
-cloud—is becoming increasingly common. The hyperscalers are willing to
-manage your edge cloud for you, as an extension of their
-datacenters. And correspondingly, there is significant activity to
-provide such products, with Google’s Anthos, Microsoft’s Azure Arc,
-Amazon’s ECS-Anywhere, and VMware’s Tanzu as prime examples. But the
-barrier to operationalizing a cloud is not so high that only a
-hyperscaler has the wherewithal to do it. It is possible to build a
-cloud—and all the associated lifecycle management and runtime controls
-that are required to operate it—using readily available open source
-software packages.
+cloud—is becoming increasingly common. We use the term "edge cloud" to
+distinguish our focus from the "core", which is the traditional domain
+of they hyperscale operators. The edge is more likely to be in a
+enterprise or an "Internet of Things" setting such as a factory. The
+edge is the place where the cloud services connect to the real world,
+e.g., via sensors and actuators, and where latency-sensitive services
+are deployed to be close to the consumers of those services. 
+
+The hyperscalers are indeed willing to manage your edge cloud for you,
+as an extension of their core datacenters. And correspondingly, there
+is significant activity to provide such products, with Google’s
+Anthos, Microsoft’s Azure Arc, and Amazon’s ECS-Anywhere as prime
+examples. But the barrier to operationalizing a cloud is not so high
+that only a hyperscaler has the wherewithal to do it. It is possible
+to build a cloud—and all the associated lifecycle management and
+runtime controls that are required to operate it—using readily
+available open source software packages.
 
 This book describes what such a cloud management platform looks
 like. Our approach is to focus on the fundamental problems that must
