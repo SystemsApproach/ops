@@ -206,9 +206,15 @@ For Aether, we care about two primary stakeholders: (1) the
 *operators* that manage the multi-cluster cloud as a whole, and (2)
 the *users* that decide on a per-site basis how to take advantage of
 the local cloud resources (e.g., what edge applications to run and how
-to slice connectivity resources among those apps). We sometimes call
-the latter "enterprise admins" to distinguish them from "end-users"
-that might want to manage their own personal devices.
+to slice connectivity resources among those apps). \ [#]_ We sometimes
+call the latter "enterprise admins" to distinguish them from
+"end-users" that might want to manage their own personal devices.
+
+.. [#] There is a potential third stakeholder of note: third-party
+       service providers that are responsible for managing edge
+       applications deployed within each enterprise. For now it is
+       safe to assume operators subsume this responsibility, and we
+       revisit alternative approaches in later chapters.
 
 The architecture is multi-tenant in the sense that it authenticates
 and isolates these stakeholders. This makes the approach agnostic as
