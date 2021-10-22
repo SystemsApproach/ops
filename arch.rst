@@ -183,11 +183,12 @@ these components on their laptop.
 .. [#] Confusingly, Kubernetes adopts generic terminology, such as
        “cluster” and “service”, and gives it very specific meaning. In
        Kubernetes-speak, a “cluster” is a logical domain in which
-       Kubernetes manages a set of containers. This “Kubernetes
-       cluster” may have a one-to-one relationship with an underlying
-       physical cluster, but it is also possible that a Kubernetes
-       cluster is instantiated inside a datacenter, as one of
-       potentially thousands of such logical clusters. And as we'll
+       Kubernetes manages a set of containers and a "service" is an
+       externally visible end-point for an application. This
+       “Kubernetes cluster” may have a one-to-one relationship with an
+       underlying physical cluster, but it is also possible that a
+       Kubernetes cluster is instantiated inside a datacenter, as one
+       of potentially thousands of such logical clusters. And as we'll
        see in a later chapter, even an ACE edge site sometimes hosts
        more than one Kubernetes cluster (e.g., one running production
        services and one used for trial deployments of new services).
@@ -196,24 +197,28 @@ With the understanding that our target environment is a collection of
 Kubernetes clusters—some running on bare-metal hardware at edge sites
 and some running in VMs in central datacenters—there is an orthogonal
 issue of how decision-making responsibility for those clusters is
-shared among multiple stakeholders. While there are likely many
-business models one could construct around this general scenario, for
-our purposes, we care about two just two stakeholders: (1) the
+shared among multiple stakeholders. Identifying the relevant
+stakeholders is an important prerequisite for establishing a cloud
+service, and while the example we use may not be suitable for all
+situations, it does illustrate the design implications.
+
+For Aether, we care about two primary stakeholders: (1) the
 *operators* that manage the multi-cluster cloud as a whole, and (2)
 the *users* that decide on a per-site basis how to take advantage of
 the local cloud resources (e.g., what edge applications to run and how
-to allocate resources among those apps). We sometimes call these users
-"enterprise admins" to distinguish them from "end-users" that might
-want to manage their own personal devices, and while the mechanisms
-described in this book can accommodate them, we do not elaborate on
-that possibility.
+to slice connectivity resources among those apps). We sometimes call
+the latter "enterprise admins" to distinguish them from "end-users"
+that might want to manage their own personal devices.
 
-The architecture we describe is multi-tenant in the sense that it
-isolates these stakeholders. This makes the approach agnostic as to
-whether all the edge sites belong to a single organization (with that
-organization also responsible for operating the cloud), or having a
-separate organization offer a managed service to a set of distinct
-enterprises (each of which spans one or more sites).
+The architecture is multi-tenant in the sense that it authenticates
+and isolates these stakeholders. This makes the approach agnostic as
+to whether all the edge sites belong to a single organization (with
+that organization also responsible for operating the cloud), or
+alternatively, there being a separate organization that offers a
+managed service to a set of distinct enterprises (each of which spans
+one or more sites). The architecture can also accommodate end-users,
+and provide them with a "self-service" portal, but we do not elaborate
+on that possibility.
 
 2.3 Control and Management
 --------------------------
@@ -225,15 +230,15 @@ clusters running in the central cloud. And illustrating the recursive
 nature of the management challenge, AMP is also responsible for
 managing AMP!
 
-AMP includes one or more portals targeted at different
-stakeholders. :numref:`Figure %s <fig-amp>` shows the two primary
-examples we focus on in this book: an User Portal intended for
-enterprise admins that need to manage services delivered to a local
-site, and an Operations Portal intended for the ops team responsible
-for keeping Aether up-to-date and running smoothly. Again, other
-stakeholders (classes of users) are possible, but this distinction
-does represent a natural division between those that *use* cloud
-services and those that *operate* cloud services.
+AMP includes one or more portals targeted at different stakeholders,
+with :numref:`Figure %s <fig-amp>` showing the two examples we focus
+on in this book: an User Portal intended for enterprise admins that
+need to manage services delivered to a local site, and an Operations
+Portal intended for the ops team responsible for keeping Aether
+up-to-date and running smoothly. Again, other stakeholders (classes of
+users) are possible, but this distinction does represent a natural
+division between those that *use* cloud services and those that
+*operate* cloud services.
 
 .. _fig-amp:
 .. figure:: figures/Slide5.png
