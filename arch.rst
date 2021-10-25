@@ -169,7 +169,7 @@ There is an important aspect of this hybrid cloud that is not obvious
 from :numref:`Figure %s <fig-aether>`, which is that the “hybrid
 cloud” we keep referring to is best described as a set of Kubernetes
 clusters, rather than a set of physical clusters (similar to the one
-we started with in :numref:`Figure %s <fig-hw>` of Chapter 1).\ [#]_
+we started with in :numref:`Figure %s <fig-hw>` of Chapter 1).
 This is because, while each ACE site usually corresponds to a physical
 cluster built out of bare-metal components, each of the SD-Core CP
 subsystems shown in :numref:`Figure %s <fig-aether>` is actually
@@ -180,41 +180,34 @@ run as an emulated cluster implemented by a system like
 KIND—Kubernetes in Docker—making it possible for developers to run
 these components on their laptop.
 
-.. [#] Confusingly, Kubernetes adopts generic terminology, such as
-       “cluster” and “service”, and gives it very specific meaning. In
-       Kubernetes-speak, a “cluster” is a logical domain in which
-       Kubernetes manages a set of containers and a "service" is an
-       externally visible end-point for an application. This
-       “Kubernetes cluster” may have a one-to-one relationship with an
-       underlying physical cluster, but it is also possible that a
-       Kubernetes cluster is instantiated inside a datacenter, as one
-       of potentially thousands of such logical clusters. And as we'll
-       see in a later chapter, even an ACE edge site sometimes hosts
-       more than one Kubernetes cluster (e.g., one running production
-       services and one used for trial deployments of new services).
+To be clear, Kubernetes adopts generic terminology, such as “cluster”
+and “service”, and gives it very specific meaning. In
+Kubernetes-speak, a *Cluster* is a logical domain in which Kubernetes
+manages a set of containers. This “Kubernetes cluster” may have a
+one-to-one relationship with an underlying physical cluster, but it is
+also possible that a Kubernetes cluster is instantiated inside a
+datacenter, as one of potentially thousands of such logical
+clusters. And as we'll see in a later chapter, even an ACE edge site
+sometimes hosts more than one Kubernetes cluster, for example, one
+running production services and one used for trial deployments of new
+services.
 
 With the understanding that our target environment is a collection of
 Kubernetes clusters—some running on bare-metal hardware at edge sites
-and some running in VMs in central datacenters—there is an orthogonal
-issue of how decision-making responsibility for those clusters is
-shared among multiple stakeholders. Identifying the relevant
-stakeholders is an important prerequisite for establishing a cloud
-service, and while the example we use may not be suitable for all
-situations, it does illustrate the design implications.
+and some running (likely in VMs) in central datacenters—there is an
+orthogonal issue of how decision-making responsibility for those
+clusters is shared among multiple stakeholders. Identifying the
+relevant stakeholders is an important prerequisite for establishing a
+cloud service, and while the example we use may not be suitable for
+all situations, it does illustrate the design implications.
 
-For Aether, we care about two primary stakeholders: (1) the
-*operators* that manage the multi-cluster cloud as a whole, and (2)
-the *users* that decide on a per-site basis how to take advantage of
-the local cloud resources (e.g., what edge applications to run and how
-to slice connectivity resources among those apps). \ [#]_ We sometimes
-call the latter "enterprise admins" to distinguish them from
+For Aether, we care about two primary stakeholders: (1) the *cloud
+operators* that manage the hybrid cloud as a whole, and (2) the
+*enterprise users* that decide on a per-site basis how to take
+advantage of the local cloud resources (e.g., what edge applications
+to run and how to slice connectivity resources among those apps).  We
+sometimes call the latter "enterprise admins" to distinguish them from
 "end-users" that might want to manage their own personal devices.
-
-.. [#] There is a potential third stakeholder of note: third-party
-       service providers that are responsible for managing edge
-       applications deployed within each enterprise. For now it is
-       safe to assume operators subsume this responsibility, and we
-       revisit alternative approaches in later chapters.
 
 The architecture is multi-tenant in the sense that it authenticates
 and isolates these stakeholders. This makes the approach agnostic as
@@ -225,6 +218,78 @@ managed service to a set of distinct enterprises (each of which spans
 one or more sites). The architecture can also accommodate end-users,
 and provide them with a "self-service" portal, but we do not elaborate
 on that possibility.
+
+2.2.1 Edge Applications
+~~~~~~~~~~~~~~~~~~~~~~~
+
+There is a potential third stakeholder of note—third-party service
+providers—which points to the larger issue of how we deploy and manage
+additional edge applications. To keep the discussion tangible—but
+remain in the open source arena—we use OpenVINO as an illustrative
+example. OpenVINO is a framework for deploying AI inference models,
+which is interesting in the context of Aether because one of its use
+cases is processing video streams, for example to detect and count
+people that enter the field of view of a collection of 5G-connected
+cameras.
+
+.. _reading_openvino:
+.. admonition:: Further Reading 
+
+   `OpenVINO Toolkit <https://docs.openvino.ai>`__.
+
+On the one hand, OpenVINO is just like the 5G-related components we're
+already incorporating into our hybrid cloud: it is deployed as a
+Kubernetes-based application. On the other hand, we have to ask who is
+responsible for managing it, which is to say “who operationalizes
+OpenVINO?”
+
+One answer is that the operators that already manage the rest of the
+hybrid cloud also manage the collection of edge applications added to
+cloud. Enterprise users might select and control those apps on a
+site-by-site basis, but it is the operations team already responsible
+for provisioning, deploying, and managing those edge clouds also do
+the same for OpenVINO and any other applications that run
+locally. Generalizing from one edge service (5G connectivity) to
+arbitrarily many edge services has implications for control and
+management (which we’ll discuss throughout the book), but
+fundamentally nothing changes in the course we’ve already set out for
+ourselves.\ [#]_
+
+.. [#] Because Aether is multi-tenant, it is possible (and even
+       preferable) for the organization responsible for operating the
+       cloud to designate sub-teams to take direct responsibility for
+       managing each individual service. This is consistent with the
+       principle of least privilege, even when the cloud is
+       administered within a single trust domain.
+
+This is the assumption Aether makes (and we assume throughout this
+book), but for completeness, we take note of two other possibilities.
+One is that we extend our hybrid architecture to support independent
+third-party service providers. Each new edge service acquires its own
+isolated Kubernetes cluster from the edge cloud, and then the
+3rd-party provider subsumes all responsibility for managing the
+service running in that cluster. From the perspective of the cloud
+operator, though, the task just became significantly more difficult
+because the architecture would need to support
+Kubernetes-as-a-Service. Creating isolated Kubernetes clusters
+on-demand is a step further than we take things in this book, in part
+because there is a second possible answer that seems more likely to
+happen.
+
+This second approach is that a multi-cloud emerges *within*
+enterprises. Today, most people equate multi-cloud with services
+running across multiple hyperscalers, but with edge clouds becoming
+more common, it seems inevitable that enterprises invite multiple edge
+clouds onto their local premises, some hyperscaler-provided and some
+not, each hosting a different subset of edge services. For example,
+one edge cloud might host a 5G connectivity service and another might
+host an AI platform like OpenVINO. The question this raises is whether
+the cloud management technologies described in this book still apply
+in that setting. The answer is yes: the fundamental management
+challenges remain the same, the only difference is knowing when to
+directly control a Kubernetes cluster (as we do in this book) and when
+to do so indirectly through the manager of that cluster.
+
 
 2.3 Control and Management
 --------------------------

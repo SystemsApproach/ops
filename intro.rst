@@ -426,8 +426,8 @@ prepping it to host workloads, and (b) managing the various workloads
 that need to be deployed on that platform.
 
 
-1.3.2 Foundational Software Building Blocks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.3.2 Software Building Blocks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We assume three foundational software technologies, all running on the commodity processors in the cluster:
 

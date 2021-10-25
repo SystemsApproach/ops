@@ -109,6 +109,7 @@ operationalize
 operationalized
 operationalization
 operationalizing
+operationalizes
 orchestrator
 pre
 prem
