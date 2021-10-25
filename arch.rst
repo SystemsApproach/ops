@@ -248,8 +248,8 @@ hybrid cloud also manage the collection of edge applications added to
 cloud. Enterprise users might select and control those apps on a
 site-by-site basis, but it is the operations team already responsible
 for provisioning, deploying, and managing those edge clouds that also
-do the same for OpenVINO and any other applications that run
-locally. Generalizing from one edge service (5G connectivity) to
+do the same for OpenVINO and any other applications that run on that
+cloud. Generalizing from one edge service (5G connectivity) to
 arbitrarily many edge services has implications for control and
 management (which we’ll discuss throughout the book), but
 fundamentally nothing changes in the course we’ve already set out for
