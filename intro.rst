@@ -552,7 +552,7 @@ experience with Gerrit is not critical to understanding the material.
    `GitHub Tutorial
    <https://guides.github.com/activities/hello-world/>`__.
 
-   `Gerrt Code Review
+   `Gerrit Code Review
    <https://www.gerritcodereview.com/>`__.
 
 
