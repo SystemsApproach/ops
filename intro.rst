@@ -237,7 +237,8 @@ a characterization that is common for traditional network devices:
   degradation, with the goal of sustaining the service. This may
   involve some closed-loop control, but is often human-intense, which
   involves monitoring a dashboard and fielding alerts, and then
-  re-configuring the system as necessary.
+  re-configuring the system as necessary. This is often referred to
+  simply as "Day 2 Operations".
   
 Again, “Day x” is how traditional network vendors characterize the
 process of operationalizing the devices they sell, which in turn
@@ -247,7 +248,7 @@ Virtual Network Functions (VNFs), it is still a device-centric view of
 operations. But once a system becomes cloud native, two things happen
 that shift the balance of concerns. First, all hardware is commodity,
 and so Days 0 and 1 configurations become fully automated (and Day -1
-is minimized since all devices are identical).\ [#]_ Second, Day 2..N
+is minimized since all devices are identical).\ [#]_ Second, Day 2
 operations become a much more sophisticated process. This is because
 software-based systems are more agile, making functional upgrades more
 commonplace. This focus on *feature velocity* is one of the inherent
