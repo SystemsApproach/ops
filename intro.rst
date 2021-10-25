@@ -426,11 +426,10 @@ prepping it to host workloads, and (b) managing the various workloads
 that need to be deployed on that platform.
 
 
-1.3.2 Server Virtualization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.3.2 Foundational Software Building Blocks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We assume three software technologies virtualize the computing
-resources, all running on the commodity processors in the cluster:
+We assume three foundational software technologies, all running on the commodity processors in the cluster:
 
 1. Docker containers package software functionality.
    
