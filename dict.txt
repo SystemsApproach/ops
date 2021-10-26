@@ -51,6 +51,7 @@ PaaS
 Plugable
 POD
 PODs
+Proxmox
 QoS
 Redfish
 Renderer

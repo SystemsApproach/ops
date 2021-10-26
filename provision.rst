@@ -493,11 +493,11 @@ whatever applications they want, we do not need to manage VMs "as a
 service."  But we still may want to use VMs as a way to isolate
 Kubernetes workloads on a limited number of physical servers. This can
 be done as a provisioning step, akin to connecting and booting a
-physical machine, using tools like VirtualBox or QEMU. There is no
-need for a full-fledged IaaS mechanism, such as OpenStack. These VMs
-would then be recorded as first-class cloud resource in NetBox and the
-other tools described in this section, no different than a physical
-machine.
+physical machine, but using mechanisms like KVM and Proxmox. There is
+no need for a full-fledged IaaS mechanism, such as OpenStack. These
+VMs would then be recorded as first-class cloud resource in NetBox and
+the other tools described in this section, no different than a
+physical machine.
 
 The unanswered question is why one might decide to do that.  One
 reason is to support fine-grain resource isolation, making it possible
@@ -512,7 +512,7 @@ applications, we could dedicate a subset of physical servers to each
 of them. That's a coarse-grain way to share the physical cluster.
 Being able to "split" one or more servers between multiple uses gives
 the operator more flexibility in allocating resources, which usually
-translates into requiring fewer overall resources. Note that there
+translates into requiring fewer overall resources. Note that there are
 other ways to specify how resources are shared (which we'll see in
 Section 4.4), but the provisioning layer is one place where the issue
 can be addressed.
