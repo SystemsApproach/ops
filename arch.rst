@@ -18,7 +18,6 @@ plant. This combination, coupled with Aether being offered as a
 managed service, means Aether can fairly be characterized as a
 Platform-as-a-Service (PaaS).
 
-
 .. sidebar:: Industry 4.0
 
        *Edge clouds like Aether are an important component of a trend
