@@ -7,13 +7,14 @@ a running system, by specifying new values for one or more runtime
 parameters.
 
 Using Aether’s 5G connectivity service as an example, suppose an
-end-user wants to change the *QoS-Profile* setting for their mobile
-device. This might include modifying the *Uplink* or *Downlink*
-bandwidth, or even selecting a different *Traffic Class*. Similarly,
-imagine an enterprise admin wants to add a new *Mission-Critical*
-option to the existing set of *Traffic Classes* that *QoS-Profiles*
-can adopt. Without worrying about the exact syntax of the API call(s)
-for these operations, the Runtime Control subsystem needs to
+enterprise admin wants to change the *QoS-Profile* setting for a group
+of mobile devices. This might include modifying the *Uplink* or
+*Downlink* bandwidth, or even selecting a different *Traffic
+Class*. Similarly, imagine an operator wants to add a new
+*Mission-Critical* option to the existing set of *Traffic Classes*
+that *QoS-Profiles* can adopt. Without worrying about the exact syntax
+of the API call(s) for these operations, the Runtime Control subsystem
+needs to
 
 1. Authenticate the principal wanting to perform the operation.
    
@@ -25,14 +26,15 @@ for these operations, the Runtime Control subsystem needs to
 4. Record the specified parameter setting(s), so the new value(s)
    persist.
    
-In this example, *QoS-Profile* is an abstract object being operated
-upon, and while this object must be understood by Runtime Control,
-making changes to this object might involve invoking low-level control
-operations on multiple subsystems, such as the SD-RAN (which is
-responsible for QoS in the RAN), the SD-Fabric (which is responsible
-for QoS through the switching fabric), SD-Core UP (which is
-responsible for QoS in the mobile core user plane), and SD-Core CP
-(which is responsible for QoS in the mobile core control plane).
+In this example, *QoS-Profile* and *Traffic Class* are abstract
+objects being operated upon, and while these objects must be
+understood by Runtime Control, making changes to them might involve
+invoking low-level control operations on multiple subsystems, such as
+the SD-RAN (which is responsible for QoS in the RAN), the SD-Fabric
+(which is responsible for QoS through the switching fabric), SD-Core
+UP (which is responsible for QoS in the mobile core user plane), and
+SD-Core CP (which is responsible for QoS in the mobile core control
+plane).
 
 In short, Runtime Control defines an abstraction layer on top of a
 collection of backend components, effectively turning them into
@@ -662,16 +664,16 @@ boot time) or a control-time Adaptor (to change the component at
 runtime).
 
 For resource-related operations, like spinning up additional
-containers in response to a changing workload or a user request (e.g.,
-the *slice* model in Aether), a similar implementation strategy is
+containers in response to a user request to create a *Slice* or
+activate an edge service, a similar implementation strategy is
 feasible. The Kubernetes API can be called from either Helm (to
 initialize a microservice at boot time) or from a Runtime Control
 Adaptor (to add resources at runtime). The remaining challenge is
 deciding which subsystem maintains the authoritative copy of that
-state, and ensuring that decision is enforced as a system
-invariant.\ [#]_ Such decisions are often situation dependent, but our
-experience is that using Runtime Control as the single source-of-truth
-is a sound approach.
+state, and ensuring that decision is enforced as a system invariant.\ [#]_
+Such decisions are often situation dependent, but our experience is
+that using Runtime Control as the single source-of-truth is a sound
+approach.
 
 .. [#] It is also possible to maintain two authoritative copies of the
        state, and implement a mechanism to keep them in-sync. The
