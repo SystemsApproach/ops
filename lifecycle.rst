@@ -513,6 +513,32 @@ such that whenever a new Helm chart is checked into a GitRepo, all
 Bundles that contain that chart are (re-)deployed on all associated
 Cluster Groups.
 
+This focus on Fleet as the agent triggering the execution of Helm
+Charts should not distract from the central role of the charts
+themselves. They are the centerpiece of how we specify service
+deployments. They identify the interconnected set of microservices to
+be deployed, and as we'll see in the next section, are the ultimate
+arbitrator of the version of each of those microservices.  Later
+chapters will also describe how these charts sometimes specify a
+Kubernetes *Operator* that is to run when a microservice is deployed,
+configuring the newly started microservice in some component-specific
+way.  Finally, Helm Charts can specify the resources (e.g., processor
+cores) each microservice is permitted to consume, including both
+minimal thresholds and upper limits. Of course, all of this is
+possible only because Kubernetes supports the corresponding API calls,
+and enforces resource usage accordingly.
+
+Note that this last point about resource allocation shines a light on
+a fundamental characteristic of the kind of edge/hybrid clouds we're
+focused on: they are typically resource constrained, as opposed to
+offering the seemingly infinite resources of a datacenter-based
+elastic cloud.  As a consequence, provisioning and lifecycle
+management are implicitly linked by the analysis used to decide (1)
+how many resources are required, (2) what services are to deployed on
+those resources, and (3) how those resources are to be shared among
+the curated set of services.
+
+
 4.5 Versioning Strategy
 -----------------------
 

@@ -255,9 +255,9 @@ management (which we’ll discuss throughout the book), but
 fundamentally nothing changes in the course we’ve already set out for
 ourselves.
 
-Having the cloud operator curate and manage a set of edge services is
-the assumption Aether makes (and we assume throughout this book), but
-for completeness, we take note of two other possibilities.  One is
+Having the cloud operator *curate and manage* a set of edge services
+is the assumption Aether makes (and we assume throughout this book),
+but for completeness, we take note of two other possibilities.  One is
 that we extend our hybrid architecture to support independent
 third-party service providers. Each new edge service acquires its own
 isolated Kubernetes cluster from the edge cloud, and then the
@@ -265,10 +265,10 @@ isolated Kubernetes cluster from the edge cloud, and then the
 service running in that cluster. From the perspective of the cloud
 operator, though, the task just became significantly more difficult
 because the architecture would need to support Kubernetes as a managed
-service, which is sometimes called *Container-as-a-Service
-(CaaS)*.\ [#]_  Creating isolated Kubernetes clusters on-demand is a step
-further than we take things in this book, in part because there is a
-second possible answer that seems more likely to happen.
+service, which is sometimes called *Container-as-a-Service (CaaS)*.\ [#]_
+Creating isolated Kubernetes clusters on-demand is a step further than
+we take things in this book, in part because there is a second
+possible answer that seems more likely to happen.
 
 .. [#] This is not strictly an either-or-situation. It is possible to
        curate an edge service, provision cluster resources for it, but

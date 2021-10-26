@@ -514,8 +514,8 @@ Being able to "split" one or more servers between multiple uses gives
 the operator more flexibility in allocating resources, which usually
 translates into requiring fewer overall resources. Note that there
 other ways to specify how resources are shared (which we'll see in
-later chapters), but the provisioning layer is one place where the
-issue can be addressed.
+Section 4.4), but the provisioning layer is one place where the issue
+can be addressed.
 
 3.2 Infrastructure-as-Code
 --------------------------
