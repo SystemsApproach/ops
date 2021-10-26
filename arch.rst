@@ -380,7 +380,7 @@ Recall from Chapter 1 that we called out the "Aether platform" as
 distinct from the cloud-native workloads that are hosted on the
 platform. This is relevant here because Resource Provisioning has to
 get this platform up-and-running before Lifecycle Management can do
-it's job. But in another example of circular dependencies, Lifecycle
+its job. But in another example of circular dependencies, Lifecycle
 Management then plays a role in keeping the underlying platform
 up-to-date.
 	
