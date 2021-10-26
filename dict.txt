@@ -131,5 +131,6 @@ todo
 todolist
 toolchain
 toolset
+untrusted
 uplink
 virtualenv

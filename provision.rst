@@ -474,6 +474,49 @@ expectation that someone is responsible for provisioning the
 Kubernetes cluster instantiated by that API (where that someone might
 be us, as just outlined in this section).
 
+3.1.4 Provisioning VMs
+~~~~~~~~~~~~~~~~~~~~~~
+
+We conclude our discussion of the steps required to provision physical
+machines by considering the implications of provisioning virtual
+machines, or VMs. That's something that happens "behind the scenes"
+when you request a Kubernetes cluster from AKS, EKS, or GKE, but
+that's because the hyperscalers have the option of layering their
+Kubernetes service on top of their Infrastructure-as-a-Service
+(IaaS). Do we need something similar for the edge cloud we're
+building?
+
+Not necessarily. Because our goal is to support a curated set of edge
+services that provide value to our enterprise users, and not to
+support Container-as-a-Service so untrusted third-parties can spin up
+whatever applications they want, we do not need to manage VMs "as a
+service."  But we still may want to use VMs as a way to isolate
+Kubernetes workloads on a limited number of physical servers. This can
+be done as a provisioning step, akin to connecting and booting a
+physical machine, using tools like VirtualBox or QEMU. There is no
+need for a full-fledged IaaS mechanism, such as OpenStack. These VMs
+would then be recorded as first-class cloud resource in NetBox and the
+other tools described in this section, no different than a physical
+machine.
+
+The unanswered question is why one might decide to do that.  One
+reason is to support fine-grain resource isolation, making it possible
+to (a) ensure that each Kubernetes application receives the processor,
+memory, and storage resources it needs to do its job, and (b) reduce
+the risk of information leaking between the applications. Suppose, for
+example, that in addition to SD-Fabric, SD-RAN and SD-Core workloads
+that run (by default) on each edge site, we also want to run one or
+more other edge apps, such as the OpenVINO platform introduced in
+Section 2.3. To ensure that there is no interference between these
+applications, we could dedicate a subset of physical servers to each
+of them. That's a coarse-grain way to share the physical cluster.
+Being able to "split" one or more servers between multiple uses gives
+the operator more flexibility in allocating resources, which usually
+translates into requiring fewer overall resources. Note that there
+other ways to specify how resources are shared (which we'll see in
+later chapters), but the provisioning layer is one place where the
+issue can be addressed.
+
 3.2 Infrastructure-as-Code
 --------------------------
 
