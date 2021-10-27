@@ -622,42 +622,6 @@ is not included in a vanilla Kubernetes deployment.
 
 .. literalinclude:: code/main-rke.tf
 
-.. sidebar:: Where To Draw the Line
-
-  *The art of defining a system architecture, in our case a management
-  framework for a hybrid cloud, is deciding where to draw the line
-  between what's included inside the platform and what is considered
-  an application running on top of the platform. For Aether, we have
-  decided to include SD-Fabric inside the platform (along with
-  Kubernetes), with SD-Core and SD-RAN treated as applications, even
-  though all three are implemented as Kubernetes-based
-  microservices. One consequence of this decision is that SD-Fabric is
-  initialized as part of the provisioning system described in this
-  chapter (with NetBox, Ansible, Rancher, and Terraform playing a
-  role), whereas SD-Core and SD-RAN are deployed using the
-  application-level mechanisms described in Chapter 4.*
-  
-  *There are also other edge applications running as Kubernetes
-  workloads, which complicates the story because from their
-  perspective, all of Aether (including the 5G connectivity that
-  SD-Core and SD-RAN implements) is assumed to be part of the
-  platform. In other words, Aether draws two lines, one demarcating
-  Aether's base platform (Kubernetes plus SD-Fabric) and a second
-  demarcating the Aether PaaS (which includes SD-Core and SD-RAN
-  running on top of the platform, plus AMP managing the whole
-  system). The distinction between "base platform" and "PaaS" is
-  subtle, but essentially corresponds to the difference between a
-  software stack and a managed service, respectively.*
-
-  *In some respects this is just a matter of terminology, which is
-  certainly important, but the relevance to our discussion is that
-  because we have multiple overlapping mechanisms at our disposal,
-  giving us more than one way to solve each engineering problem we
-  encounter, it is easy to end up with an implementation that
-  unnecessarily conflates separable concerns. Being explicit and
-  consistent about what is platform and what is application is a
-  prerequisite for a sound overall design.*
-
 There are other loose ends that need to be tied up, such as defining
 the VPN to be used to connect edge clusters to their counterparts in
 GCP, but the above examples are sufficient to illustrate the role
@@ -669,7 +633,7 @@ be error-prone and a difficult to make consistently repeatable.
 Starting with declarative language and auto-generating the right
 sequence of API calls is a proven way to overcome that problem.
 
-We conclude this chapter by drawing attention to the fact that while
+We conclude the discussion by drawing attention to the fact that while
 we now have a declarative specification for our cloud infrastructure,
 which we refer to as the *Aether Platform*, these specification files
 are yet another software artifact that we check into the Config Repo.
@@ -679,3 +643,40 @@ Section 3.1 happen "outside" the pipeline (which is why we don't just
 fold resource provisioning into Lifecycle Management), but it is fair
 to think of resource provisioning as "Stage 0" of lifecycle
 management.
+
+3.3 Platform Definition 
+------------------------
+
+The art of defining a system architecture, in our case a management
+framework for a hybrid cloud, is deciding where to draw the line
+between what's included inside the platform and what is considered an
+application running on top of the platform. For Aether, we have
+decided to include SD-Fabric inside the platform (along with
+Kubernetes), with SD-Core and SD-RAN treated as applications, even
+though all three are implemented as Kubernetes-based microservices.
+One consequence of this decision is that SD-Fabric is initialized as
+part of the provisioning system described in this chapter (with
+NetBox, Ansible, Rancher, and Terraform playing a role), whereas
+SD-Core and SD-RAN are deployed using the application-level mechanisms
+described in Chapter 4.
+  
+There may also be other edge applications running as Kubernetes
+workloads, which complicates the story because from their perspective,
+all of Aether (including the 5G connectivity that SD-Core and SD-RAN
+implements) is assumed to be part of the platform. In other words,
+Aether draws two lines, one demarcating Aether's base platform
+(Kubernetes plus SD-Fabric) and a second demarcating the Aether PaaS
+(which includes SD-Core and SD-RAN running on top of the platform,
+plus AMP managing the whole system). The distinction between "base
+platform" and "PaaS" is subtle, but essentially corresponds to the
+difference between a software stack and a managed service,
+respectively.
+
+In some respects this is just a matter of terminology, which is
+certainly important, but the relevance to our discussion is that
+because we have multiple overlapping mechanisms at our disposal,
+giving us more than one way to solve each engineering problem we
+encounter, it is easy to end up with an implementation that
+unnecessarily conflates separable concerns. Being explicit and
+consistent about what is platform and what is application is a
+prerequisite for a sound overall design.
