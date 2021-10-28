@@ -509,13 +509,13 @@ that run (by default) on each edge site, we also want to run one or
 more other edge apps, such as the OpenVINO platform introduced in
 Section 2.3. To ensure that there is no interference between these
 applications, we could dedicate a subset of physical servers to each
-of them. That's a coarse-grain way to share the physical cluster.
-Being able to "split" one or more servers between multiple uses gives
-the operator more flexibility in allocating resources, which usually
-translates into requiring fewer overall resources. Note that there are
-other ways to specify how resources are shared (which we'll see in
-Section 4.4), but the provisioning layer is one place where the issue
-can be addressed.
+of them. Physical partitioning is a coarse-grain way to share the
+physical cluster.  Being able to "split" one or more servers between
+multiple uses gives the operator more flexibility in allocating
+resources, which usually translates into requiring fewer overall
+resources. Note that there are other ways to specify how resources are
+shared (which we'll see in Section 4.4), but the provisioning layer is
+one place where the issue can be addressed.
 
 3.2 Infrastructure-as-Code
 --------------------------

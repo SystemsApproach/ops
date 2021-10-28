@@ -93,9 +93,9 @@ represents a mix of “modern” concepts that are native to the cloud,
 and “traditional” concepts that are artifacts from earlier systems
 (many of which are now being subsumed by the cloud, but retain some of
 their original operational language). This is especially true at the
-intersection of the cloud and network operators (e.g., Telcos),
-who—like the Sami of Scandinavia that have over 180 words for
-snow—have an exceedingly rich vocabulary for *operating* a network.
+intersection of the cloud and Telcos, who—like the Sami of Scandinavia
+that have over 180 words for snow—have an exceedingly rich vocabulary
+for *operating* a network.
 
 A major source of confusion is that we are in the midst of a
 transition from network systems being built from purpose-built
@@ -461,13 +461,19 @@ example.
 
 Kubernetes is a container management system. It provides a
 programmatic interface for scaling container instances up and down,
-setting up virtual networks to interconnect those instances, and
-opening service ports that external clients can use to access those
-instances. Behind the scenes, Kubernetes monitors the liveness of
-those containers, and automatically restarts any that have failed. In
-other words, if you instruct Kubernetes to spin up three instances of
-microservice X, Kubernetes will do its best to keep three instances of
-the container that implements X running at all times.
+allocating server resources to them, setting up virtual networks to
+interconnect those instances, and opening service ports that external
+clients can use to access those instances. Behind the scenes,
+Kubernetes monitors the liveness of those containers, and
+automatically restarts any that have failed. In other words, if you
+instruct Kubernetes to spin up three instances of microservice X,
+Kubernetes will do its best to keep three instances of the container
+that implements X running at all times.
+
+Kubernetes also provides mechanisms that can be used to configure
+microservices when they start up, which because of the role they play
+in cloud management, we will describe in more detail as they are
+introduced in later chapters.
 
 .. _reading_k8s:
 .. admonition:: Further Reading
