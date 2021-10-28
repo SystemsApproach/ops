@@ -289,7 +289,7 @@ challenges remain the same, the main difference is knowing when to
 directly control a Kubernetes cluster (as we do in this book) and when
 to do so indirectly through the manager for that cluster. There are
 also new problems that are unique to multi-clouds (e.g., inter-cloud
-service discovery), which are beyond the scope of this book.
+service discovery), but they are beyond the scope of this book.
 
 2.4 Control and Management
 --------------------------
