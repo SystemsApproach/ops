@@ -534,9 +534,9 @@ focused on: they are typically resource constrained, as opposed to
 offering the seemingly infinite resources of a datacenter-based
 elastic cloud.  As a consequence, provisioning and lifecycle
 management are implicitly linked by the analysis used to decide (1)
-how many resources are required, (2) what services are to deployed on
-those resources, and (3) how those resources are to be shared among
-the curated set of services.
+what services we want to deploy, (2) how many resources those services
+require, and (3) how those resources are to be shared among the
+curated set of services.
 
 
 4.5 Versioning Strategy

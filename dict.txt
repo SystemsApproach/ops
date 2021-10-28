@@ -71,6 +71,7 @@ Todo
 Tofino
 Vemuri
 VM
+VMs
 VMware
 Weaveworks
 
