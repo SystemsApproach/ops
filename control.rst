@@ -558,7 +558,31 @@ contains the following fields:
    * `port-end`. Ending port number.
    * `protocol`: `TCP|UDP`, specifies the protocol for the endpoint.
 * `enterprise`: Link to an `Enterprise` object that owns this application. May be left empty
-  to indicate a global application that may be used by multiple enterprises.
+  to indicate a global application that may be used by multiple
+  enterprises.
+
+.. sidebar:: An API for Other Platform Services
+
+	*We are using Connectivity-as-a-Service as an illustrative
+	example of the role Runtime Control plays, but APIs can be
+	defined for other cloud platform services using the same
+	machinery. For example, because the SD-Fabric in Aether is
+	implemented with programmable switching hardware, the
+	forwarding plane is instrumented with Inband Network Telemetry
+	(INT). A northbound API then enables fine-grain data
+	collection on a per-flow basis, at runtime, making it possible
+	to write closed-loop control applications on top of Aether.*
+
+	*In general, Iaas and PaaS offerings need to support
+	application- and user-facing APIs that go beyond the
+	DevOps-level configuration files consumed by the underlying
+	software components (i.e., microservices). Creating these
+	interfaces is an exercise in defining a meaningful abstraction
+	layer, which when done using best practices, becomes an
+	exercise in defining high-level data models. Runtime Control
+	is the management subsystem responsible defining and
+	implementing the API for this abstraction layer.*
+	
 
 5.3.3 QoS Profiles
 ~~~~~~~~~~~~~~~~~~
