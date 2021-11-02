@@ -561,11 +561,11 @@ contains the following fields:
   to indicate a global application that may be used by multiple
   enterprises.
 
-.. sidebar:: An API for Other Platform Services
+.. sidebar:: An API for Platform Services
 
 	*We are using Connectivity-as-a-Service as an illustrative
 	example of the role Runtime Control plays, but APIs can be
-	defined for other cloud platform services using the same
+	defined for other platform services using the same
 	machinery. For example, because the SD-Fabric in Aether is
 	implemented with programmable switching hardware, the
 	forwarding plane is instrumented with Inband Network Telemetry
@@ -573,15 +573,22 @@ contains the following fields:
 	collection on a per-flow basis, at runtime, making it possible
 	to write closed-loop control applications on top of Aether.*
 
+	*In a similar spirit, the QoS-related control example given in
+	this section could be augmented with additional objects that
+	provide visibility into, and an opportunity to exert control
+	over, various radio-related parameters implemented by SD-RAN.
+	Doing so would be a step towards a platform API that enables
+	a new class of industry automation edge cloud apps.*
+
 	*In general, Iaas and PaaS offerings need to support
 	application- and user-facing APIs that go beyond the
 	DevOps-level configuration files consumed by the underlying
 	software components (i.e., microservices). Creating these
 	interfaces is an exercise in defining a meaningful abstraction
-	layer, which when done using best practices, becomes an
+	layer, which when done using declarative tooling, becomes an
 	exercise in defining high-level data models. Runtime Control
-	is the management subsystem responsible defining and
-	implementing the API for this abstraction layer.*
+	is the management subsystem responsible specifying and
+	implementing the API for such an abstraction layer.*
 	
 
 5.3.3 QoS Profiles
