@@ -471,9 +471,10 @@ Kubernetes will do its best to keep three instances of the container
 that implements X running at all times.
 
 Kubernetes also provides mechanisms that can be used to configure
-microservices when they start up, which because of the role they play
-in cloud management, we will describe in more detail as they are
-introduced in later chapters.
+microservices when they start up, including *ConfigMaps*, *Secrets*,
+and *Operators*. Because of the role they play in cloud management, we
+discuss these mechanisms in more detail as they are introduced in
+later chapters.
 
 .. _reading_k8s:
 .. admonition:: Further Reading
