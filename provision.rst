@@ -679,4 +679,8 @@ giving us more than one way to solve each engineering problem we
 encounter, it is easy to end up with an implementation that
 unnecessarily conflates separable concerns. Being explicit and
 consistent about what is platform and what is application is a
-prerequisite for a sound overall design.
+prerequisite for a sound overall design. It is also important to
+recognize the difference between an internal engineering decision
+(e.g., what mechanism is used to deploy a given component), and an
+externally-visible architectural decision (e.g., what functionality to
+expose through a public API).
