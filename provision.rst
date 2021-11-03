@@ -34,8 +34,8 @@ Terraform as our open source approach to infrastructure-as-code.
        more detail in Chapter 4.
 
 When a cloud is built from a combination of virtual and physical
-resources, as is the case for a hybrid cloud like like Aether, we need
-a seamless way to accommodate both. To this end, our approach is to
+resources, as is the case for a hybrid cloud like Aether, we need a
+seamless way to accommodate both. To this end, our approach is to
 first overlay a *logical structure* on top of hardware resources,
 making them roughly equivalent to the virtual resources we get from a
 commercial cloud provider. This results in a hybrid scenario similar
@@ -79,11 +79,11 @@ cabling plan that a hands-on technician uses as a blueprint. The
 details of such a plan are highly deployment specific, but we use the
 example shown in :numref:`Figure %s <fig-cable_plan>` to help
 illustrate all the steps involved. The example is based on Aether PODs
-deployed in enterprises, which serves to highlight the required level
-of specificity. Considerable planning is required to specify an
-appropriate *Bill of Materials (BOM)*, including details about
-individual device models, but this aspect of the problem space is
-also outside our scope.
+deployed in enterprises—we use the term "POD" to refer to a physical
+cluster—which serves to highlight the required level of specificity.
+Considerable planning is required to specify an appropriate *Bill of
+Materials (BOM)*, including details about individual device models,
+but this aspect of the problem is also outside our scope.
 
 .. _fig-cable_plan:
 .. figure:: figures/pronto_logical_diagram.png
@@ -215,10 +215,10 @@ purposes:
   * Assign FABRIC 801 VLAN
   * Set the description to ``fab2.<deployment>.<site>.aetherproject.net``
 
-There are other edge prefixes used by Kubernetes, but do not need to be
-created in NetBox. Note that ``qsfp0`` and ``qsfp1`` in this example
-denote transceiver ports connecting the switching fabric, where *QSFP*
-stand for Quad (4-channel) Small Form-factor Plugable.
+There are other edge prefixes used by Kubernetes, but they do not need
+to be created in NetBox. Note that ``qsfp0`` and ``qsfp1`` in this
+example denote transceiver ports connecting the switching fabric,
+where *QSFP* stand for Quad (4-channel) Small Form-factor Plugable.
    
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
@@ -499,23 +499,26 @@ OpenStack. These VMs would then be recorded as first-class cloud
 resource in NetBox and the other tools described in this section, no
 different than a physical machine.
 
-The unanswered question is why one might decide to do that.  One
-reason is to support fine-grain resource isolation, making it possible
-to (a) ensure that each Kubernetes application receives the processor,
-memory, and storage resources it needs to do its job, and (b) reduce
-the risk of information leaking between the applications. Suppose, for
-example, that in addition to SD-Fabric, SD-RAN and SD-Core workloads
-that run (by default) on each edge site, we also want to run one or
-more other edge apps, such as the OpenVINO platform introduced in
-Section 2.3. To ensure that there is no interference between these
-applications, we could dedicate a subset of physical servers to each
-of them. Physical partitioning is a coarse-grain way to share the
-physical cluster.  Being able to "split" one or more servers between
-multiple uses—by instantiating VMs—gives the operator more flexibility
-in allocating resources, which usually translates into requiring fewer
-overall resources. Note that there are other ways to specify how
-resources are shared (which we will see in Section 4.4), but the
-provisioning layer is one place where the issue can be addressed.
+The unanswered question is why one might decide to do that,
+considering that Kubernetes already allows us to deploy multiple
+applications on a single cluster.  One reason is to support fine-grain
+resource isolation, making it possible to (a) ensure that each
+Kubernetes application receives the processor, memory, and storage
+resources it needs to do its job, and (b) reduce the risk of
+information leaking between the applications. Suppose, for example,
+that in addition to SD-Fabric, SD-RAN and SD-Core workloads that run
+(by default) on each edge site, we also want to run one or more other
+edge apps, such as the OpenVINO platform introduced in Section 2.3. To
+ensure that there is no interference between these applications, we
+could dedicate a subset of physical servers to each of them. Physical
+partitioning is a coarse-grain way to share the physical cluster.
+Being able to "split" one or more servers between multiple uses—by
+instantiating VMs—gives the operator more flexibility in allocating
+resources, which usually translates into requiring fewer overall
+resources. Note that there are other ways to specify how cluster
+resources are shared between applications (which we will see in
+Section 4.4), but the provisioning layer is one place where the issue
+can be addressed.
 
 3.2 Infrastructure-as-Code
 --------------------------

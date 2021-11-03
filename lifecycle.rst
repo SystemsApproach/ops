@@ -121,13 +121,11 @@ dotted lines in :numref:`Figure %s <fig-pipeline>`.)
 
 The far right of :numref:`Figure %s <fig-pipeline>` shows the set of
 deployment targets, with *Staging* and *Production* called out as two
-illustrative examples. (The targets are referred to as “PODs” to
-signify a self-contained cluster, similar to the ones shown in
-:numref:`Figure %s <fig-ace>` of Chapter 2.) The idea is that a new
-version of the software is deployed first to a set of Staging PODs,
-where it is subjected to realistic workloads for a period of time, and
-then rolled out to the Production PODs once the Staging PODs give us
-confidence that the upgrade is reliable.
+illustrative examples. The idea is that a new version of the software
+is deployed first to a set of Staging PODs, where it is subjected to
+realistic workloads for a period of time, and then rolled out to the
+Production PODs once the Staging PODs give us confidence that the
+upgrade is reliable.
 	
 This is a simplified depiction of what happens in practice. In
 general, there can be more than two distinct versions of the cloud
