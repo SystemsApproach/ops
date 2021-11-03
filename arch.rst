@@ -29,25 +29,28 @@ a system like Aether in the first place.
 
        *As for why we refer to Aether as a PaaS for such use cases,
        the answer is somewhat subjective. Generally, a PaaS offers
-       more than virtualized compute and storage, and includes
-       additional layers of "middleware" targeted as some application
-       domain. In the case of Aether, that additional functionality is
-       5G connectivity, including an API that edge apps can use to
-       customize that connectivity to better meet their objectives.
-       This does not preclude also loading an ML-platform or an
-       IoT-platform onto Aether, further enhancing the application
-       support it provides.*
+       more than virtualized compute and storage (that is what IaaS
+       does), and includes additional layers of "middleware" to enable
+       application developers to deploy their applications without
+       dealing with all the intricacies of managing the underlying
+       infrastructure. In the case of Aether, the platform includes
+       support for 5G connectivity, including an API that edge apps
+       can use to customize that connectivity to better meet their
+       objectives.  This does not preclude also loading an ML-platform
+       or an IoT-platform onto Aether, further enhancing the
+       application support it provides.*
        
 Aether is a Kubernetes-based edge cloud, augmented with a 5G-based
 connectivity service. Aether is targeted at enterprises that want to
 take advantage of 5G connectivity in support of mission-critical edge
-applications requiring predictable low latency connectivity. In short,
-“Kubernetes-based” means Aether is able to host container-based
+applications requiring predictable, low-latency connectivity. In
+short, “Kubernetes-based” means Aether is able to host container-based
 services, and “5G-based connectivity” means Aether is able to connect
 those services to mobile devices throughout the enterprise's physical
-plant. This combination, coupled with Aether being offered as a
-managed service, means Aether can fairly be characterized as a
-Platform-as-a-Service (PaaS).
+plant. This combination of features to support deployment of edge
+applications, coupled with Aether being offered as a managed service,
+means Aether can fairly be characterized as a Platform-as-a-Service
+(PaaS).
 
 Aether supports this combination by implementing both the RAN and the
 user plane of the Mobile Core on-prem, as cloud-native workloads
