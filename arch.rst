@@ -522,7 +522,7 @@ qualitative explanations in support of diagnostics and analytics.
 
 This overview of the management architecture could lead one to
 conclude that these four subsystems were architected, in a rigorous,
-top-down fashion, to be are completely independent.  But that is not
+top-down fashion, to be completely independent.  But that is not
 the case. It is more accurate to say that the system evolved bottom
 up, solving the next immediate problem one at a time, all the while
 creating a large ecosystem of open source components that can be used
