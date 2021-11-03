@@ -454,14 +454,14 @@ Once deployed and running, Runtime Control provides a programmatic API
 that can be used by various stakeholders to manage whatever abstract
 service(s) the system offers (e.g., 5G connectivity in the case of
 Aether). As shown in :numref:`Figure %s <fig-control>`, Runtime
-Control addresses the “management silo” issue raised in Chapter 1, so
-users do not need to know that connectivity potentially spans four
-different components, or how to control/configure each of them
-individually. (Or, as in the case of the Mobile Core, that SD-Core is
-distributed across two clouds, with the CP sub-part responsible for
-controlling the UP sub-part.) In the case of the connectivity service,
-for example, users only care about being able to authorize devices and
-set QoS parameters on an end-to-end basis.
+Control partially addresses the “management silo” issue raised in
+Chapter 1, so users do not need to know that connectivity potentially
+spans four different components, or how to control/configure each of
+them individually. (Or, as in the case of the Mobile Core, that
+SD-Core is distributed across two clouds, with the CP sub-part
+responsible for controlling the UP sub-part.) In the case of the
+connectivity service, for example, users only care about being able to
+authorize devices and set QoS parameters on an end-to-end basis.
 
 .. _fig-control:
 .. figure:: figures/Slide8.png
