@@ -268,7 +268,7 @@ Aether. Specifics will vary substantially, depending on the kind of
 functionality you need to test. In Aether, the relevant components are
 shown on the right—rearranged to highlight top-down dependencies
 between subsystems—with the corresponding test-automation tool shown
-on the right. Think of each of these as a framework for a
+on the left. Think of each of these as a framework for a
 domain-specific class of tests (e.g., NG40 puts a 5G workload on
 SD-Core and SD-RAN, while TestVectors injects packet traffic into the
 switches).
@@ -533,7 +533,7 @@ offering the seemingly infinite resources of a datacenter-based
 elastic cloud.  As a consequence, provisioning and lifecycle
 management are implicitly linked by the analysis used to decide (1)
 what services we want to deploy, (2) how many resources those services
-require, and (3) how those resources are to be shared among the
+require, and (3) how the available resources are to be shared among the
 curated set of services.
 
 
@@ -614,8 +614,8 @@ can be codified in the toolchain, at least at the level of automated
 sanity tests that catch obvious mistakes, responsibility ultimately
 falls to the developers checking in source code and the operators
 checking in configuration code; they must correctly specify the
-versions they intended. But having a simple and clear versioning
-strategy is a requirement for doing that job.
+versions they intended. Having a simple and clear versioning strategy
+is a requirement for doing that job.
 
 Finally, because versioning is inherently related to APIs, with the
 *MAJOR* version number incremented whenever the API changes in
