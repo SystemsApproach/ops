@@ -89,6 +89,7 @@ de
 deployable
 disaggregated
 downlink
+evolvable
 facto
 frontend
 heatmap

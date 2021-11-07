@@ -258,6 +258,18 @@ set of challenges to management.
 .. [#] Colloquially, this is sometimes referred to as a shift from
        taking care of pets to one of herding cattle.
        
+This book addresses those challenges, which brings us to a final note
+about two words we use frequently: *Operating* and *Operationalizing*.
+Being able to operate a cloud is the end goal and implies an ongoing
+process, whereas to operationalize a cloud implies the process of
+bringing a set of hardware and software components into a state that
+makes it easy to sustain their ongoing operation. This distinction is
+relevant because operationalizing a cloud is not a one-time
+proposition, but rather, an essential aspect of the operational
+process. Being rapidly evolvable is one of the cloud's most important
+features, making continual operationalization the key requirement for
+operating an edge cloud.
+
 1.2 Disaggregation
 ------------------
 

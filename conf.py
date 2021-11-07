@@ -38,7 +38,7 @@ release = version
 
 # -- Project information -----------------------------------------------------
 
-project = u'Operationalizing an Edge Cloud: A Systems Approach'
+project = u'Operating an Edge Cloud: A Systems Approach'
 copyright = u'2021'
 author = u'Peterson, Baker, Bavier, Williams, Davie'
 
@@ -193,7 +193,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'book.tex', u'Operationalizing an Edge Cloud: A Systems Approach',
+    (master_doc, 'book.tex', u'Operating an Edge Cloud: A Systems Approach',
      u'Peterson, Baker, Bavier, Williams and Davie ', 'manual', True),
 ]
 
@@ -216,7 +216,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Operationalizing an Edge Cloud', u'Operationalizing an Edge Cloud',
+    (master_doc, 'Operating an Edge Cloud', u'Operating an Edge Cloud',
      author, 'Peterson, Baker, Bavier, Williams, and Davie', 'A Systems Approach',
      'Miscellaneous'),
 ]
