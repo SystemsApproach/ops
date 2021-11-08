@@ -2,11 +2,11 @@ Preface
 =======
 
 The cloud is ubiquitous. Everyone uses the cloud to either access or
-deliver services, but not everyone will build a cloud. So why should
-anyone care about how to turn a pile of servers and switches into a
-24/7 service delivery platform? That's what Google, Microsoft, Amazon
-and the other cloud providers do for us, and they do a perfectly good
-job of it.
+deliver services, but not everyone will build and operate a cloud. So
+why should anyone care about how to turn a pile of servers and
+switches into a 24/7 service delivery platform? That's what Google,
+Microsoft, Amazon and the other cloud providers do for us, and they do
+a perfectly good job of it.
 
 The answer, we believe, is that the cloud is becoming ubiquitous in
 another way, as it moves from hundreds of datacenters to tens of
@@ -16,22 +16,22 @@ extension of their datacenters, they do not have a lock on the
 know-how for making that happen.
 
 This book lays out a roadmap that a small team of engineers followed
-over the course of a year to stand-up and operationalize an edge
-cloud that spans a dozen enterprises, and hosts a non-trivial cloud
-native service (5G connectivity in our case, but that’s just an
-example). The team was able to do this by leveraging 20+ open source
-components, but selecting those components is just a start. There were
-dozens of technical decisions to make along the way, and a few
-thousand lines of configuration code to write. We believe this is a
-repeatable exercise, which we report in this book. (And the code for
-those configuration files is open source, for those that want to
-pursue the topic in more detail.)
+over the course of a year to stand-up and operationalize (and then
+operate 24/7) an edge cloud that spans a dozen enterprises, and hosts
+a non-trivial cloud native service (5G connectivity in our case, but
+that’s just an example). The team was able to do this by leveraging
+20+ open source components, but selecting those components is just a
+start. There were dozens of technical decisions to make along the way,
+and a few thousand lines of configuration code to write. We believe
+this is a repeatable exercise, which we report in this book. (And the
+code for those configuration files is open source, for those that want
+to pursue the topic in more detail.)
 
 What do we mean by an edge cloud? We're drawing a distinction between
 clouds run by the hyperscale cloud providers in their massive data
 centers, which we think of as the core, and those run by enterprises
-(or managed for them) at the edge. The edge is where the "real world"
-meets the cloud. For example, it is the place where data from physical
+(or managed for them) at the edge. The edge is where the real/physical
+world meets the cloud. For example, it is the place where data from
 sensors is likely to be gathered and processed, and where services
 that need to be close to the end user for reasons of latency or
 bandwidth are delivered.

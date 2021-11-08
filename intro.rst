@@ -88,11 +88,11 @@ addressing the terminology challenge.
 1.1 Terminology
 ---------------
 
-The terminology used to talk about operationalizing cloud services
-represents a mix of “modern” concepts that are native to the cloud,
-and “traditional” concepts that are artifacts from earlier systems
-(many of which are now being subsumed by the cloud, but retain some of
-their original operational language). This is especially true at the
+The terminology used to talk about operating cloud services represents
+a mix of “modern” concepts that are native to the cloud, and
+“traditional” concepts that are artifacts from earlier systems (many
+of which are now being subsumed by the cloud, but retain some of their
+original operational language). This is especially true at the
 intersection of the cloud and Telcos, who—like the Sami of Scandinavia
 that have over 180 words for snow—have an exceedingly rich vocabulary
 for *operating* a network.
@@ -258,22 +258,22 @@ set of challenges to management.
 .. [#] Colloquially, this is sometimes referred to as a shift from
        taking care of pets to one of herding cattle.
        
-This book addresses those challenges, which brings us to a final note
-about two words we use frequently: *Operating* and *Operationalizing*.
-Being able to operate a cloud is the end goal and implies an ongoing
-process, whereas to operationalize a cloud implies the process of
-bringing a set of hardware and software components into a state that
-makes it easy to sustain their ongoing operation. This distinction is
-relevant because operationalizing a cloud is not a one-time
-proposition, but rather, an essential aspect of the operational
-process. Being rapidly evolvable is one of the cloud's most important
-features, making continual operationalization the key requirement for
-operating an edge cloud.
+This book addresses those management challenges, which brings us to a
+final note about two words we use frequently: *Operating* and
+*Operationalizing*.  Being able to operate a cloud is the end goal and
+implies an ongoing process, whereas to operationalize a cloud implies
+the process of bringing a set of hardware and software components into
+a state that makes it easy to sustain their ongoing operation. This
+distinction is relevant because operationalizing a cloud is not a
+one-time proposition, but rather, an essential aspect of day-to-day
+operations. Being rapidly evolvable is one of the cloud's most
+important features, making continual operationalization a key
+requirement for operating an edge cloud.
 
 1.2 Disaggregation
 ------------------
 
-To fully understand the challenge of operationalizing a cloud, we have
+To fully understand the challenge of operating a cloud, we have
 to start with the underlying building blocks: a collection of
 software-based microservices running on commodity hardware. These
 building blocks are the consequence of having *disaggregated* the
@@ -562,8 +562,9 @@ For completeness, we need to mention that nearly every mechanism
 described in this book takes advantage of cloud-hosted repositories,
 most notably GitHub, but also artifact-specific repos like DockerHub
 and ArtifactHub. We also assume complementary systems like Gerrit,
-which layer a code-review mechanism on top GitHub, but having direct
-experience with Gerrit is not critical to understanding the material.
+which layer a code-review mechanism on top of a git repository, but
+having direct experience with Gerrit is not critical to understanding
+the material.
 
 .. _reading_github:
 .. admonition:: Further Reading
@@ -615,7 +616,7 @@ underlying infrastructure for that PaaS.
 
   *There is a general issue of how one makes engineering choices about
   the combination of software packages to use in a cloud-based system
-  like this book describes. Ignoring the plethora of commercial
+  like the one this book describes. Ignoring the plethora of commercial
   offerings, just the number of open source projects at the Linux
   Foundation and the Apache Foundation available to help you build and
   operate a cloud is (by our count) approaching 100. These projects
@@ -655,7 +656,7 @@ case study. For example, *Smart Edge Open* (formerly known as
 OpenNESS) is another open source edge platform, unique in that it
 includes several Intel-specific acceleration technologies (e.g., DPDK,
 SR-IOV, OVS/OVN). For our purposes, however, the exact set of
-components that make-up the platform is less important how the
+components that make-up the platform is less important than how the
 platform, along with all the cloud services that run on top of it, are
 managed as a whole. The Aether example allows us to be specific, but
 hopefully not at the expense of general applicability.
