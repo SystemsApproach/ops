@@ -394,33 +394,45 @@ such as a patch being checked into the Code Repo.
 
    `Jenkins <https://www.jenkins.io/doc/>`__.
 
-Like many of the tools described in this book, Jenkins has a graphical
+At a high level, Jenkins is little more than a mechanism that executes
+a script, called a *job*, in response to some *triggger*.  And like
+many of the tools described in this book, Jenkins has a graphical
 dashboard that can be used to create, execute, and view the results of
 a set of jobs, but this is mostly useful for simple examples. Because
 Jenkins plays a central role in our CI pipeline, it is managed like
 all the other components we are building—via a declarative
-specification file. This file, called a *Jenkinsfile*, is then checked
-into the repo just like all the other configuration-as-code files, and
-in yet another example of the recursive nature of Lifecycle
-Management, manages the Jenkins CI service.
+specification file that is checked into the repo just like all the
+other configuration-as-code files we've been discussing. The question,
+then, is exactly what do we specify?
 
-In many ways, Jenkins lets you do anything you want since it is
-fundamentally a mechanism that executes shell scripts. (Jenkins
-supports a wide collection of *plugins*, for example interfacing to
-GitHub and the various build tools mentioned at the start of this
-section, but these essentially provide a convenient way to package
-functionality that can be scripted.) When used in a disciplined way,
-Jenkins provides a means to define a *Pipeline* consisting of a
-sequence of *Stages*. Each stage then executes some script and tests
-whether it succeeded or failed. In principle then, Jenkins could be
-the centerpiece of the entire CI/CD pipeline since one could define a
-"Build" stage, followed by a "Test" stage, and then conditional upon
-success, conclude with a "Deploy" stage. In practice, however, Jenkins
-is used more narrowly to build-and-test individual components;
-integrate-and-test various combinations of components; and under
-limited conditions, includes a "Publish" stage that copies the
+Jenkins provides a language (called *Groovy*) that can be used to
+define a *Pipeline* consisting of a sequence of *Stages*. Each stage
+then executes some job and tests whether it succeeded or failed. In
+principle then, you could define a single CI/CD pipeline for the
+entire system. It would start with "Build" stage, followed by a "Test"
+stage, and then conditional upon success, conclude with a "Deliver"
+stage. But this approach doesn't take into account the loose coupling
+of all the components that go into a building a cloud. Instead, what
+happens in practice is that Jenkins is used more narrowly to
+build-and-test individual components; integrate-and-test various
+combinations of components; and under limited conditions, push the
 artifact that has just been built (e.g., a Docker Image) to the Image
 Repo.
+
+This is a non-trivial undertaking, and so Jenkins provides tooling to
+help construct jobs. Specifically, *Jenkins Job Builder (JBB)*
+processes declarative YAML files that "parameterize" the Groovy-based
+Pipeline definitions, producing the set of jobs that Jenkins then
+runs. Among other things, these YAML files specify the triggers, such
+as a patch being checked into the code repo, that launch the
+pipeline. Exactly how JBB gets used is an implementation detail, but
+in Aether, each major component defines three or four different
+Groovy-based pipelines (think of each of them as corresponding to one
+of the stages of the overall CI/CD pipeline shown in :numref:`Figure
+%s <fig-pipeline>`), and another 4-12 YAML files that link a specific
+trigger to one of the pipelines (along with the associated set of
+parameters for that pipeline). The latter set is component-dependent,
+and so much more variable than the pipeline definitions.
 
 The important takeaway from this discussion is that there is no
 single/global CI job. There are many per-component jobs that
@@ -431,7 +443,7 @@ artifact is warranted. We have already talked about the testing
 strategy in Section 4.2 and we describe the versioning strategy in
 Section 4.5. These two concerns are at the heart of realizing a sound
 approach to Continuous Integration. The tooling—in our case Jenkins—is
-just an implementation detail.
+just a means to that end.
 
 4.4 Continuous Deployment
 -------------------------
