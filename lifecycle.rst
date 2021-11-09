@@ -764,15 +764,17 @@ most importantly, needing different levels of privilege.
 The second consideration has to do with where configuration state
 originates. For example, consider the addresses assigned to the
 servers assembled in a cluster, which might originate in an
-organization’s inventory system. Or in the case of a 5G service like
-Aether, there are unique identifiers assigned to mobile devices that
-are managed in a global subscriber database. In general, systems often
-have to deal with multiple—sometimes external—sources of configuration
-state, and knowing which copy is authoritative and which is derivative
-is inherently problematic. There is no single right answer, but
-situations like this raise the possibility that the authoritative copy
-of configuration state needs to be maintained apart from any single
-use of that state.
+organization’s inventory system. Or in another example specific to
+Aether, it is necessary to call a remote *Spectrum Access Service
+(SAS)* to learn how to configure the radio settings for the small
+cells that have been deployed. Naively, you might think that’s a
+variable you could pull out of a YAML file stored in a git repository.
+In general, systems often have to deal with multiple—sometimes
+external—sources of configuration state, and knowing which copy is
+authoritative and which is derivative is inherently problematic. There
+is no single right answer, but situations like this raise the
+possibility that the authoritative copy of configuration state needs
+to be maintained apart from any single use of that state.
 
 The third consideration is how frequently this state changes, and
 hence, potentially triggers restarting or possibly even re-deploying a
