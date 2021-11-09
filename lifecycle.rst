@@ -498,7 +498,10 @@ between the existing and desired state, and executes the calls
 required to bring the former in line with the latter.) Anytime new
 hardware is added to an existing POD, the corresponding Terraform file
 is modified accordingly and checked into the Config Repo, triggering
-the deployment task.
+the deployment job. We do not re-iterate the mechanistic aspect of how
+platform deployments are triggered, but it uses exactly the same set
+of Jenkins machinery described in Section 4.3.2, except now watching
+for changes to Terraform Forms checked into the Config Repo.
 
 The Fleet side of :numref:`Figure %s <fig-fleet>` is responsible for
 installing the collection of microservices that are to run on each
@@ -536,7 +539,10 @@ Understanding Fleet is then straightforward. It provides a way to
 define associations between Bundles, Cluster Groups, and GitRepos,
 such that whenever a new Helm chart is checked into a GitRepo, all
 Bundles that contain that chart are (re-)deployed on all associated
-Cluster Groups.
+Cluster Groups. Note that we could have used Jenkins to trigger Fleet
+deployments, as we did with Terraform, but Fleet comes with it's own
+triggering mechanism, which we use here because of the convenience of
+its Bundle and Cluster Group abstractions.
 
 This focus on Fleet as the agent triggering the execution of Helm
 Charts should not distract from the central role of the charts
