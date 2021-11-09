@@ -1,0 +1,19 @@
+- job-template:
+    id: 'aether-patchset'
+    name: 'aether-verify-{project}{suffix}'
+    project-type: pipeline
+    pipeline-script: 'aether-test.groovy'
+    ...
+    triggers:
+      - gerrit:
+          server-name: '{gerrit-server-name}'
+          dependency-jobs: '{dependency-jobs}'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: true
+                exclude-trivial-rebase: false
+                exclude-no-code-change: true
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: '(?i)^.*recheck$'
+...		

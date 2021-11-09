@@ -1,0 +1,11 @@
+- job-template:
+    id: aether-api-tests
+    name: 'aether-api-{api-version}-tests-{release-version}'
+    project-type: pipeline
+    pipeline-file: 'aether-api-tests.groovy'
+    ...
+    triggers:
+      - timed: |
+          TZ=America/Los_Angeles
+          H {time} * * *
+...	  
