@@ -649,8 +649,8 @@ can be codified in the toolchain, at least at the level of automated
 sanity tests that catch obvious mistakes, responsibility ultimately
 falls to the developers checking in source code and the operators
 checking in configuration code; they must correctly specify the
-versions they intended. Having a simple and clear versioning strategy
-is a requirement for doing that job.
+versions they intend. Having a simple and clear versioning strategy
+is a pre-requisite for doing that job.
 
 Finally, because versioning is inherently related to APIs, with the
 *MAJOR* version number incremented whenever the API changes in
