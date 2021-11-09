@@ -431,8 +431,8 @@ Exactly how developers use JJB is an engineering detail, but in
 Aether, the approach is for each major component to define three or
 four different Groovy-based pipelines, each of which you can think of
 as corresponding to one of the top-level stages in the overall CI/CD
-pipeline shown in :numref:`Figure %s <fig-pipeline>`. That is, one
-Groovy pipeline corresponds to per-merge build-and-test, one for
+pipeline shown in :numref:`Figure %s <fig-pipeline>`.\ [#]_ That is,
+one Groovy pipeline corresponds to per-merge build-and-test, one for
 post-merge build-and-test, one for integrate-and-test, and one for
 publish-artifact. Each major component also defines a collection of
 YAML files that link component-specific triggers to one of the
@@ -442,6 +442,13 @@ component to component, but one common example is a specification to
 publish a new Docker image, triggered by a change to a ``VERSION``
 file stored in the code repo. (We'll see why in Section 4.5.)
 
+.. [#] This is another example of a tool's usage of terminology not
+       aligning perfectly with our conceptual usage. Each conceptual
+       *stage* in :numref:`Figure %s <fig-pipeline>` is implemented by
+       a Groovy-defined *pipeline*, that in turn consists of a
+       sequence of Groovy-defined *stages* (which conceptually we
+       can think of as *sub-stages* in the conceptual pipeline).
+       
 The important takeaway from this discussion is that there is no
 single/global CI job. There are many per-component jobs that
 independently publish deployable artifacts when conditions dictate.
@@ -590,8 +597,10 @@ the software lifecycle:
   Note that every *patch* does not necessarily equal every *commit*,
   as it is not uncommon to make multiple changes to an "in
   development" version, sometimes denoted ``3.2.4-dev``, for
-  example. This ``VERSION`` file is primarily used by developers, as a
-  convenient way to keep track of the current version number.
+  example. This ``VERSION`` file is used by developers to keep track
+  of the current version number, but as we saw in Section 4.3.2, it
+  also serves as a trigger for a Jenkins job that potentially
+  publishes a new Docker or Helm artifact.
 
 * The commit that does correspond to a finalized patch is also tagged
   (in the repo) with the corresponding semantic version number. In
