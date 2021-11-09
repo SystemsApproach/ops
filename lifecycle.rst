@@ -384,10 +384,10 @@ debate, but instead acknowledge that different teams will pick
 different build tools for their individual projects (which we've been
 referring to in generic terms as subsystems), and we will employ a
 simple second-level tool to integrate the output of all those
-sophisticated first-level tools. Our choice for the second-level tool
-is Jenkins, which provides little more than a means to define a
-sequence of scripts (called jobs) to run in response to some event,
-such as a patch being checked into the Code Repo.
+sophisticated first-level tools. Our choice for the second-level
+mechanism is Jenkins, a job automation tool that system admins have
+been using for years, but which has recently been adapted and extended
+to automate CI/CD pipelines.
 
 .. _reading_jenkins:
 .. admonition:: Further Reading
@@ -401,39 +401,46 @@ that can be used to create, execute, and view the results of a set of
 jobs, but this is mostly useful for simple examples. Because Jenkins
 plays a central role in our CI pipeline, it is managed like all the
 other components we are building—via a collection of declarative
-specification files that are checked into the repo. The question,
-then, is exactly what do we specify?
+specification files that are checked into a repo. The question, then,
+is exactly what do we specify?
 
 Jenkins provides a scripting language, called *Groovy*, that can be
 used to define a *Pipeline* consisting of a sequence of *Stages*. Each
-stage executes some job and tests whether it succeeded or failed. In
+stage executes some task and tests whether it succeeded or failed. In
 principle then, you could define a single CI/CD pipeline for the
 entire system. It would start with "Build" stage, followed by a "Test"
 stage, and then conditional upon success, conclude with a "Deliver"
 stage. But this approach doesn't take into account the loose coupling
 of all the components that go into a building a cloud. Instead, what
 happens in practice is that Jenkins is used more narrowly to (1)
-build-and-test individual components; (2) integrate-and-test various
-combinations of components; and under limited conditions, (3) push the
-artifact that has just been built (e.g., a Docker Image) to the Image
-Repo.
+build-and-test individual components, both before and after they are
+merged into the code repository; (2) integrate-and-test various
+combinations of components, for example, on a nightly basis; and (3)
+under limited conditions, push the artifact that has just been built
+(e.g., a Docker Image) to the Image Repo.
 
 This is a non-trivial undertaking, and so Jenkins supports tooling to
-help construct jobs. Specifically, *Jenkins Job Builder (JBB)*
-processes declarative YAML files that "parameterize" the Groovy-based
-Pipeline definitions, producing the set of jobs that Jenkins then
-runs.  Among other things, these YAML files specify the triggers—such
-as a patch being checked into the code repo—that launch the
-pipeline. Exactly how JBB gets used is an implementation detail, but
-in Aether, each major component defines three or four different
-Groovy-based pipelines, each of which you can think of as
-corresponding to one of the stages in the overall CI/CD pipeline shown
-in :numref:`Figure %s <fig-pipeline>` (i.e., one pipeline for
-per-merge tests, one for post-merge-tests, one for integrate-and-test,
-and one for publish-artifact). Each component also defines a variable
-set of YAML files that link component-specific triggers to one of the
+help construct jobs. Specifically, *Jenkins Job Builder (JJB)*
+processes declarative YAML files that "parameterize" the Pipeline
+definitions written in Groovy, producing the set of jobs that Jenkins
+then runs.  Among other things, these YAML files specify the
+triggers—such as a patch being checked into the code repo—that launch
+the pipeline.
+
+Exactly how developers use JJB is an engineering detail, but in
+Aether, the approach is for each major component to define three or
+four different Groovy-based pipelines, each of which you can think of
+as corresponding to one of the top-level stages in the overall CI/CD
+pipeline shown in :numref:`Figure %s <fig-pipeline>`. That is, one
+Groovy pipeline corresponds to per-merge build-and-test, one for
+post-merge build-and-test, one for integrate-and-test, and one for
+publish-artifact. Each major component also defines a collection of
+YAML files that link component-specific triggers to one of the
 pipelines, along with the associated set of parameters for that
-pipeline.
+pipeline. The number of YAML files (and hence triggers) varies from
+component to component, but one common example is a specification to
+publish a new Docker image, triggered by a change to a ``VERSION``
+file stored in the code repo. (We'll see why in Section 4.5.)
 
 The important takeaway from this discussion is that there is no
 single/global CI job. There are many per-component jobs that
