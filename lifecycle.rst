@@ -67,7 +67,7 @@ up-to-date.
 
 .. sidebar:: Continuous Delivery vs Deployment
 	     
-    *You will also hear CD refer to "Continuous Delivery" instead of
+    *You will also hear CD refer to "Continuous Delivery" instead of 
     "Continuous Deployment", but we are interested in the complete
     end-to-end process, so CD will always imply the latter in this
     book. But keep in mind that "continuous" does not necessarily mean
@@ -539,10 +539,30 @@ Understanding Fleet is then straightforward. It provides a way to
 define associations between Bundles, Cluster Groups, and GitRepos,
 such that whenever a new Helm chart is checked into a GitRepo, all
 Bundles that contain that chart are (re-)deployed on all associated
-Cluster Groups. Note that we could have used Jenkins to trigger Fleet
-deployments, as we did with Terraform, but Fleet comes with it's own
-triggering mechanism, which we use here because of the convenience of
-its Bundle and Cluster Group abstractions.
+Cluster Groups. 
+
+.. sidebar:: Implementation Details Matter
+	     
+    *We are purposely not doing a deep-dive into the individual tools
+    that we're assembling into a Lifecycle Management subsystem, but
+    details do often matter. Our experience with Fleet illustrates
+    why.  As a careful reader may have noticed, we could have used
+    Jenkins to trigger Fleet to deploy an upgraded application,
+    similar to how we do with Terraform.  Instead, we decided to use
+    Fleet's internal triggering mechanism because of the convenience
+    of its Bundle and Cluster Group abstractions.*
+
+    *After Fleet came online as the Deployment mechanism, developers
+    noticed that the code repo became extremely sluggish. It turned
+    out this is because Fleet polls the specified GitRepos to detect
+    changes to the watched Bundles, and the polling was so frequent it
+    overloaded the repo.  A "polling-frequency" parameter change
+    improved the situation, but led people to wonder why Jenkins'
+    trigger mechanism hadn't caused the same problem. The answer is
+    that Jenkins is better integrated with the repo (specifically,
+    Gerrit running on top of Git), with the repo pushing event
+    notifications to Jenkins when a file checkin actually occurs.
+    There is no polling.*
 
 This focus on Fleet as the agent triggering the execution of Helm
 Charts should not distract from the central role of the charts
