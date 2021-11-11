@@ -456,18 +456,20 @@ Robot, which collect the results.)
 
 .. literalinclude:: code/roc-api-tests.groovy
 
-One thing to notice is that this is another example of a tool's
-terminology not aligning perfectly with our conceptual usage of the
-same terminology. Each conceptual *stage* in :numref:`Figure %s
+One thing to notice is that this is another example of a tool using
+generic terminology in a specific way, which does not align with our
+conceptual use. Each conceptual *stage* in :numref:`Figure %s
 <fig-pipeline>` is implemented by one or more Groovy-defined
 *pipelines*, each of which consists of a sequence of Groovy-defined
 *stages*. And as we can see in this example, these Groovy stages are
-quite low-level. This particular pipeline is part of the post-build QA
-testing stage shown in :numref:`Figure %s <fig-pipeline>`, and so is
-invoked by a time-based trigger. The following snippet of YAML is an
-example of a job template that specifies such a trigger, where the
-value of ``name`` is what you'd see if you look at the set of jobs in
-the Jenkins dashboard.
+quite low-level.
+
+This particular pipeline is part of the post-build QA testing stage
+shown in :numref:`Figure %s <fig-pipeline>`, and so is invoked by a
+time-based trigger. The following snippet of YAML is an example of a
+job template that specifies such a trigger. Note that the value of the
+``name`` attribute is what you would see if you looked at the set of
+jobs in the Jenkins dashboard.
 
 .. literalinclude:: code/trigger-time.yaml
 
@@ -475,7 +477,7 @@ To complete the picture, the follow code snippet from another YAML
 file shows how a repo-based trigger is specified. This example
 executes a different pipeline (not shown), and corresponds to a
 pre-merge test that runs when a developer submits a candidate
-patchset.
+patch set.
 
 .. literalinclude:: code/trigger-event.yaml
 

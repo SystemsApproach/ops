@@ -681,6 +681,30 @@ interface, if for no other reason than it forces a decoupling of the
 interface definition from the underlying implementation (with Adaptors
 bridging the gap).
 
+.. sidebar:: UX Considerations
+
+    *Runtime control touches an important, but often under-appreciated
+    aspect of operating a cloud: taking User Experience (UX) into
+    account. If the only users you're concerned about are the
+    developers and operators of the cloud and its services, who we can
+    assume are comfortable editing a handful of YAML files to execute
+    a change request, then maybe we can stop there. But if we expect
+    end-users to have some ability to steer the system we're building,
+    we also need to "plumb" the low-level variables we've implemented
+    through to a set of dials and knobs that those users can access.*
+
+    *UX Design is a well-established discipline. It is in part about
+    GUI desgin, with intuitive workflows clearly defined, but the GUI
+    depends on a programmatic interface. Defining this interface is
+    the touchpoint between the mangement and control platform wer're
+    focused on in this book, and the users we want to support. This is
+    largely an exercise in defining abstractions, which brings us back
+    to the central point we are trying to make: It is both the reality
+    of the underlying implementation and the mental model of the
+    target users that shape these abstractions. Considering one
+    without the other, as everyone has likely exerpienced at some
+    point in their life, is a recipe for disaster.*
+    
 On this latter point, it is easy to imagine an implementation of a
 runtime control operation that involves checking a configuration
 change into the Config Repo and triggering a redeployment. Whether you
