@@ -44,7 +44,7 @@ timestamp, which makes it possible for the logging stack to parse and
 cross-reference message from different components.
 
 Because both the metrics collected by the monitoring stack and the
-event message recorded by the logging stack are timestamped, it is
+event messages recorded by the logging stack are timestamped, it is
 also possible to build linkages between the two subsystems, which is
 especially helpful when debugging a problem or deciding whether an
 alert is warranted. We give an example of how this and other useful
@@ -77,7 +77,7 @@ customized in service-specific ways.
 6.1.1 Exporting Metrics
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Individual components implement a *Prometheus Exporter* to expose
+Individual components implement a *Prometheus Exporter* to export
 their metrics to Prometheus.  An exporter provides the current values
 of a components's metrics via HTTP using a simple text format.
 Prometheus scrapes the exporter's HTTP endpoint and stores the metrics
@@ -87,9 +87,9 @@ metrics in Prometheus format.  If a component's metrics are available
 in some other format, tools are often available to convert the metrics
 into Prometheus format and export them.
 
-A component that exposes a Prometheus exporter HTTP endpoint via a
+A component that provides a Prometheus exporter HTTP endpoint via a
 Service can tell Prometheus to scrape this endpoint by defining a
-*ServiceMonitor*, a custom resource that is typically created by the
+*Service Monitor*, a custom resource that is typically created by the
 Helm Chart that installs the component.
 
 
@@ -180,9 +180,9 @@ in normalizing these messages by supporting a set of filters. These
 filters parse "raw" log messages written by the component (an ASCII
 string), and output "canonical" log messages as structured JSON. In
 the process, these filters also add globally agreed upon state, such
-as a timestamp and a log level (e.g., ERROR, WARNING, INFO). For
-example, developers for the SD-Fabric component might write a
-a log message that looks like this:
+as a timestamp and a log level (e.g., FATAL ERROR, WARNING, INFO,
+DEBUG). For example, developers for the SD-Fabric component might
+write a a log message that looks like this:
 
 .. literalinclude:: code/log.ascii
 
@@ -193,7 +193,56 @@ this:
 
 Note that this example is simplified, but it does serve to illustrate
 the basic idea, which is that the central challenge for the DevOps
-team building the management platform is to agree to a meaningful set
-of name/value pairs. This assumes all the components are adequately
-instrumented to write log messages, which is of course a prerequisite
-for building an effective logging system.
+team building the management platform is to define a meaningful set of
+name/value pairs. Using the *Elastic Common Schema* is a good place to
+start that definition.
+
+.. _reading_ecs:
+.. admonition:: Further Reading
+
+   `Elastic Common Schema
+   <https://www.elastic.co/guide/en/ecs/current/index.html>`__.
+   
+6.2.1 Best Practices
+~~~~~~~~~~~~~~~~~~~~
+
+Establishing a shared logging platform is, of course, of little value
+unless all the individual components are properly instrumented to write
+log messages. Logging is most effective if the components adhere to
+the following set of best practices:
+
+* **Log shipping is handled by the platform.** Assume that
+  stdout/stderr of your program will be ingested into the logging
+  system by Fluentbit (or similar tooling).  Don't make your job more
+  complicated by trying to ship/route your own logs.  The exception is
+  for external (outside Kubernetes) services and hardware devices.
+  How these send their logs to a log aggregator must be determined as
+  a part of the deployment process.
+
+* **File logging should be disabled.** Writing log files directly to
+  the containers layered file system is proven to be I/O inefficient
+  and can become a performance bottleneck, and is generally
+  unnecessary if the logs are also being sent to stdout/stderr.
+  Generally, log file is discouraged when running in a container
+  environment. All logs should be streamed to the log collecting
+  system.
+  
+* **Asynchronous logging is encouraged.** Synchronous logging can
+  become a performance bottleneck in a scaled environment.  Logging
+  should be done asynchronously.
+
+* **Timestamps should be created by the program's logger, not the log
+  shipper.** Use the selected logging library to create timestamps,
+  with as precise of timestamp as the logging framework allows. Using
+  the shipper or logging handlers may be slower, or create timestamps
+  on receipt or processing time, which may be delayed or a few network
+  hops away. This is problematic if trying to align events between
+  multiple services after log aggregation.
+  
+* **Must be able to change log levels without interrupting service.**
+  All services must provide a mechanism to set the log level at
+  startup, and an API that allows the log level to be changed at
+  runtime. Scoping the log level based on specific subsystems is a
+  useful feature, but not required. When a service is implemented by a
+  suite of microservices, the logging configuration only needs to be
+  applied to one instance for it to apply to all instances.

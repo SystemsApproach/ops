@@ -126,6 +126,9 @@ repurpose
 rollout
 runtime
 rst
+stdin
+stdout
+stderr
 storylines
 subnet
 systemsapproach
