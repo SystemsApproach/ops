@@ -1,0 +1,1 @@
+"expr": "avg(avg_over_time(ace_e2e_ok{endpoint=\"metrics80\",name=\"$edge\"}[$__interval]) * 100)",

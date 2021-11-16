@@ -135,7 +135,14 @@ bound to a particular Prometheus *query*. New dashboards are created
 using the Grafana GUI, and the resulting configuration then saved in a
 JSON file. This configuration file is then committed to the Config
 Repo, and later loaded into Grafana whenever is is restarted as part
-of Lifecycle Management.
+of Lifecycle Management. For example, the following code snippet
+shows the Prometheus query corresponding to the ``Uptime`` panel
+in :numref:`Figure %s <fig-ace_dash>`.
+
+.. literalinclude:: code/uptime.yaml
+
+Note that this expression includes variables for the site (``$edge``)
+and the interval over which the uptime is computed (``$__interval``).
 
 6.1.3 Defining Alerts
 ~~~~~~~~~~~~~~~~~~~~~

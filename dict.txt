@@ -140,4 +140,5 @@ toolchain
 toolset
 untrusted
 uplink
+uptime
 virtualenv
