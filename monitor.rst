@@ -90,8 +90,16 @@ into Prometheus format and export them.
 A component that provides a Prometheus exporter HTTP endpoint via a
 Service can tell Prometheus to scrape this endpoint by defining a
 *Service Monitor*, a custom resource that is typically created by the
-Helm Chart that installs the component.
-
+Helm Chart that installs the component. As an example, Aether runs a
+Service Monitor on every edge cluster that periodically tests
+end-to-end connectivity (for various definitions of end-to-end).  One
+test determines whether the 5G control plane is working (i.e., the
+edge site can reach the SD-Core running in the central cloud) and a
+second test determines whether the 5G user plane is working (i.e., UEs
+can reach the Internet). This is a common pattern: individual
+components can export accumulators and other local variables to
+Prometheus, but only an "outside observer" can actively test external
+behavior, and report the results to Prometheus.
 
 6.1.2 Creating Dashboards
 ~~~~~~~~~~~~~~~~~~~~~~~~~
