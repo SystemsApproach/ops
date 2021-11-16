@@ -172,30 +172,37 @@ illustrative sources of log messages.
 
    `Kibana <https://www.elastic.co/kibana/>`__.
 
+6.2.1 Common Schema
+~~~~~~~~~~~~~~~~~~~
+
 The key challenge in logging is to adopt a uniform message format
 across all components, a requirement that is complicated by the fact
 that the various components integrated in a complex system are
 typically developed independent of each other. Fluentbit plays a role
 in normalizing these messages by supporting a set of filters. These
 filters parse "raw" log messages written by the component (an ASCII
-string), and output "canonical" log messages as structured JSON. In
-the process, these filters also add globally agreed upon state, such
-as a timestamp and a log level (e.g., FATAL ERROR, WARNING, INFO,
-DEBUG). For example, developers for the SD-Fabric component might
+string), and output "canonical" log messages as structured JSON.
+
+For example, developers for the SD-Fabric component might 
 write a a log message that looks like this:
 
-.. literalinclude:: code/log.ascii
+.. literalinclude:: code/log.ascii 
 
-where a Fluentbit filter transforms into a structure that looks like
+where a Fluentbit filter transforms into a structure that looks like 
 this:
 
-.. literalinclude:: code/log.json
+.. literalinclude:: code/log.json 
 
 Note that this example is simplified, but it does serve to illustrate
-the basic idea, which is that the central challenge for the DevOps
-team building the management platform is to define a meaningful set of
-name/value pairs. Using the *Elastic Common Schema* is a good place to
-start that definition.
+the basic idea, as well as the challenge the DevOps team faces in
+building the management platform, which is to decide on a meaningful
+set of name/value pairs for the system as a whole. In other words,
+they must define a common schema for these structured log messages.
+The *Elastic Common Schema* is a good place to start that definition,
+where among other things, it will be necessary to establish the
+accepted set of log levels, and conventions for using each level. In
+Aether, for example, the log levels are: FATAL, ERROR, WARNING, INFO,
+and DEBUG.
 
 .. _reading_ecs:
 .. admonition:: Further Reading
@@ -203,29 +210,32 @@ start that definition.
    `Elastic Common Schema
    <https://www.elastic.co/guide/en/ecs/current/index.html>`__.
    
-6.2.1 Best Practices
+   
+6.2.2 Best Practices
 ~~~~~~~~~~~~~~~~~~~~
 
 Establishing a shared logging platform is, of course, of little value
-unless all the individual components are properly instrumented to write
-log messages. Logging is most effective if the components adhere to
-the following set of best practices:
+unless all the individual components are properly instrumented to
+write log messages. Programming languages typically come with library
+support for writing log messages (e.g., Java's Log4j), but that's just
+a start. Logging is most effective if the components adhere to the
+following set of best practices.
 
 * **Log shipping is handled by the platform.** Assume that
-  stdout/stderr of your program will be ingested into the logging
-  system by Fluentbit (or similar tooling).  Don't make your job more
-  complicated by trying to ship/route your own logs.  The exception is
-  for external (outside Kubernetes) services and hardware devices.
-  How these send their logs to a log aggregator must be determined as
-  a part of the deployment process.
+  stdout/stderr of your program is ingested into the logging system by
+  Fluentbit (or similar tooling).  Avoid making the job more
+  complicated by trying to route your own logs.  The exception is for
+  external services and hardware devices (outside your management
+  control).  How these systems send their logs to a log aggregator
+  must be established as a part of the deployment process.
 
 * **File logging should be disabled.** Writing log files directly to
   the containers layered file system is proven to be I/O inefficient
-  and can become a performance bottleneck, and is generally
+  and can become a performance bottleneck. It is also generally
   unnecessary if the logs are also being sent to stdout/stderr.
   Generally, log file is discouraged when running in a container
-  environment. All logs should be streamed to the log collecting
-  system.
+  environment, and instead, all logs should be streamed to the log
+  collecting system.
   
 * **Asynchronous logging is encouraged.** Synchronous logging can
   become a performance bottleneck in a scaled environment.  Logging
@@ -235,14 +245,14 @@ the following set of best practices:
   shipper.** Use the selected logging library to create timestamps,
   with as precise of timestamp as the logging framework allows. Using
   the shipper or logging handlers may be slower, or create timestamps
-  on receipt or processing time, which may be delayed or a few network
-  hops away. This is problematic if trying to align events between
-  multiple services after log aggregation.
+  on receipt, which may be delayed or a few network hops away. This
+  makes trying to align events between multiple services after log
+  aggregation problematic.
   
 * **Must be able to change log levels without interrupting service.**
   All services must provide a mechanism to set the log level at
   startup, and an API that allows the log level to be changed at
   runtime. Scoping the log level based on specific subsystems is a
   useful feature, but not required. When a service is implemented by a
-  suite of microservices, the logging configuration only needs to be
+  suite of microservices, the logging configuration need only be
   applied to one instance for it to apply to all instances.
