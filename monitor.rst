@@ -100,14 +100,34 @@ The metrics collected and stored by Prometheus running on each local
 cluster are visualized centrally using Grafana dashboards.  In Aether,
 this means the Grafana instance running as part of AMP in the central
 cloud sends queries to the Prometheus instances running on all Aether
-edge clusters.
+edge clusters. For example, :numref:`Figure %s <fig-ace_dash>` shows
+the summary dashboard for a collection Aether edge sites.
+
+.. _fig-ace_dash:
+.. figure:: figures/ace_dash.png
+   :width: 450px
+   :align: center
+
+   Central dashboard showing status of Aether edge deployments.
 
 Grafana comes with a set of pre-defined dashboards for the most common
 set of metrics—in particular, those associated with physical servers
 and virtual resources like containers—but it can also be customized to
 include dashboards for service-level metrics and other
-deployment-specific information (e.g., per-enterprise or per-cluster
-in Aether).
+deployment-specific information (e.g., per-enterprise in Aether). For
+example, :numref:`Figure %s <fig-ace_dash>` shows a custom dashboard
+for UPF (User Plane Function), the data plane packet forwarder of the
+SD-Core. The example shows latency and jitter metrics over the last
+hour at one site, with three additional collapsed panel (PFCP Sessions
+and Messages) at the bottom.
+
+.. _fig-upf_dash:
+.. figure:: figures/upf_dash.png
+   :width: 450px
+   :align: center
+
+   Custom dashboard showing latency and jitter metrics for UPF, the
+   packet forwarding data plane of the SD-Core component.
 
 Briefly, a dashboard is constructed from a set of *panels*, where each
 panel has a well-defined *type* (e.g., graph, table, gauge, heatmap)
@@ -130,7 +150,11 @@ evaluates to true for the indicated time period, triggers a
 corresponding message to be routed to a set of receivers. These rules
 are recorded in a YAML file that is checked into the Config Repo, and
 then loaded into Alertmanager as a custom resource specified in the
-corresponding Helm Chart.
+corresponding Helm Chart. For example, the following code snippet
+shows the Prometheus Rule for two alerts, where the ``expr`` lines
+corresponds to the respective queries submitted to Prometheus.
+
+.. literalinclude:: code/prometheus-rule.yaml
 
 In Aether, the Alertmanager is configured to send alerts with
 *critical* or *warning* severity to a general set of receivers.  If it
@@ -161,7 +185,6 @@ illustrative sources of log messages.
 
    Flow of log messages through the Logging subsystem.
 
-
 .. _reading_logging:
 .. admonition:: Further Reading
 
@@ -181,7 +204,10 @@ that the various components integrated in a complex system are
 typically developed independent of each other. Fluentbit plays a role
 in normalizing these messages by supporting a set of filters. These
 filters parse "raw" log messages written by the component (an ASCII
-string), and output "canonical" log messages as structured JSON.
+string), and output "canonical" log messages as structured
+JSON. (There are other options, but JSON is reasonably readable as
+text, which still matters for debugging by humans, and it is
+well-supported by tooling.)
 
 For example, developers for the SD-Fabric component might 
 write a a log message that looks like this:

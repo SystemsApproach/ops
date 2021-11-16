@@ -92,6 +92,8 @@ downlink
 evolvable
 facto
 frontend
+gNMI 
+gNOI 
 heatmap
 hoc
 hyperscale
@@ -99,11 +101,10 @@ hyperscaler
 hyperscalers
 instantiation
 invariants
-gNMI 
-gNOI
 lifecycle
 linter
 liveness
+jitter
 llp
 microservice
 mindshare

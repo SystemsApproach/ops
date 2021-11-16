@@ -1,0 +1,16 @@
+- alert: SingleEdgeTestNotReporting
+  annotations:
+    message: |
+      Cluster {{`{{ .Labels.name }}`}} has not reported for at least 5 minutes.
+  expr: (time() - aetheredge_last_update{endpoint="metrics80"}) > 300
+  for: 1m
+  labels:
+    severity: critical
+- alert: SingleEdgeConnectTestFailing
+  annotations:
+    message: |
+      Cluster {{`{{ .Labels.name }}`}} reporting UE connect failure for at least 10 minutes.
+  expr: aetheredge_connect_test_ok{endpoint="metrics80"} < 1
+  for: 10m
+  labels:
+    severity: critical
