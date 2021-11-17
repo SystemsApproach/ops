@@ -77,15 +77,14 @@ customized in service-specific ways.
 6.1.1 Exporting Metrics
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Individual components implement a *Prometheus Exporter* to export
-their metrics to Prometheus.  An exporter provides the current values
-of a components's metrics via HTTP using a simple text format.
-Prometheus scrapes the exporter's HTTP endpoint and stores the metrics
-in its Time Series Database (TSDB) for querying and analysis.  Many
-client libraries are available for instrumenting code to export
-metrics in Prometheus format.  If a component's metrics are available
-in some other format, tools are often available to convert the metrics
-into Prometheus format and export them.
+Individual components implement a *Prometheus Exporter* to provide the
+current value of the components's metrics via HTTP using a simple text
+format.  Prometheus scrapes the exporter's HTTP endpoint and stores
+the metrics in its Time Series Database (TSDB) for querying and
+analysis.  Many client libraries are available for instrumenting code
+to export metrics in Prometheus format.  If a component's metrics are
+available in some other format, tools are often available to convert
+the metrics into Prometheus format and export them.
 
 A component that provides a Prometheus exporter HTTP endpoint via a
 Service can tell Prometheus to scrape this endpoint by defining a
@@ -183,7 +182,7 @@ the Alertmanager configuration is changed accordingly.
 OS programmers have been writing diagnostic messages to a *syslog*
 since the earliest days of Unix. Originally collected in a local file,
 the syslog abstraction has been adapted to cloud environments by
-adding a suite of scalable services. Today, the standard open source
+adding a suite of scalable services. Today, the typical open source
 logging stack uses Fluentd to collect (aggregate, buffer, and route)
 log messages written by a set of components, with the Fluentbit
 serving as client-side agent running in each component helping
@@ -215,17 +214,17 @@ illustrative sources of log messages.
 
 The key challenge in logging is to adopt a uniform message format
 across all components, a requirement that is complicated by the fact
-that the various components integrated in a complex system are
-typically developed independent of each other. Fluentbit plays a role
-in normalizing these messages by supporting a set of filters. These
+that the various components integrated in a complex system are often
+developed independent of each other. Fluentbit plays a role in
+normalizing these messages by supporting a set of filters. These
 filters parse "raw" log messages written by the component (an ASCII
-string), and output "canonical" log messages as structured
-JSON. (There are other options, but JSON is reasonably readable as
-text, which still matters for debugging by humans, and it is
-well-supported by tooling.)
+string), and output "canonical" log messages as structured JSON. There
+are other options, but JSON is reasonably readable as text, which
+still matters for debugging by humans. It is also well-supported by
+tooling.
 
 For example, developers for the SD-Fabric component might 
-write a a log message that looks like this:
+write a log message that looks like this:
 
 .. literalinclude:: code/log.ascii 
 
@@ -234,16 +233,16 @@ this:
 
 .. literalinclude:: code/log.json 
 
-Note that this example is simplified, but it does serve to illustrate
-the basic idea, as well as the challenge the DevOps team faces in
+This example is simplified, but it does serve to illustrate the basic
+idea. It also highlights the challenge the DevOps team faces in
 building the management platform, which is to decide on a meaningful
 set of name/value pairs for the system as a whole. In other words,
 they must define a common schema for these structured log messages.
 The *Elastic Common Schema* is a good place to start that definition,
-where among other things, it will be necessary to establish the
-accepted set of log levels, and conventions for using each level. In
-Aether, for example, the log levels are: FATAL, ERROR, WARNING, INFO,
-and DEBUG.
+but among other things, it will be necessary to establish the accepted
+set of log levels, and conventions for using each level. In Aether,
+for example, the log levels are: FATAL, ERROR, WARNING, INFO, and
+DEBUG.
 
 .. _reading_ecs:
 .. admonition:: Further Reading
@@ -262,38 +261,38 @@ support for writing log messages (e.g., Java's Log4j), but that's just
 a start. Logging is most effective if the components adhere to the
 following set of best practices.
 
-* **Log shipping is handled by the platform.** Assume that
-  stdout/stderr of your program is ingested into the logging system by
-  Fluentbit (or similar tooling).  Avoid making the job more
-  complicated by trying to route your own logs.  The exception is for
-  external services and hardware devices (outside your management
-  control).  How these systems send their logs to a log aggregator
-  must be established as a part of the deployment process.
+* **Log shipping is handled by the platform.** Components should
+  assume that stdout/stderr is ingested into the logging system by
+  Fluentbit (or similar tooling), and avoid making the job more
+  complicated by trying to route their own logs.  The exception is for
+  external services and hardware devices that are outside the
+  management platform's control.  How these systems send their logs to
+  a log aggregator must be established as a part of the deployment
+  process.
 
-* **File logging should be disabled.** Writing log files directly to
-  the containers layered file system is proven to be I/O inefficient
-  and can become a performance bottleneck. It is also generally
+* **File logging should be disabled.** Writing log files directly to a
+  container's layered file system is proven to be I/O inefficient and
+  can become a performance bottleneck. It is also generally
   unnecessary if the logs are also being sent to stdout/stderr.
-  Generally, log file is discouraged when running in a container
-  environment, and instead, all logs should be streamed to the log
-  collecting system.
+  Generally, logging to a file is discouraged when a component runs in
+  a container environment. Instead, components should stream all logs
+  to the collecting system.
   
 * **Asynchronous logging is encouraged.** Synchronous logging can
-  become a performance bottleneck in a scaled environment.  Logging
-  should be done asynchronously.
+  become a performance bottleneck in a scaled environment.  Components
+  should write logs asynchronously.
 
-* **Timestamps should be created by the program's logger, not the log
-  shipper.** Use the selected logging library to create timestamps,
-  with as precise of timestamp as the logging framework allows. Using
-  the shipper or logging handlers may be slower, or create timestamps
-  on receipt, which may be delayed or a few network hops away. This
-  makes trying to align events between multiple services after log
-  aggregation problematic.
+* **Timestamps should be created by the program's logger.** Components
+  should use the selected logging library to create timestamps, with
+  as precise of timestamp as the logging framework allows. Using the
+  shipper or logging handlers may be slower, or create timestamps on
+  receipt, which may be delayed. This makes trying to align events
+  between multiple services after log aggregation problematic.
   
 * **Must be able to change log levels without interrupting service.**
-  All services must provide a mechanism to set the log level at
+  Components should provide a mechanism to set the log level at
   startup, and an API that allows the log level to be changed at
   runtime. Scoping the log level based on specific subsystems is a
-  useful feature, but not required. When a service is implemented by a
-  suite of microservices, the logging configuration need only be
+  useful feature, but not required. When a component is implemented by
+  a suite of microservices, the logging configuration need only be
   applied to one instance for it to apply to all instances.
