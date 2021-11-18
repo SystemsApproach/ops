@@ -751,7 +751,7 @@ secrets and components), but with the downside of investing
 significant trust in Jenkins, or more to the point, in the practices
 the DevOps team adopts for how they use Jenkins.
 
-The second approach is exemplifed by Kubernetes' ``SealedSecrets``
+The second approach is exemplified by Kubernetes' ``SealedSecrets``
 mechanism. The idea is to trust a process running within the
 Kubernetes cluster (technically, this process is known as a
 Controller) to manage secrets on behalf of all the other
