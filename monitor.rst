@@ -78,27 +78,33 @@ customized in service-specific ways.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Individual components implement a *Prometheus Exporter* to provide the
-current value of the components's metrics via HTTP using a simple text
-format.  Prometheus scrapes the exporter's HTTP endpoint and stores
-the metrics in its Time Series Database (TSDB) for querying and
-analysis.  Many client libraries are available for instrumenting code
-to export metrics in Prometheus format.  If a component's metrics are
-available in some other format, tools are often available to convert
-the metrics into Prometheus format and export them.
+current value of the components's metrics. A component's Exporter is
+queried via HTTP, with the corresponding metrics returned using a
+simple text format. Prometheus periodically scrapes the Exporter's
+HTTP endpoint and stores the metrics in its Time Series Database
+(TSDB) for querying and analysis. Many client libraries are available
+for instrumenting code to produce metrics in Prometheus format.  If a
+component's metrics are available in some other format, tools are
+often available to convert the metrics into Prometheus format and
+export them.
 
-A component that provides a Prometheus exporter HTTP endpoint via a
-Service can tell Prometheus to scrape this endpoint by defining a
-*Service Monitor*, a custom resource that is typically created by the
-Helm Chart that installs the component. As an example, Aether runs a
-Service Monitor on every edge cluster that periodically tests
-end-to-end connectivity (for various definitions of end-to-end).  One
-test determines whether the 5G control plane is working (i.e., the
-edge site can reach the SD-Core running in the central cloud) and a
-second test determines whether the 5G user plane is working (i.e., UEs
-can reach the Internet). This is a common pattern: individual
-components can export accumulators and other local variables to
-Prometheus, but only an "outside observer" can actively test external
-behavior, and report the results to Prometheus.
+A YAML configuration file specifies the set of Exporter endpoints that
+Prometheus is to pull metrics from, along will the polling frequency
+for each endpoint. Alternatively, Kubernetes-based microservices can
+be extended with a *Service Monitor* custom resource that Prometheus
+then queries to learn about any Exporter endpoints the microservice
+has made available.
+
+As an example of the latter, Aether runs a Service Monitor on every
+edge cluster that periodically tests end-to-end connectivity (for
+various definitions of end-to-end).  One test determines whether the
+5G control plane is working (i.e., the edge site can reach the SD-Core
+running in the central cloud) and a second test determines whether the
+5G user plane is working (i.e., UEs can reach the Internet). This is a
+common pattern: individual components can export accumulators and
+other local variables to Prometheus, but only a "third-party observer"
+can actively test external behavior, and report the results to
+Prometheus.
 
 6.1.2 Creating Dashboards
 ~~~~~~~~~~~~~~~~~~~~~~~~~
