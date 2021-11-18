@@ -718,7 +718,71 @@ scope of this book, but solving it for the cloud management system
 (which has its own persistent state) is a topic we take up in the next
 chapter.
 
-4.6 What about GitOps?
+4.6 Managing Secrets
+--------------------
+
+The discussion up this point has glossed over one important detail,
+which is how secrets are managed. These include, for example, the
+credentials Terraform needs to access remote services like GCP, as
+well as the keys used to secure communication among microservices
+within a edge cluster. Such secrets are effectively part of the hybrid
+cloud's configuration state, which would imply they are stored in the
+Config Repo, like all other configuration-as-code. But repositories
+are typically not designed to be secure, which is problematic.
+
+At a high level, the solution is straightforward. The various secrets
+required to operate a secure system are encrypted, and only the
+encrypted versions are checked into the Config Repo. This reduces the
+problem to worrying about just one secret, but effectively kicks the
+can down the road: How do we manage (both protect and distribute) the
+secret needed to decrypt the secrets?  Fortunately, there are
+mechanisms available to help solve that problem. Aether, for example,
+uses two different approaches, each with its own strengths and
+weaknesses.
+
+One approach is exemplified by the ``git-crypt`` tool, which closely
+matches the high-level summary outlined in the previous paragraph.  In
+this case, the "central processing loop" of the CI/CD mechanism—which
+corresponds to Jenkins in Aether—is the trusted entity responsible for
+decrypting the component-specific secrets and passing them along to
+various components at deployment time. This approach has the advantage
+of being general (i.e., it makes few assumptions and works for all
+secrets and components), but with the downside of investing
+significant trust in Jenkins, or more to the point, in the practices
+the DevOps team adopts for how they use Jenkins.
+
+The second approach is exemplifed by Kubernetes' ``SealedSecrets``
+mechanism. The idea is to trust a process running within the
+Kubernetes cluster (technically, this process is known as a
+Controller) to manage secrets on behalf of all the other
+Kubernetes-hosted microservices. At runtime, this process creates a
+Private/Public key pair, and makes the Public key available to the
+CI/CD toolchain. The Private key is restricted to SealedSecrets
+Controller, and is referred to as the *sealing key*. Without stepping
+through the details of the full protocol, the Public key is used in
+combination with a randomly-generated symmetric key to encrypt all the
+secrets that need to be stored in the Config Repo, and later (at
+deployment time), the individual microservices ask the SealedSecrets
+Controller to use its sealing key to help them unlock those secrets.
+
+While this approach is less general than the first (i.e., it is
+specific to protecting secrets within a Kubernetes cluster), it has
+the advantage of taking humans completely out-of-the-loop, with the
+sealing key being programmatically generated at runtime. One
+complication, however, is that it is generally preferable for that
+secret to be written to persistent storage, to protect against having
+to restart the SealedSecrets Controller. This potentially opens up an
+attack surface that needs to be protected.
+
+.. _reading_secrets:
+.. admonition:: Further Reading
+
+   `git-crypt - transparent file ecryption in git
+   <https://github.com/AGWA/git-crypt/blob/master/README.md>`__.
+
+   `"Sealed Secrets" for Kubernetes <https://github.com/bitnami-labs/sealed-secrets#readme>`__.
+
+4.7 What about GitOps?
 ----------------------
 
 The CI/CD pipeline described in this chapter is consistent with

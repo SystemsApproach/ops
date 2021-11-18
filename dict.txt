@@ -86,10 +86,13 @@ cloudified
 config
 customizable
 de
+decrypt
+decrypting
 deployable
 disaggregated
 downlink
 evolvable
+exemplifed
 facto
 frontend
 gNMI 
