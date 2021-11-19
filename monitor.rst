@@ -118,7 +118,7 @@ the summary dashboard for a collection Aether edge sites.
 
 .. _fig-ace_dash:
 .. figure:: figures/ace_dash.png
-   :width: 450px
+   :width: 600px
    :align: center
 
    Central dashboard showing status of Aether edge deployments.
@@ -128,7 +128,7 @@ set of metrics—in particular, those associated with physical servers
 and virtual resources like containers—but it can also be customized to
 include dashboards for service-level metrics and other
 deployment-specific information (e.g., per-enterprise in Aether). For
-example, :numref:`Figure %s <fig-ace_dash>` shows a custom dashboard
+example, :numref:`Figure %s <fig-upf_dash>` shows a custom dashboard
 for UPF (User Plane Function), the data plane packet forwarder of the
 SD-Core. The example shows latency and jitter metrics over the last
 hour at one site, with three additional collapsed panel (PFCP Sessions
@@ -136,7 +136,7 @@ and Messages) at the bottom.
 
 .. _fig-upf_dash:
 .. figure:: figures/upf_dash.png
-   :width: 450px
+   :width: 600px
    :align: center
 
    Custom dashboard showing latency and jitter metrics for UPF, the
@@ -302,3 +302,27 @@ following set of best practices.
   useful feature, but not required. When a component is implemented by
   a suite of microservices, the logging configuration need only be
   applied to one instance for it to apply to all instances.
+
+6.2.3 Integration with Monitoring
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+While Kibana provides a dashboard view of the logs being collected, in
+practice, it is most useful to have a convenient way to see the log
+messages associated with a particular component (at a particular time
+and log level) in the context of monitoring data. This is easy to
+accomplish because Grafana can be configured to display data from
+Elastic Search just as easily as from Prometheus. Both are data
+sources that can be queried. This makes it to possible to create a
+Grafana dashboard that includes a selected set of log messages,
+similar to the one from Aether shown in :numref:`Figure %s
+<fig-es_dash>`.  In this example, we see INFO-level messages
+associated with the UPF sub-component of SD-Core, which augments the
+UPF performance data shown in :numref:`Figure %s <fig-upf_dash>`.
+
+.. _fig-es_dash:
+.. figure:: figures/es_dash.png
+   :width: 600px
+   :align: center
+
+   Log messages associated with the UPF element of SD-Core, displayed
+   in a Grafana dashboard.
