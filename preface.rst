@@ -63,12 +63,17 @@ offer and extraneous dependencies on each other.
 
 One way to read this book is as a guided tour of the open source
 landscape for cloud control and management. And in that spirit, we do
-not replicate the fantastic documentation those projects already
+not replicate the excellent documentation those projects already
 provide, but instead include links to project-specific documentation
-(which often includes tutorials that we encourage you to try).  Our
+(which often includes tutorials that we encourage you to try). We also
+include snippets of code from those projects, but these examples are
+chosen to help solidify the main points we're trying to make about the
+management platform as a whole; they should not be interpreted as an
+attempt to document the inner-working of the individual projects. Our
 goal is to explain how the various puzzle pieces fit together to build
-an end-to-end management system, and in doing so, identify the hard
-problems that no amount of tooling can eliminate.
+an end-to-end management system, and in doing so, identify both
+various tools that help and the hard problems that no amount of
+tooling can eliminate.
 
 That there are challenging technical issues to address (despite
 marketing claims to the contrary) should come as no surprise.
