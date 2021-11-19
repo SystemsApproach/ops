@@ -745,13 +745,21 @@ matches the high-level summary outlined in the previous paragraph.  In
 this case, the "central processing loop" of the CI/CD mechanism—which
 corresponds to Jenkins in Aether—is the trusted entity responsible for
 decrypting the component-specific secrets and passing them along to
-various components at deployment time. This approach has the advantage
-of being general (i.e., it makes few assumptions and works for all
-secrets and components), but with the downside of investing
-significant trust in Jenkins, or more to the point, in the practices
-the DevOps team adopts for how they use Jenkins.
+various components at deployment time. This "pass along" step is
+typically implemented using the Kubernetes *Secrets* mechanism, which
+is an encrypted channel for sending configuration state to
+microservices (i.e., it is similar to *ConfigMaps*). This mechanism
+should not be confused with *SealedSecrets* (discussed next) because
+it does not, by itself, address the larger issue we're discussing
+here, which is how secrets are managed **outside** a running cluster.
 
-The second approach is exemplified by Kubernetes' ``SealedSecrets``
+This approach has the advantage of being general because it makes few
+assumptions and works for all secrets and components. But it comes
+with the downside of investing significant trust in Jenkins, or more
+to the point, in the practices the DevOps team adopts for how they use
+Jenkins.
+
+The second approach is exemplified by Kubernetes' *SealedSecrets*
 mechanism. The idea is to trust a process running within the
 Kubernetes cluster (technically, this process is known as a
 Controller) to manage secrets on behalf of all the other
