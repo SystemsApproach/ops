@@ -15,7 +15,7 @@ datacenter, but deploying private edge clouds in an enterprise—and
 optionally connecting that edge to a datacenter to form a hybrid
 cloud—is becoming increasingly common. We use the term "edge cloud" to
 distinguish our focus from the "core", which is the traditional domain
-of they hyperscale operators. The edge is more likely to be in a
+of the hyperscale operators. The edge is more likely to be in a
 enterprise or an "Internet of Things" setting such as a factory. The
 edge is the place where the cloud services connect to the real world,
 e.g., via sensors and actuators, and where latency-sensitive services
