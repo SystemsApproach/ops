@@ -263,7 +263,7 @@ DEBUG.
 Establishing a shared logging platform is, of course, of little value
 unless all the individual components are properly instrumented to
 write log messages. Programming languages typically come with library
-support for writing log messages (e.g., Java's Log4j), but that's just
+support for writing log messages (e.g., Java's log4j), but that's just
 a start. Logging is most effective if the components adhere to the
 following set of best practices.
 

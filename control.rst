@@ -58,7 +58,7 @@ refers to a person using the API or GUI portal (who may or may not
 have privileged access), and a *subscriber* refers to someone who uses
 a mobile device (it is a term borrowed from the Telco industry). There
 is not necessarily a one-to-one relationship between these two
-entities, and further to complicate matters, not all devices have
+entities, and to further complicate matters, not all devices have
 subscribers (e.g., IoT devices are often not associated with a
 particular human).
 
@@ -171,30 +171,33 @@ model, and as shown in :numref:`Figure %s <fig-roc>`, supports two
 portals and a set of closed-loop control applications. There is also a
 CLI (not shown). This API provides a single point-of-entry for **all**
 control information that can be read or written in Aether, and as a
-consequence, Runtime Control also mediates access to the other
+consequence, Runtime Control can also mediate access to the other
 subsystems of the Control and Management Platform (not just the
-subsystems shown in :numref:`Figure %s <fig-roc>`). This situation is
-illustrated in :numref:`Figure %s <fig-roc2>`, where the key takeaway
-is that (1) we want RBAC and auditing for all operations; (2) we want
-a single source of authoritative configuration state; and (3) we want
-to grant limited (fine-grained) access to management functions to
-arbitrary principals rather than assume that only a single privileged
-class of operators.
+subsystems shown in :numref:`Figure %s <fig-roc>`).
 
-Of course, the private APIs of the underlying subsystems still exist,
-and operators can directly use them. This can be especially useful
-when diagnosing problems. But for the three reasons given above, there
-is a strong argument in favor of mediating all control activity using
-the Runtime Control API. This is related to the “What About GitOps?”
-question raised at the end of Chapter 4. Now that we have the option
-of Runtime Control maintaining authoritative configuration and control
-state for the system in its K/V store, how do we “share ownership” of
-configuration state with the repositories that implement Lifecycle
-Management?
+This situation is illustrated in :numref:`Figure %s <fig-roc2>`, where
+the key takeaway is that (1) we want RBAC and auditing for all
+operations; (2) we want a single source of authoritative configuration
+state; and (3) we want to grant limited (fine-grained) access to
+management functions to arbitrary principals rather than assume that
+only a single privileged class of operators. Of course, the private
+APIs of the underlying subsystems still exist, and operators can
+directly use them. This can be especially useful when diagnosing
+problems, but for the three reasons given above, there is a strong
+argument in favor of mediating all control activity using the Runtime
+Control API.
+
+This discussion is related to the “What About GitOps?”  question
+raised at the end of Chapter 4. We return to that same question at the
+end of this chapter, but to set the stage, we now have the option of
+Runtime Control maintaining authoritative configuration and control
+state for the system in its K/V store. This raises the question of how
+to “share ownership” of configuration state with the repositories
+that implement Lifecycle Management.
 
 One option is to decide on a case-by-case basis: Runtime Control
-maintains authoritative state for some parameters and the code repos
-maintain authoritative state for other parameters. We just need to be
+maintains authoritative state for some parameters and the Config Repo
+maintains authoritative state for other parameters. We just need to be
 clear about which is which, so each backend component knows which
 “configuration path” it needs to be responsive to. Then, for any
 repo-maintained state for which we want Runtime Control to mediate
