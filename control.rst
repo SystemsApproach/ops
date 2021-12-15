@@ -58,15 +58,15 @@ We'll see a complete example in Section 5.3, but to illustrate the
 difficulty, consider how Aether refers to principals in its 5G
 connectivity service. If we borrow terminology directly from the Telco
 realm, then a *subscriber* would refer to someone who uses a mobile
-device; it implies an account and a collection of settings for the
-service delivered to that device. And in fact, subscriber is a central
-object within the SD-Core implementation.  But Aether is designed to
-support enterprise deployments of 5G. To this end, it defines a *user*
-to be a person (principal) that accesses the API or GUI portal with
-some prescribed level of privilege, where there is not necessarily a
-one-to-one relationship between users and subscribers. Moreover, not
-all devices have subscribers, as would be the case with IoT devices
-that are typically not associated with a particular human.
+device. It implies an account and a collection of settings for the
+service delivered to that device, and is a central object within the
+SD-Core implementation.  But Aether is designed to support enterprise
+deployments of 5G, and to that end, it defines a *user* to be a person
+(principal) that accesses the API or GUI portal with some prescribed
+level of privilege. There is not necessarily a one-to-one relationship
+between users and subscribers, and more importantly, not all devices
+have subscribers (as would be the case with IoT devices that are not
+typically associated with a particular human).
 
 5.1 Design Overview
 -------------------
