@@ -48,19 +48,25 @@ abstract services. It is also an opportunity to “raise the level of
 abstraction” for the underlying subsystems and hiding implementation
 details.
 
-One of the surprising challenges in defining abstractions is the
-rather pedestrian chore of coming up with suitable names for those
-abstractions. Terminology is often overloaded, and different
-subsystems may use different names for the same concept. That is
-certainly the case with our exemplar 5G connectivity service, starting
-with how we refer to various principals. In the following, a *user*
-refers to a person using the API or GUI portal (who may or may not
-have privileged access), and a *subscriber* refers to someone who uses
-a mobile device (it is a term borrowed from the Telco industry). There
-is not necessarily a one-to-one relationship between these two
-entities, and to further complicate matters, not all devices have
-subscribers (e.g., IoT devices are often not associated with a
-particular human).
+Defining a set of abstractions and the corresponding API, is of
+course, a challenging job. Having the appropriate tools helps you
+focus on the creative part of that task, but it by no means eliminates
+it. The challenge is partly a matter of judgment about what should be
+visible to users and what should be a hidden implementation detail,
+and partly about dealing with conflicting/conflated terminology.
+We'll see a complete example in Section 5.3, but to illustrate the
+difficulty, consider how Aether refers to principals in its 5G
+connectivity service. If we borrow terminology directly from the Telco
+realm, then a *subscriber* would refer to someone who uses a mobile
+device; it implies an account and a collection of settings for the
+service delivered to that device. And in fact, subscriber is a central
+object within the SD-Core implementation.  But Aether is designed to
+support enterprise deployments of 5G. To this end, it defines a *user*
+to be a person (principal) that accesses the API or GUI portal with
+some prescribed level of privilege, where there is not necessarily a
+one-to-one relationship between users and subscribers. Moreover, not
+all devices have subscribers, as would be the case with IoT devices
+that are typically not associated with a particular human.
 
 5.1 Design Overview
 -------------------
