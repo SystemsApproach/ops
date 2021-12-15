@@ -531,10 +531,8 @@ fields:
 * `template`: Reference to the `Template` that was used to initialize this `VCS`.
 * `upf`: Reference to the User Plane Function (`UPF`) that should be used to process packets
   for this `VCS`. It's permitted for multiple `VCS` to share a single `UPF`.
-* `ap`: Reference to an Access Point List (`AP-List`) that lists the access points for this
-  `VCS`.
 * `enterprise`: Reference to the `Enterprise` that owns this `VCS`.
-* `sst`, `sd`, `uplink`, `downlink`, `traffic-class`: Parameters that
+* `sst`, `sd`, `mbr.uplink`, `mbr.downlink`, `traffic-class`: Parameters that
   are initialized using a selected `template` (described below).
 
 At one end of the connectivity service is a `Device-Group`, which
@@ -558,14 +556,18 @@ At the other end of the connectivity service is an `Application`,
 which specifies the endpoints for the program devices talk to. It
 contains the following fields:
 
+* `address`: The DNS name or IP address of the endpoint.
 * `endpoint`: A list of endpoints. Each has the following
   fields:
 
    * `name`: Name of the endpoint. Used as a key.
-   * `address`: The DNS name or IP address of the endpoint.
    * `port-start`: Starting port number.
-   * `port-end`. Ending port number.
+   * `port-end`: Ending port number.
    * `protocol`: `TCP|UDP`, specifies the protocol for the endpoint.
+   * `mbr.uplink`, `mbr.downlink`: Maximum bitrate for UEs communicating with this
+     application:
+   * `traffice-class`: Traffic class for UEs communicating with this application.
+
 * `enterprise`: Link to an `Enterprise` object that owns this application. May be left empty
   to indicate a global application that may be used by multiple
   enterprises.
@@ -632,6 +634,7 @@ containers that implement an isolated slice.
 The `Traffic-Class` model, in turn, specifies the classes of traffic,
 and includes the following fields:
 
+* `arp`: Allocation and retention priority.
 * `qci`: QoS class identifier.
 * `pelr`: Packet error loss rate.
 * `pdb`: Packet delay budget.

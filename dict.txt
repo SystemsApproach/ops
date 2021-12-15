@@ -81,6 +81,7 @@ analytics
 architected
 auth
 backend
+bitrate
 centric
 cloudified
 config
