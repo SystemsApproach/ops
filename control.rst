@@ -109,6 +109,12 @@ generous set of engineering options. Finally, YANG is widely used for
 this purpose, meaning there is a robust collection of YANG-based tools
 that we can build upon.
 
+.. _reading_yang:
+.. admonition:: Further Reading
+
+   `YANG - A Data Modeling Language for the Network Configuration Protocol
+   <https://datatracker.ietf.org/doc/html/rfc6020>`__. RFC 6020. October 2010.
+
 .. sidebar:: Web Frameworks
 
 	*The role Runtime Control plays in operationalizing a cloud is
