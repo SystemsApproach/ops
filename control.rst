@@ -573,6 +573,17 @@ contains the following fields:
   to indicate a global application that may be used by multiple
   enterprises.
 
+Anyone familiar with the 3GPP specification will recognize Aether's
+*VCS* abstraction as being similar to what the cellular network calls
+a *slice*: an isolated communication channel and associated QoS
+parameters. Much like the discussion about *subscribers* and *users*
+in the introduction to this chapter, Aether elected to introduce
+neutral terminology rather than reuse a term that comes with
+significant "implementation baggage." The *VCS* model definition then
+includes fields that record various implementation details, including
+`sst` and `sd` (3GPP-defined identifiers for the slice) and `upf`
+(backend UPF implementation for the Core's user plane).
+
 .. sidebar:: An API for Platform Services
 
 	*We are using Connectivity-as-a-Service as an illustrative
@@ -621,15 +632,14 @@ menu). That is, templates are used to initialize `VCS` objects. The
 * `traffic-class`: Link to a `Traffic-Class` object that describes the
   type of traffic.
 
-Note that a `slice`, like an `imsi`, is a 5G-specific term, which you
-can think of as representing an isolated channel with associated QoS
-parameters. It is of particular note to our discussion because,
-although it is "hidden" within the `Template` model (i.e., it is an
-implementation detail), it is realized by spinning up an entirely new
-copy of the SD-Core. This is done to ensure isolation, but it also
-illustrates a touch-point between Runtime Control and the Lifecycle
-Management subsystem: Runtime Control, via an Adaptor, engages
-Lifecycle Management to launch the necessary set of Kubernetes
+As noted in the previous section, Aether decouples the abstract `VCS`
+objects from the implementation details about the backend slices. One
+reason for this decoupling is that it supports the option of spinning
+up an entirely new copy of the SD-Core rather than sharing an existing
+UPF with another VCS. This is done to ensure isolation, and
+illustrates one possible touch-point between Runtime Control and the
+Lifecycle Management subsystem: Runtime Control, via an Adaptor,
+engages Lifecycle Management to launch the necessary set of Kubernetes
 containers that implement an isolated slice.
   
 The `Traffic-Class` model, in turn, specifies the classes of traffic,
