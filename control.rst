@@ -48,25 +48,26 @@ abstract services. It is also an opportunity to “raise the level of
 abstraction” for the underlying subsystems and hiding implementation
 details.
 
-Defining a set of abstractions and the corresponding API, is of
-course, a challenging job. Having the appropriate tools helps you
-focus on the creative part of that task, but it by no means eliminates
-it. The challenge is partly a matter of judgment about what should be
-visible to users and what should be a hidden implementation detail,
-and partly about dealing with conflicting/conflated terminology.
-We'll see a complete example in Section 5.3, but to illustrate the
+Defining a set of abstractions and the corresponding API is a
+challenging job. Having the appropriate tools helps to focus on the
+creative part of that task, but by no means eliminates it. The
+challenge is partly a matter of judgment about what should be visible
+to users and what should be a hidden implementation detail, and partly
+about dealing with conflicting/conflated concepts and terminology.
+We'll see a full example in Section 5.3, but to illustrate the
 difficulty, consider how Aether refers to principals in its 5G
-connectivity service. If we borrow terminology directly from the Telco
-realm, then a *subscriber* would refer to someone who uses a mobile
-device. It implies an account and a collection of settings for the
-service delivered to that device, and is a central object within the
-SD-Core implementation.  But Aether is designed to support enterprise
-deployments of 5G, and to that end, it defines a *user* to be a person
-(principal) that accesses the API or GUI portal with some prescribed
-level of privilege. There is not necessarily a one-to-one relationship
-between users and subscribers, and more importantly, not all devices
-have subscribers (as would be the case with IoT devices that are not
-typically associated with a particular human).
+connectivity service. If we were to borrow terminology directly from
+the Telcos, then we'd refer to someone that uses a mobile device as a
+*subscriber*, implying an account and a collection of settings for the
+service delivered to that device. And in fact, subscriber is a central
+object within the SD-Core implementation.  But Aether is designed to
+support enterprise deployments of 5G, and to that end, defines a
+*user* to be a principal that accesses the API or GUI portal with some
+prescribed level of privilege. There is not necessarily a one-to-one
+relationship between users and Core-defined subscribers, and more
+importantly, not all devices have subscribers, as would be the case
+with IoT devices that are not typically associated with a particular
+person.
 
 5.1 Design Overview
 -------------------
@@ -492,10 +493,10 @@ contains the following fields:
   connectivity for this enterprise. Corresponds to an API endpoint to
   the SD-Core, SD-Fabric, and SD-RAN.
 
-`Enterprises` are further divided into `Sites`. A site is a point of
-presence for an `Enterprise` and may be either physical or logical
-(i.e. a single geographic location could contain several logical
-sites). `Site` contains the following fields:
+`Enterprises` are further divided into `Sites`. A site is a
+point-of-presence for an `Enterprise` and may be either physical or
+logical (i.e. a single geographic location could contain several
+logical sites). `Site` contains the following fields:
 
 * `enterprise`: A link to the `Enterprise` that owns this site.
 * `imsi-definition`: A description of how IMSIs are constructed for
