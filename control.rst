@@ -479,10 +479,10 @@ all models. These include:
 * `description`: A human-readable description, used to store additional context about the object.
 * `display-name`: A human-readable name that is shown in the GUI.
 
-As these fields are common to all models, we omit from the per-model
-descriptions that follow. Note that in the model-specific details that
-follow, we use upper case to denote a model (e.g., `Enterprise`) and
-lower case to denote a field within a model (e.g., `enterprise`).
+As these fields are common to all models, we omit them from the
+per-model descriptions that follow. Note that we use upper case to
+denote a model (e.g., `Enterprise`) and lower case to denote a field
+within a model (e.g., `enterprise`).
 
 5.3.1 Enterprises
 ~~~~~~~~~~~~~~~~~
@@ -525,8 +525,11 @@ corresponds to the unique identifier burned into every SIM card.
 The managed service Aether offers enterprises is 5G connectivity,
 which we can abstractly think of a means to connect mobile devices to
 application programs. This results in the following model definitions,
-starting with `Virtual Cellular Service (VCS)`. The `VCS` model
-connects a `Device-Group` to an `Application`, and has the following
+starting with `Virtual Cellular Service (VCS)`, which represents an
+isolated communication channel (and associated QoS parameters) that
+connects a `Device-Group` to a set of `Applications`.  For example, an
+enterprise might configure one VCS instance to carry IoT traffic and
+another to carry video traffic. The `VCS` model has the following
 fields:
 
 * `device-group`: A list of `Device-Group` objects that can participate in this `VCS`. Each
@@ -542,9 +545,9 @@ fields:
 * `sst`, `sd`, `mbr.uplink`, `mbr.downlink`, `traffic-class`: Parameters that
   are initialized using a selected `template` (described below).
 
-At one end of the connectivity service is a `Device-Group`, which
-identifies a set of devices that are to be treated the same.
-`Device-Group` contains the following fields:
+At one end of a VCS connection is a `Device-Group`, which identifies a
+set of devices that are allowed to use the VCS connection.  The
+`Device-Group` model contains the following fields:
 
 * `imsis`: A list of IMSI ranges. Each range has the following
   fields:
@@ -559,9 +562,9 @@ identifies a set of devices that are to be treated the same.
   used. Indirectly identifies the `Enterprise` as `Site` contains a
   reference to `Enterprise`.
 
-At the other end of the connectivity service is an `Application`,
-which specifies the endpoints for the program devices talk to. It
-contains the following fields:
+At the other end of a VCS connection is a list of `Applications`,
+which specifies the endpoints for the program devices talk to. The
+`Application` model contains the following fields:
 
 * `address`: The DNS name or IP address of the endpoint.
 * `endpoint`: A list of endpoints. Each has the following
@@ -570,25 +573,27 @@ contains the following fields:
    * `name`: Name of the endpoint. Used as a key.
    * `port-start`: Starting port number.
    * `port-end`: Ending port number.
-   * `protocol`: `TCP|UDP`, specifies the protocol for the endpoint.
-   * `mbr.uplink`, `mbr.downlink`: Maximum bitrate for UEs communicating with this
+   * `protocol`:  Protocol (`TCP|UDP`) for the endpoint.
+   * `mbr.uplink`, `mbr.downlink`: Maximum bitrate (mbr) for devices communicating with this
      application:
-   * `traffice-class`: Traffic class for UEs communicating with this application.
+   * `traffice-class`: Traffic class for devices communicating with this application.
 
 * `enterprise`: Link to an `Enterprise` object that owns this application. May be left empty
   to indicate a global application that may be used by multiple
   enterprises.
 
 Anyone familiar with the 3GPP specification will recognize Aether's
-*VCS* abstraction as being similar to what the cellular network calls
-a *slice*: an isolated communication channel and associated QoS
-parameters. Much like the discussion about *subscribers* and *users*
-in the introduction to this chapter, Aether elected to introduce
-neutral terminology rather than reuse a term that comes with
-significant "implementation baggage." The *VCS* model definition then
-includes fields that record various implementation details, including
-`sst` and `sd` (3GPP-defined identifiers for the slice) and `upf`
-(backend UPF implementation for the Core's user plane).
+*VCS* abstraction as being similar to what cellular network calls a
+*slice*.  Much like the discussion about *subscribers* and *users* in
+the introduction to this chapter, Aether elected to introduce neutral
+terminology rather than reuse a term that comes with significant
+implementation implications. The `VCS` model definition then includes
+fields that record various implementation details, including `sst` and
+`sd` (3GPP-defined identifiers for the slice) and `upf` (backend UPF
+implementation for the Core's user plane). Although not yet part of
+the production system, there is a version of `VCS` that also includes
+fields related to RAN slicing, with the Runtime Control subsystem
+responsible for stitching together end-to-end connectivity.
 
 .. sidebar:: An API for Platform Services
 
@@ -623,15 +628,15 @@ includes fields that record various implementation details, including
 5.3.3 QoS Profiles
 ~~~~~~~~~~~~~~~~~~
 
-Associated with each connection is a QoS-related profile that governs
-how traffic that connection carries is to be treated. This starts with
-a `Template` model, which defines the valid (accepted) connectivity
-settings. Aether Operations is responsible for defining these (the
-features they offer must be supported by the backend subsystems), with
-enterprises selecting the template they want applied to any instances
-of the connectivity service they create (e.g., via a drop-down
-menu). That is, templates are used to initialize `VCS` objects. The
-`Template` model has the following fields:
+Associated with each VCS connection is a QoS-related profile that
+governs how traffic that connection carries is to be treated. This
+starts with a `Template` model, which defines the valid (accepted)
+connectivity settings. Aether Operations is responsible for defining
+these (the features they offer must be supported by the backend
+subsystems), with enterprises selecting the template they want applied
+to any instances of the connectivity service they create (e.g., via a
+drop-down menu). That is, templates are used to initialize `VCS`
+objects. The `Template` model has the following fields:
 
 * `sst`, `sd`: Slice identifiers.
 * `uplink`, `downlink`: Guaranteed uplink and downlink bandwidth.
