@@ -522,15 +522,13 @@ corresponds to the unique identifier burned into every SIM card.
 5.3.2 Connectivity Service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The managed service Aether offers enterprises is 5G connectivity,
-which we can abstractly think of a means to connect mobile devices to
-application programs. This results in the following model definitions,
-starting with `Virtual Cellular Service (VCS)`, which represents an
-isolated communication channel (and associated QoS parameters) that
-connects a `Device-Group` to a set of `Applications`.  For example, an
-enterprise might configure one VCS instance to carry IoT traffic and
-another to carry video traffic. The `VCS` model has the following
-fields:
+Aether models 5G connectivity as a `Virtual Cellular Service (VCS)`,
+which represents an isolated communication channel (and associated QoS
+parameters) that connects a set of devices (modeled as a
+`Device-Group`) to a set of applications (each of which is modeled as
+an `Application`).  For example, an enterprise might configure one VCS
+instance to carry IoT traffic and another to carry video traffic. The
+`VCS` model has the following fields:
 
 * `device-group`: A list of `Device-Group` objects that can participate in this `VCS`. Each
   entry in the list contains both the reference to the `Device-Group` as well as an `enable`
@@ -562,9 +560,9 @@ set of devices that are allowed to use the VCS connection.  The
   used. Indirectly identifies the `Enterprise` as `Site` contains a
   reference to `Enterprise`.
 
-At the other end of a VCS connection is a list of `Applications`,
-which specifies the endpoints for the program devices talk to. The
-`Application` model contains the following fields:
+At the other end of a VCS connection is a list of `Application`
+objects, which specifies the endpoints for the program devices talk
+to. The `Application` model contains the following fields:
 
 * `address`: The DNS name or IP address of the endpoint.
 * `endpoint`: A list of endpoints. Each has the following
@@ -583,9 +581,9 @@ which specifies the endpoints for the program devices talk to. The
   enterprises.
 
 Anyone familiar with the 3GPP specification will recognize Aether's
-*VCS* abstraction as being similar to what cellular network calls a
-*slice*.  Much like the discussion about *subscribers* and *users* in
-the introduction to this chapter, Aether elected to introduce neutral
+*VCS* abstraction as similar to what cellular network calls a *slice*.
+Much like the discussion about *subscribers* and *users* in the
+introduction to this chapter, Aether elected to introduce neutral
 terminology rather than reuse a term that comes with significant
 implementation implications. The `VCS` model definition then includes
 fields that record various implementation details, including `sst` and
@@ -593,7 +591,8 @@ fields that record various implementation details, including `sst` and
 implementation for the Core's user plane). Although not yet part of
 the production system, there is a version of `VCS` that also includes
 fields related to RAN slicing, with the Runtime Control subsystem
-responsible for stitching together end-to-end connectivity.
+responsible for stitching together end-to-end connectivity across the
+RAN, the Core, and the Fabric.
 
 .. sidebar:: An API for Platform Services
 
