@@ -592,7 +592,7 @@ implementation for the Core's user plane). Although not yet part of
 the production system, there is a version of `VCS` that also includes
 fields related to RAN slicing, with the Runtime Control subsystem
 responsible for stitching together end-to-end connectivity across the
-RAN, the Core, and the Fabric.
+RAN, Core, and Fabric.
 
 .. sidebar:: An API for Platform Services
 
@@ -776,4 +776,7 @@ given group is allowed to access) is an illustrative example. Unless
 there is a compelling reason to open such configuration decisions to
 end users, keeping RBAC-related configuration state (i.e., OPA spec
 files) in the Config Repo, under the purview of Lifecycle Management,
-makes complete sense.
+makes complete sense. This example helps us understand the central
+value proposition of the runtime control interface: It serves to scale
+operations by getting the ops team out of the loop for those tasks
+that can be delegated to end-users.
