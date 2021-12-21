@@ -303,17 +303,26 @@ following set of best practices.
   a suite of microservices, the logging configuration need only be
   applied to one instance for it to apply to all instances.
 
-6.2.3 Integration with Monitoring
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6.3 Integrated Dashboards
+-------------------------
 
-While Kibana provides a dashboard view of the logs being collected, in
-practice, it is most useful to have a convenient way to see the log
-messages associated with a particular component (at a particular time
-and log level) in the context of monitoring data. This is easy to
-accomplish because Grafana can be configured to display data from
-Elastic Search just as easily as from Prometheus. Both are data
-sources that can be queried. This makes it to possible to create a
-Grafana dashboard that includes a selected set of log messages,
+The monitoring and logging subsystems make it possible to collect a
+wealth of data about the health of a system, but it's only useful if
+the right data is displayed to the right people (those with the
+ability to take action) at the right time (when action needs to be
+taken). Creating useful panels and organizing them into intuitive
+dashboards is part the solution, but integrating information across
+the subsystems of the management platform is also a requirement.
+This section highlights two examples.
+
+First, while Kibana provides a dashboard view of the logs being
+collected, in practice, it is most useful to have a convenient way to
+see the log messages associated with a particular component (at a
+particular time and log level) in the context of monitoring data. This
+is easy to accomplish because Grafana can be configured to display
+data from Elastic Search just as easily as from Prometheus. Both are
+data sources that can be queried. This makes it to possible to create
+a Grafana dashboard that includes a selected set of log messages,
 similar to the one from Aether shown in :numref:`Figure %s
 <fig-es_dash>`.  In this example, we see INFO-level messages
 associated with the UPF sub-component of SD-Core, which augments the
@@ -326,3 +335,37 @@ UPF performance data shown in :numref:`Figure %s <fig-upf_dash>`.
 
    Log messages associated with the UPF element of SD-Core, displayed
    in a Grafana dashboard.
+
+Second, the runtime control interface provides a means to change
+various parameters of a running system, but having access to the data
+needed to know what changes (if any) need to be made is a prerequisite
+for making informed decisions. To this end, it is ideal to have access
+to both the "knobs" and the "dials" on an integrated dashboard.  This
+can be accomplished by incorporating Grafana frames in the Runtime
+Control GUI, which in its simplest form, displays a set of web forms
+corresponding to the fields in the underlying data models. (More
+sophisticate control panels are certainly possible.)
+
+.. _fig-dev_group:
+.. figure:: figures/gui1.png
+   :width: 600px
+   :align: center
+
+   Example control dashboard showing the set of Device Groups defined
+   for a fictional set of Aether sites.
+
+For example, :numref:`Figure %s <fig-dev_group>` shows the current set
+of device groups for a fictional set of Aether sites, where clicking
+on the "Edit" button pops up a web form that lets the enterprise admin
+modify the corresponding fields of the `Device-Group` model (not
+shown), and clicking on the "Monitor" button pops up a
+Grafana-generated frame similar to the one shown in :numref:`Figure %s
+<fig-dev_monitor>`. In principle, this frame is tailored to show only
+the most relevant information associated with the selected object.
+
+.. _fig-dev_monitor:
+.. figure:: figures/gui2.png
+   :width: 600px
+   :align: center
+
+   Example monitoring frame associated with a selected Device Group.
