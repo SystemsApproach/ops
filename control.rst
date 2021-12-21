@@ -776,7 +776,10 @@ given group is allowed to access) is an illustrative example. Unless
 there is a compelling reason to open such configuration decisions to
 end users, keeping RBAC-related configuration state (i.e., OPA spec
 files) in the Config Repo, under the purview of Lifecycle Management,
-makes complete sense. This example helps us understand the central
-value proposition of the runtime control interface: It serves to scale
-operations by getting the ops team out of the loop for those tasks
-that can be delegated to end-users.
+makes complete sense.
+
+These examples illustrate the central value proposition of the runtime
+control interface, which is to scale operations. It does this by
+enabling end users and closed-loop control programs to directly steer
+the system without requiring that the ops team serve as an intermediary.
+
