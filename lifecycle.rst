@@ -564,7 +564,7 @@ could be treated another such group. (Here, we are talking about the
 illustrated in the examples shown in Section 3.2.) The third is a
 *GitRepo*, which is a repository to watch for changes to bundle
 artifacts. In our case, new are Helm Charts are checked into the
-Config Repo (but as indicated in at the first of this chapter, there
+Config Repo (but as indicated at the beginning of this chapter, there
 is likely a dedicated "Helm Repo" in practice).
 
 Understanding Fleet is then straightforward. It provides a way to

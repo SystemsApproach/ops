@@ -59,7 +59,8 @@ hardware provisioning process described in Section 3.1. One way to
 think about this that the task of booting hardware into the "ready"
 state involves installing and configuring several subsystems that
 collectively form the cloud platform. It is this platform that
-Terraform interacts, using an API we describe at the end of Section 3.1.
+Terraform interacts with, using an API we describe at the end of
+Section 3.1.
 
 This chapter describes both sides of :numref:`Figure %s <fig-infra>`
 starting with provisioning physical infrastructure. Our approach is to
@@ -93,13 +94,13 @@ but this aspect of the problem is also outside our scope.
 
 The blueprint shown in :numref:`Figure %s <fig-cable_plan>` actually
 includes two logical clusters sharing a Management Switch and a
-Management Server. The upper cluster corresponds to a production deployment,
-and includes five servers and a 2x2 leaf-spine switching fabric. The
-lower cluster is a development deployment, and includes two
-servers and a single switch. Defining such logical groupings of
-hardware resources is not unique to Aether; we can ask a commercial
-cloud provider to provision multiple logical clusters, so being able
-to do the same on physical resources is a natural requirement.
+Management Server. The upper cluster corresponds to a production
+deployment, and includes five servers and a 2x2 leaf-spine switching
+fabric. The lower cluster is for development, and includes two servers
+and a single switch. Defining such logical groupings of hardware
+resources is not unique to Aether; we can ask a commercial cloud
+provider to provision multiple logical clusters, so being able to do
+the same on physical resources is a natural requirement.
 
 In addition to following this blueprint, the technician also enters
 various facts about the physical infrastructure into a database. This
@@ -616,7 +617,7 @@ this case, we show just the RKE-specific module used to configure the
 edge clusters, where most of the details are straightforward if you
 understand Kubernetes. For example, the module specifies that each
 edge cluster should load the ``calico`` and ``multus`` CNI plugins. It
-also defines how to invoke ``kubeclt`` to configure Kubernetes
+also defines how to invoke ``kubectl`` to configure Kubernetes
 according to these specifications. Less familiar, all references to
 ``SCTPSupport`` indicate whether or not that particular Kubernetes
 cluster needs to support SCTP, a Telco-oriented network protocol that
