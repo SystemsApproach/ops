@@ -78,9 +78,8 @@ instead on the "physical/virtual" boundary, which starts with the
 cabling plan that a hands-on technician uses as a blueprint. The
 details of such a plan are highly deployment specific, but we use the
 example shown in :numref:`Figure %s <fig-cable_plan>` to help
-illustrate all the steps involved. The example is based on Aether PODs
-deployed in enterprises—we use the term "POD" to refer to a physical
-cluster—which serves to highlight the required level of specificity.
+illustrate all the steps involved. The example is based on Aether clusters
+deployed in enterprises, which serves to highlight the required level of specificity.
 Considerable planning is required to specify an appropriate *Bill of
 Materials (BOM)*, including details about individual device models,
 but this aspect of the problem is also outside our scope.
@@ -94,9 +93,9 @@ but this aspect of the problem is also outside our scope.
 
 The blueprint shown in :numref:`Figure %s <fig-cable_plan>` actually
 includes two logical clusters sharing a Management Switch and a
-Management Server. The upper cluster corresponds to a production POD,
+Management Server. The upper cluster corresponds to a production deployment,
 and includes five servers and a 2x2 leaf-spine switching fabric. The
-lower cluster corresponds to a development POD, and includes two
+lower cluster is a development deployment, and includes two
 servers and a single switch. Defining such logical groupings of
 hardware resources is not unique to Aether; we can ask a commercial
 cloud provider to provision multiple logical clusters, so being able
@@ -115,7 +114,7 @@ database is how we cross the physical-to-virtual divide. It involves
 both defining a set of models for the information being collected
 (this schema effectively represents the logical structure shown in
 :numref:`Figure %s <fig-infra>`), and entering the corresponding facts
-about the physical devices. This process is familiar to anyone that is
+about the physical devices. This process is familiar to anyone who is
 responsible for managing a network of devices, whether it is the first
 stage in a larger automated framework (such as the one described in
 this book) or simply a place to record what IP address has been
@@ -287,7 +286,7 @@ in one physical rack.
     NetBox rendering of rack configuration.
 
 It is also possible to generate other useful specifications for the
-POD, helping the technician confirm the recorded logical specification
+deployment, helping the technician confirm the recorded logical specification
 matches the actual physical representation. For example,
 :numref:`Figure %s <fig-cable_list>` shows the set of cables and how
 they connect the set hardware in our example deployment.
@@ -318,7 +317,7 @@ goal is to minimize manual configuration required to onboard physical
 infrastructure like that shown in :numref:`Figure %s
 <fig-cable_plan>`, but *zero-touch* is a high bar. To illustrate, the
 bootstrapping steps needed to complete provisioning for our example
-POD currently includes:
+deployment currently include:
 
 * Configure the Management Switch to know the set of VLANs being
   used.
@@ -346,7 +345,7 @@ to a remote site can first be prepped accordingly. Also note that care
 should be taken to *not* overload this step with configuration that
 can be done later. For example, various radio parameters can be set on
 the eNBs when it is physically installed, but those parameters will
-become settable through the Management Platform once the POD is
+become settable through the Management Platform once the cluster is
 brought online. Configuration work done at this stage should be
 minimized.
 
@@ -405,7 +404,7 @@ paired with Netplan to configure kernel-level details, there is also
 an Ansible playbook that installs Docker on each compute server and
 fabric switch, and then launches a Docker container running a
 "finalize" image. This image makes calls into the next layer of the
-provisioning stack, effectively signalling that the POD is running and
+provisioning stack, effectively signalling that the cluster is running and
 ready for further instructions. We are now ready to describe that next
 layer of the stack.
 
