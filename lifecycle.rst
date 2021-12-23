@@ -122,16 +122,16 @@ dotted lines in :numref:`Figure %s <fig-pipeline>`.)
 The far right of :numref:`Figure %s <fig-pipeline>` shows the set of
 deployment targets, with *Staging* and *Production* called out as two
 illustrative examples. The idea is that a new version of the software
-is deployed first to a set of Staging PODs, where it is subjected to
+is deployed first to a set of Staging clusters, where it is subjected to
 realistic workloads for a period of time, and then rolled out to the
-Production PODs once the Staging PODs give us confidence that the
+Production clusters once the Staging deployments give us confidence that the
 upgrade is reliable.
 	
 This is a simplified depiction of what happens in practice. In
 general, there can be more than two distinct versions of the cloud
 software deployed at any given time. In the case of Aether, for
 example, individual enterprises might elect to upgrade their local ACE
-PODs at different times (or in principle, skip an upgrade entirely),
+clusters at different times (or in principle, skip an upgrade entirely),
 meaning there can be more than two versions running simultaneously. It
 is also typically the case that upgrades are rolled out incrementally
 (e.g., a few sites at a time over an extended period of time), meaning
@@ -148,10 +148,10 @@ the Code Repo. These tests gate integration; fully merging a patch
 into the Code Repo requires first passing this preliminary round of
 tests. Once merged, the pipeline runs a build across all the
 components, and a second round of testing happens on a *Quality
-Assurance (QA)* POD. Passing these tests gate deployment, but note
-that testing also happens in the Staging PODs, as part of the CD end
+Assurance (QA)* cluster. Passing these tests gate deployment, but note
+that testing also happens in the Staging clusters, as part of the CD end
 of the pipeline. One might naturally ask what about the Production
-PODs; how do we continue to test the software after it is running in
+clusters; how do we continue to test the software after it is running in
 production?  That happens, of course, but we tend to call it
 Monitoring & Logging (and subsequent diagnostics) rather than
 testing. This is the subject of Chapter 6.
@@ -204,7 +204,7 @@ pipeline where they happen (relative to :numref:`Figure %s
     against a set of related modules, but in a shallow/superficial way
     (so they can run quickly).
     
-* **QA POD:** These tests are run periodically (e.g., once day, once a
+* **QA Cluster:** These tests are run periodically (e.g., once day, once a
   week) and so can be more extensive. They typically test whole
   subsystems, or in some cases, the entire system. There are two
   categories post-merge/pre-deploy tests:
@@ -219,7 +219,7 @@ pipeline where they happen (relative to :numref:`Figure %s
     parameters, including the ability to scale workload, rather than
     correctness.
     
-* **Staging POD:** Candidate releases are run on the Staging POD for
+* **Staging Cluster:** Candidate releases are run on the Staging cluster for
   an extensive period of time (e.g., multiple days) before being
   rolled out to Production. These tests are run against a complete and
   fully integrated system, and are often used to uncover memory leaks
@@ -528,7 +528,7 @@ Kubernetes uses, the desired configuration is specified in the
 Terraform config files. (Recall that Terraform computes the delta
 between the existing and desired state, and executes the calls
 required to bring the former in line with the latter.) Anytime new
-hardware is added to an existing POD, the corresponding Terraform file
+hardware is added to an existing cluster, the corresponding Terraform file
 is modified accordingly and checked into the Config Repo, triggering
 the deployment job. We do not re-iterate the mechanistic aspect of how
 platform deployments are triggered, but it uses exactly the same set
