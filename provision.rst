@@ -20,8 +20,8 @@ commodity hardware received directly from a vendor, and not a
 plug-and-play appliance that has already been prepped.
 
 When a cloud is built from virtual resources (e.g., VMs instantiated
-on a commercial cloud) the "rack and connect" step is carried out by
-sequence of API calls rather a hands-on technician.  Of course, we
+on a commercial cloud) the "rack and connect" step is carried out by a
+sequence of API calls rather than a hands-on technician.  Of course, we
 want to automate the sequence of calls needed to activate virtual
 infrastructure, which has inspired an approach know as
 *infrastructure-as-code*.\ [#]_ The general idea is to document, in a
@@ -56,7 +56,7 @@ Note that the Provisioning API shown on the right in :numref:`Figure
 %s <fig-infra>` is *not* the NetBox API. Terraform does not interact
 directly with NetBox, but instead with artifacts left behind by the
 hardware provisioning process described in Section 3.1. One way to
-think about this that the task of booting hardware into the "ready"
+think about this is that the task of booting hardware into the "ready"
 state involves installing and configuring several subsystems that
 collectively form the cloud platform. It is this platform that
 Terraform interacts with, using an API we describe at the end of
@@ -72,18 +72,19 @@ individual resources as relevant details emerge.
 3.1 Physical Infrastructure 
 ---------------------------
 
-The process of stacking and racking hardware is inherently human
-intensive, and includes considerations such as airflow and cable
+The process of stacking and racking hardware is inherently
+human-intensive, and includes considerations such as airflow and cable
 management. These issues are beyond the scope of this book.  We focus
 instead on the "physical/virtual" boundary, which starts with the
 cabling plan that a hands-on technician uses as a blueprint. The
-details of such a plan are highly deployment specific, but we use the
+details of such a plan are highly deployment-specific, but we use the
 example shown in :numref:`Figure %s <fig-cable_plan>` to help
-illustrate all the steps involved. The example is based on Aether clusters
-deployed in enterprises, which serves to highlight the required level of specificity.
-Considerable planning is required to specify an appropriate *Bill of
-Materials (BOM)*, including details about individual device models,
-but this aspect of the problem is also outside our scope.
+illustrate all the steps involved. The example is based on Aether
+clusters deployed in enterprises, which serves to highlight the
+required level of specificity. Considerable planning is required to
+specify an appropriate *Bill of Materials (BOM)*, including details
+about individual device models, but this aspect of the problem is also
+outside our scope.
 
 .. _fig-cable_plan:
 .. figure:: figures/pronto_logical_diagram.png
@@ -301,7 +302,7 @@ they connect the set hardware in our example deployment.
 
 Finally, if all of this seems like a tedious amount of detail, then
 you get the main point of this section. Everything about automating
-the control and management of a cloud hinges on having compete and
+the control and management of a cloud hinges on having complete and
 accurate data about its resources. Keeping this information in sync
 with the reality of the physical infrastructure is often the weakest
 link in this process. The only saving grace is that the information is
@@ -338,7 +339,7 @@ deployment currently include:
   addresses.
 
 These are all manual configuration steps, requiring either console
-access or entering information into device web interface, such that
+access or entering information into a device web interface, such that
 any subsequent configuration steps can be both fully automated and
 resilient. Note that while these steps cannot be automated away, they
 do not necessarily have to be performed in the field; hardware shipped
@@ -429,13 +430,13 @@ interconnected servers and switches into a fully-instantiated
 Kubernetes cluster. For starters, the API needs to provide a means to
 install and configure Kubernetes on each physical cluster. This
 includes specifying which version of Kubernetes to run, selecting the
-right combination of CNI plugins (virtual network adaptors), and
-connecting Kubernetes to the local network (and any VPNs it might
-need). This layer also needs to provide a means to set up accounts
-(and associated credentials) for accessing and using each Kubernetes
-cluster, as well as provide a way to manage independent projects that
-are to be deployed on a given cluster (i.e., manage name spaces for
-multiple applications).
+right combination of Container Network Interface (CNI) plugins
+(virtual network adaptors), and connecting Kubernetes to the local
+network (and any VPNs it might need). This layer also needs to provide
+a means to set up accounts (and associated credentials) for accessing
+and using each Kubernetes cluster, and a way to manage
+independent projects that are to be deployed on a given cluster (i.e.,
+manage namespaces for multiple applications).
 
 As an example, Aether currently uses Rancher to manage Kubernetes on
 the bare-metal clusters, with one centralized instance of Rancher
@@ -451,7 +452,7 @@ spans multiple physical sites (e.g., ``us-west1-a``,
     :width: 450px
     :align: center
 
-    Provisioning in a hybrid cloud that includes includes an API layer
+    Provisioning in a hybrid cloud that includes an API layer
     for managing Kubernetes running on multiple bare-metal clusters.
 
 We conclude this discussion by noting that while we often treat
@@ -464,7 +465,7 @@ cloud provider offers its own customized version:
 * Aether edges run the Rancher-certified version of Kubernetes (RKE)
 
 We don't resolve this issue, which is the subject of ongoing work
-across the industry, but just to caution that the portability of
+across the industry, but we caution that the portability of
 microservices across Kubernetes clusters is not as simple as the
 discussion might suggest. Our job, at the cloud management layer, is
 to provide operators with a means to expose and manage this
@@ -525,7 +526,7 @@ can be addressed.
 
 The provisioning interface for each of the Kubernetes variants just
 described includes a programmatic API, a Command Line Interface (CLI),
-and a Graphical User Interface (GUI), where if you try any of the
+and a Graphical User Interface (GUI). If you try any of the
 tutorials we recommended throughout this book, you'll likely use one
 of the latter two. For operational deployments, however, having a
 human operator interact with a CLI or GUI is problematic. This is not
@@ -632,7 +633,7 @@ Infrastructure-as-Code plays in the cloud management stack. The key
 takeaway is that everything Terraform handles could have been done by
 a human operator making a sequence of CLI calls (or GUI clicks) on the
 backend Provisioning APIs, but experience has shown that approach to
-be error-prone and a difficult to make consistently repeatable.
+be error-prone and difficult to make consistently repeatable.
 Starting with declarative language and auto-generating the right
 sequence of API calls is a proven way to overcome that problem.
 
