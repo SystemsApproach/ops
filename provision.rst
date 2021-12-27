@@ -191,30 +191,30 @@ the *Device* names (see below) with this suffix. Using ``10.0.0.0/22``
 as an example, there are four edge prefixes, with the following
 purposes:
 
-* ``10.0.0.0/25``
+* ADMIN Prefix ``10.0.0.0/25`` (for IPMI)
 
   * Has the Management Server and Management Switch
   * Assign the ADMIN 1 VLAN
-  * Set DNS domain to ``admin.<deployment>.<site>.aetherproject.net``
+  * Set domain to ``admin.<deployment>.<site>.aetherproject.net``
 
-* ``10.0.0.128/25``
+* MGMT Prefix ``10.0.0.128/25`` (for infrastructure control plane)
 
   * Has the Server Management plane, Fabric Switch Management
   * Assign MGMT 800 VLAN
-  * Set DNS domain to ``mgmt.<deployment>.<site>.aetherproject.net``
+  * Set domain to ``mgmt.<deployment>.<site>.aetherproject.net``
 
-* ``10.0.1.0/25``
+* FABRIC Prefix ``10.0.1.0/25`` (for infrastructure data plane)
 
-  * IP addresses of the ``qsfp0`` port of the Compute Nodes to Fabric switches, devices
-    connected to the Fabric like the eNB
+  * IP addresses of the ``qsfp0`` port of the Compute Nodes to Fabric
+    switches, plus other Fabric-connected devices (e.g., eNB)
   * Assign FABRIC 801 VLAN
-  * Set DNS domain to ``fab1.<deployment>.<site>.aetherproject.net``
+  * Set domain to ``fab1.<deployment>.<site>.aetherproject.net``
 
-* ``10.0.1.128/25``
+* FABRIC Prefix ``10.0.1.128/25`` (for infrastructure data plane)
 
   * IP addresses of the ``qsfp1`` port of the Compute Nodes to fabric switches
   * Assign FABRIC 801 VLAN
-  * Set DNS domain to ``fab2.<deployment>.<site>.aetherproject.net``
+  * Set domain to ``fab2.<deployment>.<site>.aetherproject.net``
 
 There are other edge prefixes used by Kubernetes, but they do not need
 to be created in NetBox. Note that ``qsfp0`` and ``qsfp1`` in this
@@ -224,8 +224,8 @@ where *QSFP* stand for Quad (4-channel) Small Form-factor Plugable.
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
 which is subsequently used to generate a fully qualified domain name
-for the device: ``<devname>.<deployment>.<site>...``. The following
-fields are also filled in when creating a Device:
+for the device: ``<devname>.<deployment>.<site>.aetherproject.net``.
+The following fields are also filled in when creating a Device:
 
 * Site
 * Rack & Rack Position
