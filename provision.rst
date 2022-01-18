@@ -300,14 +300,13 @@ they connect the set hardware in our example deployment.
 
     NetBox report of cabling.    
 
-Finally, if all of this seems like a tedious amount of detail, then
-you get the main point of this section. Everything about automating
-the control and management of a cloud hinges on having complete and
-accurate data about its resources. Keeping this information in sync
-with the reality of the physical infrastructure is often the weakest
-link in this process. The only saving grace is that the information is
-highly structured, and tools like NetBox help us codify this
-structure.
+If all of this seems like a tedious amount of detail, then you get the
+main point of this section. Everything about automating the control
+and management of a cloud hinges on having complete and accurate data
+about its resources. Keeping this information in sync with the reality
+of the physical infrastructure is often the weakest link in this
+process. The only saving grace is that the information is highly
+structured, and tools like NetBox help us codify this structure.
 
 3.1.2 Configure and Boot
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -622,7 +621,8 @@ also defines how to invoke ``kubectl`` to configure Kubernetes
 according to these specifications. Less familiar, all references to
 ``SCTPSupport`` indicate whether or not that particular Kubernetes
 cluster needs to support SCTP, a Telco-oriented network protocol that
-is not included in a vanilla Kubernetes deployment.
+is not included in a vanilla Kubernetes deployment, but is needed by
+the SD-Core.
 
 .. literalinclude:: code/main-rke.tf
 
