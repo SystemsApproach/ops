@@ -2,7 +2,7 @@ About The Book
 ===============
 
 This `repository <https://github.com/SystemsApproach/ops>`__ contains
-source for *Operating an Edge Cloud: A Systems Approach*, available under
+source for *Edge Cloud Operations: A Systems Approach*, available under
 terms of the `Creative Commons (CC BY-NC-ND 4.0)
 <https://creativecommons.org/licenses/by-nc-nd/4.0>`__ license. The
 community is invited to contribute corrections, improvements, updates,
@@ -11,7 +11,7 @@ and new material under the same terms.
 If you make use of this work, the attribution should include the
 following information:
 
-| *Title: Operating an Edge Cloud: A Systems Approach* 
+| *Title: Edge Cloud Operations: A Systems Approach* 
 | *Authors: Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, Bruce Davie*
 | *Source:* https://github.com/SystemsApproach/ops 
 | *License:* \ `CC BY-NC-ND 4.0 <https://creativecommons.org/licenses/by-nc-nd/4.0>`__

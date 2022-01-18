@@ -5,7 +5,7 @@
 
 |
 	    
-Operating an Edge Cloud: A Systems Approach
+Edge Cloud Operations: A Systems Approach
 ==================================================
 
 Peterson, Baker, Bavier, Williams and Davie
