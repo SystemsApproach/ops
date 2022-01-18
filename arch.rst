@@ -298,11 +298,11 @@ one edge cloud might host a 5G connectivity service and another might
 host an AI platform like OpenVINO. The question this raises is whether
 the cloud management technologies described in this book still apply
 in that setting. The answer is yes: the fundamental management
-challenges remain the same, the main difference is knowing when to
+challenges remain the same. The main difference is knowing when to
 directly control a Kubernetes cluster (as we do in this book) and when
 to do so indirectly through the manager for that cluster. There are
-also new problems that are unique to multi-clouds (e.g., inter-cloud
-service discovery), but they are beyond the scope of this book.
+also new problems that are unique to multi-clouds, such as inter-cloud
+service discovery, but they are beyond the scope of this book.
 
 2.4 Control and Management
 --------------------------
@@ -332,10 +332,10 @@ division between those that *use* cloud services and those that
    The four subsystems that comprise AMP: Resource Provisioning,
    Lifecycle Management, Runtime Control, and Monitoring & Logging.
    
-We do not focus on these portals, which can be thought of as offering
-a particular class of users a subset of AMP functionality, but we
-instead describe the aggregate functionality supported by AMP, which
-is organized around four subsystems:
+We do not focus on these portals, which provide a graphical interface
+to a subset of AMP functionality, but we instead describe the
+aggregate functionality supported by AMP, which is organized around
+four subsystems:
 
 * Resource Provisioning: Responsible for initializing and configuring
   resources (e.g., servers, switches) that add, replace, or upgrade
@@ -394,7 +394,7 @@ distinct from the cloud-native workloads that are hosted on the
 platform. This is relevant here because Resource Provisioning has to
 get this platform up-and-running before Lifecycle Management can do
 its job. But in another example of circular dependencies, Lifecycle
-Management then plays a role in keeping the underlying platform
+Management also plays a role in keeping the underlying platform
 up-to-date.
 	
 Clearly, the “Install & Inventory” step requires human involvement,
