@@ -356,6 +356,10 @@ The Runtime Control API layer serves multiple purposes:
   
 * The API layer is an opportunity to implement semantic translation,
   adding methods that go beyond the auto-generated calls.
+
+* The API layer defines a "gate" that can be used to audit the history
+  of who performs what operation when (also taking advantage of the
+  identity management mechanism described next).
   
 5.2.3 Identity Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~
