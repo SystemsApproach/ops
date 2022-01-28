@@ -455,24 +455,24 @@ spans multiple physical sites (e.g., ``us-west1-a``,
     for managing Kubernetes running on multiple bare-metal clusters.
 
 We conclude this discussion by noting that while we often treat
-Kubernetes as though it is an industry-wide standard, it is not. Each
-cloud provider offers its own customized version:
+Kubernetes as though it is an industry-wide standard, that is not the
+reality. Each cloud provider offers its own customized version:
 
 * Microsoft Azure offers the Azure Kubernetes Service (AKS)
 * AWS offers the Amazon Elastic Kubernetes Service (EKS)
 * Google Cloud offers the Google Kubernetes Engine (GKE)
 * Aether edges run the Rancher-certified version of Kubernetes (RKE)
 
-We don't resolve this issue, which is the subject of ongoing work
-across the industry, but we caution that the portability of
-microservices across Kubernetes clusters is not as simple as the
-discussion might suggest. Our job, at the cloud management layer, is
-to provide operators with a means to expose and manage this
-heterogeneity. The architectural assumption we make is that for each
-such variant, there is a corresponding provisioning API, with the
-expectation that someone is responsible for provisioning the
-Kubernetes cluster instantiated by that API (where that someone might
-be us, as just outlined in this section).
+Although the *CNCF (Cloud Native Computing Foundation)*—the open
+source organization responsible for shepherding the Kubernetes
+project—certifies these and other versions of Kubernetes, this only
+establishes baseline compliance. Each version if free to enhance their
+offering beyond this baseline, and these enhancements often take the
+form of additional features for provisioning and controlling a
+Kubernetes cluster.  Our job, at the cloud management layer, is to
+provide operators with a means to expose and manage this
+heterogeneity. In short, "leveling up" the provisioning APIs is the
+primary challenge addressed in Section 3.2.
 
 3.1.4 Provisioning VMs
 ~~~~~~~~~~~~~~~~~~~~~~

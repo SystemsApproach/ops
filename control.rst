@@ -284,7 +284,7 @@ the data model (schema) for Aether is sketched in Section 5.3, but
 another example would be the set of OpenConfig models used to manage
 network devices.
 
-There are three important aspects of this mechanism:
+There are four important aspects of this mechanism:
 
 * **Persistent Store:** Atomix is the cloud native K/V-store used to
   persist data in x-config. Atomix supports a distributed map
@@ -300,11 +300,19 @@ There are three important aspects of this mechanism:
   eliminates dynamic load compatibility issues that are a problem when
   models and x-config are built separately.
   
-* **Migration:** All the models loaded into x-config are versioned,
-  and the process of updating those models triggers the migration of
-  persistent state from one version of the data model to another. The
-  migration mechanism supports simultaneous operation of multiple
-  versions.
+* **Versioning and Migration:** All the models loaded into x-config
+  are versioned, and the process of updating those models triggers the
+  migration of persistent state from one version of the data model to
+  another. The migration mechanism supports simultaneous operation of
+  multiple versions.
+
+* **Synchronization:** It is expected that the backend components
+  being controlled by x-config will periodically fail and restart.
+  Since x-config is the runtime source-of-truth for those components,
+  it takes responsibility for ensuring that they re-synchronize with
+  the latest state upon restart. x-config is able to detect a restart
+  (and trigger the synchronization) because its models include
+  variables that reflect the operational state of those components.
 
 Two points require further elaboration. First, because Atomix is
 fault-tolerant as long as it runs on multiple physical servers, it can
@@ -641,7 +649,7 @@ to any instances of the connectivity service they create (e.g., via a
 drop-down menu). That is, templates are used to initialize `VCS`
 objects. The `Template` model has the following fields:
 
-* `sst`, `sd`: Slice identifiers.
+* `sst`, `sd`: Slice identifiers, as specified by 3GPP.
 * `uplink`, `downlink`: Guaranteed uplink and downlink bandwidth.
 * `traffic-class`: Link to a `Traffic-Class` object that describes the
   type of traffic.
