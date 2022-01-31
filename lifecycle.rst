@@ -43,7 +43,7 @@ Management—Continuous Integration (CI) and Continuous Deployment
 (CD)—expanding on the high-level introduction presented in
 Chapter 2. The key thing to focus on is the Image and Config Repos in
 the middle. They represent the “interface” between the two halves: CI
-produces Docker Image and Helm Charts, storing them in the respective
+produces Docker Images and Helm Charts, storing them in the respective
 Repositories, while CD consumes Docker Images and Helm Charts, pulling
 them from the respective Repositories.
 
