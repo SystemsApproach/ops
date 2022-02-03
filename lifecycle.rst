@@ -237,8 +237,11 @@ pipeline where they happen (relative to :numref:`Figure %s
 :numref:`Figure %s <fig-testing>` summaries the sequence of tests,
 highlighting the relationship among them across the lifecycle
 timeline. Note that the leftmost tests typically happen repeatedly as
-part of the development process, and the rightmost tests are part of
-the ongoing monitoring of a production deployment.
+part of the development process, while the rightmost tests are part of
+the ongoing monitoring of a production deployment. For simplicity, the
+figure shows the soak tests as running before deployment, but in
+practice, there is a continuum whereby new versions are incrementally
+rolled out.
 
 .. _fig-testing:
 .. figure:: figures/Slide24.png
