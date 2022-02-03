@@ -226,13 +226,27 @@ pipeline where they happen (relative to :numref:`Figure %s
   and other time-variant and workload-variant issues. There is just
   one category of tests run in this stage:
   
-  * **Soak Tests:** These tests require realistic workloads be placed
-    on a complete system, through a combination of artificially
-    generated traffic and requests from real users. Because the full
-    system is integrated and deployed, these tests also serve to
-    validate the CI/CD mechanisms, including for example, the specs
-    checked into the Config Repo.
+  * **Soak Tests:** Sometimes referred to as *Canary Tests*, these
+    require realistic workloads be placed on a complete system,
+    through a combination of artificially generated traffic and
+    requests from real users. Because the full system is integrated
+    and deployed, these tests also serve to validate the CI/CD
+    mechanisms, including for example, the specs checked into the
+    Config Repo.
     
+:numref:`Figure %s <fig-testing>` summaries the sequence of tests,
+highlighting the relationship among them across the lifecycle
+timeline. Note that the leftmost tests typically happen repeatedly as
+part of the development process, and the rightmost tests are part of
+the ongoing monitoring of a production deployment.
+
+.. _fig-testing:
+.. figure:: figures/Slide24.png
+   :width: 600px
+   :align: center
+
+   Sequence of tests, corresponding to the stages of the CI/CD pipeline.
+
 One of the challenges in crafting a testing strategy is deciding
 whether a given test belongs in the set of Smoke tests that gate
 merging a patch, or the set of Integration tests that happen after a

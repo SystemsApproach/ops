@@ -104,7 +104,8 @@ running in the central cloud) and a second test determines whether the
 common pattern: individual components can export accumulators and
 other local variables to Prometheus, but only a "third-party observer"
 can actively test external behavior, and report the results to
-Prometheus.
+Prometheus. These examples correspond to the rightmost "End-to-End
+Tests" shown in :numref:`Figure %s <fig-testing>` of Chapter 4.
 
 6.1.2 Creating Dashboards
 ~~~~~~~~~~~~~~~~~~~~~~~~~
