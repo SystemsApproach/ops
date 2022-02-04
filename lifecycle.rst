@@ -239,9 +239,9 @@ highlighting the relationship among them across the lifecycle
 timeline. Note that the leftmost tests typically happen repeatedly as
 part of the development process, while the rightmost tests are part of
 the ongoing monitoring of a production deployment. For simplicity, the
-figure shows the soak tests as running before deployment, but in
-practice, there is a continuum whereby new versions are incrementally
-rolled out.
+figure shows the Soak tests as running before deployment, but in
+practice, there is likely a continuum whereby new versions of the
+system are incrementally rolled out.
 
 .. _fig-testing:
 .. figure:: figures/Slide24.png
@@ -265,8 +265,8 @@ with much of the underlying platform already installed) and physical
 resources (e.g., small clusters that faithfully represent the eventual
 target hardware). Again, it’s not a hard-and-fast rule, but early
 (Smoke) tests tend to use virtual resources that are pre-configured,
-while later (Integration) test tend to run on representative hardware,
-with the software built from scratch.
+while later (Integration) test tend to run on representative hardware
+or clean VMs, with the software built from scratch.
 
 You will also note that we did not call out *Regression* tests in this
 simple taxonomy, but our view is that Regression tests are designed to
