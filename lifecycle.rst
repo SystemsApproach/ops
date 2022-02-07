@@ -156,10 +156,22 @@ production?  That happens, of course, but we tend to call it
 Monitoring & Logging (and subsequent diagnostics) rather than
 testing. This is the subject of Chapter 6.
 
-We will explore each of the stages in :numref:`Figure %s
-<fig-pipeline>` in more detail in the sections that follow, but
-because of the centrality of testing across the entire pipeline, we
-start there.
+We explore each of the stages in :numref:`Figure %s <fig-pipeline>` in
+more detail in the sections that follow, but as we dig into the
+individual mechanisms, it is helpful to keep a high-level,
+feature-centric perspective in the back of our minds. After all, the
+CI/CD pipeline is just an elaborate mechanism to help us manage the
+set of features we want our cloud to support.  Each feature starts in
+development, which corresponds to everything left of the Integration
+Gate in :numref:`Figure %s <fig-pipeline>`. Once a candidate feature
+is mature enough to be officially accepted into the main branch of the
+code repo (i.e., merged), it enters an integration phase, during which
+it is evaluated in combination with all the other candidate features,
+both new and old. Finally, whenever a given subset of features are
+deemed stable and have demonstrated value, they are deployed and
+finally run in production. Because of the centrality of testing
+throughout this entire lifetime of a set of features, we start there.
+
 
 4.2 Testing Strategy
 --------------------
@@ -248,7 +260,8 @@ system are incrementally rolled out.
    :width: 600px
    :align: center
 
-   Sequence of tests, corresponding to the stages of the CI/CD pipeline.
+   Sequence of tests along the feature timeline, as implemented by
+   the CI/CD pipeline.
 
 One of the challenges in crafting a testing strategy is deciding
 whether a given test belongs in the set of Smoke tests that gate
@@ -645,7 +658,9 @@ curated set of services.
 The CI/CD toolchain introduced in this chapter works only when applied
 in concert with an end-to-end versioning strategy, ensuring that the
 right combination of source modules get integrated, and later, the
-right combination of images get deployed.
+right combination of images get deployed. Remember, the high-level
+challenge is to manage the set of features that our cloud supports,
+which is to say, everything hinges on how we do versioning.
 
 Our starting point is to adopt the widely-accepted practice of
 *Semantic Versioning*, where each component is assigned a three-part
@@ -662,7 +677,7 @@ compatible bug fix.
 
 The following sketches one possible interplay between versioning and
 the CI/CD toolchain, keeping in mind there are different approaches to
-the problem. We break the sequence down to the three main stages of
+the problem. We break the sequence down to the three main phases of
 the software lifecycle:
 
 **Development Time**
