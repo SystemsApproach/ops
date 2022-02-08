@@ -47,6 +47,13 @@ produces Docker Images and Helm Charts, storing them in the respective
 Repositories, while CD consumes Docker Images and Helm Charts, pulling
 them from the respective Repositories.
 
+.. _fig-pipeline:
+.. figure:: figures/Slide10.png 
+   :width: 600px 
+   :align: center 
+
+   Overview of the CI/CD pipeline. 
+
 The Config Repo also contains declarative specifications of the
 infrastructure artifacts produced by Resource Provisioning,
 specifically, the Terraform templates and variable files.\ [#]_ While
@@ -86,23 +93,20 @@ up-to-date.
     the artifact" step. For our purposes, we lump "publish the
     artifact" into the CI half of the pipeline.*
 
-.. _fig-pipeline:
-.. figure:: figures/Slide10.png
-   :width: 600px
-   :align: center
-
-   Overview of the CI/CD pipeline.
-
-There are two important takeaways from this overview. The first is
-that by having well-defined artifacts passed between CI and CD (and
-between Resource Provisioning and CD), all three subsystems are
-loosely coupled, and able to perform their respective tasks
-independently. The second is that all authoritative state needed to
-successfully build and deploy the system is contained within the
-pipeline, specifically, as declarative specifications in the Config
-Repo. This is sometimes referred to as *Configuration-as-Code*, and it
-is the cornerstone of GitOps, the cloud native approach to CI/CD that
-we are describing in this book.
+There are three takeaways from this overview. The first is that by
+having well-defined artifacts passed between CI and CD (and between
+Resource Provisioning and CD), all three subsystems are loosely
+coupled, and able to perform their respective tasks independently. The
+second is that all authoritative state needed to successfully build
+and deploy the system is contained within the pipeline, specifically,
+as declarative specifications in the Config Repo. This is sometimes
+referred to as *Configuration-as-Code*, and it is the cornerstone of
+GitOps, the cloud native approach to CI/CD that we are describing in
+this book. The third is that there is an opportunity for operators to
+apply discretion to the pipeline (denoted by the diamond in the
+figure), controlling what features get deployed when. This topic is
+discussed in the sidebar, as well as at other points throughout this
+chapter.
 
 .. _reading_gitops:
 .. admonition:: Further Reading
@@ -129,17 +133,14 @@ upgrade is reliable.
 	
 This is a simplified depiction of what happens in practice. In
 general, there can be more than two distinct versions of the cloud
-software deployed at any given time. In the case of Aether, for
-example, individual enterprises might elect to upgrade their local ACE
-clusters at different times (or in principle, skip an upgrade entirely),
-meaning there can be more than two versions running simultaneously. It
-is also typically the case that upgrades are rolled out incrementally
-(e.g., a few sites at a time over an extended period of time), meaning
-that even the production system plays a role in “staging” new
-releases. For example, a new version might first be deployed on 10% of
-the production machines, and once it is deemed reliable, is then
-rolled out to the next 25%, and so on. The exact rollout strategy is a
-controllable parameter, as described in more detail in Section 4.4.
+software deployed at any given time. One reason this happens is that
+upgrades are typically rolled out incrementally (e.g., a few sites at
+a time over an extended period of time), meaning that even the
+production system plays a role in “staging” new releases. For example,
+a new version might first be deployed on 10% of the production
+machines, and once it is deemed reliable, is then rolled out to the
+next 25%, and so on. The exact rollout strategy is a controllable
+parameter, as described in more detail in Section 4.4.
 
 Finally, two of the CI stages shown in :numref:`Figure %s
 <fig-pipeline>` identify a *Testing* component. One is a set of
@@ -660,7 +661,8 @@ in concert with an end-to-end versioning strategy, ensuring that the
 right combination of source modules get integrated, and later, the
 right combination of images get deployed. Remember, the high-level
 challenge is to manage the set of features that our cloud supports,
-which is to say, everything hinges on how we do versioning.
+which is another way of saying that everything hinges on how we
+version those features.
 
 Our starting point is to adopt the widely-accepted practice of
 *Semantic Versioning*, where each component is assigned a three-part
@@ -727,14 +729,14 @@ the software lifecycle:
   number), with the version of the root Chart effectively identifying
   the version of the system as a whole being deployed.
 
-While some of the Source Code :math:`\rightarrow` Docker Image
-:math:`\rightarrow` Kubernetes Container relationships just outlined
+While some of the *Source Code* :math:`\rightarrow` *Docker Image*
+:math:`\rightarrow` *Kubernetes Container* relationships just outlined
 can be codified in the toolchain, at least at the level of automated
 sanity tests that catch obvious mistakes, responsibility ultimately
 falls to the developers checking in source code and the operators
 checking in configuration code; they must correctly specify the
-versions they intend. Having a simple and clear versioning strategy
-is a pre-requisite for doing that job.
+versions they intend. Having a simple and clear versioning strategy is
+a pre-requisite for doing that job.
 
 Finally, because versioning is inherently related to APIs, with the
 *MAJOR* version number incremented whenever the API changes in
