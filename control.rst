@@ -46,7 +46,11 @@ components, Runtime Control is where we define an API that logically
 integrates those components into a unified and coherent set of
 abstract services. It is also an opportunity to “raise the level of
 abstraction” for the underlying subsystems and hiding implementation
-details.
+details. Note that because of its role assembling an end-to-end
+service across a set of backend components, Runtime Control is similar
+to *Service Orchestration*, although the latter term is typically used
+in the context of chaining together a collection of *Virtual Network
+Functions (VNFs)*.
 
 Defining a set of abstractions and the corresponding API is a
 challenging job. Having the appropriate tools helps to focus on the
