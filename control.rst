@@ -62,26 +62,26 @@ the case in complex systems (and competing business models), the
 higher you go in the stack, the less consensus there is about
 terminology.
 
-Defining a set of abstractions and the corresponding API is a
-challenging job. Having the appropriate tools helps to focus on the
-creative part of that task, but by no means eliminates it. The
-challenge is partly a matter of judgment about what should be visible
-to users and what should be a hidden implementation detail, and partly
-about dealing with conflicting/conflated concepts and terminology.
-We'll see a full example in Section 5.3, but to illustrate the
-difficulty, consider how Aether refers to principals in its 5G
-connectivity service. If we were to borrow terminology directly from
-the Telcos, then we'd refer to someone that uses a mobile device as a
-*subscriber*, implying an account and a collection of settings for the
-service delivered to that device. And in fact, subscriber is a central
-object within the SD-Core implementation.  But Aether is designed to
-support enterprise deployments of 5G, and to that end, defines a
-*user* to be a principal that accesses the API or GUI portal with some
-prescribed level of privilege. There is not necessarily a one-to-one
-relationship between users and Core-defined subscribers, and more
-importantly, not all devices have subscribers, as would be the case
-with IoT devices that are not typically associated with a particular
-person.
+Whatever you call the mechanism, defining a set of abstractions and
+the corresponding API is a challenging job. Having the appropriate
+tools helps to focus on the creative part of that task, but by no
+means eliminates it. The challenge is partly a matter of judgment
+about what should be visible to users and what should be a hidden
+implementation detail, and partly about dealing with
+conflicting/conflated concepts and terminology.  We'll see a full
+example in Section 5.3, but to illustrate the difficulty, consider how
+Aether refers to principals in its 5G connectivity service. If we were
+to borrow terminology directly from the Telcos, then we'd refer to
+someone that uses a mobile device as a *subscriber*, implying an
+account and a collection of settings for the service delivered to that
+device. And in fact, subscriber is a central object within the SD-Core
+implementation.  But Aether is designed to support enterprise
+deployments of 5G, and to that end, defines a *user* to be a principal
+that accesses the API or GUI portal with some prescribed level of
+privilege. There is not necessarily a one-to-one relationship between
+users and Core-defined subscribers, and more importantly, not all
+devices have subscribers, as would be the case with IoT devices that
+are not typically associated with a particular person.
 
 5.1 Design Overview
 -------------------
