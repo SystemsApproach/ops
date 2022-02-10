@@ -141,19 +141,18 @@ terminology.
   (with virtual networks). More broadly, orchestration encompasses all
   the management-related functions described in this book, which is to
   say, the terms “orchestrating” and “operationalizing” can be used as
-  synonyms. Finally, if you are trying to map cloud terminology onto
-  Telco terminology, an orchestrator is often equated with a
-  cloudified OSS/BSS mechanism.
+  synonyms.
+
+  If you are trying to map cloud terminology onto Telco terminology,
+  an orchestrator is often equated with a cloudified OSS/BSS
+  mechanism, where the term *Service Orchestrator* is now being used
+  for a mechanism that assembles a collection of *Virtual Network
+  Functions (VNFs)* into an end-to-end-service chain.
   
   * **Playbook/Workflow:** A program or script that implements a
     multi-step orchestration process. (The term workflow is also used
     in a UX context to describe a multi-step operation that a user
     performs on a system using a GUI.)
-
-  * **Service Orchestrator:** A specific example of orchestration,
-    commonly referring to a mechanism that assembled a collection of
-    *Virtual Network Functions (VNFs)* into an end-to-end-service
-    chain.
     
 * **Provisioning:** Adding capacity (either physical or virtual
   resources) to a system, usually in response to changes in workload,
