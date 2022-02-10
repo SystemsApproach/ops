@@ -600,9 +600,16 @@ is likely a dedicated "Helm Repo" in practice).
 
 Understanding Fleet is then straightforward. It provides a way to
 define associations between Bundles, Cluster Groups, and GitRepos,
-such that whenever a new Helm chart is checked into a GitRepo, all
-Bundles that contain that chart are (re-)deployed on all associated
-Cluster Groups. 
+such that whenever a Helm chart is checked into a GitRepo, all Bundles
+that contain that chart are re-deployed on all associated Cluster
+Groups. Or alternatively, updating a Fleet specification with a Bundle
+that identifies a new Helm Chart is a way to trigger the deployment of
+a new feature. In both scenarios, Fleet can be viewed as the mechanism
+that implements gating function for the deployment half of the CI/CD
+pipeline (as denoted by the diamond in :numref:`Figure %s
+<fig-pipeline>`).  Of course, other factors can also be taken into
+consideration, such as never starting a rollout at 5pm on a Friday
+afternoon.
 
 .. sidebar:: Implementation Details Matter
 	     
@@ -728,6 +735,13 @@ the software lifecycle:
   including one or more other Charts (each with their own version
   number), with the version of the root Chart effectively identifying
   the version of the system as a whole being deployed.
+
+Note that a commit of a new version of the root Helm Chart could be
+taken as the signal to the CD half of the pipeline—as denoted by the
+the diamond in :numref:`Figure %s <fig-pipeline>`—that the combination
+of modules (features) is now deployment-ready. Of course, other
+factors can also be taken into consideration, such as never beginning
+a rollout at 5pm on a Friday afternoon.
 
 While some of the *Source Code* :math:`\rightarrow` *Docker Image*
 :math:`\rightarrow` *Kubernetes Container* relationships just outlined
