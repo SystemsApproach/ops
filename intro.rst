@@ -138,16 +138,16 @@ terminology.
   
   Narrowly defined, an orchestrator is responsible for spinning up
   virtual machines (or containers) and logically interconnecting them
-  (with virtual networks). More broadly, orchestration encompasses all
-  the management-related functions described in this book, which is to
-  say, the terms “orchestrating” and “operationalizing” can be used as
-  synonyms.
+  (with virtual networks). More broadly, orchestration encompasses
+  aspects of all the management-related functions described in this
+  book.
 
   If you are trying to map cloud terminology onto Telco terminology,
-  an orchestrator is often equated with a cloudified OSS/BSS
-  mechanism, where the term *Service Orchestrator* is now being used
-  for a mechanism that assembles a collection of *Virtual Network
-  Functions (VNFs)* into an end-to-end-service chain.
+  an orchestrator is often equated with a cloudified version of the
+  OSS/BSS mechanism. This top-most layer is sometimes called a
+  *Service Orchestrator* since it is responsible for assembling a
+  collection of *Virtual Network Functions (VNFs)* into an
+  end-to-end-service chain.
   
   * **Playbook/Workflow:** A program or script that implements a
     multi-step orchestration process. (The term workflow is also used

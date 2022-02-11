@@ -58,9 +58,9 @@ lifecycle management. It is also the case that "orchestration" is a
 loaded term with different connotations in different contexts. In a
 Cloud setting it implies assembling virtual resources, while in a
 Telco setting it implies assembling virtual functions.  As is often
-the case in complex systems (and competing business models), the
-higher you go in the stack, the less consensus there is about
-terminology.
+the case in complex systems (especially when they promote competing
+business models), the higher you go in the stack, the less consensus
+there is about terminology.
 
 Whatever you call the mechanism, defining a set of abstractions and
 the corresponding API is a challenging job. Having the appropriate

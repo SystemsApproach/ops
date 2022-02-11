@@ -103,10 +103,10 @@ as declarative specifications in the Config Repo. This is sometimes
 referred to as *Configuration-as-Code*, and it is the cornerstone of
 GitOps, the cloud native approach to CI/CD that we are describing in
 this book. The third is that there is an opportunity for operators to
-apply discretion to the pipeline (denoted by the diamond in the
-figure), controlling what features get deployed when. This topic is
-discussed in the sidebar, as well as at other points throughout this
-chapter.
+apply discretion to the pipeline, as denoted by the *"Deployment
+Gate"* in the Figure, controlling what features get deployed
+when. This topic is discussed in the sidebar, as well as at other
+points throughout this chapter.
 
 .. _reading_gitops:
 .. admonition:: Further Reading
@@ -600,16 +600,15 @@ is likely a dedicated "Helm Repo" in practice).
 
 Understanding Fleet is then straightforward. It provides a way to
 define associations between Bundles, Cluster Groups, and GitRepos,
-such that whenever a Helm chart is checked into a GitRepo, all Bundles
-that contain that chart are re-deployed on all associated Cluster
-Groups. Or alternatively, updating a Fleet specification with a Bundle
-that identifies a new Helm Chart is a way to trigger the deployment of
-a new feature. In both scenarios, Fleet can be viewed as the mechanism
-that implements gating function for the deployment half of the CI/CD
-pipeline (as denoted by the diamond in :numref:`Figure %s
-<fig-pipeline>`).  Of course, other factors can also be taken into
-consideration, such as never starting a rollout at 5pm on a Friday
-afternoon.
+such that whenever an updated Helm chart is checked into a GitRepo,
+all Bundles that contain that chart are (re-)deployed on all
+associated Cluster Groups. That is to say, Fleet can be viewed as the
+mechanism that implements the *Deployment Gate* shown in
+:numref:`Figure %s <fig-pipeline>`, although other factors can also be
+taken into account (e.g., not starting a rollout at 5pm on a Friday
+afternoon). The next section describes a versioning strategy that can
+be overlaid on this mechanism to control what features get deployed
+when.
 
 .. sidebar:: Implementation Details Matter
 	     
@@ -738,10 +737,10 @@ the software lifecycle:
 
 Note that a commit of a new version of the root Helm Chart could be
 taken as the signal to the CD half of the pipeline—as denoted by the
-the diamond in :numref:`Figure %s <fig-pipeline>`—that the combination
-of modules (features) is now deployment-ready. Of course, other
-factors can also be taken into consideration, such as never beginning
-a rollout at 5pm on a Friday afternoon.
+the *"Deployment Gate"* in :numref:`Figure %s <fig-pipeline>`—that the
+combination of modules (features) is now deployment-ready. Of course,
+other factors can also be taken into consideration, such as never
+beginning a rollout at 5pm on a Friday afternoon.
 
 While some of the *Source Code* :math:`\rightarrow` *Docker Image*
 :math:`\rightarrow` *Kubernetes Container* relationships just outlined
