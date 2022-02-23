@@ -548,30 +548,41 @@ corresponds to the unique identifier burned into every SIM card.
 5.3.2 Connectivity Service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Aether models 5G connectivity as a `Virtual Cellular Service (VCS)`,
-which represents an isolated communication channel (and associated QoS
-parameters) that connects a set of devices (modeled as a
-`Device-Group`) to a set of applications (each of which is modeled as
-an `Application`).  For example, an enterprise might configure one VCS
-instance to carry IoT traffic and another to carry video traffic. The
-`VCS` model has the following fields:
+Aether models 5G connectivity as a `Slice`, which represents an
+isolated communication channel (and associated QoS parameters) that
+connects a set of devices (modeled as a `Device-Group`) to a set of
+applications (each of which is modeled as an `Application`).  For
+example, an enterprise might configure one slice to carry IoT traffic
+and another slice to carry video traffic. The `Slice` model has the
+following fields:
 
-* `device-group`: A list of `Device-Group` objects that can participate in this `VCS`. Each
+* `device-group`: A list of `Device-Group` objects that can participate in this `Slice`. Each
   entry in the list contains both the reference to the `Device-Group` as well as an `enable`
   field which may be used to temporarily remove access to the group.
 * `application`: A list of `Application` objects that are either allowed or denied for this
-  `VCS`. Each entry in the list contains both a reference to the `Application` as well as an
+  `Slice`. Each entry in the list contains both a reference to the `Application` as well as an
   `allow` field which can be set to `true` to allow the application or `false` to deny it.
-* `template`: Reference to the `Template` that was used to initialize this `VCS`.
+* `template`: Reference to the `Template` that was used to initialize this `Slice`.
 * `upf`: Reference to the User Plane Function (`UPF`) that should be used to process packets
-  for this `VCS`. It's permitted for multiple `VCS` to share a single `UPF`.
-* `enterprise`: Reference to the `Enterprise` that owns this `VCS`.
-* `sst`, `sd`, `mbr.uplink`, `mbr.downlink`, `traffic-class`: Parameters that
-  are initialized using a selected `template` (described below).
+  for this `Slice`. It's permitted for multiple `Slices` to share a single `UPF`.
+* `enterprise`: Reference to the `Enterprise` that owns this `Slice`.
+* `site`: Reference to the `Site` where this `Slice` is deployed.
+* `sst`, `sd`: 3GPP-defined slice identifiers assigned by the operations team.
+* `mbr.uplink`, `mbr.downlink`, `mbr.uplink-burst-size`,
+  `mbr.downlink-burst-size`.  Maximum bit-rate and burst sizes for
+  this slice.
+  
+The rate-related parameters are initialized using a selected
+`template`, as described below. Also note that this example
+illustrates how modeling can be used to enforce invariants, in this
+case, that the `Site` of the `UPF` and `Device-Group` must match the
+`Site` of the `Slice`. That is, the physical devices that connect to a
+slice and the UPF that implements the core segment of the slice must
+be constrained to a single physical location.
 
-At one end of a VCS connection is a `Device-Group`, which identifies a
-set of devices that are allowed to use the VCS connection.  The
-`Device-Group` model contains the following fields:
+At one end of a Slice is a `Device-Group`, which identifies a set of
+devices that are allowed to use the Slice to connect to various
+applications. The `Device-Group` model contains the following fields:
 
 * `imsis`: A list of IMSI ranges. Each range has the following
   fields:
@@ -585,10 +596,12 @@ set of devices that are allowed to use the VCS connection.  The
 * `site`: Reference to the site where this `Device-Group` may be
   used. Indirectly identifies the `Enterprise` as `Site` contains a
   reference to `Enterprise`.
+* `mbr.uplink`, `mbr.downlink`: Maximum bit-rate for the device group.
+* `traffic-class`: The traffic class to be used for devices in this group.  
 
-At the other end of a VCS connection is a list of `Application`
-objects, which specifies the endpoints for the program devices talk
-to. The `Application` model contains the following fields:
+At the other end of a Slice is a list of `Application` objects, which
+specifies the endpoints for the program devices talk to. The
+`Application` model contains the following fields:
 
 * `address`: The DNS name or IP address of the endpoint.
 * `endpoint`: A list of endpoints. Each has the following
@@ -598,7 +611,7 @@ to. The `Application` model contains the following fields:
    * `port-start`: Starting port number.
    * `port-end`: Ending port number.
    * `protocol`:  Protocol (`TCP|UDP`) for the endpoint.
-   * `mbr.uplink`, `mbr.downlink`: Maximum bitrate (mbr) for devices communicating with this
+   * `mbr.uplink`, `mbr.downlink`: Maximum bitrate for devices communicating with this
      application:
    * `traffice-class`: Traffic class for devices communicating with this application.
 
@@ -606,19 +619,15 @@ to. The `Application` model contains the following fields:
   to indicate a global application that may be used by multiple
   enterprises.
 
-Anyone familiar with the 3GPP specification will recognize Aether's
-*VCS* abstraction as similar to what cellular network calls a *slice*.
-Much like the discussion about *subscribers* and *users* in the
-introduction to this chapter, Aether elected to introduce neutral
-terminology rather than reuse a term that comes with significant
-implementation implications. The `VCS` model definition then includes
-fields that record various implementation details, including `sst` and
-`sd` (3GPP-defined identifiers for the slice) and `upf` (backend UPF
-implementation for the Core's user plane). Although not yet part of
-the production system, there is a version of `VCS` that also includes
-fields related to RAN slicing, with the Runtime Control subsystem
-responsible for stitching together end-to-end connectivity across the
-RAN, Core, and Fabric.
+Anyone familiar with 3GPP will recognize Aether's *Slice* abstraction
+as similar to the specification's notion of a "slice".  The `Slice`
+model definition includes a combination of 3GPP-specified identifiers
+(e.g., `sst` and `sd`), and details about the underlying
+implementation (e.g., `upf` denotes the UPF implementation for the
+Core's user plane). Although not yet part of the production system,
+there is a version of `Slice` that also includes fields related to RAN
+slicing, with the Runtime Control subsystem responsible for stitching
+together end-to-end connectivity across the RAN, Core, and Fabric.
 
 .. sidebar:: An API for Platform Services
 
@@ -653,30 +662,39 @@ RAN, Core, and Fabric.
 5.3.3 QoS Profiles
 ~~~~~~~~~~~~~~~~~~
 
-Associated with each VCS connection is a QoS-related profile that
-governs how traffic that connection carries is to be treated. This
-starts with a `Template` model, which defines the valid (accepted)
-connectivity settings. Aether Operations is responsible for defining
-these (the features they offer must be supported by the backend
-subsystems), with enterprises selecting the template they want applied
-to any instances of the connectivity service they create (e.g., via a
-drop-down menu). That is, templates are used to initialize `VCS`
-objects. The `Template` model has the following fields:
+Associated with each Slice is a QoS-related profile that governs how
+traffic that slice carries is to be treated. This starts with a
+`Template` model, which defines the valid (accepted) connectivity
+settings. Aether Operations is responsible for defining these (the
+features they offer must be supported by the backend subsystems), with
+enterprises selecting the template they want applied to any instances
+of the connectivity service they create (e.g., via a drop-down
+menu). That is, templates are used to initialize `Slice` objects. The
+`Template` model has the following fields:
 
 * `sst`, `sd`: Slice identifiers, as specified by 3GPP.
-* `uplink`, `downlink`: Guaranteed uplink and downlink bandwidth.
+* `mbr.uplink`, `mbr.downlink`: Maximum uplink and downlink bandwidth.
+* `mbr.uplink-burst-size`, `mbr.downlink-burst-size`: Maximum burst size.
 * `traffic-class`: Link to a `Traffic-Class` object that describes the
   type of traffic.
 
-As noted in the previous section, Aether decouples the abstract `VCS`
-objects from the implementation details about the backend slices. One
-reason for this decoupling is that it supports the option of spinning
-up an entirely new copy of the SD-Core rather than sharing an existing
-UPF with another VCS. This is done to ensure isolation, and
-illustrates one possible touch-point between Runtime Control and the
-Lifecycle Management subsystem: Runtime Control, via an Adaptor,
-engages Lifecycle Management to launch the necessary set of Kubernetes
-containers that implement an isolated slice.
+You will see that the `Device-Group` an `Application` models include
+similar fields. The idea is that QoS parameters are established for
+the slice as a whole (based on the selected `Template`) and then
+individual devices and applications connected to that slice can define
+their own, more-restrictive QoS parameters on an instance-by-instance
+basis.
+
+As noted in the previous section, Aether decouples the abstract
+`Slice` objects from the implementation details about the backend
+segments of the end-to-end slices. One reason for this decoupling is
+that it supports the option of spinning up an entirely new copy of the
+SD-Core rather than sharing an existing UPF with another Slice. This is
+done to ensure isolation, and illustrates one possible touch-point
+between Runtime Control and the Lifecycle Management subsystem:
+Runtime Control, via an Adaptor, engages Lifecycle Management to
+launch the necessary set of Kubernetes containers that implement an
+isolated slice.
   
 The `Traffic-Class` model, in turn, specifies the classes of traffic,
 and includes the following fields:
