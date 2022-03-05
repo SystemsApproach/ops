@@ -11,9 +11,9 @@ and new material under the same terms.
 If you make use of this work, the attribution should include the
 following information:
 
-| *Title: Edge Cloud Operations: A Systems Approach* 
+| *Title: Edge Cloud Operations: A Systems Approach*
 | *Authors: Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, Bruce Davie*
-| *Source:* https://github.com/SystemsApproach/ops 
+| *Source:* https://github.com/SystemsApproach/ops
 | *License:* \ `CC BY-NC-ND 4.0 <https://creativecommons.org/licenses/by-nc-nd/4.0>`__
 
 Read the Book
@@ -36,11 +36,11 @@ Build the Book
 
 To build a web-viewable version, you first need to download the source:
 
-.. code:: shell 
+.. code:: shell
 
    $ mkdir ~/ops
-   $ cd ~/ops 
-   $ git clone https://github.com/SystemsApproach/ops.git 
+   $ cd ~/ops
+   $ git clone https://github.com/SystemsApproach/ops.git
 
 The build process is stored in the Makefile and requires Python be
 installed. The Makefile will create a virtualenv (``doc_venv``) which

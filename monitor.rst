@@ -230,15 +230,15 @@ are other options, but JSON is reasonably readable as text, which
 still matters for debugging by humans. It is also well-supported by
 tooling.
 
-For example, developers for the SD-Fabric component might 
+For example, developers for the SD-Fabric component might
 write a log message that looks like this:
 
-.. literalinclude:: code/log.ascii 
+.. literalinclude:: code/log.ascii
 
-where a Fluentbit filter transforms into a structure that looks like 
+where a Fluentbit filter transforms into a structure that looks like
 this:
 
-.. literalinclude:: code/log.json 
+.. literalinclude:: code/log.json
 
 This example is simplified, but it does serve to illustrate the basic
 idea. It also highlights the challenge the DevOps team faces in
@@ -256,8 +256,8 @@ DEBUG.
 
    `Elastic Common Schema
    <https://www.elastic.co/guide/en/ecs/current/index.html>`__.
-   
-   
+
+
 6.2.2 Best Practices
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -284,7 +284,7 @@ following set of best practices.
   Generally, logging to a file is discouraged when a component runs in
   a container environment. Instead, components should stream all logs
   to the collecting system.
-  
+
 * **Asynchronous logging is encouraged.** Synchronous logging can
   become a performance bottleneck in a scaled environment.  Components
   should write logs asynchronously.
@@ -295,7 +295,7 @@ following set of best practices.
   shipper or logging handlers may be slower, or create timestamps on
   receipt, which may be delayed. This makes trying to align events
   between multiple services after log aggregation problematic.
-  
+
 * **Must be able to change log levels without interrupting service.**
   Components should provide a mechanism to set the log level at
   startup, and an API that allows the log level to be changed at

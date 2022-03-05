@@ -69,7 +69,7 @@ We comment on the simpler problem of incrementally provisioning
 individual resources as relevant details emerge.
 
 
-3.1 Physical Infrastructure 
+3.1 Physical Infrastructure
 ---------------------------
 
 The process of stacking and racking hardware is inherently
@@ -130,11 +130,11 @@ devices are connected to consoles, networks, and power sources. More
 information is readily available on the NetBox web site:
 
 .. _reading_netbox:
-.. admonition:: Further Reading  
+.. admonition:: Further Reading
 
-   `NetBox: <https://netbox.readthedocs.io/en/stable>`_ Information  
-   Resource Modeling Application.  
- 
+   `NetBox: <https://netbox.readthedocs.io/en/stable>`_ Information
+   Resource Modeling Application.
+
 One of the key features of NetBox is the ability to customize the set
 of models used to organize all the information that is collected. For
 example, an operator can define physical groupings like *Rack* and
@@ -148,7 +148,7 @@ Chapter 2).
 .. [#] In this section, we denote models and model fields in italics
        (e.g., *Site*, *Address*) and specific values assigned to an
        instance of a model as a constant (e.g., ``10.0.0.0/22``).
-       
+
 The first step is to create a record for the site being provisioned,
 and document all the relevant metadata for that site. This includes
 the *Name* and *Location* of the *Site*, along with the *Organization*
@@ -220,7 +220,7 @@ There are other edge prefixes used by Kubernetes, but they do not need
 to be created in NetBox. Note that ``qsfp0`` and ``qsfp1`` in this
 example denote transceiver ports connecting the switching fabric,
 where *QSFP* stand for Quad (4-channel) Small Form-factor Plugable.
-   
+
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
 which is subsequently used to generate a fully qualified domain name
@@ -229,12 +229,12 @@ The following fields are also filled in when creating a Device:
 
 * Site
 * Rack & Rack Position
-* Manufacturer 
-* Model 
+* Manufacturer
+* Model
 * Serial number
 * Device Type
 * MAC Addresses
-  
+
 Note there is typically both a primary and management (e.g., BMC/IPMI)
 interface, where the *Device Type* implies the specific interfaces.
 
@@ -298,7 +298,7 @@ they connect the set hardware in our example deployment.
     :width: 700px
     :align: center
 
-    NetBox report of cabling.    
+    NetBox report of cabling.
 
 If all of this seems like a tedious amount of detail, then you get the
 main point of this section. Everything about automating the control
@@ -324,7 +324,7 @@ deployment currently include:
   used.
 
 * Configure the Management Server so it boots from a provided USB key.
-  
+
 * Load Ansible roles and playbooks needed to complete configuration
   onto the Management Server.
 
@@ -430,7 +430,7 @@ Kubernetes cluster. For starters, the API needs to provide a means to
 install and configure Kubernetes on each physical cluster. This
 includes specifying which version of Kubernetes to run, selecting the
 right combination of Container Network Interface (CNI) plugins
-(virtual network adaptors), and connecting Kubernetes to the local
+(virtual network adapters), and connecting Kubernetes to the local
 network (and any VPNs it might need). This layer also needs to provide
 a means to set up accounts (and associated credentials) for accessing
 and using each Kubernetes cluster, and a way to manage
@@ -551,7 +551,7 @@ more detail), but rather, to build some intuition about the role this
 layer plays in managing a cloud.
 
 .. _reading_terraform:
-.. admonition:: Further Reading 
+.. admonition:: Further Reading
 
    `Terraform Documentation <https://www.terraform.io/docs>`_.
 
@@ -649,7 +649,7 @@ fold resource provisioning into Lifecycle Management), but it is fair
 to think of resource provisioning as "Stage 0" of lifecycle
 management.
 
-3.3 Platform Definition 
+3.3 Platform Definition
 ------------------------
 
 The art of defining a system architecture, in our case a management
@@ -664,7 +664,7 @@ part of the provisioning system described in this chapter (with
 NetBox, Ansible, Rancher, and Terraform playing a role), whereas
 SD-Core and SD-RAN are deployed using the application-level mechanisms
 described in Chapter 4.
-  
+
 There may also be other edge applications running as Kubernetes
 workloads, which complicates the story because from their perspective,
 all of Aether (including the 5G connectivity that SD-Core and SD-RAN
