@@ -27,6 +27,7 @@ GPP
 Gerrit
 Gradle
 Grafana
+Hostname
 Hyunsun
 IaaS
 IoT
@@ -101,7 +102,8 @@ exemplifed
 facto
 frontend
 gNMI 
-gNOI 
+gNOI
+gNodeB
 heatmap
 hoc
 hyperscale

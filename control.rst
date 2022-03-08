@@ -478,7 +478,7 @@ are specified in YANG (for which we include a concrete example of one
 of the models), but since the Runtime Control API is generated from
 these specs, it is equally valid to think in terms of an API that
 supports REST's GET, POST, PATCH, DELETE operations on a set of
-objects (resources):
+web resources (objects):
 
 * GET: Retrieve an object.
 * POST: Create an object.
@@ -487,17 +487,12 @@ objects (resources):
 
 Each object is an instance of one of the YANG-defined models, where
 every object contains an `id` field that is used to identify the
-object. These identifiers are unique to the model, but not necessarily
-across all models.
-
-Some objects contain references to other objects. For example, many
-objects contain references to the `Enterprise` object, which allows
-them to be associated with a particular enterprise. That is,
-references are constructed using the `id` field of the referenced
-object. Note that one of the features of the mechanisms described in
-the previous section is that they flag attempts to create a reference
-to an object that does not exist and attempts to delete an object
-while there are open references to it from other objects as errors.
+object. These identifiers are model-specific, so for example, a site
+has a `site-id` and an enterprise has an `enterprise-id`. The models
+are generally nested, so for example, a `site` is a member of an
+`enterprise`. Objects can also contain references to other objects;
+such references are implemented using the object's unique `id`. In a
+database setting these are often called *foreign keys*.
 
 In addition to the `id` field, several other fields are also common to
 all models. These include:
@@ -506,20 +501,19 @@ all models. These include:
 * `display-name`: A human-readable name that is shown in the GUI.
 
 As these fields are common to all models, we omit them from the
-per-model descriptions that follow. Note that we use upper case to
-denote a model (e.g., `Enterprise`) and lower case to denote a field
-within a model (e.g., `enterprise`).
+per-model descriptions that follow. In the following, we use upper case
+to denote a model (e.g., `Enterprise`) and lower case to denote a
+field within a model (e.g., `enterprise`).
 
 5.3.1 Enterprises
 ~~~~~~~~~~~~~~~~~
 
-Aether is deployed in enterprises, and so needs to define
-representative set of organizational abstractions. These include
-`Enterprise`, which forms the root of a customer-specific
-hierarchy. The `Enterprise` model is referenced by many other objects,
-and allows those objects to be scoped to a particular Enterprise for
-ownership and role-based access control purposes. `Enterprise`
-contains the following fields:
+Aether is deployed in enterprises, and so defines a representative set
+of organizational abstractions. These include `Enterprise`, which
+forms the root of a customer-specific hierarchy. The `Enterprise`
+model is referenced by many other objects, and allows those objects to
+be scoped to a particular Enterprise for ownership and role-based
+access control purposes. `Enterprise` contains the following fields:
 
 * `connectivity-service`: A list of backend subsystems that implement
   connectivity for this enterprise. Corresponds to an API endpoint to
@@ -528,9 +522,8 @@ contains the following fields:
 `Enterprises` are further divided into `Sites`. A site is a
 point-of-presence for an `Enterprise` and may be either physical or
 logical (i.e. a single geographic location could contain several
-logical sites). `Site` contains the following fields:
+logical sites). The `Site` model contains the following fields:
 
-* `enterprise`: A link to the `Enterprise` that owns this site.
 * `imsi-definition`: A description of how IMSIs are constructed for
   this site. Contains the following sub-fields:
 
@@ -542,34 +535,40 @@ logical sites). `Site` contains the following fields:
      construct IMSIs using a 3-digit MCC, 3-digit MNC, 3-digit ENT,
      and a 6-digit subscriber.
 
+* `small-cell`: A list of 5G gNodeB or Access Point or Radios. Each small cell has the following:
+
+    * `small-cell-id`: Identifier for the small cell. Serves the same purpose as other `id` fields.
+    * `address`: Hostname of the small cell.
+    * `tac`: Type Allocation Code.
+    * `enable`: If set to `true`, the small cell is enabled. Otherwise, it is disabled.     
+
 The `imsi-definition` is specific to the mobile cellular network, and
 corresponds to the unique identifier burned into every SIM card.
 
-5.3.2 Connectivity Service
+5.3.2 Slices
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Aether models 5G connectivity as a `Slice`, which represents an
 isolated communication channel (and associated QoS parameters) that
 connects a set of devices (modeled as a `Device-Group`) to a set of
-applications (each of which is modeled as an `Application`).  For
-example, an enterprise might configure one slice to carry IoT traffic
-and another slice to carry video traffic. The `Slice` model has the
-following fields:
+applications (each of which is modeled as an `Application`).  Each
+`slice` is nested within some `site` (which is in turn nested inside
+some `enterprise`), where for example, an enterprise might configure
+one slice to carry IoT traffic and another slice to carry video
+traffic. The `Slice` model has the following fields:
 
 * `device-group`: A list of `Device-Group` objects that can participate in this `Slice`. Each
   entry in the list contains both the reference to the `Device-Group` as well as an `enable`
   field which may be used to temporarily remove access to the group.
-* `application`: A list of `Application` objects that are either allowed or denied for this
+* `app-list`: A list of `Application` objects that are either allowed or denied for this
   `Slice`. Each entry in the list contains both a reference to the `Application` as well as an
   `allow` field which can be set to `true` to allow the application or `false` to deny it.
 * `template`: Reference to the `Template` that was used to initialize this `Slice`.
 * `upf`: Reference to the User Plane Function (`UPF`) that should be used to process packets
   for this `Slice`. It's permitted for multiple `Slices` to share a single `UPF`.
-* `enterprise`: Reference to the `Enterprise` that owns this `Slice`.
-* `site`: Reference to the `Site` where this `Slice` is deployed.
 * `sst`, `sd`: 3GPP-defined slice identifiers assigned by the operations team.
 * `mbr.uplink`, `mbr.downlink`, `mbr.uplink-burst-size`,
-  `mbr.downlink-burst-size`.  Maximum bit-rate and burst sizes for
+  `mbr.downlink-burst-size`: Maximum bit-rate and burst sizes for
   this slice.
   
 The rate-related parameters are initialized using a selected
@@ -584,19 +583,11 @@ At one end of a Slice is a `Device-Group`, which identifies a set of
 devices that are allowed to use the Slice to connect to various
 applications. The `Device-Group` model contains the following fields:
 
-* `imsis`: A list of IMSI ranges. Each range has the following
-  fields:
-
-   * `name`: Name of the range. Used as a key.
-   * `imsi-range-from`: First subscriber in the range.
-   * `imsi-range-to`: Last subscriber in the range. Can be omitted if
-     the range only contains one IMSI.
+* `devices`: A list of Devices. Each device has an `enable` field which can be used to
+  enable or disable the device.
 * `ip-domain`: Reference to an `IP-Domain` object that describes the
   IP and DNS settings for UEs within this group.
-* `site`: Reference to the site where this `Device-Group` may be
-  used. Indirectly identifies the `Enterprise` as `Site` contains a
-  reference to `Enterprise`.
-* `mbr.uplink`, `mbr.downlink`: Maximum bit-rate for the device group.
+* `mbr.uplink`, `mbr.downlink`: Maximum bitrate for the device group.
 * `traffic-class`: The traffic class to be used for devices in this group.  
 
 At the other end of a Slice is a list of `Application` objects, which
@@ -611,18 +602,13 @@ specifies the endpoints for the program devices talk to. The
    * `port-start`: Starting port number.
    * `port-end`: Ending port number.
    * `protocol`:  Protocol (`TCP|UDP`) for the endpoint.
-   * `mbr.uplink`, `mbr.downlink`: Maximum bitrate for devices communicating with this
-     application:
+   * `mbr.uplink`, `mbr.downlink`: Maximum bitrate for the application endpoint.
    * `traffice-class`: Traffic class for devices communicating with this application.
 
-* `enterprise`: Link to an `Enterprise` object that owns this application. May be left empty
-  to indicate a global application that may be used by multiple
-  enterprises.
-
-Anyone familiar with 3GPP will recognize Aether's *Slice* abstraction
-as similar to the specification's notion of a "slice".  The `Slice`
-model definition includes a combination of 3GPP-specified identifiers
-(e.g., `sst` and `sd`), and details about the underlying
+Anyone familiar with 3GPP will recognize Aether's `Slice` abstraction
+as similar to the specification's notion of a network slice.  The
+`Slice` model definition includes a combination of 3GPP-specified
+identifiers (e.g., `sst` and `sd`), and details about the underlying
 implementation (e.g., `upf` denotes the UPF implementation for the
 Core's user plane). Although not yet part of the production system,
 there is a version of `Slice` that also includes fields related to RAN
@@ -665,12 +651,12 @@ together end-to-end connectivity across the RAN, Core, and Fabric.
 Associated with each Slice is a QoS-related profile that governs how
 traffic that slice carries is to be treated. This starts with a
 `Template` model, which defines the valid (accepted) connectivity
-settings. Aether Operations is responsible for defining these (the
-features they offer must be supported by the backend subsystems), with
-enterprises selecting the template they want applied to any instances
-of the connectivity service they create (e.g., via a drop-down
-menu). That is, templates are used to initialize `Slice` objects. The
-`Template` model has the following fields:
+settings. The Aether operations team is responsible for defining these
+(the features they offer must be supported by the backend subsystems),
+with enterprises selecting the template they want applied to any
+instances of the connectivity service they create (e.g., via a
+drop-down menu). That is, templates are used to initialize `Slice`
+objects. The `Template` model has the following fields:
 
 * `sst`, `sd`: Slice identifiers, as specified by 3GPP.
 * `mbr.uplink`, `mbr.downlink`: Maximum uplink and downlink bandwidth.
@@ -678,12 +664,11 @@ menu). That is, templates are used to initialize `Slice` objects. The
 * `traffic-class`: Link to a `Traffic-Class` object that describes the
   type of traffic.
 
-You will see that the `Device-Group` an `Application` models include
-similar fields. The idea is that QoS parameters are established for
-the slice as a whole (based on the selected `Template`) and then
-individual devices and applications connected to that slice can define
-their own, more-restrictive QoS parameters on an instance-by-instance
-basis.
+Notice that the `Device-Group` an `Application` models include similar
+fields. The idea is that QoS parameters are established for the slice
+as a whole (based on the selected `template`) and then individual
+devices and applications connected to that slice can be assigned their
+own, more-restrictive QoS parameters on an instance-by-instance basis.
 
 As noted in the previous section, Aether decouples the abstract
 `Slice` objects from the implementation details about the backend
@@ -715,8 +700,7 @@ model declarations, with both ``container`` and ``leaf`` fields.
 ~~~~~~~~~~~~~~~~~~
 
 The above description references other models, which we do not fully
-described here. They include `AP-List`, which specifies a list of
-access points (radios); `IP-Domain`, which specifies IP and DNS
+described here. They include `IP-Domain`, which specifies IP and DNS
 settings; and `UPF`, which specifies the User Plane Function (the data
 plane element of the SD-Core) that should forward packets on behalf of
 this particular instance of the connectivity service. The `UPF` model
