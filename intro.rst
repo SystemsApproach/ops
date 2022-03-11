@@ -1,6 +1,6 @@
 Chapter 1:  Introduction
 ========================
-	
+
 Clouds provide a set of tools for bringing up and operating scalable
 services, but how do you operationalize a cloud in the first place?
 The two problems are not mutually exclusive—after all, a cloud is
@@ -19,7 +19,7 @@ of the hyperscale operators. The edge is more likely to be in a
 enterprise or an "Internet of Things" setting such as a factory. The
 edge is the place where the cloud services connect to the real world,
 e.g., via sensors and actuators, and where latency-sensitive services
-are deployed to be close to the consumers of those services. 
+are deployed to be close to the consumers of those services.
 
 The hyperscalers are indeed willing to manage your edge cloud for you,
 as an extension of their core datacenters. And correspondingly, there
@@ -48,17 +48,17 @@ interesting use case to study:
 * Aether supports both “edge services” running on these on-prem
   clusters and “centralized services” running in commodity cloud
   datacenters. In this sense it is a hybrid cloud.\ [#]_
-  
+
 * Aether augments this edge cloud with 5G-Connectivity-as-a-Service,
   giving us a service that must be operationalized (in addition to the
   underlying cloud). The end result is that Aether provides managed
   Platform-as-a-Service (PaaS).
-  
+
 * Aether is built entirely from open source components. The only thing
   it adds is the “glue code” and “specification directives” required
   to make it operational. This means the recipe is fully reproducible
   by anyone.
-  
+
 .. [#] Technically, Aether is also a multi-cloud because it is
        designed to take advantage of services provided by multiple
        public clouds, but the private/public (edge/central) aspect is
@@ -110,7 +110,7 @@ terminology.
   characterize the overall challenge of operationalizing a network,
   where generally speaking, operators use an O&M Interface to manage
   the system.
-  
+
   * **FCAPS:** An acronym (Fault, Configuration, Accounting, Performance,
     Security) historically used in the Telco industry to enumerate the
     requirements for an operational system. The O&M interface must
@@ -122,7 +122,7 @@ terminology.
     implements both operational logic (OSS) and business logic
     (BSS). It is usually the top-most component in the overall O&M
     hierarchy.
-    
+
   * **EMS:**  Yet another Telco acronym (Element Management System),
     corresponding to an intermediate layer in the overall O&M
     hierarchy. An EMS is to a particular type of device what an
@@ -135,7 +135,7 @@ terminology.
   device is involved, we would probably use a term like
   “configuration” instead, so orchestration typically implies
   “orchestrating” across multiple components.
-  
+
   Narrowly defined, an orchestrator is responsible for spinning up
   virtual machines (or containers) and logically interconnecting them
   (with virtual networks). More broadly, orchestration encompasses
@@ -148,16 +148,16 @@ terminology.
   *Service Orchestrator* since it is responsible for assembling a
   collection of *Virtual Network Functions (VNFs)* into an
   end-to-end-service chain.
-  
+
   * **Playbook/Workflow:** A program or script that implements a
     multi-step orchestration process. (The term workflow is also used
     in a UX context to describe a multi-step operation that a user
     performs on a system using a GUI.)
-    
+
 * **Provisioning:** Adding capacity (either physical or virtual
   resources) to a system, usually in response to changes in workload,
   including the initial deployment.
-  
+
   * **Zero-Touch Provisioning:** Usually implies adding new hardware
     without requiring a human to configure it (beyond physically
     connecting the device). This implies the new component
@@ -165,32 +165,32 @@ terminology.
     to virtual resources (e.g., virtual machines, services) to
     indicate that no manual configuration step is needed to
     instantiate the resource.
-    
+
   * **Remote Device Management:** A standard (e.g., IPMI, Redfish) that
     defines a way to remotely manage hardware devices in support of
     zero-touch provisioning. The idea is to send and receive
     out-of-band messages over the LAN in place of having serial
     console access to the device.
-    
+
   * **Inventory Management:** Tracking deployed physical hardware is a
     sub-step of the provisioning process.
-    
+
 * **Lifecycle Management:** Upgrading and replacing functionality (e.g.,
   new services, new features to existing services) over time.
-  
+
   * **Continuous Integration / Continuous Deployment (CI/CD):** An
     approach to Lifecycle Management in which the path from
     development (producing new functionality) to testing, integration,
     and ultimately deployment is an automated pipeline. CI/CD
     typically implies continuously making small incremental changes
     rather than performing large disruptive upgrades.
-    
+
   * **DevOps:** An engineering discipline (usually implied by CI/CD)
     that balances feature velocity against system stability. It is a
     practice typically associated with container-based (also known as
     *cloud native*) systems, as typified by *Site Reliability
     Engineering (SRE)* practiced by cloud providers like Google.
-    
+
   * **In-Service Software Upgrade (ISSU):** A requirement that a
     component continue running during the deployment of an upgrade,
     with minimal disruption to the service delivered to
@@ -198,18 +198,18 @@ terminology.
     roll-out (and roll-back) an upgrade, but is specifically a
     requirement on individual components (as opposed to the underlying
     platform used to manage a set of components).
-    
+
 * **Monitoring & Logging:** Collecting data from system components to aid
   in management decisions. This includes diagnosing faults, tuning
   performance, doing root cause analysis, performing security audits,
   and provisioning additional capacity.
-  
+
   * **Analytics:** A program (often using statistical models) that
     produces additional insights (value) from raw data. It can be used
     to close a control loop (i.e., auto-reconfigure a system based on
     these insights), but could also be targeted at a human operator
     that subsequently takes some action.
-    
+
 Another way to talk about operations is in terms of stages, leading to
 a characterization that is common for traditional network devices:
 
@@ -218,13 +218,13 @@ a characterization that is common for traditional network devices:
   configurations correspond to BIOS settings, and often need knowledge
   of how the device is physically connected to the network (e.g., the
   port being used).
-  
+
 * **Day 0:** Connectivity configuration required to establish
   communication between the device and the available network services
   (e.g., setting a device’s IP address and default router). While such
   information may be provided manually, this is an opportunity to
   auto-configure the device, in support of Zero-Touch Provisioning.
-  
+
 * **Day 1:** Service-level configuration needed by the device, including
   parameters that allow the device to take advantage of other services
   (e.g., NTP, Syslog, SMTP, NFS), as well as setting the parameters
@@ -235,7 +235,7 @@ a characterization that is common for traditional network devices:
   pre-programmed playbooks (workflows) should be able to
   auto-configure the device rather than depending on human
   intervention.
-  
+
 * **Day 2..N:** On-going management in support of day-to-day operations,
   coupled with monitoring the network to detect failures and service
   degradation, with the goal of sustaining the service. This may
@@ -243,7 +243,7 @@ a characterization that is common for traditional network devices:
   involves monitoring a dashboard and fielding alerts, and then
   re-configuring the system as necessary. This is often referred to
   simply as "Day 2 Operations".
-  
+
 Again, “Day x” is how traditional network vendors characterize the
 process of operationalizing the devices they sell, which in turn
 dictates how network operators and enterprise system admins bring
@@ -261,7 +261,7 @@ set of challenges to management.
 
 .. [#] Colloquially, this is sometimes referred to as a shift from
        taking care of pets to one of herding cattle.
-       
+
 This book addresses those management challenges, which brings us to a
 final note about two words we use frequently: *Operating* and
 *Operationalizing*.  Being able to operate a cloud is the end goal and
@@ -303,7 +303,7 @@ by Weaveworks.
 
    Weaveworks. `What You Need to Know for Cloud Native
    <https://www.weave.works/technologies/going-cloud-native-6-essential-things-you-need-to-know>`__.
-   
+
 The challenge side of the story is that there are many more moving
 parts that have to be integrated, coordinated, and managed. Circling
 back to terminology, Orchestration and Lifecycle Management become the
@@ -321,22 +321,22 @@ manageable:
 * Monitoring and Logging mechanisms are themselves realized as a set
   of container-based microservices, deployed within the cloud they
   observe.
-  
+
 * ISSU becomes more tractable because the microservice architecture
   encourages stateless components, with persistent state isolated in a
   single function-agnostic storage service, such as a key/value store.
-  
+
 * Zero-Touch Provisioning is more tractable because the hardware is
   commodity, and hence, (nearly) identical. This also means the vast
   majority of configuration involves initiating software parameters,
   which is more readily automated.
-  
+
 * Cloud native implies a set of best-practices for addressing many of
   the FCAPS requirements, especially as they relate to availability
   and performance, both of which are achieved through horizontal
   scaling. Secure communication is also typically built into cloud RPC
   mechanisms.
-  
+
 Another way to say this is that by rearchitecting bundled appliances
 and devices as horizontally scalable microservices running on
 commodity hardware, what used to be a set of one-off O&M problems are
@@ -367,7 +367,7 @@ of the system.
        ago (EC2 and S3) with the well over 100 services available on
        the AWS console today (not counting the marketplace of
        partner-provided services).
-       
+
 
 1.3 Cloud Technology
 --------------------
@@ -430,7 +430,7 @@ that software running on the servers controls the switches.
    Example building block components used to construct a cloud,
    including commodity servers and switches, interconnected by a
    leaf-spine switching fabric.
-   
+
 :numref:`Figure %s <fig-hw>` also includes the assumed low-level
 software components, which we describe next. Collectively, all the
 hardware and software components shown in the figure form the
@@ -448,12 +448,12 @@ that need to be deployed on that platform.
 We assume three foundational software technologies, all running on the commodity processors in the cluster:
 
 1. Docker containers package software functionality.
-   
+
 2. Kubernetes instantiates and interconnects containers.
 
 3. Helm charts specify how collections of related containers are
    interconnected to build applications.
-   
+
 These are all well known and ubiquitous, and so we only summarize them
 here. Links to related information for anyone that is not familiar
 with them (including excellent hands-on tutorials for the three
@@ -541,11 +541,11 @@ the following SDN software stack:
   control application that manages the leaf-spine switching fabric. We
   use ONOS as an open source exemplar Network OS. ONOS, in turn, hosts
   the SD-Fabric control app.
-  
+
 * A Switch OS runs on each switch, providing a northbound gNMI and
   gNOI interface through which the Network OS controls and configures
   each switch. We use Stratum as an open source exemplar Switch OS.
-  
+
 Building a cloud using an SDN-based switching fabric is a best
 practice adopted by hyperscaler cloud providers. Their solutions
 remain proprietary, so we use ONOS and Stratum as open source
@@ -558,7 +558,7 @@ switches) by Kubernetes and Helm.\ [#]_
        switching chip that implements the data plane. Stratum runs on
        this processor, and exports a northbound API that ONOS uses to
        configure and control the switch.
-       
+
 1.3.4 Repositories
 ~~~~~~~~~~~~~~~~~~
 
@@ -639,7 +639,7 @@ underlying infrastructure for that PaaS.
   for which you get to select a component from column A, a second
   complementary component from column B, and so on.  This is also true
   for the Aether managed service we use as an exemplar.*
-  
+
   *This makes it all the more important that we take a first
   principles approach, which starts by identifying the set of
   requirements and exploring the design space. Only as a final step do

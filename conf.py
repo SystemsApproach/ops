@@ -21,7 +21,7 @@ import os
 from subprocess import check_output, CalledProcessError
 
 def get_version():
-    
+
     try:
         version = check_output(['cat', 'VERSION'],
                                universal_newlines=True)
@@ -56,27 +56,16 @@ warning_is_error = True
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones. ***Replace "mathjax" with "imgmath" for epub output.***
 extensions = [
+    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.coverage',
+    'sphinx.ext.graphviz',
     'sphinx.ext.ifconfig',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx.ext.todo',
     'sphinxcontrib.spelling',
     "sphinx_multiversion",
 ]
-
-#extensions = [
-#    'recommonmark',
-#    'sphinx.ext.coverage',
-#    'sphinx.ext.ifconfig',
-#    'sphinx.ext.mathjax',
-#    'sphinx.ext.todo',
-#    'sphinx.ext.autosectionlabel',
-#    'sphinxcontrib.actdiag',
-#    'sphinxcontrib.blockdiag',
-#    'sphinxcontrib.nwdiag',
-#    'sphinxcontrib.packetdiag',
-#    'sphinxcontrib.rackdiag',
-#    'sphinxcontrib.seqdiag',
-#]
 
 # Text files with lists of words that shouldn't fail the spellchecker:
 spelling_word_list_filename=['dict.txt', ]
@@ -103,7 +92,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = [u'_build', 'doc_venv', 'requirements.txt', 'Thumbs.db', 'private', '.DS_Store', '*/README.rst']
+exclude_patterns = [u'_build', 'venv-docs', 'requirements.txt', 'Thumbs.db', 'private', '.DS_Store', '*/README.rst']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
@@ -141,7 +130,7 @@ html_theme_options = {
 html_static_path = ['_static']
 
 # HTML Favicon
-html_favicon = 'bridge.ico'
+html_favicon = '_static/bridge.ico'
 
 # HTML Index
 html_use_index = False
@@ -176,7 +165,7 @@ latex_elements = {
     'pointsize': '11pt',
 
     # Additional stuff for the LaTeX preamble.
-    
+
     #
     # 'preamble': 'private/latex/preamble.tex',
     #
@@ -244,6 +233,18 @@ epub_exclude_files = ['search.html']
 
 # -- Extension configuration -------------------------------------------------
 
+# -- options for Intersphinx extension ---------------------------------------
+
+intersphinx_mapping = {
+    'sphinx': ('https://www.sphinx-doc.org/en/master', None),
+    'aether': ('https://docs.aetherproject.org/master', None),
+    'sdcore': ('https://docs.sd-core.opennetworking.org/master', None),
+    'sdran': ('https://docs.sd-ran.org/master', None),
+    'sdran': ('https://docs.sd-fabric.org/master', None),
+    'sysapproach5g': ('https://5g.systemsapproach.org/', None),
+    'sysapproachnet': ('https://book.systemsapproach.org/', None),
+    'sysapproachsdn': ('https://sdn.systemsapproach.org/', None),
+    }
 
 # -- Options for todo extension ----------------------------------------------
 # If true, `todo` and `todoList` produce output, else they produce nothing.

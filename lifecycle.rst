@@ -1,6 +1,6 @@
 Chapter 4:  Lifecycle Management
 ================================
-	
+
 Lifecycle Management is concerned with updating and evolving a running
 system over time. We have carved out the bootstrapping step of
 provisioning the hardware and installing the base software platform
@@ -48,11 +48,11 @@ Repositories, while CD consumes Docker Images and Helm Charts, pulling
 them from the respective Repositories.
 
 .. _fig-pipeline:
-.. figure:: figures/Slide10.png 
-   :width: 600px 
-   :align: center 
+.. figure:: figures/Slide10.png
+   :width: 600px
+   :align: center
 
-   Overview of the CI/CD pipeline. 
+   Overview of the CI/CD pipeline.
 
 The Config Repo also contains declarative specifications of the
 infrastructure artifacts produced by Resource Provisioning,
@@ -73,8 +73,8 @@ up-to-date.
        and another for Terraform Templates.
 
 .. sidebar:: Continuous Delivery vs Deployment
-	     
-    *You will also hear CD refer to "Continuous Delivery" instead of 
+
+    *You will also hear CD refer to "Continuous Delivery" instead of
     "Continuous Deployment", but we are interested in the complete
     end-to-end process, so CD will always imply the latter in this
     book. But keep in mind that "continuous" does not necessarily mean
@@ -82,7 +82,7 @@ up-to-date.
     injected into the CI/CD pipeline to control when and how upgrades
     get rolled out. The import point is that all the stages in the pipeline
     are automated.*
-    
+
     *So what exactly does "Continuous Delivery" mean? Arguably, it's
     redundant when coupled with "Continuous Integration" since the
     set of artifacts being produced by the CI half of the pipeline
@@ -130,7 +130,7 @@ is deployed first to a set of Staging clusters, where it is subjected to
 realistic workloads for a period of time, and then rolled out to the
 Production clusters once the Staging deployments give us confidence that the
 upgrade is reliable.
-	
+
 This is a simplified depiction of what happens in practice. In
 general, there can be more than two distinct versions of the cloud
 software deployed at any given time. One reason this happens is that
@@ -207,38 +207,38 @@ pipeline where they happen (relative to :numref:`Figure %s
 * **Integration Gate:** These tests are run against every attempt to
   check in a patch set, and so must complete quickly. This means they
   are limited in scope. There are two categories of pre-merge tests:
-  
+
   * **Unit Tests:** Developer-written tests that narrowly test a
     single module. The goal is to exercise as many code paths as
     possible by invoking “test calls” against the module’s public
     interface.
-    
+
   * **Smoke Tests:** A form of functional testing, typically run
     against a set of related modules, but in a shallow/superficial way
     (so they can run quickly).
-    
+
 * **QA Cluster:** These tests are run periodically (e.g., once day, once a
   week) and so can be more extensive. They typically test whole
   subsystems, or in some cases, the entire system. There are two
   categories post-merge/pre-deploy tests:
-  
+
   * **Integration Tests:** Ensures one or more subsystems functions
     correctly, and adheres to known invariants. These tests exercise
     the integration machinery in addition to end-to-end (cross-module)
     functionality.
-    
+
   * **Performance Tests:** Like functional tests in scope (i.e., at
     the subsystem level), but they measure quantifiable performance
     parameters, including the ability to scale workload, rather than
     correctness.
-    
+
 * **Staging Cluster:** Candidate releases are run on the Staging cluster for
   an extensive period of time (e.g., multiple days) before being
   rolled out to Production. These tests are run against a complete and
   fully integrated system, and are often used to uncover memory leaks
   and other time-variant and workload-variant issues. There is just
   one category of tests run in this stage:
-  
+
   * **Soak Tests:** Sometimes referred to as *Canary Tests*, these
     require realistic workloads be placed on a complete system,
     through a combination of artificially generated traffic and
@@ -246,7 +246,7 @@ pipeline where they happen (relative to :numref:`Figure %s
     and deployed, these tests also serve to validate the CI/CD
     mechanisms, including for example, the specs checked into the
     Config Repo.
-    
+
 :numref:`Figure %s <fig-testing>` summaries the sequence of tests,
 highlighting the relationship among them across the lifecycle
 timeline. Note that the leftmost tests typically happen repeatedly as
@@ -472,7 +472,7 @@ pipeline. The number of YAML files (and hence triggers) varies from
 component to component, but one common example is a specification to
 publish a new Docker image, triggered by a change to a ``VERSION``
 file stored in the code repo. (We'll see why in Section 4.5.)
-       
+
 As an illustrative example, the following is from a Groovy script that
 defines the pipeline for testing the Aether API, which as we'll see in
 the next chapter, is auto-generated by the Runtime Control
@@ -611,7 +611,7 @@ be overlaid on this mechanism to control what features get deployed
 when.
 
 .. sidebar:: Implementation Details Matter
-	     
+
     *We are purposely not doing a deep-dive into the individual tools
     that are assembles into the Lifecycle Management subsystem, but
     details do often matter. Our experience with Fleet offers a good
@@ -689,7 +689,7 @@ the problem. We break the sequence down to the three main phases of
 the software lifecycle:
 
 **Development Time**
-   
+
 * Every patch checked into a source code repo includes an up-to-date
   semantic version number in a ``VERSION`` file in the repository.
   Note that every *patch* does not necessarily equal every *commit*,
@@ -710,14 +710,14 @@ the software lifecycle:
   Dockerfile that gives the recipe for building a Docker image from
   that (and other) software module(s).
 
-**Integration Time**   
+**Integration Time**
 
 * The CI toolchain does a sanity check on each component's version
   number, ensuring it doesn't regress, and when it sees a new number
   for a microservice, builds a new image and uploads it to the image
   repo. By convention, this image includes the corresponding source
   code version number in the unique name assigned to the image.
-  
+
 **Deployment Time**
 
 * The CD toolchain instantiates the set of Docker Images, as specified
