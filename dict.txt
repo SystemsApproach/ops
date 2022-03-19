@@ -100,6 +100,7 @@ eNBs
 evolvable
 exemplifed
 facto
+filesystem
 frontend
 gNMI
 gNOI
@@ -143,6 +144,7 @@ roadmap
 rollout
 rst
 runtime
+runtimes
 scalable
 signalling
 stderr
