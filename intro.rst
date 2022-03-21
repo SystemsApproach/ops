@@ -602,20 +602,6 @@ operations and management, rather than having those components bundled
 in a comprehensive package. We do, however, return to the role of
 service meshes in later chapters.
 
-Second, we assume a container-based cloud platform. An alternative
-would have been VM-based. The main reason for this choice is that
-containers are rapidly becoming the de facto way to deploy scalable
-and highly available functionality, and operationalizing such
-functionality in enterprises is our primary use case. Containers are
-sometimes deployed inside of VMs (rather than directly on physical
-machines), but in that case, the VMs can be viewed as part of the
-underlying infrastructure (rather than a service that is offered to
-users). Another way of saying this is that this book focuses on how to
-operationalize a Platform-as-as-Service (PaaS) rather than a
-Infrastructure-as-a-Service (IaaS), although later chapters will
-describe how to introduce VMs as an optional way to provision the
-underlying infrastructure for that PaaS.
-
 .. sidebar:: What's the Master Plan?
 
   *There is a general issue of how one makes engineering choices about
@@ -652,6 +638,20 @@ underlying infrastructure for that PaaS.
   adopting a bundled solution, understanding all the trade-offs being
   made under the covers will help to make a more informed decision.*
 
+Second, we assume a container-based cloud platform. An alternative 
+would have been VM-based. The main reason for this choice is that 
+containers are rapidly becoming the de facto way to deploy scalable 
+and highly available functionality, and operationalizing such 
+functionality in enterprises is our primary use case. Containers are 
+sometimes deployed inside of VMs (rather than directly on physical 
+machines), but in that case, the VMs can be viewed as part of the 
+underlying infrastructure (rather than a service that is offered to 
+users). Another way of saying this is that this book focuses on how to 
+operationalize a Platform-as-as-Service (PaaS) rather than a 
+Infrastructure-as-a-Service (IaaS), although later chapters will 
+describe how to introduce VMs as an optional way to provision the 
+underlying infrastructure for that PaaS. 
+
 Finally, the Aether edge cloud we use as an example is similar to many
 other edge cloud platforms now being promoted as an enabling
 technology for Internet-of-Things. That Kubernetes-based on-prem/edge
@@ -665,11 +665,10 @@ platform, along with all the cloud services that run on top of it, are
 managed as a whole. The Aether example allows us to be specific, but
 hopefully not at the expense of general applicability.
 
-.. _reading_openness:
-.. admonition:: Further Reading
+.. admonition:: Further Reading 
 
-   `OpenNESS: Open Network Edge Services Software
-   <https://www.openness.org/>`__.
+   `OpenNESS: Open Network Edge Services Software 
+   <https://www.openness.org/>`__. 
 
 1.4 Future of the Sys-Admin
 ---------------------------
