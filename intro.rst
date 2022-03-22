@@ -173,12 +173,12 @@ terminology.
     console access to the device. Additionally, these may integrate with
     monitoring and other device health telemetry systems.
 
-  * **Inventory Management:** Planning and tracking both the physical (racks,
-    servers, switches, cabling) and virtual (IP ranges and addresses, VLANs)
-    resources is a sub-step of the provisioning process. This process
-    frequently starts using simple spreadsheets and text files, but as
-    complexity grows a dedicated database for inventory will facilitate greater
-    automation.
+  * **Inventory Management:** Planning and tracking both the physical
+    (racks, servers, switches, cabling) and virtual (IP ranges and
+    addresses, VLANs) resources is a sub-step of the provisioning
+    process. This process frequently starts using simple spreadsheets
+    and text files, but as complexity grows, a dedicated database for
+    inventory facilitates greater automation.
 
 * **Lifecycle Management:** Upgrading and replacing functionality (e.g.,
   new services, new features to existing services) over time.
@@ -190,12 +190,13 @@ terminology.
     typically implies continuously making small incremental changes
     rather than performing large disruptive upgrades.
 
-  * **DevOps:** An engineering discipline that fuses the Development process and
-    Operational requirements silos, balancing feature velocity against system
-    reliability. As a practice, it leverages CI/CD methods and is typically
-    associated with container-based (also known as *cloud native*) systems, as
-    typified by *Site Reliability Engineering (SRE)* practiced by cloud
-    providers like Google.
+  * **DevOps:** An engineering discipline that fuses the Development
+    process and Operational requirements silos, balancing feature
+    velocity against system reliability. As a practice, it leverages
+    CI/CD methods and is typically associated with container-based
+    (also known as *cloud native*) systems, as typified by *Site
+    Reliability Engineering (SRE)* practiced by cloud providers like
+    Google.
 
   * **In-Service Software Upgrade (ISSU):** A requirement that a
     component continue running during the deployment of an upgrade,
@@ -467,22 +468,23 @@ here. Links to related information for anyone that is not familiar
 with them (including excellent hands-on tutorials for the three
 software building blocks) are given below.
 
-Linux is the OS that runs on the bare metal systems. It provides low-level APIs
-used by container runtimes to facilitate logical isolation between containers,
-such as filesystem and network access (namespaces) as well as to define limits
-on system resources such as memory and CPU cycles using control groups
-(*cgroups*).
+Linux is the OS that runs on the bare metal systems. It provides
+low-level APIs that container runtime systems use to implement
+isolation, including *namespaces* to isolate filesystem and network
+access, and *cgroups* to limit memory and processor usage.
 
 Docker is a container runtime that leverages OS isolation APIs to
-instantiate and run multiple containers, each of which is an instance defined by
-a Docker image. Docker images are most frequently built using a Dockerfile,
-which uses a layering approach which allows sharing and building customized
-images upon base images. A final image for a particular task will incorporate
-all dependencies required by the software that’s to run in the container,
-resulting in a container image portable across servers, only depending on
-the kernel and Docker runtime. We also assume one or more image artifact
-repositories of Docker containers that we will want to deploy in our cloud, of
-which `<https://hub.docker.com/>`__ is the best known example.
+instantiate and run multiple containers, each of which is an instance
+defined by a Docker image. Docker images are most frequently built
+using a Dockerfile, which uses a layering approach that allows sharing
+and building customized images on top of base images. A final image
+for a particular task incorporates all dependencies required by the
+software that is to run in the container, resulting in a container
+image that is portable across servers, depending only on the kernel
+and Docker runtime. We also assume one or more image artifact
+repositories of Docker containers that we will want to deploy in our
+cloud, of which `<https://hub.docker.com/>`__ is the best known
+example.
 
 .. _reading_docker:
 .. admonition:: Further Reading
