@@ -4,16 +4,16 @@ Chapter 6:  Monitoring and Logging
 Collecting data about a running system, so that operators can evaluate
 performance, make informed provisioning decisions, respond to
 failures, identify attacks, and diagnose problems is an essential
-function of any management platform. And correspondingly, there are
-two widely used open source software stacks that address these
-requirements for cloud deployments. That there are two (and not just
-one) is indicative of how the problem space naturally divides into
-two, mostly independent sub-problems: *monitoring* and *logging*.
+function of any management platform.  The problem space naturally
+divides into two, mostly independent sub-problems: *monitoring* and
+*logging*.  Not surprisingly, there are a number of widely used open source
+software stacks that address these sub-problems for cloud deployments.
 
 The monitoring stack collects periodic quantitative data. These include
 common performance metrics like link bandwidth, CPU utilization, and
 memory usage, but also binary results corresponding to "up" and
-"down". These values are produced and collected periodically (e.g.,
+"down", as well as other state variables that can be encoded numerically.
+These values are produced and collected periodically (e.g.,
 every few seconds), either by reading a counter, or by executing a
 runtime test that returns a value.  These metrics can be associated
 with physical resources like servers and switches, virtual resources
@@ -53,11 +53,11 @@ functions might be implemented in the following sections.
 6.1 Monitoring and Alerts
 -------------------------------
 
-The standard open source monitoring stack uses Prometheus to collect
+One standard open source monitoring stack uses Prometheus to collect
 and store platform and service metrics, Grafana to visualize metrics
 over time, and Alertmanager to notify the operations team of events
-that require attention.  In Aether, Prometheus is instantiated on each
-edge cluster, with a single instantiation of Grafana and Alertmanager
+that require attention.  In Aether, Prometheus and Alertmanager are
+instantiated on each edge cluster, with a single instantiation of Grafana
 running centrally in the cloud. More information about each tool is
 available online, so we focus more narrowly on (1) how individual
 Aether components "opt into" this stack, and (2) how the stack can be
@@ -165,13 +165,14 @@ Alerts can be triggered in Prometheus when a component metric crosses
 some threshold.  Alertmanager is a tool that then routes the alert to
 one or more receivers, such as an email address or Slack channel.
 
-Alerts for a particular component are defined by a *Prometheus Rule*,
+An alert for a particular component is defined by an *alerting rule*,
 an expression involving a Prometheus query, such that whenever it
-evaluates to true for the indicated time period, triggers a
+evaluates to true for the indicated time period, it triggers a
 corresponding message to be routed to a set of receivers. These rules
-are recorded in a YAML file that is checked into the Config Repo, and
-then loaded into Alertmanager as a custom resource specified in the
-corresponding Helm Chart. For example, the following code snippet
+are recorded in a YAML file that is checked into the Config Repo and
+loaded into Prometheus, or alternatively
+individual Helm charts can define rules via *Prometheus Rule*
+custom resources.  For example, the following code snippet
 shows the Prometheus Rule for two alerts, where the ``expr`` lines
 corresponds to the respective queries submitted to Prometheus.
 
@@ -189,9 +190,9 @@ the Alertmanager configuration is changed accordingly.
 OS programmers have been writing diagnostic messages to a *syslog*
 since the earliest days of Unix. Originally collected in a local file,
 the syslog abstraction has been adapted to cloud environments by
-adding a suite of scalable services. Today, the typical open source
+adding a suite of scalable services. Today, one typical open source
 logging stack uses Fluentd to collect (aggregate, buffer, and route)
-log messages written by a set of components, with the Fluentbit
+log messages written by a set of components, with Fluentbit
 serving as client-side agent running in each component helping
 developers normalize their log messages. ElasticSearch is then used to
 store, search, and analyze those messages, with Kibana used to display
@@ -222,7 +223,7 @@ illustrative sources of log messages.
 The key challenge in logging is to adopt a uniform message format
 across all components, a requirement that is complicated by the fact
 that the various components integrated in a complex system are often
-developed independent of each other. Fluentbit plays a role in
+developed independently of each other. Fluentbit plays a role in
 normalizing these messages by supporting a set of filters. These
 filters parse "raw" log messages written by the component (an ASCII
 string), and output "canonical" log messages as structured JSON. There
@@ -345,7 +346,7 @@ to both the "knobs" and the "dials" on an integrated dashboard.  This
 can be accomplished by incorporating Grafana frames in the Runtime
 Control GUI, which in its simplest form, displays a set of web forms
 corresponding to the fields in the underlying data models. (More
-sophisticate control panels are certainly possible.)
+sophisticated control panels are certainly possible.)
 
 .. _fig-dev_group:
 .. figure:: figures/gui1.png
