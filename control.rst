@@ -614,8 +614,7 @@ specifies the endpoints for the program devices talk to. The
    * `port-start`: Starting port number.
    * `port-end`: Ending port number.
    * `protocol`:  Protocol (`TCP|UDP`) for the endpoint.
-   * `mbr.uplink`, `mbr.downlink`: Per-device per-application maximum bitrate for the
-      application endpoint.
+   * `mbr.uplink`, `mbr.downlink`: Per-device maximum bitrate for the application endpoint.
    * `traffice-class`: Traffic class for devices communicating with this application.
 
 Anyone familiar with 3GPP will recognize Aether's `Slice` abstraction
@@ -694,7 +693,7 @@ Runtime Control, via an Adapter, engages Lifecycle Management to
 launch the necessary set of Kubernetes containers that implement an
 isolated slice.
 
-The `Traffic-Class` model, in turn, specifies the classes of traffic,
+The `Traffic-Class` model specifies the classes of traffic,
 and includes the following fields:
 
 * `arp`: Allocation and retention priority.
