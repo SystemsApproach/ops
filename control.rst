@@ -7,12 +7,14 @@ a running system, by specifying new values for one or more runtime
 parameters.
 
 Using Aether’s 5G connectivity service as an example, suppose an
-enterprise admin wants to change the *QoS-Profile* setting for a group
-of mobile devices. This might include modifying the *Uplink* or
-*Downlink* bandwidth, or even selecting a different *Traffic
-Class*. Similarly, imagine an operator wants to add a new
-*Mission-Critical* option to the existing set of *Traffic Classes*
-that *QoS-Profiles* can adopt. Without worrying about the exact syntax
+enterprise admin wants to change the *Quality of Service* for a group
+of mobile devices. Aether groups devices into a `Device-Group`
+abstraction where like devices may be configured together.
+This might include modifying the *Maximum Uplink
+Bandwidth* or *Maximum Downlink Bandwidth*, or even selecting a
+different *Traffic Class*. Similarly, imagine an operator wants to add a
+new *Mission-Critical* option to the existing set of *Traffic Classes*
+that the *Devices* can adopt. Without worrying about the exact syntax
 of the API call(s) for these operations, the Runtime Control subsystem
 needs to
 
@@ -26,7 +28,7 @@ needs to
 4. Record the specified parameter setting(s), so the new value(s)
    persist.
 
-In this example, *QoS-Profile* and *Traffic Class* are abstract
+In this example, *Device-Group* and *Traffic Class* are abstract
 objects being operated upon, and while these objects must be
 understood by Runtime Control, making changes to them might involve
 invoking low-level control operations on multiple subsystems, such as
@@ -307,12 +309,12 @@ There are four important aspects of this mechanism:
   data to and reads data from Atomix using a simple GET/PUT interface
   common to NoSQL databases.
 
-* **Loading Models:** A Kubernetes Operator (not shown in the figure),
-  is responsible for configuring the models within x-config. Models
-  to load into x-config are specified by a Helm chart. The operator
-  compiles them on demand and incorporates them into x-config. This
-  eliminates dynamic load compatibility issues that are a problem when
-  models and x-config are built separately.
+* **Loading Models:** Models are loaded using *Model Plugins*.
+  The *Model Plugins* communicate via a gRPC API to
+  x-config, loading the models at runtime. The *Model Plugins*
+  are precompiled, and therefore no compilation at runtime
+  is necessary. The API existing between x-config and the plugins
+  eliminates dynamic load compatibility issues.
 
 * **Versioning and Migration:** All the models loaded into x-config
   are versioned, and the process of updating those models triggers the
@@ -435,6 +437,16 @@ Control to evolve independently. It also allows for southbound
 devices/services to be replaced without affecting the northbound
 interface.
 
+An adapter does not necessarily support only a single service. An
+adapter is one means of taking an abstraction that spans multiple
+services and applying it to each of those servies. An Aether example is
+that the *User Plane Function* and *SD-Core* are jointly responsible
+for enforcing *Quality of Service*, and the adapter applies a single
+set of models to both services. Some care is needed to
+deal with partial failure, in case one service accepts the change,
+but the other does not. In this case, the adapter keeps trying the
+failed service until it succeeds.
+
 5.2.5 Workflow Engine
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -511,7 +523,7 @@ field within a model (e.g., `enterprise`).
 Aether is deployed in enterprises, and so defines a representative set
 of organizational abstractions. These include `Enterprise`, which
 forms the root of a customer-specific hierarchy. The `Enterprise`
-model is referenced by many other objects, and allows those objects to
+model is the parent of many other objects, and allows those objects to
 be scoped to a particular Enterprise for ownership and role-based
 access control purposes. `Enterprise` contains the following fields:
 
@@ -568,8 +580,8 @@ traffic. The `Slice` model has the following fields:
   for this `Slice`. It's permitted for multiple `Slices` to share a single `UPF`.
 * `sst`, `sd`: 3GPP-defined slice identifiers assigned by the operations team.
 * `mbr.uplink`, `mbr.downlink`, `mbr.uplink-burst-size`,
-  `mbr.downlink-burst-size`: Maximum bit-rate and burst sizes for
-  this slice.
+  `mbr.downlink-burst-size`: Aggregate maximum bit-rate and burst sizes of all
+  devices for this slice.
 
 The rate-related parameters are initialized using a selected
 `template`, as described below. Also note that this example
@@ -587,10 +599,7 @@ applications. The `Device-Group` model contains the following fields:
   enable or disable the device.
 * `ip-domain`: Reference to an `IP-Domain` object that describes the
   IP and DNS settings for UEs within this group.
-* `site`: Reference to the site where this `Device-Group` may be
-  used. Indirectly identifies the `Enterprise` as `Site` contains a
-  reference to `Enterprise`.
-* `mbr.uplink`, `mbr.downlink`: Maximum bit-rate for the device group.
+* `mbr.uplink`, `mbr.downlink`: Per-device maximum bit-rate for the device group.
 * `traffic-class`: The traffic class to be used for devices in this group.
 
 At the other end of a Slice is a list of `Application` objects, which
@@ -605,7 +614,8 @@ specifies the endpoints for the program devices talk to. The
    * `port-start`: Starting port number.
    * `port-end`: Ending port number.
    * `protocol`:  Protocol (`TCP|UDP`) for the endpoint.
-   * `mbr.uplink`, `mbr.downlink`: Maximum bitrate for the application endpoint.
+   * `mbr.uplink`, `mbr.downlink`: Per-device per-application maximum bitrate for the
+      application endpoint.
    * `traffice-class`: Traffic class for devices communicating with this application.
 
 Anyone familiar with 3GPP will recognize Aether's `Slice` abstraction
@@ -648,8 +658,8 @@ together end-to-end connectivity across the RAN, Core, and Fabric.
     implementing the API for such an abstraction layer.*
 
 
-5.3.3 QoS Profiles
-~~~~~~~~~~~~~~~~~~
+5.3.3 Templates and Traffic Classes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Associated with each Slice is a QoS-related profile that governs how
 traffic that slice carries is to be treated. This starts with a
@@ -703,14 +713,17 @@ model declarations, with both ``container`` and ``leaf`` fields.
 ~~~~~~~~~~~~~~~~~~
 
 The above description references other models, which we do not fully
-described here. They include `IP-Domain`, which specifies IP and DNS
+describe here. They include `IP-Domain`, which specifies IP and DNS
 settings; and `UPF`, which specifies the User Plane Function (the data
 plane element of the SD-Core) that should forward packets on behalf of
 this particular instance of the connectivity service. The `UPF` model
 is necessary because Aether supports two different implementations:
 one runs as a microservice on a server and the other runs as a P4
 program loaded into the switching fabric, as described in a companion
-book.
+book. Furthermore, as they are implemented in software, there may be
+multiple microservice-based `UPFs` deployed at the same time, each
+providing isolated traffic. Thus a large deployment could have many
+`UPFs`.
 
 .. _reading_sdn:
 .. admonition:: Further Reading

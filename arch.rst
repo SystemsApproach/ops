@@ -145,7 +145,7 @@ throughout the enterprise using the 5G Connectivity Service
 implemented by SD-RAN and SD-Core. This service is offered as a
 managed service, with enterprise system administrators able to use a
 programmatic API (and associated GUI portal) to control that service;
-that is, authorize devices, restrict access, set QoS profiles for
+that is, authorize devices, restrict access, set Quality of Service for
 different devices and applications, and so on. How to provide such a
 runtime control interface is the topic of Chapter 5.
 
