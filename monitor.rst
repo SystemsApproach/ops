@@ -5,9 +5,9 @@ Collecting data about a running system, so that operators can evaluate
 performance, make informed provisioning decisions, respond to
 failures, identify attacks, and diagnose problems is an essential
 function of any management platform.  The problem space naturally
-divides into two, mostly independent sub-problems: *monitoring* and
-*logging*.  Not surprisingly, there are a number of widely used open source
-software stacks that address these sub-problems for cloud deployments.
+divides into two, mostly independent sub-problems—*monitoring* and
+*logging*—there are a several widely used open source software stacks
+that address these sub-problems for cloud deployments.
 
 The monitoring stack collects periodic quantitative data. These include
 common performance metrics like link bandwidth, CPU utilization, and
@@ -102,10 +102,25 @@ various definitions of end-to-end).  One test determines whether the
 running in the central cloud) and a second test determines whether the
 5G user plane is working (i.e., UEs can reach the Internet). This is a
 common pattern: individual components can export accumulators and
-other local variables to Prometheus, but only a "third-party observer"
-can actively test external behavior, and report the results to
-Prometheus. These examples correspond to the rightmost "End-to-End
-Tests" shown in :numref:`Figure %s <fig-testing>` of Chapter 4.
+other local variables, but only a "third-party observer" can actively
+test external behavior, and report the results. These examples
+correspond to the rightmost "End-to-End Tests" shown in
+:numref:`Figure %s <fig-testing>` of Chapter 4.
+
+Finally, when a system is running across multiple edge sites, as is
+the case with Aether, there is an design question of whether
+monitoring data is stored on the edge sites and lazily pulled to the
+central location only when needed, or it is proactively pushed to the
+central location as soon as it's generated. Aether employs both
+approaches, depending on the volume and urgency of the data being
+collected. By default, metrics collected by the local instantiation of
+Prometheus stay on the edge sites, and only query results are returned
+to the central location (e.g., to be displayed by Grafana as described
+in the next subsection). This is appropriate for metrics that are both
+high-volume and seldom viewed. The exception is the end-to-end Service
+Monitors described in the previous paragraph. These results are
+immediately pushed to the central site (by-passing Prometheus), which
+works because they are low-volume and may require immediate attention.
 
 6.1.2 Creating Dashboards
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -170,11 +185,11 @@ an expression involving a Prometheus query, such that whenever it
 evaluates to true for the indicated time period, it triggers a
 corresponding message to be routed to a set of receivers. These rules
 are recorded in a YAML file that is checked into the Config Repo and
-loaded into Prometheus, or alternatively
-individual Helm charts can define rules via *Prometheus Rule*
-custom resources.  For example, the following code snippet
-shows the Prometheus Rule for two alerts, where the ``expr`` lines
-corresponds to the respective queries submitted to Prometheus.
+loaded into Prometheus. (Alternatively, Helm Charts for individual
+components can define rules via *Prometheus Rule* custom resources.)
+For example, the following code snippet shows the Prometheus Rule for
+two alerts, where the ``expr`` lines corresponds to the respective
+queries submitted to Prometheus.
 
 .. literalinclude:: code/prometheus-rule.yaml
 
@@ -192,11 +207,11 @@ since the earliest days of Unix. Originally collected in a local file,
 the syslog abstraction has been adapted to cloud environments by
 adding a suite of scalable services. Today, one typical open source
 logging stack uses Fluentd to collect (aggregate, buffer, and route)
-log messages written by a set of components, with Fluentbit
-serving as client-side agent running in each component helping
-developers normalize their log messages. ElasticSearch is then used to
-store, search, and analyze those messages, with Kibana used to display
-and visualize the results. The general flow of data is shown in
+log messages written by a set of components, with Fluentbit serving as
+client-side agent running in each component helping developers
+normalize their log messages. ElasticSearch is then used to store,
+search, and analyze those messages, with Kibana used to display and
+visualize the results. The general flow of data is shown in
 :numref:`Figure %s <fig-log>`, using the main Aether subsystems as
 illustrative sources of log messages.
 

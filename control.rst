@@ -7,7 +7,7 @@ a running system, by specifying new values for one or more runtime
 parameters.
 
 Using Aether’s 5G connectivity service as an example, suppose an
-enterprise admin wants to change the *Quality of Service* for a group
+enterprise admin wants to change the *Quality-of-Service* for a group
 of mobile devices. Aether groups devices into a `Device-Group`
 abstraction where like devices may be configured together.
 This might include modifying the *Maximum Uplink
@@ -309,12 +309,12 @@ There are four important aspects of this mechanism:
   data to and reads data from Atomix using a simple GET/PUT interface
   common to NoSQL databases.
 
-* **Loading Models:** Models are loaded using *Model Plugins*.
-  The *Model Plugins* communicate via a gRPC API to
-  x-config, loading the models at runtime. The *Model Plugins*
-  are precompiled, and therefore no compilation at runtime
-  is necessary. The API existing between x-config and the plugins
-  eliminates dynamic load compatibility issues.
+* **Loading Models:** Models are loaded using *Model Plugins*.  The
+  *Model Plugins* communicate via a gRPC API to x-config, loading the
+  models at runtime. The *Model Plugins* are precompiled, and
+  therefore no compilation at runtime is necessary. The interface
+  between x-config and the plugins eliminates dynamic load
+  compatibility issues.
 
 * **Versioning and Migration:** All the models loaded into x-config
   are versioned, and the process of updating those models triggers the
@@ -439,13 +439,14 @@ interface.
 
 An adapter does not necessarily support only a single service. An
 adapter is one means of taking an abstraction that spans multiple
-services and applying it to each of those servies. An Aether example is
-that the *User Plane Function* and *SD-Core* are jointly responsible
-for enforcing *Quality of Service*, and the adapter applies a single
-set of models to both services. Some care is needed to
-deal with partial failure, in case one service accepts the change,
+services and applying it to each of those services. An example in
+Aether is the *User Plane Function* (the main packet-forwarding module
+in the SD-Core User Plane) and *SD-Core*, which are jointly
+responsible for enforcing *Quality of Service*, where the adapter
+applies a single set of models to both services. Some care is needed
+to deal with partial failure, in case one service accepts the change,
 but the other does not. In this case, the adapter keeps trying the
-failed service until it succeeds.
+failed backend service until it succeeds.
 
 5.2.5 Workflow Engine
 ~~~~~~~~~~~~~~~~~~~~~
@@ -716,13 +717,12 @@ describe here. They include `IP-Domain`, which specifies IP and DNS
 settings; and `UPF`, which specifies the User Plane Function (the data
 plane element of the SD-Core) that should forward packets on behalf of
 this particular instance of the connectivity service. The `UPF` model
-is necessary because Aether supports two different implementations:
-one runs as a microservice on a server and the other runs as a P4
-program loaded into the switching fabric, as described in a companion
-book. Furthermore, as they are implemented in software, there may be
-multiple microservice-based `UPFs` deployed at the same time, each
-providing isolated traffic. Thus a large deployment could have many
-`UPFs`.
+is necessary because an Aether deployment can run many UPFs
+instances. This is because there are two different implementations
+(one runs as a microservice on a server and the other runs as a P4
+program loaded into the switching fabric), and because multiple
+microservice-based UPF can be instantiated at any given time (each
+supporting an isolated traffic flow.)
 
 .. _reading_sdn:
 .. admonition:: Further Reading

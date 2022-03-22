@@ -105,6 +105,7 @@ frontend
 gNMI
 gNOI
 gNodeB
+gRPC
 heatmap
 hoc
 hyperscale
@@ -132,6 +133,7 @@ operationalizes
 operationalizing
 orchestrator
 pre
+precompiled
 prem
 programmatically
 qsfp
