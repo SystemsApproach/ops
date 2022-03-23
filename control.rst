@@ -526,7 +526,8 @@ of organizational abstractions. These include `Enterprise`, which
 forms the root of a customer-specific hierarchy. The `Enterprise`
 model is the parent of many other objects, and allows those objects to
 be scoped to a particular Enterprise for ownership and role-based
-access control purposes. `Enterprise` contains the following fields:
+access control purposes. The `Enterprise` model contains the following
+field:
 
 * `connectivity-service`: A list of backend subsystems that implement
   connectivity for this enterprise. Corresponds to an API endpoint to
@@ -677,7 +678,7 @@ objects. The `Template` model has the following fields:
 * `traffic-class`: Link to a `Traffic-Class` object that describes the
   type of traffic.
 
-Notice that the `Device-Group` an `Application` models include similar
+Notice that the `Device-Group` and `Application` models include similar
 fields. The idea is that QoS parameters are established for the slice
 as a whole (based on the selected `template`) and then individual
 devices and applications connected to that slice can be assigned their
@@ -721,8 +722,8 @@ is necessary because an Aether deployment can run many UPFs
 instances. This is because there are two different implementations
 (one runs as a microservice on a server and the other runs as a P4
 program loaded into the switching fabric), and because multiple
-microservice-based UPF can be instantiated at any given time (each
-supporting an isolated traffic flow.)
+microservice-based UPFs can be instantiated at any given time, each
+isolating a distinct traffic flow.
 
 .. _reading_sdn:
 .. admonition:: Further Reading
