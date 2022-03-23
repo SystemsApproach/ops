@@ -536,23 +536,48 @@ that lead to considerable debate. This is what makes operationalizing
 a cloud a thorny problem. For example, it's difficult to draw a crisp
 line between where resource provisioning ends and lifecycle management
 begins. One could view provisioning as "Step 0" of lifecycle
-management. As an other example, the runtime control and monitoring
+management. As another example, the runtime control and monitoring
 subsystems are often combined in a single user interface, giving
 operators a way to both read (monitor) and write (control) various
 parameters of a running system. Connecting those two subsystems is how
 we build closed loop control.
 
-A third example is even more nebulous. Lifecycle management usually
-takes responsibility for *configuring* each component, while runtime
-control takes responsibility for *controlling* each component. Where
-you draw the line between configuration and control is somewhat
-arbitrary. Do configuration changes only happen when you first boot a
-component, or can you change the configuration of a running system,
-and if you do, how does that differ from changing a control parameter?
-The difference is usually related to frequency-of-change (which is in
-turn related to how disruptive to existing traffic/workload the change
-is), but at the end of the day, it doesn't matter what you call it, as
-long as the mechanisms you use meet all of your requirements.
+These two "simplifications" allow us to reduce the architectural
+overview of the management platform to the two-dimensional
+representation shown in :numref:`Figure %s <fig-2D>`. In one
+dimension, layered on top of the hybrid cloud being managed, is the
+Runtime Control system (including Monitoring and Logging to close the
+control loop). Users and Operators change parameters of the running
+system via a well-defined REST API. In the other dimension, running
+beside the hybrid cloud, is the Lifecycle Management system (including
+Resource Provisioning as Step 0).  Operators and Developers specify
+changes the system that is running by checking code (including
+configuration specs) into a repo.
+
+.. _fig-2D:
+.. figure:: figures/Slide25.png
+   :width: 500px
+   :align: center
+
+   Simplified representation of the management platform.
+
+This simplified perspective draws attention to an ambiguity, which is
+the distinction between "changes to the parameters of a running
+system" versus "upgrading the system that is running."  Generally,
+Lifecycle Management takes responsibility for *configuring* each
+component (including what version of each component is deployed),
+while runtime control takes responsibility for *controlling* each
+component. But where you draw the line between configuration and
+control is somewhat arbitrary. Do configuration changes only happen
+when you first boot a component, or can you change the configuration
+of a running system, and if you do, how does that differ from changing
+a control parameter? And as suggested by the dotted arrow in
+:numref:`Figure %s <fig-2D>`, is there value in having Runtime Control
+instigate changes via Lifecycle Management? The difference is usually
+related to frequency-of-change (which is in turn related to how
+disruptive to existing traffic/workload the change is), but at the end
+of the day, it doesn't matter what you call it, as long as the
+mechanisms you use meet all of your requirements.
 
 Of course, an operational system doesn't tolerate such ambiguities
 very well. Each aspect of management has to be supported in a
