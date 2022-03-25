@@ -309,11 +309,11 @@ There are four important aspects of this mechanism:
   data to and reads data from Atomix using a simple GET/PUT interface
   common to NoSQL databases.
 
-* **Loading Models:** Models are loaded using *Model Plugins*.  The
-  *Model Plugins* communicate via a gRPC API to x-config, loading the
+* **Loading Models:** Models are loaded using *Model Plugins*.
+  X-Config communicates via a gRPC API to *Model Plugins*, loading the
   models at runtime. The *Model Plugins* are precompiled, and
   therefore no compilation at runtime is necessary. The interface
-  between x-config and the plugins eliminates dynamic load
+  between x-config and the plugins eliminates dynamic loading
   compatibility issues.
 
 * **Versioning and Migration:** All the models loaded into x-config
