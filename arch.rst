@@ -551,8 +551,8 @@ control loop). Users and Operators change parameters of the running
 system via a well-defined REST API. In the other dimension, running
 beside the hybrid cloud, is the Lifecycle Management system (including
 Resource Provisioning as Step 0).  Operators and Developers specify
-changes the system that is running by checking code (including
-configuration specs) into a repo.
+changes to the system by checking code (including configuration specs)
+into a repo, and then periodically trigger an upgrade of the running system.
 
 .. _fig-2D:
 .. figure:: figures/Slide25.png
