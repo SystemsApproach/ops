@@ -547,12 +547,13 @@ overview of the management platform to the two-dimensional
 representation shown in :numref:`Figure %s <fig-2D>`. In one
 dimension, layered on top of the hybrid cloud being managed, is the
 Runtime Control system (including Monitoring and Logging to close the
-control loop). Users and Operators change parameters of the running
-system via a well-defined REST API. In the other dimension, running
-beside the hybrid cloud, is the Lifecycle Management system (including
-Resource Provisioning as Step 0).  Operators and Developers specify
-changes to the system by checking code (including configuration specs)
-into a repo, and then periodically trigger an upgrade of the running system.
+control loop). Users and Operators read and write parameters of the
+running system via a well-defined REST API. In the other dimension,
+running beside the hybrid cloud, is the Lifecycle Management system
+(including Resource Provisioning as Step 0).  Operators and Developers
+specify changes to the system by checking code (including
+configuration specs) into a repo, and then periodically triggering an
+upgrade of the running system.
 
 .. _fig-2D:
 .. figure:: figures/Slide25.png
