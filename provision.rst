@@ -21,17 +21,15 @@ plug-and-play appliance that has already been prepped.
 
 When a cloud is built from virtual resources (e.g., VMs instantiated
 on a commercial cloud) the "rack and connect" step is carried out by a
-sequence of API calls rather than a hands-on technician.  Of course, we
-want to automate the sequence of calls needed to activate virtual
+sequence of API calls rather than a hands-on technician.  Of course,
+we want to automate the sequence of calls needed to activate virtual
 infrastructure, which has inspired an approach know as
-*infrastructure-as-code*.\ [#]_ The general idea is to document, in a
-declarative format that can be "executed", exactly what our
-infrastructure is to look like; how it is to be configured. We use
-Terraform as our open source approach to infrastructure-as-code.
-
-.. [#] *Infrastructure-as-Code* is a special case of the more general
-       concept of *Configuration-as-Code*, which we discuss in much
-       more detail in Chapter 4.
+*Infrastructure-as-Code*, a special case of the
+*Configuration-as-Code* concept introduced in Chapter 2. The general
+idea is to document, in a declarative format that can be "executed",
+exactly what our infrastructure is to look like; how it is to be
+configured. We use Terraform as our open source approach to
+Infrastructure-as-Code.
 
 When a cloud is built from a combination of virtual and physical
 resources, as is the case for a hybrid cloud like Aether, we need a

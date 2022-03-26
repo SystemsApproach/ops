@@ -60,12 +60,11 @@ specifically, the Terraform templates and variable files.\ [#]_ While
 the "hands-on" and "data entry" aspects of Resource Provisioning
 described in Section 3.1 happen outside the CI/CD pipeline, the
 ultimate output of provisioning is the Infrastructure-as-Code that
-gets checked into the Config Repository. These files are input to
-Lifecycle Management, which implies that Terraform gets invoked as
-part of CI/CD whenever these files change. In other words, CI/CD keeps
-both the software-related components in the underlying cloud platform
-and the microservice workloads that run on top of that platform
-up-to-date.
+gets checked into the Config Repo. These files are input to Lifecycle
+Management, which implies that Terraform gets invoked as part of CI/CD
+whenever these files change. In other words, CI/CD keeps both the
+software-related components in the underlying cloud platform and the
+microservice workloads that run on top of that platform up-to-date.
 
 .. [#] We use the term "Config Repo" generically to denote one or more
        GitHub repositories storing all the configuration-related
@@ -99,11 +98,11 @@ Resource Provisioning and CD), all three subsystems are loosely
 coupled, and able to perform their respective tasks independently. The
 second is that all authoritative state needed to successfully build
 and deploy the system is contained within the pipeline, specifically,
-as declarative specifications in the Config Repo. This is sometimes
-referred to as *Configuration-as-Code*, and it is the cornerstone of
-GitOps, the cloud native approach to CI/CD that we are describing in
-this book. The third is that there is an opportunity for operators to
-apply discretion to the pipeline, as denoted by the *"Deployment
+as declarative specifications in the Config Repo. This is the
+cornerstone of *Configuration-as-Code* (also sometimes called
+*GitOps*), the cloud native approach to CI/CD that we are describing
+in this book. The third is that there is an opportunity for operators
+to apply discretion to the pipeline, as denoted by the *"Deployment
 Gate"* in the Figure, controlling what features get deployed
 when. This topic is discussed in the sidebar, as well as at other
 points throughout this chapter.
@@ -526,7 +525,7 @@ just a means to that end.
 4.4 Continuous Deployment
 -------------------------
 
-We are now ready to act on the configuration-as-code checked into the
+We are now ready to act on the configuration specs checked into the
 Config Repo, which includes both the set of Terraform Templates that
 specify the underlying infrastructure (we've been calling this the
 cloud platform) and the set of Helm Charts that specify the collection
@@ -774,8 +773,9 @@ credentials Terraform needs to access remote services like GCP, as
 well as the keys used to secure communication among microservices
 within a edge cluster. Such secrets are effectively part of the hybrid
 cloud's configuration state, which would imply they are stored in the
-Config Repo, like all other configuration-as-code. But repositories
-are typically not designed to be secure, which is problematic.
+Config Repo, like all other Configuration-as-Code artifacts. But
+repositories are typically not designed to be secure, which is
+problematic.
 
 At a high level, the solution is straightforward. The various secrets
 required to operate a secure system are encrypted, and only the
@@ -842,7 +842,7 @@ attack surface that needs to be protected.
 
 The CI/CD pipeline described in this chapter is consistent with
 GitOps, an approach to DevOps designed around the idea of
-*configuration-as-code*\—making the code repo (e.g. GitHub) the single
+*Configuration-as-Code*\—making the code repo (e.g. GitHub) the single
 source of truth for building and deploying a cloud native system. The
 approach is premised on first making all configuration state
 declarative (e.g, specified in Helm Charts and Terraform Templates),

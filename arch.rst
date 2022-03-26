@@ -387,7 +387,9 @@ Repo, a Zero-Touch Provisioning system (a) generates a set of
 configuration artifacts that are stored in a Config Repo and used
 during Lifecycle Management, and (b) initializes the newly deployed
 resources so they are in a state that Lifecycle Management is able to
-control.
+control. The idea of storing configuration directives in a Repo, like
+any other code module, is a practice known as *Configuration-as-Code*,
+and we will see it applied in different ways throughout this book.
 
 Recall from Chapter 1 that we called out the "Aether platform" as
 distinct from the cloud-native workloads that are hosted on the
