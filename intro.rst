@@ -19,7 +19,13 @@ of the hyperscale operators. The edge is more likely to be in a
 enterprise or an "Internet of Things" setting such as a factory. The
 edge is the place where the cloud services connect to the real world,
 e.g., via sensors and actuators, and where latency-sensitive services
-are deployed to be close to the consumers of those services.
+are deployed to be close to the consumers of those services.\ [#]_
+
+.. [#] Server clusters hosted in co-location facilities can also be
+       considered edge clouds, and benefit from the technologies and
+       practices described in this book, but we use enterprises as our
+       canonical example because they encompass a broader set of
+       deployment requirements.
 
 The hyperscalers are indeed willing to manage your edge cloud for you,
 as an extension of their core datacenters. And correspondingly, there
