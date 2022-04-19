@@ -151,7 +151,7 @@ that we can build upon.
     *The Runtime Control system described in this chapter adopts a
     similar approach, but instead of defining the models in Python
     (as with Django) or Ruby (as with Ruby on Rails), we define
-    models using a declarative language—YANG—which is in turn used
+    models using a declarative language (YANG) which is in turn used
     to generate a programmatic API. This API can then be invoked
     from (1) a GUI, which is itself typically built using another
     framework, such as AngularJS; (2) a CLI; or (3) a closed-loop

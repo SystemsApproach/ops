@@ -3,11 +3,16 @@
    :align: center
    :target: https://systemsapproach.org
 
+|
+
 Edge Cloud Operations: A Systems Approach
 =========================================
 
 Peterson, Baker, Bavier, Williams and Davie
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Published by Systems Approach, LLC
+----------------------------------------
 
 |
 
