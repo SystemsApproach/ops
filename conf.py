@@ -39,7 +39,7 @@ release = version
 # -- Project information -----------------------------------------------------
 
 project = u'Edge Cloud Operations: A Systems Approach'
-copyright = u'2022, Systems Approach LLC'
+copyright = u'2022, Systems Approach LLC (Publisher)'
 author = u'Peterson, Baker, Bavier, Williams, Davie'
 
 # -- General configuration ---------------------------------------------------
