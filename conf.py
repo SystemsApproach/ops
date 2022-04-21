@@ -163,13 +163,8 @@ latex_elements = {
     #
     'pointsize': '11pt',
 
-    # Additional stuff for the LaTeX preamble.
-
-    #
-    # 'preamble': 'private/latex/preamble.tex',
-    #
     # Get unicode to work
-
+    #
     'fontenc': '\\usepackage[LGR,T1]{fontenc}',
 
     # Latex figure (float) alignment
