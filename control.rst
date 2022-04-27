@@ -300,6 +300,12 @@ the data model (schema) for Aether is sketched in Section 5.3, but
 another example would be the set of OpenConfig models used to manage
 network devices.
 
+.. _reading_openconfig:
+.. admonition:: Further Reading
+
+   `OpenConfig: Vendor-neutral, model-driven network managaement
+   <https://www.openconfig.net/>`__.
+
 There are four important aspects of this mechanism:
 
 * **Persistent Store:** Atomix is the cloud native K/V-store used to
@@ -403,7 +409,7 @@ implement the API.
 .. _reading_openapi:
 .. admonition:: Further Reading
 
-   `OpenAPI 3.0 <https://swagger.io/specification/>`__.
+   `OpenAPI 3.0: API Development for Everyone <https://swagger.io/specification/>`__.
 
 Auto-generating the API is not without its pitfalls. The models and
 the API quickly develop a 1:1 correspondence, meaning any change in
@@ -422,7 +428,9 @@ first place is that the service definition is not yet mature.  If the
 models are changing due to volatility in the backend systems they
 control, then it is often the case that the models can be
 distinguished as "low-level" or "high-level", with only the latter
-directly visible to clients of the API.
+directly visible to clients via the API. In semantic versioning terms,
+a change to a low-level model would then effectively be a backwards
+compatible PATCH.
 
 
 5.2.3 Identity Management
