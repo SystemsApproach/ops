@@ -362,7 +362,7 @@ internal implementation.
 An API provides an *interface wrapper* that sits between x-config and
 higher-layer portals and applications. Northbound, it offers a RESTful
 API. Southbound, it speaks gNMI to x-config. The Runtime Control API
-layer serves multiple purposes:
+layer serves three main purposes:
 
 * Unlike gNMI (which supports only **GET** and **SET** operations), a
   RESTful API (which supports **GET**, **PUT**, **POST**, **PATCH**,
@@ -377,18 +377,17 @@ layer serves multiple purposes:
   of who performs what operation when (also taking advantage of the
   identity management mechanism described next).
 
-It is entirely possible to auto-generate the REST API from the set of
-models loaded into x-config, although one is also free to augment this
-set with additional “hand-crafted” calls for the sake of convenience
-(although typically this will mean the API is no longer RESTful). The
-idea of using the model specification as a single source of truth and
-deriving other artifacts, such as the API, from the model declarations
+It is possible to auto-generate the REST API from the set of models
+loaded into x-config, although one is also free to augment this set
+with additional “hand-crafted” calls for the sake of convenience (with
+the caveat that this will likely mean the API is no longer RESTful).
+The idea of using the model specification as a single source of truth
+and deriving other artifacts, such as the API, from this specification
 is appealing because it improves developer productivity, and provides
 fewer opportunities for inconsistencies to be introduced between
-layers.
-
-Consider, for example, if the developer wishes to add a single field to
-a model.  Without auto-generation, the following must all be updated:
+layers. Consider, for example, if the developer wishes to add a single
+field to a model.  Without auto-generation, the following must all be
+updated:
 
    * Model
    * API specification
@@ -416,11 +415,14 @@ difficult since a single API cannot easily satisfy two sets of models.
 An alternative would be to introduce a second external-facing API, and
 a small translation layer between the auto-generated internal API and
 the external API. The shim layer would function a shock absorber,
-mitigating the frequent bumps that might occur in the internal API,
-providing a smoother ride for external consumers. Of course, this
-presumes the external-facing API is relatively stable, which is
-problematic if the reason the models are changing frequently is that
-the service definition is still in the process of converging.
+mitigating the frequent bumps that might occur in the internal API.
+Of course, this presumes the external-facing API is relatively stable,
+which is problematic if the reason the models are changing in the
+first place is that the service definition is not yet mature.  If the
+models are changing due to volatility in the backend systems they
+control, then it is often the case that the models can be
+distinguished as "low-level" or "high-level", with only the latter
+directly visible to clients of the API.
 
 
 5.2.3 Identity Management
