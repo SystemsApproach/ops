@@ -6,7 +6,7 @@ monitor its behavior, evaluate performance, make informed provisioning
 decisions, respond to failures, identify attacks, and diagnose
 problems is an essential function of any management platform. Broadly
 speaking, there are three types of telemetry data to
-collect—*metrics*, *logs*, and *traces*/—with multiple open source
+collect—*metrics*, *logs*, and *traces*\—with multiple open source
 software stacks available to help collect, monitor, and act upon each
 of them.
 
@@ -390,7 +390,7 @@ expected to evolve and mature in the foreseeable future.
    `OpenTelemetry 
    <https://opentelemetry.io/>`__.
 
-   `Jaeger End-to-End Distributed Tracing 
+   `Jaeger: End-to-End Distributed Tracing 
    <https://www.jaegertracing.io/>`__.
 
 With respect to mechanisms, Jaeger is a widely used open source
