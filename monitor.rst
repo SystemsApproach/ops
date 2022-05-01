@@ -1,67 +1,86 @@
-Chapter 6:  Monitoring and Logging
-==================================
+Chapter 6:  Monitoring and Telemetry
+====================================
 
-Collecting data about a running system, so that operators can evaluate
-performance, make informed provisioning decisions, respond to
-failures, identify attacks, and diagnose problems is an essential
-function of any management platform.  The problem space naturally
-divides into two, mostly independent sub-problems—*monitoring* and
-*logging*—there are a several widely used open source software stacks
-that address these sub-problems for cloud deployments.
+Collecting telemetry data for a running system, so that operators can
+monitor its behavior, evaluate performance, make informed provisioning
+decisions, respond to failures, identify attacks, and diagnose
+problems is an essential function of any management platform. Broadly
+speaking, there are three types of telemetry data to
+collect—*metrics*, *logs*, and *traces*/—with multiple open source
+software stacks available to help collect, monitor, and act upon each
+of them.
 
-The monitoring stack collects periodic quantitative data. These include
-common performance metrics like link bandwidth, CPU utilization, and
-memory usage, but also binary results corresponding to "up" and
-"down", as well as other state variables that can be encoded numerically.
-These values are produced and collected periodically (e.g.,
-every few seconds), either by reading a counter, or by executing a
-runtime test that returns a value.  These metrics can be associated
-with physical resources like servers and switches, virtual resources
-like VMs and containers, or high-level abstractions like the *Virtual
-Celluar Service* described in Section 5.3. Given these many possible
-sources of data, the job of the monitoring stack is to collect,
+Metrics are quantitative data about a system. These include common
+performance metrics like link bandwidth, CPU utilization, and memory
+usage, but also binary results corresponding to "up" and "down", as
+well as other state variables that can be encoded numerically.  These
+values are produced and collected periodically (e.g., every few
+seconds), either by reading a counter, or by executing a runtime test
+that returns a value.  These metrics can be associated with physical
+resources like servers and switches, virtual resources like VMs and
+containers, or high-level abstractions like the *Virtual Celluar
+Service* described in Section 5.3. Given these many possible sources
+of data, the job of the metrics monitoring stack is to collect,
 archive, visualize, and optionally analyze this data.
 
-Clearly, the analysis step is open ended, and potentially includes
-ML-based analytics. We characterize such sophisticated analysis as
-running on top of the monitoring subsystem (and so outside the scope
-of this discussion), and focus instead on simple examples like
-watching for certain metrics to cross a threshold and triggering an
-alert. Also note that there is a related problem of collecting usage
-data for the sake of billing, but billing is typically handled using a
-separate mechanism that must deliver a significantly higher level of
-reliability, whereas occasionally dropping a monitoring value is not
-especially harmful.
-
-The logging stack collects qualitative data that is generated whenever
-an unusual event occurs. This information can be used to identify
-problematic operating conditions (i.e., it may trigger an alert), but
-more commonly, it is used to troubleshoot problems after they have
-been detected. Various system components—all the way from the
-low-level OS kernel to high-level cloud services—write messages that
-adhere to a well-defined format to the log. These messages include a
-timestamp, which makes it possible for the logging stack to parse and
+Logs are the qualitative data that is generated whenever an unusual
+event occurs. This information can be used to identify problematic
+operating conditions (i.e., it may trigger an alert), but more
+commonly, it is used to troubleshoot problems after they have been
+detected. Various system components—all the way from the low-level OS
+kernel to high-level cloud services—write messages that adhere to a
+well-defined format to the log. These messages include a timestamp,
+which makes it possible for the logging stack to parse and
 cross-reference message from different components.
 
-Because both the metrics collected by the monitoring stack and the
-event messages recorded by the logging stack are timestamped, it is
-also possible to build linkages between the two subsystems, which is
-especially helpful when debugging a problem or deciding whether an
-alert is warranted. We give an example of how this and other useful
-functions might be implemented in the following sections.
+Traces are a record of the sequence of modules executed to complete a
+user-initiated transaction or job. They are similar to logs, but
+provide more specialized information about the context in which
+different operations are performed. Execution context is well-defined
+in a single program, and is commonly recorded as an in-memory call
+stack, but because we are operating in a cloud environment, traces are
+inherently distributed across a graph of network-connected
+microservices. This makes the problem challenging, but also critically
+important because it is often the case that the only way to understand
+a time-dependent phenomena—such as why a particular resource is over
+loaded—is understand why multiple independent workflows are impacting
+each other.
 
-6.1 Monitoring and Alerts
+In addition to collecting various telemetry data, there is also an
+analysis step required to take advantage of it. This is an open ended
+problem, and potentially includes ML-based analytics. We characterize
+such sophisticated analysis as running "on top of" the monitoring and
+telemetry subsystem (and so outside the scope of this discussion), and
+focus instead on (1) dashboards used to visualize the data, and (2)
+simple examples like watching for certain metrics to cross a threshold
+and triggering an alert. Also note that there is a related problem of
+collecting usage data for the sake of billing, but billing is
+typically handled using a separate mechanism that must deliver a
+significantly higher level of reliability, whereas occasionally
+dropping a monitoring value is not especially harmful.
+
+Finally, because the metrics, logs, and traces collected by the
+various subsystems are timestamped, it is also possible to build
+linkages between the various types of telemetry data, which is
+especially helpful when debugging a problem or deciding whether an
+alert is warranted. We give examples of how this and other useful
+functions might be implemented in the concluding section, where we
+also discuss ongoing efforts to unify monitoring across all types of
+data.
+
+6.1 Metrics and Alerts
 -------------------------------
 
-One standard open source monitoring stack uses Prometheus to collect
-and store platform and service metrics, Grafana to visualize metrics
-over time, and Alertmanager to notify the operations team of events
-that require attention.  In Aether, Prometheus and Alertmanager are
-instantiated on each edge cluster, with a single instantiation of Grafana
-running centrally in the cloud. More information about each tool is
-available online, so we focus more narrowly on (1) how individual
-Aether components "opt into" this stack, and (2) how the stack can be
-customized in service-specific ways.
+Starting with metrics, a popular open source monitoring stack uses
+Prometheus to collect and store platform and service metrics, Grafana
+to visualize metrics over time, and Alertmanager to notify the
+operations team of events that require attention.  In Aether,
+Prometheus and Alertmanager are instantiated on each edge cluster,
+with a single instantiation of Grafana running centrally in the
+cloud. More information about each tool is available online, so we
+focus more narrowly on (1) how individual Aether components "opt into"
+this stack, and (2) how the stack can be customized in
+service-specific ways.
 
 .. _reading_monitor:
 .. admonition:: Further Reading
@@ -320,17 +339,85 @@ following set of best practices.
   a suite of microservices, the logging configuration need only be
   applied to one instance for it to apply to all instances.
 
-6.3 Integrated Dashboards
+6.3 Distributed Tracing
 -------------------------
 
-The monitoring and logging subsystems make it possible to collect a
-wealth of data about the health of a system, but it's only useful if
-the right data is displayed to the right people (those with the
+The third tool in the monitoring toolkit is support for tracing, which
+is challenging in a cloud setting because it involves following the
+flow of control for each transaction across multiple microservices.
+This makes it a distributed problem, rather than the simpler (and
+familiar) task of inspecting an in-memory stack trace.
+
+The general pattern is similar what we've already seen with metrics
+and logs: the code is instrumented to produce data that is then
+collected, aggregated, stored, and made available for display and
+analysis. The main difference is the type of data we're interested in
+collecting, which for tracing, is the sequence of API boundaries
+crossings from one module to another. This data gives us the
+information we need to reconstruct the call chain. In principle, we
+could leverage one of the two systems we've already discussed to
+support tracing—and just be diligent to produce the necessary
+interface-crossing information—but it is a specialized enough use case
+to warrant its own vocabulary, abstractions, and mechanisms.
+
+At a high level, a *trace* is a description of a transaction as it
+moves through the system. It consists of a sequence of *spans* (each
+of which represents work done within a service) interleaved with a set
+of *span contexts* (each of which represents the state carried across
+the network from one service to another). If the terminology is a
+little non-obvious, thinking of a trace as a directed graph, where the
+nodes correspond to spans and the edges correspond to span contexts,
+is a reasonable starting point. The nodes and edges are then
+timestamped and annotated with relevant facts (key/value tags) about
+the application. Importantly, each span includes timestamped log
+messages generated while the span was executing (simplifying the
+process of relating log messages with traces), and each span context
+records the endpoint and parameters for the remote service innovation.
+
+Again, as with metrics and log messages, the details are important and
+those details are specified by an agreed-upon schema. The
+OpenTelemetry project is now defining one such spec, building on the
+earlier OpenTracing project. Notably, however, the problem space is
+complex and the subject of ongoing research. These definitions can be
+expected to evolve and mature in the foreseeable future.
+
+.. _reading_tracing:
+.. admonition:: Further Reading
+
+   `OpenTracing 
+   <https://opentracing.io/>`__.
+
+   `OpenTelemetry 
+   <https://opentelemetry.io/>`__.
+
+   `Jaeger End-to-End Distributed Tracing 
+   <https://www.jaegertracing.io/>`__.
+
+With respect to mechanisms, Jaeger is a widely used open source
+tracing tool originally developed by Uber. (Jaeger is not currently
+included in Aether, but was utilized in a predecessor ONF edge cloud.)
+Jaeger includes client libraries that can be used to instrument source
+code, a collector, storage, a language that can be used to query
+stored traces, and a user dashboard designed to help diagnose
+performance problems and do root cause analysis.
+
+6.4 Integrated Dashboards
+-------------------------
+
+The metrics, logs and traces being generated by instrumented
+application software make it possible to collect a wealth of data
+about the health of a system. But this instrumentation is only useful
+if the right data is displayed to the right people (those with the
 ability to take action) at the right time (when action needs to be
 taken). Creating useful panels and organizing them into intuitive
 dashboards is part the solution, but integrating information across
 the subsystems of the management platform is also a requirement.
-This section highlights two examples.
+
+Unifying all this data is the ultimate objective of on-going efforts
+like the OpenTelemetry project mentioned in the previous section, but
+there are also opportunities to do so today with legacy subsystems,
+using the tools described in this chapter. This section highlights two
+examples.
 
 First, while Kibana provides a dashboard view of the logs being
 collected, in practice, it is most useful to have a convenient way to
@@ -386,3 +473,4 @@ the most relevant information associated with the selected object.
    :align: center
 
    Example monitoring frame associated with a selected Device Group.
+

@@ -30,6 +30,7 @@ IPMI
 IaaS
 IoT
 Istio
+Jaeger
 Kahn
 Keycloak
 Kibana
@@ -72,6 +73,7 @@ Telcos
 Terraform
 Todo
 Tofino
+Uber
 VM
 VMs
 VMware
