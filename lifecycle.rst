@@ -149,11 +149,11 @@ into the Code Repo requires first passing this preliminary round of
 tests. Once merged, the pipeline runs a build across all the
 components, and a second round of testing happens on a *Quality
 Assurance (QA)* cluster. Passing these tests gate deployment, but note
-that testing also happens in the Staging clusters, as part of the CD end
-of the pipeline. One might naturally ask what about the Production
-clusters; how do we continue to test the software after it is running in
-production?  That happens, of course, but we tend to call it
-Monitoring & Logging (and subsequent diagnostics) rather than
+that testing also happens in the Staging clusters, as part of the CD
+end of the pipeline. One might naturally ask what about the Production
+clusters; how do we continue to test the software after it is running
+in production?  That happens, of course, but we tend to call it
+Monitoring & Telemetry (and subsequent diagnostics) rather than
 testing. This is the subject of Chapter 6.
 
 We explore each of the stages in :numref:`Figure %s <fig-pipeline>` in

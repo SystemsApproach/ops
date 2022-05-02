@@ -244,10 +244,10 @@ K/V-store (as an optimization).
    Runtime Control also mediates access to the other Management
    Services.
 
-Another aspect of :numref:`Figure %s <fig-roc2>` worth noting is
-that, while Runtime Control mediates all control-related activity, it
-is not in the “data path” for the subsystems it controls. This means,
-for example, that monitoring data returned by the Monitoring & Logging
+Another aspect of :numref:`Figure %s <fig-roc2>` worth noting is that,
+while Runtime Control mediates all control-related activity, it is not
+in the “data path” for the subsystems it controls. This means, for
+example, that monitoring data returned by the Monitoring & Telemetry
 subsystem does not pass through Runtime Control; it is delivered
 directly to dashboards and applications running on top of the
 API. Runtime Control is only involved in authorizing access to such

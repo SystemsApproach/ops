@@ -5,10 +5,9 @@ Collecting telemetry data for a running system, so that operators can
 monitor its behavior, evaluate performance, make informed provisioning
 decisions, respond to failures, identify attacks, and diagnose
 problems is an essential function of any management platform. Broadly
-speaking, there are three types of telemetry data to
-collect—*metrics*, *logs*, and *traces*\—with multiple open source
-software stacks available to help collect, monitor, and act upon each
-of them.
+speaking, there are three types of telemetry data—*metrics*, *logs*,
+and *traces*\—with multiple open source software stacks available to
+help collect, store, and act upon each of them.
 
 Metrics are quantitative data about a system. These include common
 performance metrics like link bandwidth, CPU utilization, and memory
@@ -43,8 +42,33 @@ inherently distributed across a graph of network-connected
 microservices. This makes the problem challenging, but also critically
 important because it is often the case that the only way to understand
 a time-dependent phenomena—such as why a particular resource is over
-loaded—is understand why multiple independent workflows are impacting
-each other.
+loaded—is understand how multiple independent workflows impact each
+other.
+
+.. sidebar:: Observability
+
+    *Observability is a new term being used in the context monitoring,
+    and while it is easily dismissed as the latest buzzword (which it
+    is), it can also be interpretted as another of the set of "-ities"
+    (qualities) that all good systems aspire to: scalability,
+    reliability, availability, security, usability, and so on.
+    Observability is the quality of system designed to reveal the
+    facts (telemetry data) about its internal operation required to
+    make informed management and control decisions. Instrumentation is
+    the key implementation choice systems (and system components) make
+    to improve their observability.*
+
+    *Observability is not just a software quality. For example, a
+    recent development is Inband Network Telemetry (INT), which takes
+    advantage of programmable switching hardware to enable new
+    questions about how network packets are being processed, rather
+    than having to depend the fixed set of counters hardwired into
+    network devices.  Because Aether uses programmable switches as the
+    foundation for its SDN-based switching fabric, it has a fourth set
+    of telemetry data availble to help debug problems, optimize
+    performance, and detect malicious attacks. We do not discuss INT
+    in this chapter, but refer the reader to our companion SDN book
+    for more information.*
 
 In addition to collecting various telemetry data, there is also an
 analysis step required to take advantage of it. This is an open ended
@@ -61,12 +85,11 @@ dropping a monitoring value is not especially harmful.
 
 Finally, because the metrics, logs, and traces collected by the
 various subsystems are timestamped, it is also possible to build
-linkages between the various types of telemetry data, which is
-especially helpful when debugging a problem or deciding whether an
-alert is warranted. We give examples of how this and other useful
-functions might be implemented in the concluding section, where we
-also discuss ongoing efforts to unify monitoring across all types of
-data.
+linkages between them, which is especially helpful when debugging a
+problem or deciding whether an alert is warranted. We give examples of
+how this and other useful functions might be implemented in the
+concluding section, where we also discuss ongoing efforts to unify
+monitoring across all types of telemetry data.
 
 6.1 Metrics and Alerts
 -------------------------------
@@ -345,8 +368,8 @@ following set of best practices.
 The third tool in the monitoring toolkit is support for tracing, which
 is challenging in a cloud setting because it involves following the
 flow of control for each transaction across multiple microservices.
-This makes it a distributed problem, rather than the simpler (and
-familiar) task of inspecting an in-memory stack trace.
+This makes it a distributed problem, rather than the simpler task of
+inspecting an in-memory stack trace.
 
 The general pattern is similar what we've already seen with metrics
 and logs: the code is instrumented to produce data that is then
@@ -372,20 +395,22 @@ timestamped and annotated with relevant facts (key/value tags) about
 the application. Importantly, each span includes timestamped log
 messages generated while the span was executing (simplifying the
 process of relating log messages with traces), and each span context
-records the endpoint and parameters for the remote service innovation.
+records the state (e.g., call parameters) that crosses microservice
+boundaries.
 
 Again, as with metrics and log messages, the details are important and
-those details are specified by an agreed-upon schema. The
-OpenTelemetry project is now defining one such spec, building on the
-earlier OpenTracing project. Notably, however, the problem space is
-complex and the subject of ongoing research. These definitions can be
-expected to evolve and mature in the foreseeable future.
+those details are specified by an agreed-upon data model. The
+OpenTelemetry project is now defining one such model, building on the
+earlier OpenTracing project. Notably, however, the problem is complex,
+especially with respect to (1) reducing the overhead of tracing so as
+to not negatively impact performance, and (2) extracting meaningful
+high-level information from a collection of per-transaction traces. As
+a consequence, distributed tracing is the subject of significant
+ongoing research, and we can expect these definitions to evolve and
+mature in the foreseeable future.
 
 .. _reading_tracing:
 .. admonition:: Further Reading
-
-   `OpenTracing 
-   <https://opentracing.io/>`__.
 
    `OpenTelemetry 
    <https://opentelemetry.io/>`__.
@@ -396,10 +421,11 @@ expected to evolve and mature in the foreseeable future.
 With respect to mechanisms, Jaeger is a widely used open source
 tracing tool originally developed by Uber. (Jaeger is not currently
 included in Aether, but was utilized in a predecessor ONF edge cloud.)
-Jaeger includes client libraries that can be used to instrument source
-code, a collector, storage, a language that can be used to query
-stored traces, and a user dashboard designed to help diagnose
-performance problems and do root cause analysis.
+Jaeger includes instrumentation of the runtime system for the
+language(s) used to implement an application, a collector, storage, a
+query language that can be used to analyze stored traces, and a user
+dashboard designed to help diagnose performance problems and do root
+cause analysis.
 
 6.4 Integrated Dashboards
 -------------------------
@@ -415,22 +441,23 @@ the subsystems of the management platform is also a requirement.
 
 Unifying all this data is the ultimate objective of on-going efforts
 like the OpenTelemetry project mentioned in the previous section, but
-there are also opportunities to do so today with legacy subsystems,
-using the tools described in this chapter. This section highlights two
+there are also opportunities to use the tools described in this
+chapter to better integrate data. This section highlights two
 examples.
 
 First, while Kibana provides a dashboard view of the logs being
 collected, in practice, it is most useful to have a convenient way to
 see the log messages associated with a particular component (at a
-particular time and log level) in the context of monitoring data. This
-is easy to accomplish because Grafana can be configured to display
-data from Elastic Search just as easily as from Prometheus. Both are
-data sources that can be queried. This makes it to possible to create
-a Grafana dashboard that includes a selected set of log messages,
-similar to the one from Aether shown in :numref:`Figure %s
-<fig-es_dash>`.  In this example, we see INFO-level messages
-associated with the UPF sub-component of SD-Core, which augments the
-UPF performance data shown in :numref:`Figure %s <fig-upf_dash>`.
+particular time and log level) in the context of metrics that have
+been collected. This is easy to accomplish because Grafana can be
+configured to display data from Elastic Search just as easily as from
+Prometheus. Both are data sources that can be queried. This makes it
+to possible to create a Grafana dashboard that includes a selected set
+of log messages, similar to the one from Aether shown in
+:numref:`Figure %s <fig-es_dash>`.  In this example, we see INFO-level
+messages associated with the UPF sub-component of SD-Core, which
+augments the UPF performance data shown in :numref:`Figure %s
+<fig-upf_dash>`.
 
 .. _fig-es_dash:
 .. figure:: figures/es_dash.png
@@ -440,15 +467,16 @@ UPF performance data shown in :numref:`Figure %s <fig-upf_dash>`.
    Log messages associated with the UPF element of SD-Core, displayed
    in a Grafana dashboard.
 
-Second, the runtime control interface provides a means to change
-various parameters of a running system, but having access to the data
-needed to know what changes (if any) need to be made is a prerequisite
-for making informed decisions. To this end, it is ideal to have access
-to both the "knobs" and the "dials" on an integrated dashboard.  This
-can be accomplished by incorporating Grafana frames in the Runtime
-Control GUI, which in its simplest form, displays a set of web forms
-corresponding to the fields in the underlying data models. (More
-sophisticated control panels are certainly possible.)
+Second, the runtime control interface described in Chapter 5 provides
+a means to change various parameters of a running system, but having
+access to the data needed to know what changes (if any) need to be
+made is a prerequisite for making informed decisions. To this end, it
+is ideal to have access to both the "knobs" and the "dials" on an
+integrated dashboard.  This can be accomplished by incorporating
+Grafana frames in the Runtime Control GUI, which in its simplest form,
+displays a set of web forms corresponding to the fields in the
+underlying data models. (More sophisticated control panels are
+certainly possible.)
 
 .. _fig-dev_group:
 .. figure:: figures/gui1.png

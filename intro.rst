@@ -212,10 +212,10 @@ terminology.
     requirement on individual components (as opposed to the underlying
     platform used to manage a set of components).
 
-* **Monitoring & Logging:** Collecting data from system components to aid
-  in management decisions. This includes diagnosing faults, tuning
-  performance, doing root cause analysis, performing security audits,
-  and provisioning additional capacity.
+* **Monitoring & Telemetry:** Collecting data from system components
+  to aid in management decisions. This includes diagnosing faults,
+  tuning performance, doing root cause analysis, performing security
+  audits, and provisioning additional capacity.
 
   * **Analytics:** A program (often using statistical models) that
     produces additional insights (value) from raw data. It can be used
@@ -330,9 +330,9 @@ and Kubernetes as the first-level *container orchestrator*. (We say
 foundation, in turn, makes many of the other challenges more
 manageable:
 
-* Monitoring and Logging mechanisms are themselves realized as a set
-  of container-based microservices, deployed within the cloud they
-  observe.
+* Monitoring and other telemetry-related mechanisms are themselves
+  realized as a set of container-based microservices, deployed within
+  the cloud they observe.
 
 * ISSU becomes more tractable because the microservice architecture
   encourages stateless components, with persistent state isolated in a
