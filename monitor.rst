@@ -17,10 +17,10 @@ values are produced and collected periodically (e.g., every few
 seconds), either by reading a counter, or by executing a runtime test
 that returns a value.  These metrics can be associated with physical
 resources like servers and switches, virtual resources like VMs and
-containers, or high-level abstractions like the *Virtual Celluar
-Service* described in Section 5.3. Given these many possible sources
-of data, the job of the metrics monitoring stack is to collect,
-archive, visualize, and optionally analyze this data.
+containers, or high-level abstractions like the *Connectivity Service*
+described in Section 5.3. Given these many possible sources of data,
+the job of the metrics monitoring stack is to collect, archive,
+visualize, and optionally analyze this data.
 
 Logs are the qualitative data that is generated whenever an unusual
 event occurs. This information can be used to identify problematic
