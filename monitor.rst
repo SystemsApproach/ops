@@ -42,7 +42,7 @@ inherently distributed across a graph of network-connected
 microservices. This makes the problem challenging, but also critically
 important because it is often the case that the only way to understand
 a time-dependent phenomena—such as why a particular resource is over
-loaded—is understand how multiple independent workflows impact each
+loaded—is to understand how multiple independent workflows impact each
 other.
 
 .. sidebar:: Observability
