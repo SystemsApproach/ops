@@ -32,18 +32,18 @@ well-defined format to the log. These messages include a timestamp,
 which makes it possible for the logging stack to parse and
 cross-reference message from different components.
 
-Traces are a record of the sequence of modules executed to complete
-user-initiated transactions or jobs. They are similar to logs, but
-provide more specialized information about the context in which
-different operations are performed. Execution context in a single
-program is commonly recorded as an in-memory call stack, but because
-we are operating in a cloud environment, traces are inherently
-distributed across a graph of network-connected microservices. This
-makes the problem challenging, but also critically important because
-it is often the case that the only way to understand time-dependent
-phenomena—such as why a particular resource is over loaded—is to
-understand how multiple independent workflows interact with each
-other.
+Traces are a record of causal relationships (e.g., Service A calls
+Service B) resulting from user-initiated transactions or jobs. They
+are similar to logs, but provide more specialized information about
+the context in which different events happen. For example, execution
+traces in a single program is commonly recorded as an in-memory call
+stack, but because we are operating in a cloud environment, traces are
+inherently distributed across a graph of network-connected
+microservices. This makes the problem challenging, but also critically
+important because it is often the case that the only way to understand
+time-dependent phenomena—such as why a particular resource is over
+loaded—is to understand how multiple independent workflows interact
+with each other.
 
 .. sidebar:: Observability
 
@@ -52,10 +52,11 @@ other.
     is), it can also be interpretted as another of the set of "-ities"
     (qualities) that all good systems aspire to: scalability,
     reliability, availability, security, usability, and so on.
-    Observability is the quality of a system that reveals the facts
-    about its internal operation required to make informed management
-    and control decisions. Instrumenting a system and its components
-    is a necessary first step in improving its observability.*
+    Observability is the quality of a system that reveals (or makes
+    visible) the facts about its internal operation required to make
+    informed management and control decisions. Instrumenting a system
+    and its components is a necessary first step in improving its
+    observability.*
 
     *Inband Network Telemetry (INT) is a recent development that
     improves system observability. INT takes advantage of
@@ -367,20 +368,19 @@ following set of best practices.
 
 Tracing is the third leg of the monitoring toolkit. It is challenging
 in a cloud setting because it involves following the flow of control
-for each transaction across multiple microservices, but the good news
-is that instrumenting a set of microservices involves turning on
-tracing support in the underlying language runtime system rather than
-asking the app developer to insert extra lines of code into their
-programs.
+for each transaction across multiple microservices. The good news is
+that instrumenting a set of microservices involves turning on tracing
+support in the underlying language runtime system, rather than asking
+app developers to insert extra lines of code into their programs.
 
 The general pattern is similar what we've already seen with metrics
 and logs: the running code is instrumented to produce data that is
 then collected, aggregated, stored, and made available for display and
 analysis. The main difference is the type of data we're interested in
-collecting, which for tracing, is the sequence of API boundaries
-crossings from one module to another. This data gives us the
-information we need to reconstruct the call chain. In principle, we
-could leverage the logging system to support tracing—and just be
+collecting, which for tracing, is typically the sequence of API
+boundaries crossings from one module to another. This data gives us
+the information we need to reconstruct the call chain. In principle,
+we could leverage the logging system to support tracing—and just be
 diligent to outputting the necessary interface-crossing
 information—but it is a specialized enough use case to warrant its own
 vocabulary, abstractions, and mechanisms.
@@ -394,11 +394,11 @@ little non-obvious, thinking of a trace as a directed graph, where the
 nodes correspond to spans and the edges correspond to span contexts,
 is a reasonable starting point. The nodes and edges are then
 timestamped and annotated with relevant facts (key/value tags) about
-the executing code. Importantly, each span includes timestamped log
-messages generated while the span was executing (simplifying the
-process of relating log messages with traces), and each span context
-records the state (e.g., call parameters) that crosses microservice
-boundaries.
+the executing code, such as when and for how long it ran. Importantly,
+each span includes timestamped log messages generated while the span
+was executing (simplifying the process of relating log messages with
+traces), and each span context records the state (e.g., call
+parameters) that crosses microservice boundaries.
 
 Again, as with metrics and log messages, the details are important and
 those details are specified by an agreed-upon data model. The
