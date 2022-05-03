@@ -4,10 +4,10 @@ Chapter 6:  Monitoring and Telemetry
 Collecting telemetry data for a running system, so that operators can
 monitor its behavior, evaluate performance, make informed provisioning
 decisions, respond to failures, identify attacks, and diagnose
-problems is an essential function of any management platform. Broadly
-speaking, there are three types of telemetry data—*metrics*, *logs*,
-and *traces*\—with multiple open source software stacks available to
-help collect, store, and act upon each of them.
+problems is an essential function of any management platform. This
+chapter focuses on three types of telemetry data—*metrics*, *logs*,
+and *traces*\—along with exemplar open source software stacks
+available to help collect, store, and act upon each of them.
 
 Metrics are quantitative data about a system. These include common
 performance metrics like link bandwidth, CPU utilization, and memory
@@ -32,17 +32,17 @@ well-defined format to the log. These messages include a timestamp,
 which makes it possible for the logging stack to parse and
 cross-reference message from different components.
 
-Traces are a record of the sequence of modules executed to complete a
-user-initiated transaction or job. They are similar to logs, but
+Traces are a record of the sequence of modules executed to complete
+user-initiated transactions or jobs. They are similar to logs, but
 provide more specialized information about the context in which
-different operations are performed. Execution context is well-defined
-in a single program, and is commonly recorded as an in-memory call
-stack, but because we are operating in a cloud environment, traces are
-inherently distributed across a graph of network-connected
-microservices. This makes the problem challenging, but also critically
-important because it is often the case that the only way to understand
-a time-dependent phenomena—such as why a particular resource is over
-loaded—is to understand how multiple independent workflows impact each
+different operations are performed. Execution context in a single
+program is commonly recorded as an in-memory call stack, but because
+we are operating in a cloud environment, traces are inherently
+distributed across a graph of network-connected microservices. This
+makes the problem challenging, but also critically important because
+it is often the case that the only way to understand time-dependent
+phenomena—such as why a particular resource is over loaded—is to
+understand how multiple independent workflows interact with each
 other.
 
 .. sidebar:: Observability
@@ -52,20 +52,20 @@ other.
     is), it can also be interpretted as another of the set of "-ities"
     (qualities) that all good systems aspire to: scalability,
     reliability, availability, security, usability, and so on.
-    Observability is the quality of system designed to reveal the
-    facts (telemetry data) about its internal operation required to
-    make informed management and control decisions. Instrumentation is
-    the key implementation choice systems (and system components) make
-    to improve their observability.*
+    Observability is the quality of a system that reveals the facts
+    about its internal operation required to make informed management
+    and control decisions. Instrumenting a system and its components
+    is a necessary first step in improving its observability.*
 
-    *Observability is not just a software quality. For example, a
-    recent development is Inband Network Telemetry (INT), which takes
-    advantage of programmable switching hardware to enable new
-    questions about how network packets are being processed, rather
-    than having to depend the fixed set of counters hardwired into
-    network devices.  Because Aether uses programmable switches as the
-    foundation for its SDN-based switching fabric, it has a fourth set
-    of telemetry data availble to help debug problems, optimize
+    *Inband Network Telemetry (INT) is a recent development that
+    improves system observability. INT takes advantage of
+    programmable switching hardware to allow operators to ask new
+    questions about how network packets are being processed. They not
+    longer have to depend the pre-defined set of counters hardwired
+    into fixed-function network devices.  Because Aether uses
+    programmable switches as the foundation for its SDN-based
+    switching fabric, it is able to use INT as a fourth type of
+    telemetry data availble to help debug problems, optimize
     performance, and detect malicious attacks. We do not discuss INT
     in this chapter, but refer the reader to our companion SDN book
     for more information.*
@@ -365,23 +365,25 @@ following set of best practices.
 6.3 Distributed Tracing
 -------------------------
 
-The third tool in the monitoring toolkit is support for tracing, which
-is challenging in a cloud setting because it involves following the
-flow of control for each transaction across multiple microservices.
-This makes it a distributed problem, rather than the simpler task of
-inspecting an in-memory stack trace.
+Tracing is the third leg of the monitoring toolkit. It is challenging
+in a cloud setting because it involves following the flow of control
+for each transaction across multiple microservices, but the good news
+is that instrumenting a set of microservices involves turning on
+tracing support in the underlying language runtime system rather than
+asking the app developer to insert extra lines of code into their
+programs.
 
 The general pattern is similar what we've already seen with metrics
-and logs: the code is instrumented to produce data that is then
-collected, aggregated, stored, and made available for display and
+and logs: the running code is instrumented to produce data that is
+then collected, aggregated, stored, and made available for display and
 analysis. The main difference is the type of data we're interested in
 collecting, which for tracing, is the sequence of API boundaries
 crossings from one module to another. This data gives us the
 information we need to reconstruct the call chain. In principle, we
-could leverage one of the two systems we've already discussed to
-support tracing—and just be diligent to produce the necessary
-interface-crossing information—but it is a specialized enough use case
-to warrant its own vocabulary, abstractions, and mechanisms.
+could leverage the logging system to support tracing—and just be
+diligent to outputting the necessary interface-crossing
+information—but it is a specialized enough use case to warrant its own
+vocabulary, abstractions, and mechanisms.
 
 At a high level, a *trace* is a description of a transaction as it
 moves through the system. It consists of a sequence of *spans* (each
@@ -392,7 +394,7 @@ little non-obvious, thinking of a trace as a directed graph, where the
 nodes correspond to spans and the edges correspond to span contexts,
 is a reasonable starting point. The nodes and edges are then
 timestamped and annotated with relevant facts (key/value tags) about
-the application. Importantly, each span includes timestamped log
+the executing code. Importantly, each span includes timestamped log
 messages generated while the span was executing (simplifying the
 process of relating log messages with traces), and each span context
 records the state (e.g., call parameters) that crosses microservice
@@ -402,12 +404,13 @@ Again, as with metrics and log messages, the details are important and
 those details are specified by an agreed-upon data model. The
 OpenTelemetry project is now defining one such model, building on the
 earlier OpenTracing project. Notably, however, the problem is complex,
-especially with respect to (1) reducing the overhead of tracing so as
-to not negatively impact performance, and (2) extracting meaningful
-high-level information from a collection of per-transaction traces. As
-a consequence, distributed tracing is the subject of significant
-ongoing research, and we can expect these definitions to evolve and
-mature in the foreseeable future.
+especially with respect to (1) minimizing the overhead of tracing so
+as to not negatively impact application performance, and (2)
+extracting meaningful high-level information from a collection of
+traces so as to make collecting it worthwhile. As a consequence,
+distributed tracing is the subject of significant ongoing research,
+and we can expect these definitions to evolve and mature in the
+foreseeable future.
 
 .. _reading_tracing:
 .. admonition:: Further Reading
