@@ -47,13 +47,13 @@ with each other.
 
 .. sidebar:: Observability and INT
 
-    *Observability is a new term being used in the context monitoring,
+    *Observability is a new term being used in the context of monitoring,
     and while it is easily dismissed as the latest buzzword (which it
-    is), it can also be interpretted as another of the set of "-ities"
+    is), it can also be interpreted as another of the set of "-ities"
     (qualities) that all good systems aspire to, alongside
     scalability, reliability, availability, security, usability, and
     so on.  Observability is the quality of a system that makes
-    visible the facts about its internal operation rneeded to make
+    visible the facts about its internal operation needed to make
     informed management and control decisions.*
 
     *Instrumenting a system is a necessary first step in improving its
@@ -365,22 +365,22 @@ following set of best practices.
 6.3 Distributed Tracing
 -------------------------
 
-Tracing is the third leg of the monitoring toolkit. It is challenging
+Tracing is the third leg of the monitoring toolkit. Tracing is challenging
 in a cloud setting because it involves following the flow of control
 for each transaction across multiple microservices. The good news is
 that instrumenting a set of microservices involves turning on tracing
 support in the underlying language runtime system, rather than asking
 app developers to insert extra lines of code into their programs.
 
-The general pattern is similar what we've already seen with metrics
+The general pattern is similar to what we've already seen with metrics
 and logs: the running code is instrumented to produce data that is
 then collected, aggregated, stored, and made available for display and
 analysis. The main difference is the type of data we're interested in
 collecting, which for tracing, is typically the sequence of API
-boundaries crossings from one module to another. This data gives us
+boundary crossings from one module to another. This data gives us
 the information we need to reconstruct the call chain. In principle,
 we could leverage the logging system to support tracing—and just be
-diligent to outputting the necessary interface-crossing
+diligent in logging the necessary interface-crossing
 information—but it is a specialized enough use case to warrant its own
 vocabulary, abstractions, and mechanisms.
 
@@ -404,7 +404,7 @@ those details are specified by an agreed-upon data model. The
 OpenTelemetry project is now defining one such model, building on the
 earlier OpenTracing project. Notably, however, the problem is complex,
 especially with respect to (1) minimizing the overhead of tracing so
-as to not negatively impact application performance, and (2)
+as not to negatively impact application performance, and (2)
 extracting meaningful high-level information from a collection of
 traces so as to make collecting it worthwhile. As a consequence,
 distributed tracing is the subject of significant ongoing research,
@@ -448,7 +448,7 @@ chapter to better integrate data. This section highlights two
 examples.
 
 First, while Kibana provides a dashboard view of the logs being
-collected, in practice, it is most useful to have a convenient way to
+collected, in practice it is useful to have a convenient way to
 see the log messages associated with a particular component (at a
 particular time and log level) in the context of metrics that have
 been collected. This is easy to accomplish because Grafana can be
