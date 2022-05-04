@@ -65,10 +65,10 @@ with each other.
     counters hardwired into fixed-function network devices.  Because
     Aether uses programmable switches as the foundation for its
     SDN-based switching fabric, it is able to use INT as a fourth type
-    of telemetry data availble to help debug problems, optimize
-    performance, and detect malicious attacks. We do not discuss INT
-    in this chapter, but refer the reader to our companion SDN book
-    for more information.*
+    of telemetry data to help debug problems, optimize performance,
+    and detect malicious attacks. We do not discuss INT in this
+    chapter, but refer the reader to our companion SDN book for more
+    information.*
 
 In addition to collecting various telemetry data, there is also an
 analysis step required to take advantage of it. This is an open ended
