@@ -45,28 +45,27 @@ time-dependent phenomena—such as why a particular resource is over
 loaded—is to understand how multiple independent workflows interact
 with each other.
 
-.. sidebar:: Observability
+.. sidebar:: Observability and INT
 
     *Observability is a new term being used in the context monitoring,
     and while it is easily dismissed as the latest buzzword (which it
     is), it can also be interpretted as another of the set of "-ities"
-    (qualities) that all good systems aspire to: scalability,
-    reliability, availability, security, usability, and so on.
-    Observability is the quality of a system that reveals (or makes
-    visible) the facts about its internal operation required to make
-    informed management and control decisions. Instrumenting a system
-    and its components is a necessary first step in improving its
-    observability.*
+    (qualities) that all good systems aspire to, alongside
+    scalability, reliability, availability, security, usability, and
+    so on.  Observability is the quality of a system that makes
+    visible the facts about its internal operation rneeded to make
+    informed management and control decisions.*
 
-    *Inband Network Telemetry (INT) is a recent development that
-    improves system observability. INT takes advantage of
-    programmable switching hardware to allow operators to ask new
-    questions about how network packets are being processed. They not
-    longer have to depend the pre-defined set of counters hardwired
-    into fixed-function network devices.  Because Aether uses
-    programmable switches as the foundation for its SDN-based
-    switching fabric, it is able to use INT as a fourth type of
-    telemetry data availble to help debug problems, optimize
+    *Instrumenting a system is a necessary first step in improving its
+    observability, and Inband Network Telemetry (INT) is an important
+    recent development in accessing useful telemetry data. INT takes
+    advantage of programmable switching hardware to allow operators to
+    ask new questions about how network packets are being
+    processed. They no longer have to depend on the pre-defined set of
+    counters hardwired into fixed-function network devices.  Because
+    Aether uses programmable switches as the foundation for its
+    SDN-based switching fabric, it is able to use INT as a fourth type
+    of telemetry data availble to help debug problems, optimize
     performance, and detect malicious attacks. We do not discuss INT
     in this chapter, but refer the reader to our companion SDN book
     for more information.*
