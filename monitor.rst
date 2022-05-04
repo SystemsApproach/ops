@@ -54,7 +54,8 @@ with each other.
     scalability, reliability, availability, security, usability, and
     so on.  Observability is the quality of a system that makes
     visible the facts about its internal operation needed to make
-    informed management and control decisions.*
+    informed management and control decisions, and it has become
+    a fertile space for innovation.*
 
     *Instrumenting a system is a necessary first step in improving its
     observability, and Inband Network Telemetry (INT) is an important
