@@ -22,7 +22,7 @@ described in Section 5.3. Given these many possible sources of data,
 the job of the metrics monitoring stack is to collect, archive,
 visualize, and optionally analyze this data.
 
-Logs are the qualitative data that is generated whenever an unusual
+Logs are the qualitative data that is generated whenever a noteworthy
 event occurs. This information can be used to identify problematic
 operating conditions (i.e., it may trigger an alert), but more
 commonly, it is used to troubleshoot problems after they have been
@@ -369,7 +369,7 @@ following set of best practices.
 Tracing is the third leg of the monitoring toolkit. Tracing is challenging
 in a cloud setting because it involves following the flow of control
 for each transaction across multiple microservices. The good news is
-that instrumenting a set of microservices involves turning on tracing
+that instrumenting a set of microservices involves activating tracing
 support in the underlying language runtime system, rather than asking
 app developers to insert extra lines of code into their programs.
 

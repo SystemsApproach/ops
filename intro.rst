@@ -209,7 +209,7 @@ terminology.
     with minimal disruption to the service delivered to
     end-users. ISSU generally implies the ability to incrementally
     roll-out (and roll-back) an upgrade, but is specifically a
-    requirement on individual components (as opposed to the underlying
+    requirement on individual components (as opposed to the
     platform used to manage a set of components).
 
 * **Monitoring & Telemetry:** Collecting data from system components
