@@ -16,7 +16,7 @@ extension of their datacenters, they do not have a lock on the
 know-how for making that happen.
 
 This book lays out a roadmap that a small team of engineers followed
-over the course of a year to stand-up and operationalize (and then
+over the course of a year to stand up and operationalize (and then
 operate 24/7) an edge cloud that spans a dozen enterprises, and hosts
 a non-trivial cloud native service (5G connectivity in our case, but
 that’s just an example). The team was able to do this by leveraging
@@ -24,13 +24,13 @@ that’s just an example). The team was able to do this by leveraging
 start. There were dozens of technical decisions to make along the way,
 and a few thousand lines of configuration code to write. We believe
 this is a repeatable exercise, which we report in this book. (And the
-code for those configuration files is open source, for those that want
+code for those configuration files is open source, for those who want
 to pursue the topic in more detail.)
 
 What do we mean by an edge cloud? We're drawing a distinction between
 clouds run by the hyperscale cloud providers in their massive data
 centers, which we think of as the core, and those run by enterprises
-(or managed for them) at the edge. The edge is where the real/physical
+(or managed for them) at the edge. The edge is where the real, physical
 world meets the cloud. For example, it is the place where data from
 sensors is likely to be gathered and processed, and where services
 that need to be close to the end user for reasons of latency or
@@ -75,14 +75,14 @@ an end-to-end management system, and in doing so, identify both
 various tools that help and the hard problems that no amount of
 tooling can eliminate.
 
-That there are challenging technical issues to address (despite
-marketing claims to the contrary) should come as no surprise.
-After all, how to operationalize a computing system is a question
-that’s as old as the field of *Operating Systems*. Operationalizing a
-cloud is just today’s version of that fundamental problem, which has
-become all the more interesting as we move up the stack, from managing
-*devices* to managing *services*. That this topic is both timely and
-foundational are among the reasons it is worth studying.
+It should come as no surprise that there are challenging technical
+issues to address (despite marketing claims to the contrary). After
+all, how to operationalize a computing system is a question that’s as
+old as the field of *Operating Systems*. Operationalizing a cloud is
+just today’s version of that fundamental problem, which has become all
+the more interesting as we move up the stack, from managing *devices*
+to managing *services*. This topic is both timely and
+foundational.
 
 Acknowledgements
 ------------------
