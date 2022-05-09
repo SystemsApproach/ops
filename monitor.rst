@@ -29,21 +29,21 @@ commonly, it is used to troubleshoot problems after they have been
 detected. Various system components—all the way from the low-level OS
 kernel to high-level cloud services—write messages that adhere to a
 well-defined format to the log. These messages include a timestamp,
-which makes it possible for the logging stack to parse and
-cross-reference message from different components.
+which makes it possible for the logging stack to parse and correlate
+messages from different components.
 
 Traces are a record of causal relationships (e.g., Service A calls
 Service B) resulting from user-initiated transactions or jobs. They
-are similar to logs, but provide more specialized information about
-the context in which different events happen. For example, execution
-traces in a single program is commonly recorded as an in-memory call
-stack, but because we are operating in a cloud environment, traces are
+are related to logs, but provide more specialized information about
+the context in which different events happen. Tracing is
+well-understood in a single program, where an execution trace is
+commonly recorded as an in-memory call stack, but traces are
 inherently distributed across a graph of network-connected
-microservices. This makes the problem challenging, but also critically
-important because it is often the case that the only way to understand
-time-dependent phenomena—such as why a particular resource is over
-loaded—is to understand how multiple independent workflows interact
-with each other.
+microservices in a cloud setting. This makes the problem challenging,
+but also critically important because it is often the case that the
+only way to understand time-dependent phenomena—such as why a
+particular resource is over loaded—is to understand how multiple
+independent workflows interact with each other.
 
 .. sidebar:: Observability and INT
 
@@ -71,26 +71,58 @@ with each other.
     chapter, but refer the reader to our companion SDN book for more
     information.*
 
-In addition to collecting various telemetry data, there is also an
-analysis step required to take advantage of it. This is an open ended
-problem, and potentially includes ML-based analytics. We characterize
-such sophisticated analysis as running "on top of" the monitoring and
-telemetry subsystem (and so outside the scope of this discussion), and
-focus instead on (1) dashboards used to visualize the data, and (2)
-simple examples like watching for certain metrics to cross a threshold
-and triggering an alert. Also note that there is a related problem of
-collecting usage data for the sake of billing, but billing is
-typically handled using a separate mechanism that must deliver a
-significantly higher level of reliability, whereas occasionally
-dropping a monitoring value is not especially harmful.
+Taking a step back from the three types of telemetry data, it is
+helpful to have a broad understanding of the design space, and to that
+end, we make four observations.
+
+First, there are two general use cases for telemetry data, which we
+broadly characterize as "monitoring" and "troubleshooting". We use
+these terms in the most general way to represent (a) proactively
+watching for warning signs of trouble (attacks, bugs, failures,
+overload conditions) in a steady-state system, versus (b) reactively
+taking a closer look to determine the root cause and resolve the issue
+(fix the bug, optimize performance, provision more resources, defend
+against the attack), once alerted to a real or potential problem. This
+distinction is important because the former (monitoring) needs to
+incur minimal overhead and require minimal human involvement, while
+the latter (troubleshooting) can be more invasive/expensive and
+typically involves some level of human expertise. This is not a
+perfect distinction, with plenty of operator activity happening in a
+gray area, but being aware of the cost/benefit trade-offs of the
+available tools is an important starting point.
+
+Second, the more aspects of monitoring and troubleshooting that can be
+automated, the better. This starts with alerts that automatically
+detect potential problems; typically includes dashboards that make it
+easy for humans to see patterns and drill-down for relevant details
+across all three types of data; increasingly leverages Machine
+Learning and statistics-based analytics to identify deeper connections
+that are not obvious to human operators; and ultimately supports
+closed-loop control where the automated tool not only detects problems
+but is also able to issue corrective control directives. For the
+purpose of this chapter, we give examples of the first two (alerts and
+dashboards), and declare the latter two (analytics and close-loop
+control) as out-of-scope, but likely running as applications that
+consume the telemetry data outlined in the sections that follow.
+
+Third, when viewed from the perspective of lifecycle management,
+monitoring and troubleshooting are just a continuation of testing,
+except under production workloads rather than artificial (test)
+workloads. In fact, the same set of tools can be used on either side
+of the development-vs-production boundary. For example, tracing is an
+extremely valuable tool during development—both to track down bugs and
+to tune performance—as anyone that has profiled a program will
+recognize and appreciate. Similarly, artificial end-to-end tests can
+provide value in production systems by triggering early warning
+alerts, especially for rare edge conditions.
 
 Finally, because the metrics, logs, and traces collected by the
-various subsystems are timestamped, it is also possible to build
-linkages between them, which is especially helpful when debugging a
-problem or deciding whether an alert is warranted. We give examples of
-how this and other useful functions might be implemented in the
+various subsystems are timestamped, it is possible to establish
+correlations among them, which is helpful when deciding whether an
+alert is warranted, or when debugging a problem. We give examples of
+how such telemetry-wide functions might be implemented in the
 concluding section, where we also discuss ongoing efforts to unify
-monitoring across all types of telemetry data.
+monitoring and troubleshooting across all types of telemetry data.
 
 6.1 Metrics and Alerts
 -------------------------------
