@@ -478,21 +478,23 @@ Unifying all this data is the ultimate objective of on-going efforts
 like the OpenTelemetry project mentioned in the previous section, but
 there are also opportunities to use the tools described in this
 chapter to better integrate data. This section highlights two
-examples.
+general strategies.
 
-First, while Kibana provides a dashboard view of the logs being
-collected, in practice it is useful to have a convenient way to
-see the log messages associated with a particular component (at a
-particular time and log level) in the context of metrics that have
-been collected. This is easy to accomplish because Grafana can be
-configured to display data from Elastic Search just as easily as from
-Prometheus. Both are data sources that can be queried. This makes it
-to possible to create a Grafana dashboard that includes a selected set
-of log messages, similar to the one from Aether shown in
-:numref:`Figure %s <fig-es_dash>`.  In this example, we see INFO-level
-messages associated with the UPF sub-component of SD-Core, which
-augments the UPF performance data shown in :numref:`Figure %s
-<fig-upf_dash>`.
+First, both Kibana and Grafana can be configured to display telemetry
+data from multiple sources. For example, it is straightforward to
+integrate both logs and traces in Kibana. This is typically done by
+first feeding the tracing data into Elastic Search, which Kibana then
+queries. Similarly, it is useful to have a convenient way to see the
+log messages associated with a particular component in the context of
+metrics that have been collected. This is easy to accomplish because
+Grafana can be configured to display data from Elastic Search just as
+easily as from Prometheus. Both are data sources that can be
+queried. This makes it to possible to create a Grafana dashboard that
+includes a selected set of log messages, similar to the one from
+Aether shown in :numref:`Figure %s <fig-es_dash>`.  In this example,
+we see INFO-level messages associated with the UPF sub-component of
+SD-Core, which augments the UPF performance data shown in
+:numref:`Figure %s <fig-upf_dash>`.
 
 .. _fig-es_dash:
 .. figure:: figures/es_dash.png

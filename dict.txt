@@ -95,6 +95,7 @@ de
 decrypt
 decrypting
 deployable
+disaggregate
 disaggregated
 disaggregation
 downlink
@@ -116,6 +117,7 @@ hyperscaler
 hyperscalers
 iPXE
 instantiation
+integrators
 invariants
 jitter
 lifecycle
@@ -160,6 +162,7 @@ stdin
 stdout
 storylines
 subnet
+subcomponents
 systemsapproach
 textboxes
 todo
