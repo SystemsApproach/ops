@@ -79,10 +79,10 @@ First, there are two general use cases for telemetry data, which we
 broadly characterize as "monitoring" and "troubleshooting". We use
 these terms in the most general way to represent (a) proactively
 watching for warning signs of trouble (attacks, bugs, failures,
-overload conditions) in a steady-state system, versus (b) reactively
-taking a closer look to determine the root cause and resolve the issue
-(fix the bug, optimize performance, provision more resources, defend
-against the attack), once alerted to a real or potential problem. This
+overload conditions) in a steady-state system; versus (b) reactively
+taking a closer look to determine the root cause and resolve an issue
+(fix a bug, optimize performance, provision more resources, defend
+against an attack), once alerted to a potential problem. This
 distinction is important because the former (monitoring) needs to
 incur minimal overhead and require minimal human involvement, while
 the latter (troubleshooting) can be more invasive/expensive and
@@ -96,25 +96,26 @@ automated, the better. This starts with alerts that automatically
 detect potential problems; typically includes dashboards that make it
 easy for humans to see patterns and drill-down for relevant details
 across all three types of data; increasingly leverages Machine
-Learning and statistics-based analytics to identify deeper connections
+Learning and statistical analysis to identify deeper connections
 that are not obvious to human operators; and ultimately supports
 closed-loop control where the automated tool not only detects problems
 but is also able to issue corrective control directives. For the
 purpose of this chapter, we give examples of the first two (alerts and
 dashboards), and declare the latter two (analytics and close-loop
-control) as out-of-scope, but likely running as applications that
-consume the telemetry data outlined in the sections that follow.
+control) as out-of-scope (but likely running as applications that
+consume the telemetry data outlined in the sections that follow).
 
 Third, when viewed from the perspective of lifecycle management,
 monitoring and troubleshooting are just a continuation of testing,
-except under production workloads rather than artificial (test)
-workloads. In fact, the same set of tools can be used on either side
-of the development-vs-production boundary. For example, tracing is an
+except under production workloads rather than test workloads. In fact,
+the same set of tools can be used on either side of the
+development-vs-production boundary. For example, as anyone that has
+profiled a program will recognize and appreciate, tracing is an
 extremely valuable tool during development—both to track down bugs and
-to tune performance—as anyone that has profiled a program will
-recognize and appreciate. Similarly, artificial end-to-end tests can
+to tune performance. Similarly, artificial end-to-end tests can
 provide value in production systems by triggering early warning
-alerts, especially for rare edge conditions.
+alerts. This can be especially helpful when dealing with problematic
+failure modes.
 
 Finally, because the metrics, logs, and traces collected by the
 various subsystems are timestamped, it is possible to establish
