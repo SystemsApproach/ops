@@ -399,12 +399,13 @@ following set of best practices.
 6.3 Distributed Tracing
 -------------------------
 
-Tracing is the third leg of the monitoring toolkit. Tracing is challenging
-in a cloud setting because it involves following the flow of control
-for each transaction across multiple microservices. The good news is
-that instrumenting a set of microservices involves activating tracing
-support in the underlying language runtime system, rather than asking
-app developers to insert extra lines of code into their programs.
+Execution traces are the third source of telemetry data. Tracing is
+challenging in a cloud setting because it involves following the flow
+of control for each user-initiated request across multiple
+microservices. The good news is that instrumenting a set of
+microservices involves activating tracing support in the underlying
+language runtime system—typically in the RPC stubs—rather than asking
+app developers to explicitly instrument their programs.
 
 The general pattern is similar to what we've already seen with metrics
 and logs: the running code is instrumented to produce data that is
@@ -422,34 +423,49 @@ At a high level, a *trace* is a description of a transaction as it
 moves through the system. It consists of a sequence of *spans* (each
 of which represents work done within a service) interleaved with a set
 of *span contexts* (each of which represents the state carried across
-the network from one service to another). If the terminology is a
-little non-obvious, thinking of a trace as a directed graph, where the
-nodes correspond to spans and the edges correspond to span contexts,
-is a reasonable starting point. The nodes and edges are then
+the network from one service to another). An illustrative example of a
+trace is shown in :numref:`Figure %s <fig-trace>`, but abstractly, a
+trace as a directed graph with nodes that correspond to spans and
+edges that correspond to span contexts. The nodes and edges are then
 timestamped and annotated with relevant facts (key/value tags) about
-the executing code, such as when and for how long it ran. Importantly,
-each span includes timestamped log messages generated while the span
-was executing (simplifying the process of relating log messages with
-traces), and each span context records the state (e.g., call
-parameters) that crosses microservice boundaries.
+the end-to-end execution path, including when and for how long it
+ran. Each span also includes timestamped log messages generated while
+the span was executing, simplifying the process of relating log
+messages with traces.
+
+.. _fig-trace:
+.. figure:: figures/Slide26.png
+   :width: 500px
+   :align: center
+
+   Example trace spanning two network services.
 
 Again, as with metrics and log messages, the details are important and
 those details are specified by an agreed-upon data model. The
 OpenTelemetry project is now defining one such model, building on the
-earlier OpenTracing project. Notably, however, the problem is complex,
-especially with respect to (1) minimizing the overhead of tracing so
-as not to negatively impact application performance, and (2)
-extracting meaningful high-level information from a collection of
-traces so as to make collecting it worthwhile. As a consequence,
-distributed tracing is the subject of significant ongoing research,
-and we can expect these definitions to evolve and mature in the
+earlier OpenTracing project (which was in turn influenced by the
+Dapper distributed tracing mechanism developed by Google).  Beyond the
+challenge of defining a model that captures the most relevant semantic
+information, there is the pragmatic issue of (1) minimizing the
+overhead of tracing so as not to negatively impact application
+performance, yet (2) extracting enough information from traces so as
+to make collecting it worthwhile.  Sampling is a widely adopted
+technique introduced into the data collection pipeline to manage this
+trade-off.  One consequence of these challenges is that distributed
+tracing is the subject of ongoing research, and we can expect the
+model definitions and sampling techniques to evolve and mature in the
 foreseeable future.
 
 .. _reading_tracing:
 .. admonition:: Further Reading
 
-   `OpenTelemetry 
-   <https://opentelemetry.io/>`__.
+   B. Sigelman, *et al.* `Dapper, a Large-Scale Distributed Systems
+   Tracing Infrastructure
+   <https://static.googleusercontent.com/media/research.google.com/en//archive/papers/dapper-2010-1.pdf>`__.
+   Google Technical Report. April 2010.
+
+   `OpenTelemetry: High-quality, ubiquitous, and portable telemetry to
+   enable effective observability <https://opentelemetry.io/>`__.
 
    `Jaeger: End-to-End Distributed Tracing 
    <https://www.jaegertracing.io/>`__.
@@ -458,10 +474,9 @@ With respect to mechanisms, Jaeger is a widely used open source
 tracing tool originally developed by Uber. (Jaeger is not currently
 included in Aether, but was utilized in a predecessor ONF edge cloud.)
 Jaeger includes instrumentation of the runtime system for the
-language(s) used to implement an application, a collector, storage, a
-query language that can be used to analyze stored traces, and a user
-dashboard designed to help diagnose performance problems and do root
-cause analysis.
+language(s) used to implement an application, a collector, storage,
+and a query language that can be used to diagnose performance problems
+and do root cause analysis.
 
 6.4 Integrated Dashboards
 -------------------------
