@@ -425,7 +425,7 @@ to automate CI/CD pipelines.
    `Jenkins <https://www.jenkins.io/doc/>`__.
 
 At a high level, Jenkins is little more than a mechanism that executes
-a script, called a *job*, in response to some *triggger*.  Like many
+a script, called a *job*, in response to some *trigger*.  Like many
 of the tools described in this book, Jenkins has a graphical dashboard
 that can be used to create, execute, and view the results of a set of
 jobs, but this is mostly useful for simple examples. Because Jenkins
@@ -629,7 +629,7 @@ when.
     trigger mechanism hadn't caused the same problem. The answer is
     that Jenkins is better integrated with the repo (specifically,
     Gerrit running on top of Git), with the repo pushing event
-    notifications to Jenkins when a file checkin actually occurs.
+    notifications to Jenkins when a file check-in actually occurs.
     There is no polling.*
 
 This focus on Fleet as the agent triggering the execution of Helm
@@ -832,7 +832,7 @@ attack surface that needs to be protected.
 .. _reading_secrets:
 .. admonition:: Further Reading
 
-   `git-crypt - transparent file ecryption in git
+   `git-crypt - transparent file encryption in git
    <https://github.com/AGWA/git-crypt/blob/master/README.md>`__.
 
    `"Sealed Secrets" for Kubernetes <https://github.com/bitnami-labs/sealed-secrets#readme>`__.

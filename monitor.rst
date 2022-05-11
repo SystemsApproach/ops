@@ -153,7 +153,7 @@ service-specific ways.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Individual components implement a *Prometheus Exporter* to provide the
-current value of the components's metrics. A component's Exporter is
+current value of the component's metrics. A component's Exporter is
 queried via HTTP, with the corresponding metrics returned using a
 simple text format. Prometheus periodically scrapes the Exporter's
 HTTP endpoint and stores the metrics in its Time Series Database
