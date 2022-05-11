@@ -138,10 +138,10 @@ that we can build upon.
     a web service. If you start with the assumption that certain
     classes of users will interact with your system (in our case,
     an edge cloud) via a GUI, then either you write that GUI in a
-    language like PHP (as early web deverlopers did), our you take
+    language like PHP (as early web developers did), our you take
     advantage of a framework like Django or Ruby on Rails. What
     such frameworks provide is a way to define a set of
-    user-friendely abstractions (these are called Models), a means
+    user-friendly abstractions (these are called Models), a means
     to visualize those abstractions in a GUI (these are called
     Views), and a means to affect change on collection of backend
     systems based on user input (these are called Controllers). It
@@ -160,7 +160,7 @@ that we can build upon.
     interface for controlling backend components, and persistent
     state is stored in a K/V Store instead of a SQL DB—but the
     biggest difference is the use of a declarative rather than an
-    imparative language to define models.*
+    imperative language to define models.*
 
 With this background, :numref:`Figure %s <fig-roc>` shows the internal
 structure of Runtime Control for Aether, which has **x-config**\—a
@@ -303,7 +303,7 @@ network devices.
 .. _reading_openconfig:
 .. admonition:: Further Reading
 
-   `OpenConfig: Vendor-neutral, model-driven network managaement
+   `OpenConfig: Vendor-neutral, model-driven network management
    <https://www.openconfig.net/>`__.
 
 There are four important aspects of this mechanism:
@@ -665,7 +665,7 @@ specifies the endpoints for the program devices talk to. The
    * `port-end`: Ending port number.
    * `protocol`:  Protocol (`TCP|UDP`) for the endpoint.
    * `mbr.uplink`, `mbr.downlink`: Per-device maximum bitrate for the application endpoint.
-   * `traffice-class`: Traffic class for devices communicating with this application.
+   * `traffic-class`: Traffic class for devices communicating with this application.
 
 Anyone familiar with 3GPP will recognize Aether's `Slice` abstraction
 as similar to the specification's notion of a network slice.  The
@@ -696,7 +696,7 @@ together end-to-end connectivity across the RAN, Core, and Fabric.
     Doing so would be a step towards a platform API that enables
     a new class of industry automation edge cloud apps.*
 
-    *In general, Iaas and PaaS offerings need to support
+    *In general, IaaS and PaaS offerings need to support
     application- and user-facing APIs that go beyond the
     DevOps-level configuration files consumed by the underlying
     software components (i.e., microservices). Creating these
@@ -821,7 +821,7 @@ bridging the gap).
     *UX Design is a well-established discipline. It is in part about
     designing GUIs with intuitive workflows, but a GUI depends on a
     programmatic interface. Defining that interface is the touchpoint
-    between the mangement and control platform wer're focused on in
+    between the management and control platform we're focused on in
     this book, and the users we want to support. This is largely an
     exercise in defining abstractions, which brings us back to the
     central point we are trying to make: It is both the reality of the
