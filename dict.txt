@@ -52,7 +52,6 @@ POD
 PODs
 PaaS
 Ph
-Plugable
 Proxmox
 QoS
 RKE

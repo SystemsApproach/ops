@@ -1,23 +1,24 @@
 Chapter 6:  Monitoring and Telemetry
 ====================================
 
-Collecting telemetry data for a running system, so that operators can
-monitor its behavior, evaluate performance, make informed provisioning
+Collecting telemetry data for a running system is an essential
+function of the management platform. It enables operators to monitor
+system behavior, evaluate performance, make informed provisioning
 decisions, respond to failures, identify attacks, and diagnose
-problems is an essential function of any management platform. This
-chapter focuses on three types of telemetry data—*metrics*, *logs*,
-and *traces*\—along with exemplar open source software stacks
-available to help collect, store, and act upon each of them.
+problems. This chapter focuses on three types of telemetry
+data—*metrics*, *logs*, and *traces*\—along with exemplar open source
+software stacks available to help collect, store, and act upon each of
+them.
 
 Metrics are quantitative data about a system. These include common
-performance metrics like link bandwidth, CPU utilization, and memory
+performance metrics such as link bandwidth, CPU utilization, and memory
 usage, but also binary results corresponding to "up" and "down", as
 well as other state variables that can be encoded numerically.  These
 values are produced and collected periodically (e.g., every few
 seconds), either by reading a counter, or by executing a runtime test
 that returns a value.  These metrics can be associated with physical
-resources like servers and switches, virtual resources like VMs and
-containers, or high-level abstractions like the *Connectivity Service*
+resources such as servers and switches, virtual resources such as VMs and
+containers, or high-level abstractions such as the *Connectivity Service*
 described in Section 5.3. Given these many possible sources of data,
 the job of the metrics monitoring stack is to collect, archive,
 visualize, and optionally analyze this data.
@@ -94,7 +95,7 @@ available tools is an important starting point.
 Second, the more aspects of monitoring and troubleshooting that can be
 automated, the better. This starts with alerts that automatically
 detect potential problems; typically includes dashboards that make it
-easy for humans to see patterns and drill-down for relevant details
+easy for humans to see patterns and drill down for relevant details
 across all three types of data; increasingly leverages Machine
 Learning and statistical analysis to identify deeper connections
 that are not obvious to human operators; and ultimately supports
@@ -109,7 +110,7 @@ Third, when viewed from the perspective of lifecycle management,
 monitoring and troubleshooting are just a continuation of testing,
 except under production workloads rather than test workloads. In fact,
 the same set of tools can be used on either side of the
-development-vs-production boundary. For example, as anyone that has
+development-vs-production boundary. For example, as anyone who has
 profiled a program will recognize and appreciate, tracing is an
 extremely valuable tool during development—both to track down bugs and
 to tune performance. Similarly, artificial end-to-end tests can
@@ -186,7 +187,7 @@ correspond to the rightmost "End-to-End Tests" shown in
 Finally, when a system is running across multiple edge sites, as is
 the case with Aether, there is an design question of whether
 monitoring data is stored on the edge sites and lazily pulled to the
-central location only when needed, or it is proactively pushed to the
+central location only when needed, or is proactively pushed to the
 central location as soon as it's generated. Aether employs both
 approaches, depending on the volume and urgency of the data being
 collected. By default, metrics collected by the local instantiation of
@@ -195,8 +196,8 @@ to the central location (e.g., to be displayed by Grafana as described
 in the next subsection). This is appropriate for metrics that are both
 high-volume and seldom viewed. The exception is the end-to-end Service
 Monitors described in the previous paragraph. These results are
-immediately pushed to the central site (by-passing Prometheus), which
-works because they are low-volume and may require immediate attention.
+immediately pushed to the central site (bypassing Prometheus), because
+they are low-volume and may require immediate attention.
 
 6.1.2 Creating Dashboards
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -206,7 +207,7 @@ cluster are visualized centrally using Grafana dashboards.  In Aether,
 this means the Grafana instance running as part of AMP in the central
 cloud sends queries to the Prometheus instances running on all Aether
 edge clusters. For example, :numref:`Figure %s <fig-ace_dash>` shows
-the summary dashboard for a collection Aether edge sites.
+the summary dashboard for a collection of Aether edge sites.
 
 .. _fig-ace_dash:
 .. figure:: figures/ace_dash.png
@@ -217,13 +218,13 @@ the summary dashboard for a collection Aether edge sites.
 
 Grafana comes with a set of pre-defined dashboards for the most common
 set of metrics—in particular, those associated with physical servers
-and virtual resources like containers—but it can also be customized to
+and virtual resources such as containers—but it can also be customized to
 include dashboards for service-level metrics and other
 deployment-specific information (e.g., per-enterprise in Aether). For
 example, :numref:`Figure %s <fig-upf_dash>` shows a custom dashboard
 for UPF (User Plane Function), the data plane packet forwarder of the
 SD-Core. The example shows latency and jitter metrics over the last
-hour at one site, with three additional collapsed panel (PFCP Sessions
+hour at one site, with three additional collapsed panels (PFCP Sessions
 and Messages) at the bottom.
 
 .. _fig-upf_dash:
@@ -283,7 +284,7 @@ since the earliest days of Unix. Originally collected in a local file,
 the syslog abstraction has been adapted to cloud environments by
 adding a suite of scalable services. Today, one typical open source
 logging stack uses Fluentd to collect (aggregate, buffer, and route)
-log messages written by a set of components, with Fluentbit serving as
+log messages written by a set of components, with Fluentbit serving as a
 client-side agent running in each component helping developers
 normalize their log messages. ElasticSearch is then used to store,
 search, and analyze those messages, with Kibana used to display and
@@ -383,7 +384,7 @@ following set of best practices.
 
 * **Timestamps should be created by the program's logger.** Components
   should use the selected logging library to create timestamps, with
-  as precise of timestamp as the logging framework allows. Using the
+  as precise a timestamp as the logging framework allows. Using the
   shipper or logging handlers may be slower, or create timestamps on
   receipt, which may be delayed. This makes trying to align events
   between multiple services after log aggregation problematic.
@@ -411,7 +412,7 @@ The general pattern is similar to what we've already seen with metrics
 and logs: the running code is instrumented to produce data that is
 then collected, aggregated, stored, and made available for display and
 analysis. The main difference is the type of data we're interested in
-collecting, which for tracing, is typically the sequence of API
+collecting, which, for tracing, is typically the sequence of API
 boundary crossings from one module to another. This data gives us
 the information we need to reconstruct the call chain. In principle,
 we could leverage the logging system to support tracing—and just be
@@ -425,12 +426,12 @@ of which represents work done within a service) interleaved with a set
 of *span contexts* (each of which represents the state carried across
 the network from one service to another). An illustrative example of a
 trace is shown in :numref:`Figure %s <fig-trace>`, but abstractly, a
-trace as a directed graph with nodes that correspond to spans and
+trace is a directed graph with nodes that correspond to spans and
 edges that correspond to span contexts. The nodes and edges are then
 timestamped and annotated with relevant facts (key/value tags) about
 the end-to-end execution path, including when and for how long it
 ran. Each span also includes timestamped log messages generated while
-the span was executing, simplifying the process of relating log
+the span was executing, simplifying the process of correlating log
 messages with traces.
 
 .. _fig-trace:
@@ -487,10 +488,10 @@ about the health of a system. But this instrumentation is only useful
 if the right data is displayed to the right people (those with the
 ability to take action) at the right time (when action needs to be
 taken). Creating useful panels and organizing them into intuitive
-dashboards is part the solution, but integrating information across
+dashboards is part of the solution, but integrating information across
 the subsystems of the management platform is also a requirement.
 
-Unifying all this data is the ultimate objective of on-going efforts
+Unifying all this data is the ultimate objective of ongoing efforts
 like the OpenTelemetry project mentioned in the previous section, but
 there are also opportunities to use the tools described in this
 chapter to better integrate data. This section highlights two
@@ -526,7 +527,7 @@ access to the data needed to know what changes (if any) need to be
 made is a prerequisite for making informed decisions. To this end, it
 is ideal to have access to both the "knobs" and the "dials" on an
 integrated dashboard.  This can be accomplished by incorporating
-Grafana frames in the Runtime Control GUI, which in its simplest form,
+Grafana frames in the Runtime Control GUI, which, in its simplest form,
 displays a set of web forms corresponding to the fields in the
 underlying data models. (More sophisticated control panels are
 certainly possible.)
