@@ -43,27 +43,27 @@ inherently distributed across a graph of network-connected
 microservices in a cloud setting. This makes the problem challenging,
 but also critically important because it is often the case that the
 only way to understand time-dependent phenomena—such as why a
-particular resource is over loaded—is to understand how multiple
+particular resource is overloaded—is to understand how multiple
 independent workflows interact with each other.
 
 .. sidebar:: Observability and INT
 
-    *Observability is a new term being used in the context of monitoring,
-    and while it is easily dismissed as the latest buzzword (which it
-    is), it can also be interpreted as another of the set of "-ities"
-    (qualities) that all good systems aspire to, alongside
-    scalability, reliability, availability, security, usability, and
-    so on.  Observability is the quality of a system that makes
-    visible the facts about its internal operation needed to make
-    informed management and control decisions, and it has become
-    a fertile space for innovation.*
+    *Observability is a relatively new term being used in the context
+    of monitoring, and while it is easily dismissed as the latest
+    buzzword (which it is), it can also be interpreted as another of
+    the set of "-ities" (qualities) that all good systems aspire to,
+    alongside scalability, reliability, availability, security,
+    usability, and so on.  Observability is the quality of a system
+    that makes visible the facts about its internal operation needed
+    to make informed management and control decisions, and it has
+    become a fertile space for innovation.*
 
     *Instrumenting a system is a necessary first step in improving its
     observability, and Inband Network Telemetry (INT) is an important
     recent development in accessing useful telemetry data. INT takes
     advantage of programmable switching hardware to allow operators to
     ask new questions about how network packets are being
-    processed. They no longer have to depend on the pre-defined set of
+    processed. They no longer have to depend on the predefined set of
     counters hardwired into fixed-function network devices.  Because
     Aether uses programmable switches as the foundation for its
     SDN-based switching fabric, it is able to use INT as a fourth type
@@ -216,7 +216,7 @@ the summary dashboard for a collection of Aether edge sites.
 
    Central dashboard showing status of Aether edge deployments.
 
-Grafana comes with a set of pre-defined dashboards for the most common
+Grafana comes with a set of predefined dashboards for the most common
 set of metrics—in particular, those associated with physical servers
 and virtual resources such as containers—but it can also be customized to
 include dashboards for service-level metrics and other
