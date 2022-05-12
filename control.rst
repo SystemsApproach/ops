@@ -158,14 +158,14 @@ that we can build upon.
     control program. There are other differences—for example,
     Adapters (a kind of Controller) use gNMI as a standard
     interface for controlling backend components, and persistent
-    state is stored in a K/V Store instead of a SQL DB—but the
+    state is stored in a key-value store instead of a SQL DB—but the
     biggest difference is the use of a declarative rather than an
     imperative language to define models.*
 
 With this background, :numref:`Figure %s <fig-roc>` shows the internal
 structure of Runtime Control for Aether, which has **x-config**\—a
 microservice that maintains a set of YANG models—at its core.\ [#]_
-x-config, in turn, uses Atomix (a Key/Value-Store microservice), to
+x-config, in turn, uses Atomix (a key-value store microservice), to
 make configuration state persistent. Because x-config was originally
 designed to manage configuration state for devices, it uses gNMI as
 its southbound interface to communicate configuration changes to
@@ -198,17 +198,17 @@ components are described in more detail in the next section.
 The Runtime Control API is auto-generated from the YANG-based data
 model, and as shown in :numref:`Figure %s <fig-roc>`, supports two
 portals and a set of closed-loop control applications. There is also a
-CLI (not shown). This API provides a single point-of-entry for **all**
+CLI (not shown). This API provides a single entry-point for **all**
 control information that can be read or written in Aether, and as a
 consequence, Runtime Control can also mediate access to the other
 subsystems of the Control and Management Platform (not just the
 subsystems shown in :numref:`Figure %s <fig-roc>`).
 
 This situation is illustrated in :numref:`Figure %s <fig-roc2>`, where
-the key takeaway is that (1) we want RBAC and auditing for all
+the key takeaways are that (1) we want RBAC and auditing for all
 operations; (2) we want a single source of authoritative configuration
 state; and (3) we want to grant limited (fine-grained) access to
-management functions to arbitrary principals rather than assume that
+management functions to arbitrary principals rather than assume
 only a single privileged class of operators. Of course, the private
 APIs of the underlying subsystems still exist, and operators can
 directly use them. This can be especially useful when diagnosing
@@ -220,7 +220,7 @@ This discussion is related to the “What About GitOps?”  question
 raised at the end of Chapter 4. We return to that same question at the
 end of this chapter, but to set the stage, we now have the option of
 Runtime Control maintaining authoritative configuration and control
-state for the system in its K/V store. This raises the question of how
+state for the system in its key-value store. This raises the question of how
 to “share ownership” of configuration state with the repositories
 that implement Lifecycle Management.
 
@@ -230,11 +230,11 @@ maintains authoritative state for other parameters. We just need to be
 clear about which is which, so each backend component knows which
 “configuration path” it needs to be responsive to. Then, for any
 repo-maintained state for which we want Runtime Control to mediate
-access (e.g., to provide fine-grain access for a more expansive set of
+access (e.g., to provide fine-grained access for a more expansive set of
 principals), we need to be careful about the consequences of any
 backdoor (direct) changes to that repo-maintained state, for example,
 by storing only a cached copy of that state in Runtime Control’s
-K/V-store (as an optimization).
+key-value store (as an optimization).
 
 .. _fig-roc2:
 .. figure:: figures/Slide16.png
@@ -253,7 +253,7 @@ directly to dashboards and applications running on top of the
 API. Runtime Control is only involved in authorizing access to such
 data. It is also the case that Runtime Control and the Monitoring
 subsystem have their own, independent data stores: it is the Atomix
-K/V-Store for Runtime Control and a Time-Series DB for Monitoring (as
+key-value store for Runtime Control and a Time-Series DB for Monitoring (as
 discussed in more detail in Chapter 6).
 
 In summary, the value of a unified Runtime Control API is best
@@ -263,7 +263,7 @@ Monitoring subsystem; perform some kind of analysis on that data,
 possibly resulting in a decision to take corrective action; and then
 "write" new control directives, which x-config passes along to some
 combination of SD-RAN, SD-Core, and SD-Fabric, or sometimes even to
-the Lifecycle Management subsystem. (We'll see an example the latter
+the Lifecycle Management subsystem. (We'll see an example of the latter
 in Section 5.3.) This closed-loop scenario is depicted in
 :numref:`Figure %s <fig-roc3>`, which gives a different perspective by
 showing the Monitoring subsystem as a "peer" of Runtime Control
@@ -288,8 +288,8 @@ focusing on the role each plays in cloud management.
 
 x-config is the core of the Runtime Control. Its job is to store
 and version configuration data. Configuration is pushed to x-config
-through its northbound gNMI interface, stored in an persistent
-Key/Value-store, and pushed to backend subsystems using a southbound
+through its northbound gNMI interface, stored in a persistent
+key-value store, and pushed to backend subsystems using a southbound
 gNMI interface.
 
 A collection of YANG-based models define the schema for this
@@ -308,7 +308,7 @@ network devices.
 
 There are four important aspects of this mechanism:
 
-* **Persistent Store:** Atomix is the cloud native K/V-store used to
+* **Persistent Store:** Atomix is the cloud native key-value store used to
   persist data in x-config. Atomix supports a distributed map
   abstraction, which implements the Raft consensus algorithm to
   achieve fault-tolerance and scalable performance. x-config writes
@@ -316,7 +316,7 @@ There are four important aspects of this mechanism:
   common to NoSQL databases.
 
 * **Loading Models:** Models are loaded using *Model Plugins*.
-  X-Config communicates via a gRPC API to *Model Plugins*, loading the
+  x-config communicates via a gRPC API to *Model Plugins*, loading the
   models at runtime. The *Model Plugins* are precompiled, and
   therefore no compilation at runtime is necessary. The interface
   between x-config and the plugins eliminates dynamic loading
@@ -355,12 +355,12 @@ the version of the models that are to be loaded, analogous to the way
 Helm charts already identify the version of each microservice (Docker
 Image) to be deployed. This means the version of the Runtime Control
 Helm chart effectively specifies the version of the Runtime Control
-API, since as we'll see in a the next subsection, that API is
-auto-generated from the set of models. All of this is to say that
-version control for the Northbound Interface of the cloud, as an
-aggregated whole, is managed in exactly the same way as version control
-for each functional building block that contributes to the cloud's
-internal implementation.
+API, since that API is auto-generated from the set of models, as we'll
+see in a the next subsection. All of this is to say that version
+control for the Northbound Interface of the cloud, as an aggregated
+whole, is managed in exactly the same way as version control for each
+functional building block that contributes to the cloud's internal
+implementation.
 
 5.2.2 Runtime Control API
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -420,7 +420,7 @@ difficult since a single API cannot easily satisfy two sets of models.
 
 An alternative would be to introduce a second external-facing API, and
 a small translation layer between the auto-generated internal API and
-the external API. The shim layer would function a shock absorber,
+the external API. The shim layer would function as a shock absorber,
 mitigating the frequent bumps that might occur in the internal API.
 Of course, this presumes the external-facing API is relatively stable,
 which is problematic if the reason the models are changing in the
@@ -436,7 +436,7 @@ compatible PATCH.
 5.2.3 Identity Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Runtime Control leverages an external identity database (i.e. LDAP
+Runtime Control leverages an external identity database (an LDAP
 server) to store user data such as account names and passwords for
 users who are able to log in. This LDAP server also has the capability
 to associate users with groups. For example, adding administrators to
@@ -444,7 +444,7 @@ the ``AetherAdmin`` group would be an obvious way to grant those
 individuals with administrative privileges within Runtime Control.
 
 An external authentication service, Keycloak, serves as a frontend to
-a database like LDAP. It authenticates the user, handles the mechanics
+a database such as LDAP. It authenticates the user, handles the mechanics
 of accepting the password, validating it, and securely returning the
 group the user belongs to.
 
@@ -538,7 +538,7 @@ as a way of illustrating the role Runtime Control plays. These models
 are specified in YANG (for which we include a concrete example of one
 of the models), but since the Runtime Control API is generated from
 these specs, it is equally valid to think in terms of an API that
-supports REST's GET, POST, PATCH, DELETE operations on a set of
+supports REST's GET, POST, PUT, PATCH, and DELETE operations on a set of
 web resources (objects):
 
 * GET: Retrieve an object.
@@ -583,7 +583,7 @@ field:
 
 `Enterprises` are further divided into `Sites`. A site is a
 point-of-presence for an `Enterprise` and may be either physical or
-logical (i.e. a single geographic location could contain several
+logical (i.e., a single geographic location could contain several
 logical sites). The `Site` model contains the following fields:
 
 * `imsi-definition`: A description of how IMSIs are constructed for
@@ -597,7 +597,7 @@ logical sites). The `Site` model contains the following fields:
      construct IMSIs using a 3-digit MCC, 3-digit MNC, 3-digit ENT,
      and a 6-digit subscriber.
 
-* `small-cell`: A list of 5G gNodeB or Access Point or Radios. Each small cell has the following:
+* `small-cell`: A list of 5G gNodeBs or Access Points or Radios. Each small cell has the following:
 
     * `small-cell-id`: Identifier for the small cell. Serves the same purpose as other `id` fields.
     * `address`: Hostname of the small cell.
@@ -685,7 +685,7 @@ together end-to-end connectivity across the RAN, Core, and Fabric.
     machinery. For example, because the SD-Fabric in Aether is
     implemented with programmable switching hardware, the
     forwarding plane is instrumented with Inband Network Telemetry
-    (INT). A northbound API then enables fine-grain data
+    (INT). A northbound API then enables fine-grained data
     collection on a per-flow basis, at runtime, making it possible
     to write closed-loop control applications on top of Aether.*
 
@@ -701,9 +701,9 @@ together end-to-end connectivity across the RAN, Core, and Fabric.
     DevOps-level configuration files consumed by the underlying
     software components (i.e., microservices). Creating these
     interfaces is an exercise in defining a meaningful abstraction
-    layer, which when done using declarative tooling, becomes an
+    layer, which, when done using declarative tooling, becomes an
     exercise in defining high-level data models. Runtime Control
-    is the management subsystem responsible specifying and
+    is the management subsystem responsible for specifying and
     implementing the API for such an abstraction layer.*
 
 
@@ -766,7 +766,7 @@ describe here. They include `IP-Domain`, which specifies IP and DNS
 settings; and `UPF`, which specifies the User Plane Function (the data
 plane element of the SD-Core) that should forward packets on behalf of
 this particular instance of the connectivity service. The `UPF` model
-is necessary because an Aether deployment can run many UPFs
+is necessary because an Aether deployment can run many UPF
 instances. This is because there are two different implementations
 (one runs as a microservice on a server and the other runs as a P4
 program loaded into the switching fabric), and because multiple
@@ -785,7 +785,7 @@ isolating a distinct traffic flow.
 As we did at the end of Chapter 4, it is instructive to revisit the
 question of how to distinguish between configuration state and control
 state, with Lifecycle Management (and its Config Repo) responsible for
-the former, and Runtime Control (and its Key/Value store) responsible
+the former, and Runtime Control (and its key-value store) responsible
 for the latter. Now that we have seen the Runtime Control subsystem in
 more detail, it is clear that one critical factor is whether or not a
 programmatic interface (coupled with an access control mechanism) is
@@ -824,10 +824,10 @@ bridging the gap).
     between the management and control platform we're focused on in
     this book, and the users we want to support. This is largely an
     exercise in defining abstractions, which brings us back to the
-    central point we are trying to make: It is both the reality of the
+    central point we are trying to make: it is both the reality of the
     underlying implementation and the mental model of the target users
     that shape these abstractions. Considering one without the other,
-    as anyone that has read a user's manual understands, is a recipe
+    as anyone who has read a user's manual understands, is a recipe
     for disaster.*
 
 On this latter point, it is easy to imagine an implementation of a
@@ -843,7 +843,7 @@ either a configuration-time Operator (to initialize the component at
 boot time) or a control-time Adapter (to change the component at
 runtime).
 
-For resource-related operations, like spinning up additional
+For resource-related operations, such as spinning up additional
 containers in response to a user request to create a *Slice* or
 activate an edge service, a similar implementation strategy is
 feasible. The Kubernetes API can be called from either Helm (to
@@ -851,14 +851,14 @@ initialize a microservice at boot time) or from a Runtime Control
 Adapter (to add resources at runtime). The remaining challenge is
 deciding which subsystem maintains the authoritative copy of that
 state, and ensuring that decision is enforced as a system invariant.\ [#]_
-Such decisions are often situation dependent, but our experience is
+Such decisions are often situation-dependent, but our experience is
 that using Runtime Control as the single source-of-truth is a sound
 approach.
 
 .. [#] It is also possible to maintain two authoritative copies of the
-       state, and implement a mechanism to keep them in-sync. The
+       state, and implement a mechanism to keep them in sync. The
        difficulty with such a strategy is avoiding backdoor access
-       that by-passes the synchronization mechanism.
+       that bypasses the synchronization mechanism.
 
 Of course there are two sides to this coin. It is also tempting to
 provide runtime control of configuration parameters that, at the end
