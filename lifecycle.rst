@@ -4,17 +4,17 @@ Chapter 4:  Lifecycle Management
 Lifecycle Management is concerned with updating and evolving a running
 system over time. We have carved out the bootstrapping step of
 provisioning the hardware and installing the base software platform
-(Chapter 3), and so now turn our attention to continually upgrading
+(Chapter 3), and so now we turn our attention to continually upgrading
 the software running on top of that platform. And as a reminder, we
 assume the base platform includes Linux running on each server and
 switch, plus Docker, Kubernetes, and Helm, with SD-Fabric controlling
 the network.
 
 While we could take a narrow view of Lifecycle Management, and assume
-the software we want to rollout has already gone through an off-line
+the software we want to roll out has already gone through an off-line
 integration-and-testing process (this is the traditional model of
 vendors releasing a new version of their product), we take a more
-expansive approach that starts with development process—the creation
+expansive approach that starts with the development process—the creation
 of new features and capabilities. Including the “innovation” step
 closes the virtuous cycle depicted in :numref:`Figure %s<fig-cycle>`,
 which the cloud industry has taught us leads to greater *feature
@@ -79,7 +79,7 @@ microservice workloads that run on top of that platform up-to-date.
     book. But keep in mind that "continuous" does not necessarily mean
     "instantaneous"; there can be a variety of gating functions
     injected into the CI/CD pipeline to control when and how upgrades
-    get rolled out. The import point is that all the stages in the pipeline
+    get rolled out. The important point is that all the stages in the pipeline
     are automated.*
 
     *So what exactly does "Continuous Delivery" mean? Arguably, it's
@@ -150,8 +150,8 @@ tests. Once merged, the pipeline runs a build across all the
 components, and a second round of testing happens on a *Quality
 Assurance (QA)* cluster. Passing these tests gate deployment, but note
 that testing also happens in the Staging clusters, as part of the CD
-end of the pipeline. One might naturally ask what about the Production
-clusters; how do we continue to test the software after it is running
+end of the pipeline. One might naturally wonder about the Production
+clusters. How do we continue to test the software after it is running
 in production?  That happens, of course, but we tend to call it
 Monitoring & Telemetry (and subsequent diagnostics) rather than
 testing. This is the subject of Chapter 6.
@@ -199,7 +199,7 @@ With respect to what types of tests, there is a rich vocabulary for
 talking about QA, but unfortunately, the definitions are often vague,
 overlapping, and not always uniformly applied. The following gives a
 simple taxonomy that serves our purposes, with different categories of
-tests are organized according to the three stages of the CI/CD
+tests organized according to the three stages of the CI/CD
 pipeline where they happen (relative to :numref:`Figure %s
 <fig-pipeline>`):
 
@@ -219,7 +219,7 @@ pipeline where they happen (relative to :numref:`Figure %s
 * **QA Cluster:** These tests are run periodically (e.g., once day, once a
   week) and so can be more extensive. They typically test whole
   subsystems, or in some cases, the entire system. There are two
-  categories post-merge/pre-deploy tests:
+  categories of post-merge/pre-deploy tests:
 
   * **Integration Tests:** Ensures one or more subsystems functions
     correctly, and adheres to known invariants. These tests exercise
@@ -228,7 +228,7 @@ pipeline where they happen (relative to :numref:`Figure %s
 
   * **Performance Tests:** Like functional tests in scope (i.e., at
     the subsystem level), but they measure quantifiable performance
-    parameters, including the ability to scale workload, rather than
+    parameters, including the ability to scale the workload, rather than
     correctness.
 
 * **Staging Cluster:** Candidate releases are run on the Staging cluster for
@@ -314,16 +314,16 @@ Some of the frameworks shown in :numref:`Figure %s
 <fig-tests>` were co-developed with the corresponding software
 component. This is true of TestVectors and TestON, which put
 customized workloads on Stratum (SwitchOS) and ONOS (NetworkOS),
-respectively. Both are open source, so available to pursue for
+respectively. Both are open source, and hence available to pursue for
 insights into the challenges of building a testing framework. In
 contrast, NG40 is a proprietary framework for emulating 3GPP-compliant
 cellular network traffic, which due to the complexity and value in
 demonstrating adherence to the 3GPP standard, is a closed, commercial
 product.
 
-Selenium and Robot are the most general of the five examples. Both are
-open source projects with an active developer community. Selenium is a
-tool for automating the testing of web browsers, while Robot is a more
+Selenium and Robot are the most general of the five examples. Each is an
+open source project with an active developer community. Selenium is a
+tool for automating the testing of web applications, while Robot is a more
 general tool for generating requests to any well-defined interface.
 Both systems are frameworks in the sense that developers can write
 extensions, libraries, drivers, and plugins to test specific features
@@ -332,8 +332,8 @@ illustrate the purpose of a testing framework, which is to provide a
 means to (1) automate the execution of a range of tests; (2) collect
 and archive the resulting test results; and (3) evaluate and analyze
 the test results. In addition, is it necessary for such frameworks to
-be scalable when the system it is invoking tests against is itself
-scalable (as is the case for cloud services).
+be scalable when they are used to test systems that are themselves intended to be
+scalable, as is the case for cloud services.
 
 .. [#] Selenium is actually available as a library that can be called
     from within the Robot framework, which makes sense when you
@@ -357,13 +357,13 @@ daily) integration tests.
 --------------------------
 
 The Continuous Integration (CI) half of Lifecycle Management is all
-about translating source code checked in by developers, into a
+about translating source code checked in by developers into a
 deployable set of Docker Images. As discussed in the previous section,
 this is largely an exercise in running a set of tests against the
 code—first to test if it is ready to be integrated and then to test if
 it was successfully integrated—where the integration itself is
 entirely carried out according to a declarative specification. This is
-the value proposition of the microservice architecture: each of the
+the value proposition of the microservices architecture: each of the
 components is developed independently, packaged as a container
 (Docker), and then deployed and interconnected by a container
 management system (Kubernetes) according to a declarative integration
@@ -399,10 +399,10 @@ and (d) optionally publish new deployment artifacts (e.g, Docker
 images) to the downstream image repository. This last step happens
 only after the patch set has been accepted and merged into the repo
 (which also triggers the *Build* stage in :numref:`Figure %s
-<fig-pipeline>` to run), but importantly, how images are
-built/integrated for testing is exactly the same as how they are
-built/integrated for deployment. The design principle is that there
-are no special cases; just different “off-ramps” for the end-to-end
+<fig-pipeline>` to run).  Importantly, the manner in which images are
+built and integrated for testing is exactly the same as the way they are
+built and integrated for deployment. The design principle is that there
+are no special cases, just different “off-ramps” for the end-to-end
 CI/CD pipeline.
 
 There is no topic on which developers have stronger opinions than the
@@ -553,14 +553,14 @@ APIs. Consider each in turn.
 The Terraform side of :numref:`Figure %s <fig-fleet>` is responsible
 for deploying (and configuring) the latest platform level software.
 For example, if the operator wants to add a server (or VM) to a given
-cluster, upgrade the version of Kubernetes, change the CNI plug-in
+cluster, upgrade the version of Kubernetes, or change the CNI plug-in
 Kubernetes uses, the desired configuration is specified in the
 Terraform config files. (Recall that Terraform computes the delta
 between the existing and desired state, and executes the calls
 required to bring the former in line with the latter.) Anytime new
 hardware is added to an existing cluster, the corresponding Terraform file
 is modified accordingly and checked into the Config Repo, triggering
-the deployment job. We do not re-iterate the mechanistic aspect of how
+the deployment job. We do not reiterate the mechanistic aspect of how
 platform deployments are triggered, but it uses exactly the same set
 of Jenkins machinery described in Section 4.3.2, except now watching
 for changes to Terraform Forms checked into the Config Repo.
@@ -589,11 +589,11 @@ Helm Charts. The second is a *Cluster Group*, which identifies a set
 of Kubernetes clusters that are to be treated in an equivalent way. In
 our case, the set of all clusters labeled ``Production`` could be
 treated as one such a group, and all clusters labeled ``Staging``
-could be treated another such group. (Here, we are talking about the
+could be treated as another such group. (Here, we are talking about the
 ``env`` label assigned to each cluster in its Terraform spec, as
 illustrated in the examples shown in Section 3.2.) The third is a
 *GitRepo*, which is a repository to watch for changes to bundle
-artifacts. In our case, new are Helm Charts are checked into the
+artifacts. In our case, new Helm Charts are checked into the
 Config Repo (but as indicated at the beginning of this chapter, there
 is likely a dedicated "Helm Repo" in practice).
 
@@ -612,7 +612,7 @@ when.
 .. sidebar:: Implementation Details Matter
 
     *We are purposely not doing a deep-dive into the individual tools
-    that are assembles into the Lifecycle Management subsystem, but
+    that are assembled into the Lifecycle Management subsystem, but
     details do often matter. Our experience with Fleet offers a good
     example.  As a careful reader may have noticed, we could have used
     Jenkins to trigger Fleet to deploy an upgraded application,
@@ -738,8 +738,8 @@ Note that a commit of a new version of the root Helm Chart could be
 taken as the signal to the CD half of the pipeline—as denoted by the
 the *"Deployment Gate"* in :numref:`Figure %s <fig-pipeline>`—that the
 combination of modules (features) is now deployment-ready. Of course,
-other factors can also be taken into consideration, such as never
-beginning a rollout at 5pm on a Friday afternoon.
+other factors can also be taken into consideration, such as time of
+day as noted above.
 
 While some of the *Source Code* :math:`\rightarrow` *Docker Image*
 :math:`\rightarrow` *Kubernetes Container* relationships just outlined
@@ -781,7 +781,7 @@ At a high level, the solution is straightforward. The various secrets
 required to operate a secure system are encrypted, and only the
 encrypted versions are checked into the Config Repo. This reduces the
 problem to worrying about just one secret, but effectively kicks the
-can down the road: How do we manage (both protect and distribute) the
+can down the road. How, then, do we manage (both protect and distribute) the
 secret needed to decrypt the secrets?  Fortunately, there are
 mechanisms available to help solve that problem. Aether, for example,
 uses two different approaches, each with its own strengths and
@@ -812,7 +812,7 @@ Kubernetes cluster (technically, this process is known as a
 Controller) to manage secrets on behalf of all the other
 Kubernetes-hosted microservices. At runtime, this process creates a
 Private/Public key pair, and makes the Public key available to the
-CI/CD toolchain. The Private key is restricted to SealedSecrets
+CI/CD toolchain. The Private key is restricted to the SealedSecrets
 Controller, and is referred to as the *sealing key*. Without stepping
 through the details of the full protocol, the Public key is used in
 combination with a randomly-generated symmetric key to encrypt all the

@@ -500,7 +500,7 @@ different than a physical machine.
 
 The unanswered question is why one might decide to do that,
 considering that Kubernetes already allows us to deploy multiple
-applications on a single cluster.  One reason is to support fine-grain
+applications on a single cluster.  One reason is to support fine-grained
 resource isolation, making it possible to (a) ensure that each
 Kubernetes application receives the processor, memory, and storage
 resources it needs to do its job, and (b) reduce the risk of
@@ -510,7 +510,7 @@ that in addition to SD-Fabric, SD-RAN and SD-Core workloads that run
 edge apps, such as the OpenVINO platform introduced in Section 2.3. To
 ensure that there is no interference between these applications, we
 could dedicate a subset of physical servers to each of them. Physical
-partitioning is a coarse-grain way to share the physical cluster.
+partitioning is a coarse-grained way to share the physical cluster.
 Being able to "split" one or more servers between multiple uses—by
 instantiating VMs—gives the operator more flexibility in allocating
 resources, which usually translates into requiring fewer overall

@@ -619,7 +619,7 @@ microservices—we happen to not take that approach. This is primarily
 an engineering choice: Service Meshes provide more features than we
 need, and correspondingly, we are able to realize the necessary
 functionality using more narrowly focused mechanisms. There is also a
-pedagogical reason: The fine-grain components we use are more
+pedagogical reason: The fine-grained components we use are more
 consistent with our goal of identifying the elemental pieces of
 operations and management, rather than having those components bundled
 in a comprehensive package. We do, however, return to the role of
