@@ -587,11 +587,11 @@ switches) by Kubernetes and Helm.\ [#]_
 
 For completeness, we need to mention that nearly every mechanism
 described in this book takes advantage of cloud-hosted repositories,
-most notably GitHub, but also artifact-specific repos like DockerHub
-and ArtifactHub. We also assume complementary systems like Gerrit,
-which layer a code-review mechanism on top of a git repository, but
-having direct experience with Gerrit is not critical to understanding
-the material.
+such as GitHub (for code), DockerHub (for Docker images), and
+ArtifactHub (for Helm charts). We also assume complementary systems
+like Gerrit, which layer a code-review mechanism on top of a Git
+repository, but having direct experience with Gerrit is not critical
+to understanding the material.
 
 .. _reading_github:
 .. admonition:: Further Reading

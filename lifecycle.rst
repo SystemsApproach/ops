@@ -67,9 +67,9 @@ software-related components in the underlying cloud platform and the
 microservice workloads that run on top of that platform up-to-date.
 
 .. [#] We use the term "Config Repo" generically to denote one or more
-       GitHub repositories storing all the configuration-related
-       files.  In practice, there might be one repo for Helm Charts
-       and another for Terraform Templates.
+       repositories storing all the configuration-related files.  In
+       practice, there might be one repo for Helm Charts and another
+       for Terraform Templates.
 
 .. sidebar:: Continuous Delivery vs Deployment
 
@@ -375,17 +375,18 @@ in part by filling in some specific mechanisms.
 4.3.1 Code Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Code Repositories, such as GitHub and Gerrit, typically provide a
-means to tentatively submit a patch set, triggering a set of static
-checks (e.g., passes linter, license, and CLA checks), and giving code
-reviewers a chance to inspect and comment on the code. This mechanism
-also provides a means to trigger the build-integrate-test processes
-discussed next. Once all such checks complete to the satisfaction of
-the engineers responsible for the affected modules, the patch set is
-merged. This is all part of the well-understood software development
-process, and so we do not discuss it further. The important takeaway
-for our purposes is that there is a well-defined interface between
-code repositories and subsequent stages of the CI/CD pipeline.
+Code Repositories (of which GitHub and Gerrit are two examples),
+typically provide a means to tentatively submit a patch set,
+triggering a set of static checks (e.g., passes linter, license, and
+CLA checks), and giving code reviewers a chance to inspect and comment
+on the code. This mechanism also provides a means to trigger the
+build-integrate-test processes discussed next. Once all such checks
+complete to the satisfaction of the engineers responsible for the
+affected modules, the patch set is merged. This is all part of the
+well-understood software development process, and so we do not discuss
+it further. The important takeaway for our purposes is that there is a
+well-defined interface between code repositories and subsequent stages
+of the CI/CD pipeline.
 
 4.3.2 Build-Integrate-Test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -701,9 +702,9 @@ the software lifecycle:
 
 * The commit that does correspond to a finalized patch is also tagged
   (in the repo) with the corresponding semantic version number. In
-  GitHub, this tag is bound to a hash that unambiguously identifies
-  the commit, making it the authoritative way of binding a version
-  number to a particular instance of the source code.
+  git, this tag is bound to a hash that unambiguously identifies the
+  commit, making it the authoritative way of binding a version number
+  to a particular instance of the source code.
 
 * For repos that correspond to microservices, the repo also has a
   Dockerfile that gives the recipe for building a Docker image from
@@ -842,14 +843,14 @@ attack surface that needs to be protected.
 
 The CI/CD pipeline described in this chapter is consistent with
 GitOps, an approach to DevOps designed around the idea of
-*Configuration-as-Code*\—making the code repo (e.g. GitHub) the single
-source of truth for building and deploying a cloud native system. The
-approach is premised on first making all configuration state
-declarative (e.g, specified in Helm Charts and Terraform Templates),
-and then treating this repo as the single source of truth for building
-and deploying a cloud native system. It doesn't matter if you patch a
-Python file or update a config file, the repo triggers the CI/CD
-pipeline as described in this chapter.
+*Configuration-as-Code*\—making the code repo the single source of
+truth for building and deploying a cloud native system. The approach
+is premised on first making all configuration state declarative (e.g,
+specified in Helm Charts and Terraform Templates), and then treating
+this repo as the single source of truth for building and deploying a
+cloud native system. It doesn't matter if you patch a Python file or
+update a config file, the repo triggers the CI/CD pipeline as
+described in this chapter.
 
 While the approach described in this chapter is based on the GitOps
 model, there are three considerations that mean GitOps is not the end
@@ -872,7 +873,7 @@ SD-Core subsystem was originally implemented for use in global
 cellular networks, but is being repurposed to support private 4G/5G in
 enterprises.
 
-While it is true such state could be managed in a GitHub repo, the
+While it is true such state could be managed in a Git repository, the
 idea of configuration management by pull request is overly
 simplistic. There are both low-level (implementation-centric) and
 high-level (application-centric) variables; in other words, it is
@@ -893,7 +894,7 @@ organization’s inventory system. Or in another example specific to
 Aether, it is necessary to call a remote *Spectrum Access Service
 (SAS)* to learn how to configure the radio settings for the small
 cells that have been deployed. Naively, you might think that’s a
-variable you could pull out of a YAML file stored in a git repository.
+variable you could pull out of a YAML file stored in a Git repository.
 In general, systems often have to deal with multiple—sometimes
 external—sources of configuration state, and knowing which copy is
 authoritative and which is derivative is inherently problematic. There

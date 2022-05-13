@@ -343,7 +343,7 @@ reason to use highly available cloud storage. On the other hand,
 prudence dictates that all the state the Runtime Control subsystem
 maintains be backed up periodically, in case it needs to be restarted
 from scratch due to a catastrophic failure. These checkpoints, plus
-all the configuration-as-code files stored in GitHub, collectively
+all the configuration-as-code files stored in a Git repository, collectively
 define the entirety of the authoritative state needed to
 (re-)instantiate a cloud deployment.
 
