@@ -57,7 +57,7 @@ interesting use case to study:
 
 * Aether augments this edge cloud with 5G-Connectivity-as-a-Service,
   giving us a service that must be operationalized (in addition to the
-  underlying cloud). The end result is that Aether provides managed
+  underlying cloud). The end result is that Aether provides a managed
   Platform-as-a-Service (PaaS).
 
 * Aether is built entirely from open source components. The only thing
@@ -99,8 +99,8 @@ a mix of “modern” concepts that are native to the cloud, and
 “traditional” concepts that are artifacts from earlier systems (many
 of which are now being subsumed by the cloud, but retain some of their
 original operational language). This is especially true at the
-intersection of the cloud and Telcos, who—like the Sami of Scandinavia
-that have over 180 words for snow—have an exceedingly rich vocabulary
+intersection of the cloud and Telcos, who—like the Sámi of Scandinavia
+having over 180 words for snow—have an exceedingly rich vocabulary
 for *operating* a network.
 
 A major source of confusion is that we are in the midst of a
@@ -221,7 +221,7 @@ terminology.
     produces additional insights (value) from raw data. It can be used
     to close a control loop (i.e., auto-reconfigure a system based on
     these insights), but could also be targeted at a human operator
-    that subsequently takes some action.
+    who subsequently takes some action.
 
 Another way to talk about operations is in terms of stages, leading to
 a characterization that is common for traditional network devices:
@@ -293,8 +293,8 @@ To fully understand the challenge of operating a cloud, we have
 to start with the underlying building blocks: a collection of
 software-based microservices running on commodity hardware. These
 building blocks are the consequence of having *disaggregated* the
-bundled and purpose-built network appliances that came before, and so
-from the management perspective, it is helpful to identify what
+bundled and purpose-built network appliances that came before.
+From the management perspective, it is helpful to identify what
 becomes easier and what becomes harder when you make this
 transition. This is both the challenge and the opportunity of
 disaggregation.
@@ -336,7 +336,7 @@ manageable:
 
 * ISSU becomes more tractable because the microservice architecture
   encourages stateless components, with persistent state isolated in a
-  single function-agnostic storage service, such as a key/value store.
+  single function-agnostic storage service, such as a key-value store.
 
 * Zero-Touch Provisioning is more tractable because the hardware is
   commodity, and hence, (nearly) identical. This also means the vast
@@ -622,8 +622,11 @@ functionality using more narrowly focused mechanisms. There is also a
 pedagogical reason: The fine-grained components we use are more
 consistent with our goal of identifying the elemental pieces of
 operations and management, rather than having those components bundled
-in a comprehensive package. We do, however, return to the role of
-service meshes in later chapters.
+in a comprehensive package.
+
+..
+     We do, however, return to the role of
+     service meshes in later chapters. (no we don't - bd)
 
 .. sidebar:: What's the Master Plan?
 
@@ -670,7 +673,7 @@ sometimes deployed inside of VMs (rather than directly on physical
 machines), but in that case, the VMs can be viewed as part of the 
 underlying infrastructure (rather than a service that is offered to 
 users). Another way of saying this is that this book focuses on how to 
-operationalize a Platform-as-as-Service (PaaS) rather than a 
+operationalize a Platform-as-a-Service (PaaS) rather than an
 Infrastructure-as-a-Service (IaaS), although later chapters will 
 describe how to introduce VMs as an optional way to provision the 
 underlying infrastructure for that PaaS. 
@@ -683,7 +686,7 @@ case study. For example, *Smart Edge Open* (formerly known as
 OpenNESS) is another open source edge platform, unique in that it
 includes several Intel-specific acceleration technologies (e.g., DPDK,
 SR-IOV, OVS/OVN). For our purposes, however, the exact set of
-components that make-up the platform is less important than how the
+components that make up the platform is less important than how the
 platform, along with all the cloud services that run on top of it, are
 managed as a whole. The Aether example allows us to be specific, but
 hopefully not at the expense of general applicability.
@@ -702,7 +705,7 @@ were deployed over 30 years ago. Throughout that history, a robust
 vendor ecosystem has introduced an increasingly diverse set of network
 appliances, compounding the challenge of the admin’s job. The
 introduction of virtualization technology led to server consolidation,
-but did not reduce the management overhead. This is because each
+but did not greatly reduce the management overhead. This is because each
 virtual appliance remains in a management silo.
 
 Cloud providers, because of the scale of the systems they build,

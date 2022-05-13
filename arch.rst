@@ -514,7 +514,7 @@ consumable dashboards (similar to the example shown in :numref:`Figure
 In broad terms, it is common to think of this aspect of cloud
 management as having three parts: a monitoring component that collects
 quantitative metrics (e.g., load averages, transmission rates,
-ops-per-second), a logging component that collects diagnostic
+ops per second), a logging component that collects diagnostic
 messages (i.e., text strings explaining various event), and a tracing
 component that can reconstruct workflows through a set of
 microservices. All include a timestamp, so it is possible to link
