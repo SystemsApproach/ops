@@ -579,7 +579,7 @@ about INT, we refer the reader to our companion SDN book.
    <https://sdn.sysetmsapproach.org>`__. November 2021.
 
 The second is the emergence of *Service Meshes* mentioned in
-Chapter 1. A Service Mesh framework like Istio provides a means to
+Chapter 1. A Service Mesh framework such as Istio provides a means to
 enforce fine-grained security policies and collect telemetry data in
 cloud native applications by injecting "observation/enforcement
 points" between microservices. These injection points, called
@@ -608,11 +608,21 @@ This provides a general way for operators to define how the system is
 observed without having to rely on any instrumentation developers
 might include in their services. The downside is that sidecars impose
 a nontrivial amount of overhead on inter-service communication. For
-more information about the Istio Service Mesh, we recommend Calcote
-and Butcher's book.
+that reason, alternative approaches to sidecars are gaining traction,
+notably Cilium, which uses eBPF (extended Berkeley Packet Filters) to
+implement observability, security and networking data plane features
+inside the kernel rather than in a sidecar.
+
+For more information about the Istio Service Mesh, we recommend
+Calcote and Butcher's book. The Cilium project has extensive
+documentation and tutorials at its web site.
 
 .. _reading_mesh:
 .. admonition:: Further Reading
 
    L. Calcote and Z. Butcher `Istio: Up and Running
-      <https://www.oreilly.com/library/view/istio-up-and/9781492043775/>`__. October 2019.
+   <https://www.oreilly.com/library/view/istio-up-and/9781492043775/>`__. October 2019.
+
+   `Cilium: eBPF-based Networking, Observability, Security <https://cilium.io/>`__.
+
+

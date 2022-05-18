@@ -622,11 +622,8 @@ functionality using more narrowly focused mechanisms. There is also a
 pedagogical reason: The fine-grained components we use are more
 consistent with our goal of identifying the elemental pieces of
 operations and management, rather than having those components bundled
-in a comprehensive package.
-
-..
-     We do, however, return to the role of
-     service meshes in later chapters. (no we don't - bd)
+in a comprehensive package. We do, however, return to the role of
+service meshes in our discussion of observability in Chapter 6.
 
 .. sidebar:: What's the Master Plan?
 
