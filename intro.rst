@@ -425,7 +425,7 @@ Redfish).
 .. _reading_redfish:
 .. admonition:: Further Reading
 
-   Distributed Management Task Force (DMTF) `Redfish
+   DMTF. `Redfish
    <https://www.dmtf.org/standards/redfish>`__.
 
 A physical cloud cluster is then constructed with the hardware
@@ -696,8 +696,8 @@ hopefully not at the expense of general applicability.
    `OpenNESS: Open Network Edge Services Software 
    <https://www.openness.org/>`__. 
 
-1.4 Future of the Sys-Admin
----------------------------
+1.4 Future of the System Administrator
+--------------------------------------
 
 System administrators have been responsible for operating enterprise
 networks since the first file servers, client workstations, and LANs

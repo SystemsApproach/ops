@@ -193,7 +193,7 @@ KIND—Kubernetes in Docker—making it possible for developers to run
 these components on their laptop.
 
 To be clear, Kubernetes adopts generic terminology, such as “cluster”
-and “service”, and gives it very specific meaning. In
+and “service”, and gives it a very specific meaning. In
 Kubernetes-speak, a *Cluster* is a logical domain in which Kubernetes
 manages a set of containers. This “Kubernetes cluster” may have a
 one-to-one relationship with an underlying physical cluster, but it is
@@ -217,12 +217,12 @@ the example we use may not be suitable for all situations, it does
 illustrate the design implications.
 
 For Aether, we care about two primary stakeholders: (1) the *cloud
-operators* that manage the hybrid cloud as a whole, and (2) the
-*enterprise users* that decide on a per-site basis how to take
+operators* who manage the hybrid cloud as a whole, and (2) the
+*enterprise users* who decide on a per-site basis how to take
 advantage of the local cloud resources (e.g., what edge applications
 to run and how to slice connectivity resources among those apps).  We
 sometimes call the latter "enterprise admins" to distinguish them from
-"end-users" that might want to manage their own personal devices.
+"end-users" who might want to manage their own personal devices.
 
 The architecture is multi-tenant in the sense that it authenticates
 and isolates these stakeholders, allowing each to access only those
@@ -238,11 +238,11 @@ on that possibility.
 There is a potential third stakeholder of note—third-party service
 providers—which points to the larger issue of how we deploy and manage
 additional edge applications. To keep the discussion tangible—but
-remain in the open source arena—we use OpenVINO as an illustrative
+remaining in the open source arena—we use OpenVINO as an illustrative
 example. OpenVINO is a framework for deploying AI inference models,
 which is interesting in the context of Aether because one of its use
 cases is processing video streams, for example to detect and count
-people that enter the field of view of a collection of 5G-connected
+people who enter the field of view of a collection of 5G-connected
 cameras.
 
 .. _reading_openvino:
@@ -256,7 +256,7 @@ Kubernetes-based set of microservices. On the other hand, we have to
 ask who is responsible for managing it, which is to say “who
 operationalizes OpenVINO?”
 
-One answer is that the operators that already manage the rest of the
+One answer is that the operators who already manage the rest of the
 hybrid cloud also manage the collection of edge applications added to
 cloud. Enterprise admins might activate and control those apps on a
 site-by-site basis, but it is the operations team already responsible
@@ -321,7 +321,7 @@ need to manage services delivered to a local site, and an Operations
 Portal intended for the ops team responsible for keeping Aether
 up-to-date and running smoothly. Again, other stakeholders (classes of
 users) are possible, but this distinction does represent a natural
-division between those that *use* cloud services and those that
+division between those who *use* cloud services and those who
 *operate* cloud services.
 
 .. _fig-amp:
@@ -355,7 +355,7 @@ Internally, each of these subsystems is implemented as a highly
 available cloud service, running as a collection of microservices. The
 design is cloud-agnostic, so AMP can be deployed in a public cloud
 (e.g., Google Cloud, AWS, Azure), an operator-owned Telco cloud, (e.g,
-AT&T’s AIC), or an enterprise-owned private cloud. For a pilot
+AT&T’s AIC), or an enterprise-owned private cloud. For the current pilot
 deployment of Aether, AMP runs in the Google Cloud.
 
 The rest of this section introduces these four subsystems, with the
@@ -394,10 +394,10 @@ and we will see it applied in different ways throughout this book.
 Recall from Chapter 1 that we called out the "Aether platform" as
 distinct from the cloud-native workloads that are hosted on the
 platform. This is relevant here because Resource Provisioning has to
-get this platform up-and-running before Lifecycle Management can do
+get this platform up and running before Lifecycle Management can do
 its job. But in another example of circular dependencies, Lifecycle
 Management also plays a role in keeping the underlying platform
-up-to-date.
+up to date.
 
 Clearly, the “Install & Inventory” step requires human involvement,
 and some amount of hands-on resource-prep is necessary, but the goal
@@ -514,8 +514,8 @@ consumable dashboards (similar to the example shown in :numref:`Figure
 In broad terms, it is common to think of this aspect of cloud
 management as having three parts: a monitoring component that collects
 quantitative metrics (e.g., load averages, transmission rates,
-ops per second), a logging component that collects diagnostic
-messages (i.e., text strings explaining various event), and a tracing
+ops per second); a logging component that collects diagnostic
+messages (i.e., text strings explaining various event); and a tracing
 component that can reconstruct workflows through a set of
 microservices. All include a timestamp, so it is possible to link
 quantitative analysis with qualitative explanations in support of
@@ -579,10 +579,10 @@ of a running system, and if you do, how does that differ from changing
 a control parameter? And as suggested by the dotted arrow in
 :numref:`Figure %s <fig-2D>`, is there value in having Runtime Control
 instigate changes via Lifecycle Management? The difference is usually
-related to frequency-of-change (which is in turn related to how
-disruptive to existing traffic/workload the change is), but at the end
-of the day, it doesn't matter what you call it, as long as the
-mechanisms you use meet all of your requirements.
+related to frequency of change (which is in turn related to how
+disruptive to existing traffic/workload the change is), but ultimately
+it doesn't matter what you call it, as long as the mechanisms you use
+meet all of your requirements.
 
 Of course, an operational system doesn't tolerate such ambiguities
 very well. Each aspect of management has to be supported in a
@@ -605,8 +605,8 @@ with a more extensive discussion of ops-related procedures presented
 throughout the book.
 
 DevOps has become an overused term, generally taken to mean that the
-line between the engineers that develop cloud functionality and the
-operators that deploy and manage cloud functionality is blurred, with
+line between the engineers who develop cloud functionality and the
+operators who deploy and manage cloud functionality is blurred, with
 the same team responsible for both. But that definition is too
 imprecise to be helpful. There are really three aspects of DevOps that
 are important to understand.
@@ -647,7 +647,7 @@ calls in the middle of the night.
        first to respond to alarms, resolving the issue according to a
        well-scripted playbook. If Tier-1 support is not able to
        resolve an issue, it is elevated to Tier-2 and eventually
-       Tier-3, the latter of which is the developers that best
+       Tier-3, the latter of which is the developers who best
        understand implementation details.
 
 .. sidebar:: Experience at Google
@@ -657,10 +657,10 @@ calls in the middle of the night.
     example of how good things come from efforts to minimize
     toil. As Google gained experience building and running its
     cloud, the incremental improvements to their cloud management
-    system were assimilated in a system known as BORG.*
+    system were assimilated in a system known as Borg.*
 
     *Kubernetes, the open source project widely used across the
-    industry today, was spun out of BORG. The functionality
+    industry today, was spun out of Borg. The functionality
     embodied by Kubernetes evolved over time to deal with the
     operational challenges of deploying, upgrading, and monitoring
     a set of containers, serving as a great example of how a
@@ -680,7 +680,7 @@ number of servers and sites without manual intervention; a monitoring
 and telemetry framework that components can report into; a runtime
 control environment that can translate high-level directives into
 low-level operations on backend components; and so on. While each of
-these frameworks were once created by a team tasked with keeping some
+these frameworks was once created by a team tasked with keeping some
 other service running smoothly, they have taken on a life of their
 own. The Control and Management Platform now has its own DevOps
 team(s), who in addition to continually improving the platform, also

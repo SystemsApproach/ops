@@ -289,7 +289,7 @@ It is also possible to generate other useful specifications for the
 deployment, helping the technician confirm the recorded logical specification
 matches the actual physical representation. For example,
 :numref:`Figure %s <fig-cable_list>` shows the set of cables and how
-they connect the set hardware in our example deployment.
+they connect the set of hardware in our example deployment.
 
 .. _fig-cable_list:
 .. figure:: figures/cable_list.png
@@ -382,7 +382,7 @@ extracts data from NetBox and outputs a corresponding set of YAML
 files, crafted to serve as input to yet another open source tool
 (*Netplan*), which actually does the detailed work of configuring the
 network subsystem on the various backend devices. More information
-about Ansible and Netplan is available on their respective web sites:
+about Ansible and Netplan is available on their respective web sites.
 
 .. _reading_ansible:
 .. admonition:: Further Reading
@@ -412,7 +412,7 @@ layer of the stack.
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 As a result of the steps described so far, we can assume each server
-and switch is up-and-running, but we still have a little work to do to
+and switch is up and running, but we still have a little work to do to
 prepare our bare-metal clusters for the next layer in the provisioning
 stack, essentially establishing parity between the left- and
 right-hand sides of the hybrid cloud shown in :numref:`Figure %s
@@ -636,16 +636,19 @@ be error-prone and difficult to make consistently repeatable.
 Starting with declarative language and auto-generating the right
 sequence of API calls is a proven way to overcome that problem.
 
+
 We conclude the discussion by drawing attention to the fact that while
 we now have a declarative specification for our cloud infrastructure,
 which we refer to as the *Aether Platform*, these specification files
-are yet another software artifact that we check into the Config Repo.
-This repo, in turn, feeds the lifecycle management pipeline described
-in the next chapter. The physical provisioning steps described in
-Section 3.1 happen "outside" the pipeline (which is why we don't just
-fold resource provisioning into Lifecycle Management), but it is fair
-to think of resource provisioning as "Stage 0" of lifecycle
-management.
+are yet another software artifact that we check into the Config
+Repo. This is what we mean by Infrastructure-as-Code: infrastructure
+specifications are checked into a repo and version-controlled like
+any other code.  This repo, in turn, feeds the lifecycle management
+pipeline described in the next chapter. The physical provisioning
+steps described in Section 3.1 happen "outside" the pipeline (which is
+why we don't just fold resource provisioning into Lifecycle
+Management), but it is fair to think of resource provisioning as
+"Stage 0" of lifecycle management.
 
 3.3 Platform Definition
 ------------------------
