@@ -7,6 +7,7 @@ Atomix
 BMC
 Bavier
 Bazel
+Calcote
 Chiu
 Condon
 Config
@@ -156,6 +157,7 @@ rst
 runtime
 runtimes
 scalable
+scalability
 signalling
 stderr
 stdin
