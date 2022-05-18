@@ -46,32 +46,6 @@ only way to understand time-dependent phenomena—such as why a
 particular resource is overloaded—is to understand how multiple
 independent workflows interact with each other.
 
-.. sidebar:: Observability and INT
-
-    *Observability is a relatively new term being used in the context
-    of monitoring, and while it is easily dismissed as the latest
-    buzzword (which it is), it can also be interpreted as another of
-    the set of "-ities" (qualities) that all good systems aspire to,
-    alongside scalability, reliability, availability, security,
-    usability, and so on.  Observability is the quality of a system
-    that makes visible the facts about its internal operation needed
-    to make informed management and control decisions, and it has
-    become a fertile space for innovation.*
-
-    *Instrumenting a system is a necessary first step in improving its
-    observability, and Inband Network Telemetry (INT) is an important
-    recent development in accessing useful telemetry data. INT takes
-    advantage of programmable switching hardware to allow operators to
-    ask new questions about how network packets are being
-    processed. They no longer have to depend on the predefined set of
-    counters hardwired into fixed-function network devices.  Because
-    Aether uses programmable switches as the foundation for its
-    SDN-based switching fabric, it is able to use INT as a fourth type
-    of telemetry data to help debug problems, optimize performance,
-    and detect malicious attacks. We do not discuss INT in this
-    chapter, but refer the reader to our companion SDN book for more
-    information.*
-
 Taking a step back from the three types of telemetry data, it is
 helpful to have a broad understanding of the design space, and to that
 end, we make four observations.
@@ -120,11 +94,11 @@ failure modes.
 
 Finally, because the metrics, logs, and traces collected by the
 various subsystems are timestamped, it is possible to establish
-correlations among them, which is helpful when deciding whether an
-alert is warranted, or when debugging a problem. We give examples of
-how such telemetry-wide functions might be implemented in the
-concluding section, where we also discuss ongoing efforts to unify
-monitoring and troubleshooting across all types of telemetry data.
+correlations among them, which is helpful when debugging a problem or
+deciding whether or not an alert is warranted. We give examples of how
+such telemetry-wide functions are implemented in practice today, as
+well as discuss the future future of generating and using telemetry
+data, in the final two sections of this chapter.
 
 6.1 Metrics and Alerts
 -------------------------------
@@ -452,7 +426,7 @@ overhead of tracing so as not to negatively impact application
 performance, yet (2) extracting enough information from traces so as
 to make collecting it worthwhile.  Sampling is a widely adopted
 technique introduced into the data collection pipeline to manage this
-trade-off.  One consequence of these challenges is that distributed
+trade-off. One consequence of these challenges is that distributed
 tracing is the subject of ongoing research, and we can expect the
 model definitions and sampling techniques to evolve and mature in the
 foreseeable future.
@@ -556,3 +530,89 @@ the most relevant information associated with the selected object.
 
    Example monitoring frame associated with a selected Device Group.
 
+6.5 Observability
+-----------------
+
+Knowing what telemetry data to collect, so you have exactly the right
+information when you need it, but doing so without negatively
+impacting system performance, is a difficult problem. *Observability*
+is a relatively new term being used to describe this problem, and
+while the term can be dismissed as the latest marketing buzzword
+(which it is), it can also be interpreted as another of the set of
+*"-ities"* that all good systems aspire to, alongside scalability,
+reliability, availability, security, usability, and so on. Observability
+is the quality of a system that makes visible the facts about its
+internal operation needed to make informed management and control
+decisions. It has become a fertile space for innovation, and so we
+conclude this chapter with two examples that may become commonplace
+in the near future.
+
+The first is *Inband Network Telemetry (INT)*, which takes advantage
+of programmable switching hardware to allow operators to ask new
+questions about how packets are being processed "in-band", as they
+flow through the network. This is in contrast to either depending on
+the predefined set of counters hardwired into fixed-function network
+devices, or seeing just a sampled subset of packets. Because Aether
+uses programmable switches as the foundation for its SDN-based
+switching fabric, it is able to use INT as a fourth type of telemetry
+data, and in doing so provide qualitatively deeper insights into
+traffic patterns and the root causes of network failures.
+
+For example, INT has been used to measure and record queuing delay
+individual packets experience while traversing a sequence of switches
+along an end-to-end path, making it possible to detect *microbursts*
+(queuing delays measured over millisecond or even sub-millisecond time
+scales). It is even possible to correlate this information across
+packet flows that followed different routes, so as to determine which
+flows shared buffer capacity at each switch. As another example, INT
+has been used to record the decision making process that directed how
+packets are delivered, that is, which forwarding rules were applied at
+each switch along the end-to-end path. This opens the door to using
+INT to verify that the data plane is faithfully executing the
+forwarding behavior the network operator intends. For more information
+about INT, we refer the reader to our companion SDN book.
+
+.. _reading_int:
+.. admonition:: Further Reading
+
+   L. Peterson, *et al.* `Software-Defined Networking: A Systems Approach
+   <https://sdn.sysetmsapproach.org>`__. November 2021.
+
+The second is the emergence of *Service Meshes* mentioned in
+Chapter 1. A Service Mesh framework like Istio provides a means to
+enforce fine-grained security policies and collect telemetry data in
+cloud native applications by injecting "observation/enforcement
+points" between microservices. These injection points, called
+*sidecars*, are typically implemented by a container that "runs along
+side" the containers that implement each microservice, with all RPC
+calls from Service A to Service B passing through their associated
+sidecars. As shown in :numref:`Figure %s <fig-mesh>`, these sidecars
+then implement whatever policies the operator wants to impose on the
+application, sending telemetry data to a global collector and
+receiving security directives from a global policy engine.
+
+.. _fig-mesh:
+.. figure:: figures/Slide27.png
+   :width: 350px
+   :align: center
+
+   Overview of a Service Mesh framework, with sidecars intercepting
+   messages flowing between Services A and B. Each sidecar enforces
+   security policy received from the central controller and sends
+   telemetry data to the central controller.
+	   
+From the perspective of observability, sidecars can be programmed to
+record whatever information operators might want to collect, and in
+principle, they can even be dynamically updated as conditions warrant.
+This provides a general way for operators to define how the system is
+observed without having to rely on any instrumentation developers
+might include in their services. The downside is that sidecars impose
+a nontrivial amount of overhead on inter-service communication. For
+more information about the Istio Service Mesh, we recommend Calcote
+and Butcher's book.
+
+.. _reading_mesh:
+.. admonition:: Further Reading
+
+   L. Calcote and Z. Butcher `Istio: Up and Running
+      <https://www.oreilly.com/library/view/istio-up-and/9781492043775/>`__. October 2019.
