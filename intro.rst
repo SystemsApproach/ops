@@ -425,7 +425,7 @@ Redfish).
 .. _reading_redfish:
 .. admonition:: Further Reading
 
-   DMTF `Redfish
+   DMTF. `Redfish
    <https://www.dmtf.org/standards/redfish>`__.
 
 A physical cloud cluster is then constructed with the hardware
