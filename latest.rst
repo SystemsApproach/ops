@@ -4,7 +4,7 @@
 ========================
 
 `Substack Newsletter: <https://systemsapproach.substack.com/>`__ Stay
-up-to-date with the latest developments by following the authors on
+up to date with the latest developments by following the authors on
 `Substack <https://systemsapproach.substack.com/>`__, where they
 connect the concepts and lessons in this book to what's happening in
 the Internet today.
