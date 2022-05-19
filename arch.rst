@@ -319,7 +319,7 @@ with :numref:`Figure %s <fig-amp>` showing the two examples we focus
 on in this book: a User Portal intended for enterprise admins who
 need to manage services delivered to a local site, and an Operations
 Portal intended for the ops team responsible for keeping Aether
-up-to-date and running smoothly. Again, other stakeholders (classes of
+up to date and running smoothly. Again, other stakeholders (classes of
 users) are possible, but this distinction does represent a natural
 division between those who *use* cloud services and those who
 *operate* cloud services.

@@ -64,7 +64,7 @@ gets checked into the Config Repo. These files are input to Lifecycle
 Management, which implies that Terraform gets invoked as part of CI/CD
 whenever these files change. In other words, CI/CD keeps both the
 software-related components in the underlying cloud platform and the
-microservice workloads that run on top of that platform up-to-date.
+microservice workloads that run on top of that platform up to date.
 
 .. [#] We use the term "Config Repo" generically to denote one or more
        repositories storing all the configuration-related files.  In
@@ -180,7 +180,7 @@ Our goal for Lifecycle Management is to improve feature velocity, but
 that always has to be balanced against delivering high-quality
 code—software that is reliable, scales, and meets performance
 requirements. Ensuring code quality requires that it be subjected to a
-battery of tests, but the linchpin for doing so “at speed” is through
+battery of tests, but the linchpin for doing so “at speed” is the
 effective use of automation. This section introduces an approach to
 test automation, but we start by talking about the overall testing
 strategy.
@@ -195,7 +195,7 @@ the infrastructure required to automate those tests.
 4.2.1 Categories of Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-With respect to what types of tests, there is a rich vocabulary for
+With respect to the types of tests, there is a rich vocabulary for
 talking about QA, but unfortunately, the definitions are often vague,
 overlapping, and not always uniformly applied. The following gives a
 simple taxonomy that serves our purposes, with different categories of
@@ -214,14 +214,16 @@ pipeline where they happen (relative to :numref:`Figure %s
 
   * **Smoke Tests:** A form of functional testing, typically run
     against a set of related modules, but in a shallow/superficial way
-    (so they can run quickly).
+    (so they can run quickly). The etymology of the term "smoke tests"
+    is said to come from hardware tests, as in, "does smoke come out
+    of the box when you turn it on?"
 
 * **QA Cluster:** These tests are run periodically (e.g., once day, once a
   week) and so can be more extensive. They typically test whole
   subsystems, or in some cases, the entire system. There are two
   categories of post-merge/pre-deploy tests:
 
-  * **Integration Tests:** Ensures one or more subsystems functions
+  * **Integration Tests:** Ensures one or more subsystems function
     correctly, and adheres to known invariants. These tests exercise
     the integration machinery in addition to end-to-end (cross-module)
     functionality.
@@ -285,7 +287,7 @@ You will also note that we did not call out *Regression* tests in this
 simple taxonomy, but our view is that Regression tests are designed to
 ensure that a bug is not re-introduced into the code once it has been
 identified and fixed, meaning it is a common *source* of new tests that
-can be added to Unit, Smoke, or Integration, Performance, or Soak
+can be added to Unit, Smoke, Integration, Performance, or Soak
 tests. Most tests, in practice, are Regression tests, independent of
 where they run in the CI/CD pipeline.
 
@@ -444,8 +446,8 @@ stage, and then conditional upon success, conclude with a "Deliver"
 stage. But this approach doesn't take into account the loose coupling
 of all the components that go into a building a cloud. Instead, what
 happens in practice is that Jenkins is used more narrowly to (1)
-build-and-test individual components, both before and after they are
-merged into the code repository; (2) integrate-and-test various
+build and test individual components, both before and after they are
+merged into the code repository; (2) integrate and test various
 combinations of components, for example, on a nightly basis; and (3)
 under limited conditions, push the artifact that has just been built
 (e.g., a Docker Image) to the Image Repo.
@@ -463,9 +465,9 @@ Aether, the approach is for each major component to define three or
 four different Groovy-based pipelines, each of which you can think of
 as corresponding to one of the top-level stages in the overall CI/CD
 pipeline shown in :numref:`Figure %s <fig-pipeline>`. That is,
-one Groovy pipeline corresponds to per-merge build-and-test, one for
-post-merge build-and-test, one for integrate-and-test, and one for
-publish-artifact. Each major component also defines a collection of
+one Groovy pipeline corresponds to pre-merge build and test, one for
+post-merge build and test, one for integrate and test, and one for
+publish artifact. Each major component also defines a collection of
 YAML files that link component-specific triggers to one of the
 pipelines, along with the associated set of parameters for that
 pipeline. The number of YAML files (and hence triggers) varies from
@@ -513,7 +515,7 @@ patch set.
 .. literalinclude:: code/trigger-event.yaml
 
 The important takeaway from this discussion is that there is no
-single/global CI job. There are many per-component jobs that
+single or global CI job. There are many per-component jobs that
 independently publish deployable artifacts when conditions dictate.
 Those conditions include: (1) the component passes the required tests,
 and (2) the component's version indicates whether or not a new
@@ -752,12 +754,12 @@ versions they intend. Having a simple and clear versioning strategy is
 a pre-requisite for doing that job.
 
 Finally, because versioning is inherently related to APIs, with the
-*MAJOR* version number incremented whenever the API changes in
+*MAJOR* version number incremented whenever the API changes in a
 non-backward-compatible way, developers are responsible for ensuring
 their software is able to correctly consume any APIs they depend
 on. Doing so becomes problematic when there is persistent state
 involved, by which we mean state that must be preserved across
-multiple version of the software that accesses it. This is a problem
+multiple versions of the software that accesses it. This is a problem
 that all operational systems that run continuously have to deal with,
 and typically requires a *data migration* strategy. Solving this
 problem in a general way for application-level state is beyond the
@@ -879,7 +881,7 @@ simplistic. There are both low-level (implementation-centric) and
 high-level (application-centric) variables; in other words, it is
 common to have one or more layers of abstraction running on top of the
 base software. In the limit, it may even be an end-user (e.g., an
-enterprise user in Aether) that wants to change this state, which
+enterprise user in Aether) who wants to change this state, which
 implies fine-grained access control is likely a requirement. None of
 this disqualifies GitOps as a way to manage such state, but it does
 raise the possibility that not all state is created equal—that there
