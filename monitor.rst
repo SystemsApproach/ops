@@ -536,27 +536,27 @@ the most relevant information associated with the selected object.
 Knowing what telemetry data to collect, so you have exactly the right
 information when you need it, but doing so without negatively
 impacting system performance, is a difficult problem. *Observability*
-is a relatively new term being used to describe this problem, and
-while the term can be dismissed as the latest marketing buzzword
-(which it is), it can also be interpreted as another of the set of
-*"-ities"* that all good systems aspire to, alongside scalability,
-reliability, availability, security, usability, and so on. Observability
-is the quality of a system that makes visible the facts about its
-internal operation needed to make informed management and control
-decisions. It has become a fertile space for innovation, and so we
-conclude this chapter with two examples that may become commonplace
-in the near future.
+is a relatively new term being used to describe this general problem
+space, and while the term can be dismissed as the latest marketing
+buzzword (which it is), it can also be interpreted as another of the
+set of *"-ities"* that all good systems aspire to, alongside
+scalability, reliability, availability, security, usability, and so
+on. Observability is the quality of a system that makes visible the
+facts about its internal operation needed to make informed management
+and control decisions. It has become a fertile space for innovation,
+and so we conclude this chapter with two examples that may become
+commonplace in the near future.
 
 The first is *Inband Network Telemetry (INT)*, which takes advantage
 of programmable switching hardware to allow operators to ask new
 questions about how packets are being processed "in-band", as they
 flow through the network. This is in contrast to either depending on
 the predefined set of counters hardwired into fixed-function network
-devices, or seeing just a sampled subset of packets. Because Aether
-uses programmable switches as the foundation for its SDN-based
-switching fabric, it is able to use INT as a fourth type of telemetry
-data, and in doing so provide qualitatively deeper insights into
-traffic patterns and the root causes of network failures.
+devices, or being able to inspect just a sampled subset of packets.
+Because Aether uses programmable switches as the foundation for its
+SDN-based switching fabric, it is able to use INT as a fourth type of
+telemetry data, and in doing so provide qualitatively deeper insights
+into traffic patterns and the root causes of network failures.
 
 For example, INT has been used to measure and record queuing delay
 individual packets experience while traversing a sequence of switches
@@ -605,10 +605,10 @@ From the perspective of observability, sidecars can be programmed to
 record whatever information operators might want to collect, and in
 principle, they can even be dynamically updated as conditions warrant.
 This provides a general way for operators to define how the system is
-observed without having to rely on any instrumentation developers
-might include in their services. The downside is that sidecars impose
-a nontrivial amount of overhead on inter-service communication. For
-that reason, alternative approaches to sidecars are gaining traction,
+observed without having to rely on instrumentation developers might
+include in their services. The downside is that sidecars impose a
+nontrivial amount of overhead on inter-service communication. For that
+reason, alternative approaches to sidecars are gaining traction,
 notably Cilium, which uses eBPF (extended Berkeley Packet Filters) to
 implement observability, security and networking data plane features
 inside the kernel rather than in a sidecar.

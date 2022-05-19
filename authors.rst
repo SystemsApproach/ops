@@ -13,25 +13,28 @@ of the ACM and the IEEE, the 2010 recipient of the IEEE Kobayashi
 Computer and Communication Award, and the 2013 recipient of the ACM
 SIGCOMM Award. He received his Ph.D. degree from Purdue University.
 
-**Scott Baker** is a Member of the Technical Staff at the Open
-Networking Foundation (ONF), where he leads the Aether DevOps team.
-Prior to joining ONF, he was on cloud-related research projects at
-Princeton and the University of Arizona, including PlanetLab, GENI,
-and VICCI. Baker received his Ph.D. in Computer Science from the
-University of Arizona in 2005.
+**Scott Baker** is a Cloud Software Architect at Intel, which he
+joined as part of Intel's acquisition of the Open Networking
+Foundation (ONF) engineering team. While at ONF, he led the Aether
+DevOps team. Prior to ONF, he worked on cloud-related research
+projects at Princeton and the University of Arizona, including
+PlanetLab, GENI, and VICCI. Baker received his Ph.D. in Computer
+Science from the University of Arizona in 2005.
 
-**Andy Bavier** is a Member of the Technical Staff at the Open
-Networking Foundation (ONF), where he works on the Aether project.
-Prior to joining ONF, he was a Research Scientist at Princeton
-University, where he worked on the PlanetLab project. Bavier received a BA
-in Philosophy from William & Mary in 1990, and MS in Computer Science
+**Andy Bavier** is a Cloud Software Engineer at Intel, which he joined
+as part of Intel's acquisition of the Open Networking Foundation (ONF)
+engineering team. While at ONF, he worked on the Aether project. Prior
+to joining ONF, he was a Research Scientist at Princeton University,
+where he worked on the PlanetLab project. Bavier received a BA in
+Philosophy from William & Mary in 1990, and MS in Computer Science
 from the University of Arizona in 1995, and a PhD in Computer Science
 from Princeton University in 2004.
 
-**Zack Williams** is a Member of the Technical Staff at the Open
-Networking Foundation (ONF), where he currently works on the Aether
-project, and leads the Infrastructure team. Prior to joining ONF, he
-was a systems programmer at the University of Arizona. Williams
+**Zack Williams** is a Cloud Software Engineer at Intel, which he
+joined as part of Intel's acquisition of the Open Networking
+Foundation (ONF) engineering team. While at ONF, he worked on the
+Aether project, and led the Infrastructure team. Prior to joining ONF,
+he was a systems programmer at the University of Arizona. Williams
 received his BS in Computer Science from the University of Arizona
 in 2001.
 
