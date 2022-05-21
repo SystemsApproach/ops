@@ -39,32 +39,32 @@ available open source software packages.
 
 .. sidebar:: Developers Have an Equal Role to Play
 
-  *This book takes an operator-centric perspective of cloud
-  operations, but developers have an equal role to play. This role is
-  reflected in practices like DevOps (which we discuss in Section
-  2.5), but can also been seen in the underlying cloud architecture.
-  This book defines a cloud management platform, including the API
-  through which service developers (who provide functionality)
-  interact with cloud operators (who manage that functionality).
-  Because there is a shared management platform to leverage,
-  developers need not reinvent the wheel when to comes to
-  provisioning, configuring, controlling, and monitoring the services
-  they implement.*
+  *This book takes an operator-centric view of cloud operations, but
+  developers have an equal role to play. This role is reflected in
+  practices like DevOps (which we discuss in Section 2.5), but can
+  also been seen in the underlying system design.  The cloud
+  architecture includes a management platform, which specifies a
+  runtime interface through which service developers (who provide
+  functionality) interact with cloud operators (who manage that
+  functionality).  Because there is a shared management platform to
+  leverage, developers do not need to reinvent the wheel when it comes
+  to provisioning, configuring, controlling, and monitoring the
+  services they implement.*
   
   *Looking at the broader picture, this management platform is an
-  essential component in how app builders and service developers
-  deliver functionality to end users. Today, functionality is most
-  often delivered as a Managed Service (as opposed to an inert pile of
-  software). This means developers need not only worry about the
+  essential part of how app builders and service developers deliver
+  functionality to end users. Today, functionality is most often
+  delivered as a Managed Service (as opposed to an inert pile of
+  software). This means developers not only have to worry about the
   algorithms and data structures needed to implement their app or
   service, they also need to interface with the platform that
   operationalizes (activates) their code. It is common to focus on the
   former and view the latter as a burden (especially if someone else
-  will be responsible for operating your code), but coding to the
-  mangement platform interface is a central part of the contract for
-  delivering a managed service. Understanding and appreciating the
-  "hows" and "whys" of this platform is critical to developers doing
-  their job.*
+  will be responsible for deploying and operating their code), but
+  coding to the mangement platform interface is a central part of the
+  contract for delivering a managed service. Understanding and
+  appreciating the "hows" and "whys" of this platform is critical to
+  developers doing their job.*
 
 This book describes what such a cloud management platform looks
 like. Our approach is to focus on the fundamental problems that must
