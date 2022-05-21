@@ -722,14 +722,14 @@ hopefully not at the expense of general applicability.
    `OpenNESS: Open Network Edge Services Software 
    <https://www.openness.org/>`__. 
 
-1.4 Future of the System Administrator
---------------------------------------
+1.4 Future of the Sysadmin
+--------------------------
 
 System administrators have been responsible for operating enterprise
 networks since the first file servers, client workstations, and LANs
 were deployed over 30 years ago. Throughout that history, a robust
 vendor ecosystem has introduced an increasingly diverse set of network
-appliances, compounding the challenge of the admin’s job. The
+appliances, compounding the challenge of the sysadmin’s job. The
 introduction of virtualization technology led to server consolidation,
 but did not greatly reduce the management overhead. This is because each
 virtual appliance remains in a management silo.
