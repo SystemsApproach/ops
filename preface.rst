@@ -9,23 +9,26 @@ Microsoft, Amazon and the other cloud providers do for us, and they do
 a perfectly good job of it.
 
 The answer, we believe, is that the cloud is becoming ubiquitous in
-another way, as it moves from hundreds of datacenters to tens of
+another way, as distributed applications increasing run not just in
+large, central datacenters but at the edge. As applications are
+disaggregated, the cloud is expanding from hundreds of datacenters to tens of
 thousands of enterprises. And while it is clear that the commodity
-cloud providers are eager to manage those edge clusters as a logical
-extension of their datacenters, they do not have a lock on the
+cloud providers are eager to manage those edge clouds as a logical
+extension of their datacenters, they do not have a monopoly on the
 know-how for making that happen.
 
 This book lays out a roadmap that a small team of engineers followed
-over the course of a year to stand up and operationalize (and then
-operate 24/7) an edge cloud that spans a dozen enterprises, and hosts
-a non-trivial cloud native service (5G connectivity in our case, but
-that’s just an example). The team was able to do this by leveraging
-20+ open source components, but selecting those components is just a
-start. There were dozens of technical decisions to make along the way,
-and a few thousand lines of configuration code to write. We believe
-this is a repeatable exercise, which we report in this book. (And the
-code for those configuration files is open source, for those who want
-to pursue the topic in more detail.)
+over the course of a year to stand up and operationalize an edge cloud
+and then operate it 24/7. This edge cloud spans a dozen
+enterprises, and hosts a non-trivial cloud native service—5G
+connectivity in our case, but that’s just an example. The team was
+able to do this by leveraging 20+ open source components, but
+selecting those components is just a start. There were dozens of
+technical decisions to make along the way, and a few thousand lines of
+configuration code to write. We believe this is a repeatable exercise,
+which we report in this book. The code for those configuration
+files is open source, for those who want to pursue the topic in more
+detail.
 
 What do we mean by an edge cloud? We're drawing a distinction between
 clouds run by the hyperscale cloud providers in their massive data
@@ -43,7 +46,7 @@ experience, it’s a complicated design space with an overabundance of
 terminology and storylines to untangle. Whether you plan to stand up
 your own edge cloud in an enterprise, or end up selecting a cloud
 provider to do that for you, understanding everything that goes into
-such an endeavor is a critical first step in the decision making
+such an endeavor is a critical first step in the decision-making
 process.
 
 
