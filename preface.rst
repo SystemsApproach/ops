@@ -49,6 +49,28 @@ provider to do that for you, understanding everything that goes into
 such an endeavor is a critical first step in the decision-making
 process.
 
+Intended Audience
+------------------
+
+We hope this book makes valuable reading for anyone who is trying to
+stand up and operationalize their own edge cloud infrastructure, but
+we also aim to provide useful information for at least two other broad
+groups. First, there will be a set of readers who need to evaluate the
+options available, particularly to decide between using the cloud
+services offered by one of the hyperscalers or building their own edge
+cloud (or some combination of these). We hope to demystify the
+landscape of edge clouds for this audience to help inform those
+decisions. Secondly, there will be a group of application and service
+developers who need to build on top of whatever cloud infrastructure
+their organization has chosen to use. We believe it is important for
+these developers to understand what goes on "under the hood" of the
+cloud at least at a high level, so that they can make their
+applications manageable and reliable. There is increasingly close
+interaction between developers and operators (as evidenced by the
+DevOps movement) and we aim to facilitate that collaboration. Topics
+such as monitoring and observability are particularly important for
+this audience. 
+
 
 Guided Tour of Open Source
 --------------------------
