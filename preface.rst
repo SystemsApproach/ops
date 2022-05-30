@@ -55,12 +55,16 @@ Intended Audience
 We hope this book makes valuable reading for anyone who is trying to
 stand up and operationalize their own edge cloud infrastructure, but
 we also aim to provide useful information for at least two other broad
-groups. First, there will be a set of readers who need to evaluate the
+groups.
+
+First, there will be a set of readers who need to evaluate the
 options available, particularly to decide between using the cloud
 services offered by one of the hyperscalers or building their own edge
 cloud (or some combination of these). We hope to demystify the
 landscape of edge clouds for this audience to help inform those
-decisions. Secondly, there will be a group of application and service
+decisions.
+
+Secondly, there will be a group of application and service
 developers who need to build on top of whatever cloud infrastructure
 their organization has chosen to use. We believe it is important for
 these developers to understand what goes on "under the hood" of the
@@ -129,5 +133,5 @@ comments using the `Issues Link
 list we're currently working on.
 
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
-| October 2021
+| June 2022
 

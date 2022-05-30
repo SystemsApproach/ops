@@ -61,7 +61,7 @@ available open source software packages.
   operationalizes (activates) their code. It is common to focus on the
   former and view the latter as a burden (especially if someone else
   will be responsible for deploying and operating their code), but
-  coding to the mangement platform interface is a central part of the
+  coding to the management platform interface is a central part of the
   contract for delivering a managed service. Understanding and
   appreciating the "hows" and "whys" of this platform is critical to
   developers doing their job.*
@@ -290,11 +290,11 @@ process of operationalizing the devices they sell, which in turn
 dictates how network operators and enterprise system admins bring
 those devices online. While the general framework has been extended to
 Virtual Network Functions (VNFs), it is still a device-centric view of
-operations. But once a system becomes cloud native, two things happen
-that shift the balance of concerns. First, all hardware is commodity,
-and so Days 0 and 1 configurations become fully automated (and Day -1
-is minimized since all devices are identical).\ [#]_ Second, Day 2
-operations become a much more sophisticated process. This is because
+operations. But once a system becomes cloud native, two things shift
+the balance of concerns. First, all hardware is commodity, and so Days
+0 and 1 configurations become fully automated (and Day -1 is minimized
+since all devices are identical).\ [#]_ Second, Day 2 operations
+become a much more sophisticated process. This is because
 software-based systems are more agile, making functional upgrades more
 commonplace. This focus on *feature velocity* is one of the inherent
 values of cloud-based systems, but not surprisingly, it brings its own

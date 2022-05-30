@@ -356,7 +356,7 @@ Helm charts already identify the version of each microservice (Docker
 Image) to be deployed. This means the version of the Runtime Control
 Helm chart effectively specifies the version of the Runtime Control
 API, since that API is auto-generated from the set of models, as we'll
-see in a the next subsection. All of this is to say that version
+see in the next subsection. All of this is to say that version
 control for the Northbound Interface of the cloud, as an aggregated
 whole, is managed in exactly the same way as version control for each
 functional building block that contributes to the cloud's internal
@@ -527,7 +527,7 @@ for distributing, revoking, and renewing certificates.
 
 For components that speak REST, HTTPS is used to secure the
 connection, and authentication can take place using mechanisms within
-the HTTPS protocol (basic auth, tokens, etc). Oath2 and OpenID Connect
+the HTTPS protocol (basic auth, tokens, etc). Oauth2 and OpenID Connect
 are leveraged as an authorization provider when using these REST APIs.
 
 5.3 Modeling Connectivity Service
@@ -776,8 +776,8 @@ isolating a distinct traffic flow.
 .. _reading_sdn:
 .. admonition:: Further Reading
 
-   `Software-Defined Networks: A Systems Approach
-   <https://sdn.systemsapproach.org>`__
+   L. Peterson, *et al.* `Software-Defined Networks: A Systems Approach
+   <https://sdn.systemsapproach.org>`__. November 2021.
 
 5.4 Revisiting GitOps
 ---------------------

@@ -23,7 +23,7 @@ When a cloud is built from virtual resources (e.g., VMs instantiated
 on a commercial cloud) the "rack and connect" step is carried out by a
 sequence of API calls rather than a hands-on technician.  Of course,
 we want to automate the sequence of calls needed to activate virtual
-infrastructure, which has inspired an approach know as
+infrastructure, which has inspired an approach known as
 *Infrastructure-as-Code*, a special case of the
 *Configuration-as-Code* concept introduced in Chapter 2. The general
 idea is to document, in a declarative format that can be "executed",
@@ -125,7 +125,7 @@ is NetBox. It supports IP address management (IPAM); inventory-related
 information about types of devices and where they are installed; how
 infrastructure is organized (racked) by group and site; and how
 devices are connected to consoles, networks, and power sources. More
-information is readily available on the NetBox web site:
+information is readily available on the NetBox web site.
 
 .. _reading_netbox:
 .. admonition:: Further Reading
@@ -217,7 +217,7 @@ purposes:
 There are other edge prefixes used by Kubernetes, but they do not need
 to be created in NetBox. Note that ``qsfp0`` and ``qsfp1`` in this
 example denote transceiver ports connecting the switching fabric,
-where *QSFP* stand for Quad (4-channel) Small Form-factor Pluggable.
+where *QSFP* stands for Quad (4-channel) Small Form-factor Pluggable.
 
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
@@ -403,7 +403,7 @@ paired with Netplan to configure kernel-level details, there is also
 an Ansible playbook that installs Docker on each compute server and
 fabric switch, and then launches a Docker container running a
 "finalize" image. This image makes calls into the next layer of the
-provisioning stack, effectively signalling that the cluster is running and
+provisioning stack, effectively signaling that the cluster is running and
 ready for further instructions. We are now ready to describe that next
 layer of the stack.
 
@@ -496,7 +496,7 @@ physical machine, but using virtualization mechanisms like KVM and
 Proxmox. There is no need for a full-fledged IaaS mechanism, such as
 OpenStack. These VMs would then be recorded as first-class cloud
 resource in NetBox and the other tools described in this section, no
-different than a physical machine.
+different from a physical machine.
 
 The unanswered question is why one might decide to do that,
 considering that Kubernetes already allows us to deploy multiple

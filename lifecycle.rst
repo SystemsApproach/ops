@@ -444,7 +444,7 @@ principle then, you could define a single CI/CD pipeline for the
 entire system. It would start with "Build" stage, followed by a "Test"
 stage, and then conditional upon success, conclude with a "Deliver"
 stage. But this approach doesn't take into account the loose coupling
-of all the components that go into a building a cloud. Instead, what
+of all the components that go into building a cloud. Instead, what
 happens in practice is that Jenkins is used more narrowly to (1)
 build and test individual components, both before and after they are
 merged into the code repository; (2) integrate and test various
@@ -667,7 +667,7 @@ curated set of services.
 The CI/CD toolchain introduced in this chapter works only when applied
 in concert with an end-to-end versioning strategy, ensuring that the
 right combination of source modules get integrated, and later, the
-right combination of images get deployed. Remember, the high-level
+right combination of images gets deployed. Remember, the high-level
 challenge is to manage the set of features that our cloud supports,
 which is another way of saying that everything hinges on how we
 version those features.
@@ -751,7 +751,7 @@ sanity tests that catch obvious mistakes, responsibility ultimately
 falls to the developers checking in source code and the operators
 checking in configuration code; they must correctly specify the
 versions they intend. Having a simple and clear versioning strategy is
-a pre-requisite for doing that job.
+a prerequisite for doing that job.
 
 Finally, because versioning is inherently related to APIs, with the
 *MAJOR* version number incremented whenever the API changes in a
@@ -774,7 +774,7 @@ The discussion up this point has glossed over one important detail,
 which is how secrets are managed. These include, for example, the
 credentials Terraform needs to access remote services like GCP, as
 well as the keys used to secure communication among microservices
-within a edge cluster. Such secrets are effectively part of the hybrid
+within an edge cluster. Such secrets are effectively part of the hybrid
 cloud's configuration state, which would imply they are stored in the
 Config Repo, like all other Configuration-as-Code artifacts. But
 repositories are typically not designed to be secure, which is

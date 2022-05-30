@@ -9,7 +9,7 @@ As markets grow, the unit of function around which one can build a
 business shrinks. A classic example of this can be seen in the history
 of the automotive industry. The Ford River Rouge Complex was built in
 the late 1920s. At the time, mass-produced cars were relatively new,
-and the market relatively small. And so factories like the River Rouge
+and the market was relatively small. And so factories like the River Rouge
 Complex had to build all the subcomponents too. Roughly, in one side
 of the factory went water, rubber, and iron ore, and out the other
 side came full automobiles. Of course, as the market for cars grew, so

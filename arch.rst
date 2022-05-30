@@ -130,11 +130,11 @@ the internal working of SD-RAN, SD-Core, and SD-Fabric.)
 .. _reading_5g:
 .. admonition:: Further Reading
 
-   `5G Mobile Networks: A Systems Approach
-   <https://5G.systemsapproach.org>`__
+   L. Peterson and O. Sunay. `5G Mobile Networks: A Systems Approach
+   <https://5G.systemsapproach.org>`__. March 2020.
 
-   `Software-Defined Networks: A Systems Approach
-   <https://sdn.systemsapproach.org>`__
+   L. Peterson, *et al.* `Software-Defined Networks: A Systems Approach
+   <https://sdn.systemsapproach.org>`__. November 2021.
 
 Once ACE is running in this configuration, it is ready to host a
 collection of edge applications (not shown in :numref:`Figure %s
@@ -537,7 +537,7 @@ subsystems to help make sense of it all.
 There are, in practice, many opportunities for interactions among the
 four components, and in some cases, there are overlapping concerns
 that lead to considerable debate. This is what makes operationalizing
-a cloud a thorny problem. For example, it's difficult to draw a crisp
+a cloud such a thorny problem. For example, it's difficult to draw a crisp
 line between where resource provisioning ends and lifecycle management
 begins. One could view provisioning as "Step 0" of lifecycle
 management. As another example, the runtime control and monitoring

@@ -474,11 +474,11 @@ general strategies.
 First, both Kibana and Grafana can be configured to display telemetry
 data from multiple sources. For example, it is straightforward to
 integrate both logs and traces in Kibana. This is typically done by
-first feeding the tracing data into Elastic Search, which Kibana then
+first feeding the tracing data into ElasticSearch, which Kibana then
 queries. Similarly, it is useful to have a convenient way to see the
 log messages associated with a particular component in the context of
 metrics that have been collected. This is easy to accomplish because
-Grafana can be configured to display data from Elastic Search just as
+Grafana can be configured to display data from ElasticSearch just as
 easily as from Prometheus. Both are data sources that can be
 queried. This makes it to possible to create a Grafana dashboard that
 includes a selected set of log messages, similar to the one from
