@@ -120,6 +120,9 @@ addressing the terminology challenge.
    `Aether: 5G-Connected Edge Cloud
    <https://opennetworking.org/aether/>`__.
 
+   `Aether Documentation
+   <https://docs.aetherproject.org/master/index.html>`__.
+
 1.1 Terminology
 ---------------
 
@@ -719,7 +722,7 @@ hopefully not at the expense of general applicability.
 
 .. admonition:: Further Reading 
 
-   `OpenNESS: Open Network Edge Services Software 
+   `Smart Open Edge 
    <https://www.openness.org/>`__. 
 
 1.4 Future of the Sysadmin
