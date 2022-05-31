@@ -291,7 +291,7 @@ possible answer that seems more likely to happen.
 This second approach is that a multi-cloud emerges *within*
 enterprises. Today, most people equate multi-cloud with services
 running across multiple hyperscalers, but with edge clouds becoming
-more common, it seems likely that enterprises invite multiple edge
+more common, it seems likely that enterprises will invite multiple edge
 clouds onto their local premises, some hyperscaler-provided and some
 not, each hosting a different subset of edge services. For example,
 one edge cloud might host a 5G connectivity service and another might
