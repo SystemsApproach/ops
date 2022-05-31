@@ -722,7 +722,7 @@ hopefully not at the expense of general applicability.
 
 .. admonition:: Further Reading 
 
-   `Smart Open Edge 
+   `Smart Edge Open 
    <https://www.openness.org/>`__. 
 
 1.4 Future of the Sysadmin

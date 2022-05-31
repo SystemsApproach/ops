@@ -43,11 +43,7 @@ Our roadmap may not be the right one for all circumstances, but it
 does shine a light on the fundamental challenges and trade-offs
 involved in operationalizing a cloud. As we can attest based on our
 experience, it’s a complicated design space with an overabundance of
-terminology and storylines to untangle. Whether you plan to stand up
-your own edge cloud in an enterprise, or end up selecting a cloud
-provider to do that for you, understanding everything that goes into
-such an endeavor is a critical first step in the decision-making
-process.
+terminology and storylines to untangle. 
 
 Intended Audience
 ------------------
