@@ -69,8 +69,7 @@ applications manageable and reliable. There is increasingly close
 interaction between developers and operators (as evidenced by the
 DevOps movement) and we aim to facilitate that collaboration. Topics
 such as monitoring and observability are particularly important for
-this audience. 
-
+this audience.
 
 Guided Tour of Open Source
 --------------------------

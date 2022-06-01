@@ -66,7 +66,6 @@ focus on the challenge of provisioning an entire site the first time.
 We comment on the simpler problem of incrementally provisioning
 individual resources as relevant details emerge.
 
-
 3.1 Physical Infrastructure
 ---------------------------
 
@@ -130,8 +129,8 @@ information is readily available on the NetBox web site.
 .. _reading_netbox:
 .. admonition:: Further Reading
 
-   `NetBox: <https://netbox.readthedocs.io/en/stable>`_ Information
-   Resource Modeling Application.
+   `NetBox: <https://docs.netbox.dev>`_ Information Resource Modeling
+   Application.
 
 One of the key features of NetBox is the ability to customize the set
 of models used to organize all the information that is collected. For
@@ -234,22 +233,23 @@ The following fields are also filled in when creating a Device:
 * MAC Addresses
 
 Note there is typically both a primary and management (e.g., BMC/IPMI)
-interface, where the *Device Type* implies the specific interfaces.
+interface. One convenience feature of Netbox is to use the *Device Type* as a
+template that will set the default naming of interfaces, power connections, and
+other equipment model specific characteristics.
 
-Finally, the virtual interfaces for the Device must be specified, with
-its *Label* field set to the physical network interface that it is
-assigned. IP addresses are then assigned to the physical and virtual
-interfaces we have defined. The Management Server should always have
-the first IP address in each range, and they should be incremental, as
-follows:
+Finally, the virtual interfaces for the Device must be specified, with its
+*Label* field set to the physical network interface that it is assigned. IP
+addresses are then assigned to the physical and virtual interfaces we have
+defined. The Management Server should always have the first IP address within
+each prefix, and by convention they are assigned incrementally as follows:
 
 * Management Server
 
   * ``eno1`` - site provided public IP address, or blank if DHCP provided
   * ``eno2`` - 10.0.0.1/25 (first of ADMIN) - set as primary IP
   * ``bmc`` - 10.0.0.2/25 (next of ADMIN)
-  * ``mgmt800`` - 10.0.0.129/25 (first of MGMT)
-  * ``fab801`` - 10.0.1.1/25 (first of FABRIC)
+  * ``mgmt800`` - 10.0.0.129/25 (first of MGMT, on VLAN 800)
+  * ``fab801`` - 10.0.1.1/25 (first of FABRIC, on VLAN 801)
 
 * Management Switch
 
@@ -323,7 +323,7 @@ deployment currently include:
 
 * Configure the Management Server so it boots from a provided USB key.
 
-* Load Ansible roles and playbooks needed to complete configuration
+* Run Ansible roles and playbooks needed to complete configuration
   onto the Management Server.
 
 * Configure the Compute Servers so they boot from the Management
@@ -345,8 +345,13 @@ should be taken to *not* overload this step with configuration that
 can be done later. For example, various radio parameters can be set on
 the eNBs when it is physically installed, but those parameters will
 become settable through the Management Platform once the cluster is
-brought online. Configuration work done at this stage should be
-minimized.
+brought online.
+
+Manual configuration work done at this stage should be minimized, and most
+systems should be configured to use automated means of configuration. For
+example, using DHCP pervasively with MAC reservations for IP address assignment
+instead of manual configuration of each interface allows for management to be
+Zero Touch and simplifies future reconfiguration.
 
 The automated aspects of configuration are implemented as a set of
 Ansible *roles* and *playbooks*, which in terms of the high-level
@@ -359,30 +364,32 @@ parameters that NetBox maintains.
 
 The general idea is as follows. For every network service (e.g., DNS,
 DHCP, iPXE, Nginx) and every per-device subsystem (e.g., network
-interfaces, Docker) that needs to be configured, there is a
-corresponding Ansible role and playbook.\ [#]_ This set is copied onto
-the Management Server during the manual configuration stage summarized
-above, and then executed once the management network is online.
+interfaces, Docker) that needs to be configured, there is a corresponding
+Ansible role and playbook.\ [#]_ These configurations are applied to the
+Management Server during the manual configuration stage summarized above, once
+the management network is online.
 
 .. [#] We gloss over the distinction between *roles* and *playbooks*
        in Ansible, and focus on the general idea of there being a
        *script* that runs with a set of input parameters.
 
-The Ansible playbooks instantiate the network services on the
-Management Server. The role of DNS and DHCP are obvious. As for iPXE
-and Nginx, they are boot servers for the rest of the infrastructure:
-the compute servers are configured to boot from the former and the
-fabric switches are configured to boot from the latter.
+The Ansible playbooks install and configure the network services on the
+Management Server. The role of DNS and DHCP are obvious. As for iPXE and Nginx,
+they are used to bootstrap the rest of the infrastructure: the compute servers
+are configured by iPXE delivered over DHCP/TFTP, then loading the scripted OS
+installation from a Nginx webserver, and the fabric switches receive their
+Stratum OS package from a webserver.
 
 In many cases, the playbooks use parameters—such as VLANs, IP
 addresses, DNS names, and so on—extracted from NetBox. :numref:`Figure
 %s <fig-ansible>` illustrates the approach, and fills in a few
 details. For example, a home-grown Python program (``edgeconfig.py``)
-extracts data from NetBox and outputs a corresponding set of YAML
-files, crafted to serve as input to yet another open source tool
-(*Netplan*), which actually does the detailed work of configuring the
-network subsystem on the various backend devices. More information
-about Ansible and Netplan is available on their respective web sites.
+extracts data from NetBox using the REST API and outputs a corresponding
+set of YAML files, crafted to serve as input to Ansible, which creates yet
+more configuration on management and compute systems.  One example of this
+is the *Netplan* file, which is used in Ubuntu to manage network interfaces.
+More information about Ansible and Netplan can be found on their respective web
+sites.
 
 .. _reading_ansible:
 .. admonition:: Further Reading

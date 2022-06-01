@@ -47,6 +47,8 @@ Netplan
 Nginx
 Nicira
 ONOS
+Oauth
+Observability
 Oguz
 Onos
 POD
@@ -62,12 +64,12 @@ Repo
 Repos
 Runtime
 SDN
-Sami
 Sigelman
 Suchitra
 Sunay
 Sys
 Syslog
+Sámi
 Tanzu
 Telco
 Telcos
@@ -132,7 +134,6 @@ mindshare
 namespaces
 natively
 observability
-Observability
 onos
 operationalization
 operationalize
@@ -156,15 +157,15 @@ rollout
 rst
 runtime
 runtimes
-scalable
 scalability
+scalable
 signalling
 stderr
 stdin
 stdout
 storylines
-subnet
 subcomponents
+subnet
 systemsapproach
 textboxes
 todo
@@ -172,6 +173,7 @@ todolist
 toolchain
 toolset
 untrusted
+unwinnable
 uplink
 uptime
 virtualenv
