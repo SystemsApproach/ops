@@ -47,9 +47,9 @@ available open source software packages.
   runtime interface through which service developers (who provide
   functionality) interact with cloud operators (who manage that
   functionality).  Because there is a shared management platform to
-  leverage, developers do not need to reinvent the wheel when it comes
-  to provisioning, configuring, controlling, and monitoring the
-  services they implement.*
+  leverage, developers do not need to (and should not) reinvent the
+  wheel when it comes to provisioning, configuring, controlling, and
+  monitoring the services they implement.*
   
   *Looking at the broader picture, this management platform is an
   essential part of how app builders and service developers deliver
