@@ -8,15 +8,14 @@ parameters.
 
 Using Aether’s 5G connectivity service as an example, suppose an
 enterprise admin wants to change the *Quality-of-Service* for a group
-of mobile devices. Aether groups devices into a `Device-Group`
-abstraction where like devices may be configured together.
-This might include modifying the *Maximum Uplink
-Bandwidth* or *Maximum Downlink Bandwidth*, or even selecting a
-different *Traffic Class*. Similarly, imagine an operator wants to add a
-new *Mission-Critical* option to the existing set of *Traffic Classes*
-that the *Devices* can adopt. Without worrying about the exact syntax
-of the API call(s) for these operations, the Runtime Control subsystem
-needs to
+of mobile devices. Aether defines a *Device Group* abstraction so that
+related devices can be configured together.  The admin can then modify
+the *Maximum Uplink Bandwidth* or *Maximum Downlink Bandwidth*, or
+even select a different *Traffic Class* for the group.  Similarly,
+imagine an operator wants to add a new *Mission-Critical* option to
+the existing set of *Traffic Classes* that devices can adopt. Without
+worrying about the exact syntax of the API call(s) for these
+operations, the Runtime Control subsystem needs to:
 
 1. Authenticate the principal wanting to perform the operation.
 
@@ -28,7 +27,7 @@ needs to
 4. Record the specified parameter setting(s), so the new value(s)
    persist.
 
-In this example, *Device-Group* and *Traffic Class* are abstract
+In this example, *Device Group* and *Traffic Class* are abstract
 objects being operated upon, and while these objects must be
 understood by Runtime Control, making changes to them might involve
 invoking low-level control operations on multiple subsystems, such as

@@ -504,7 +504,7 @@ commodity processors in the cluster:
 These are all well known and ubiquitous, and so we only summarize them
 here. Links to related information for anyone that is not familiar
 with them (including excellent hands-on tutorials for the three
-software building blocks) are given below.
+container-related building blocks) are given below.
 
 Linux is the OS that runs on the bare metal systems. It provides
 low-level APIs that container runtime systems use to implement

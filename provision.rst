@@ -232,10 +232,10 @@ The following fields are also filled in when creating a Device:
 * Device Type
 * MAC Addresses
 
-Note there is typically both a primary and management (e.g., BMC/IPMI)
+Note there is typically both a primary and a management (e.g., BMC/IPMI)
 interface. One convenience feature of Netbox is to use the *Device Type* as a
-template that will set the default naming of interfaces, power connections, and
-other equipment model specific characteristics.
+template that sets the default naming of interfaces, power connections, and
+other equipment model specific attributes.
 
 Finally, the virtual interfaces for the Device must be specified, with its
 *Label* field set to the physical network interface that it is assigned. IP
@@ -347,11 +347,11 @@ the eNBs when it is physically installed, but those parameters will
 become settable through the Management Platform once the cluster is
 brought online.
 
-Manual configuration work done at this stage should be minimized, and most
-systems should be configured to use automated means of configuration. For
-example, using DHCP pervasively with MAC reservations for IP address assignment
-instead of manual configuration of each interface allows for management to be
-Zero Touch and simplifies future reconfiguration.
+Manual configuration work done at this stage should be minimized, and
+most systems should use automated means of configuration. For example,
+using DHCP pervasively with MAC reservations for IP address assignment
+instead of manual configuration of each interface allows for
+management to be zero-touch and simplifies future reconfiguration.
 
 The automated aspects of configuration are implemented as a set of
 Ansible *roles* and *playbooks*, which in terms of the high-level
@@ -375,10 +375,10 @@ the management network is online.
 
 The Ansible playbooks install and configure the network services on the
 Management Server. The role of DNS and DHCP are obvious. As for iPXE and Nginx,
-they are used to bootstrap the rest of the infrastructure: the compute servers
-are configured by iPXE delivered over DHCP/TFTP, then loading the scripted OS
-installation from a Nginx webserver, and the fabric switches receive their
-Stratum OS package from a webserver.
+they are used to bootstrap the rest of the infrastructure. The compute servers
+are configured by iPXE delivered over DHCP/TFTP, and then load the scripted OS
+installation from a Nginx webserver. The fabric switches load their
+Stratum OS package from Nginx.
 
 In many cases, the playbooks use parameters—such as VLANs, IP
 addresses, DNS names, and so on—extracted from NetBox. :numref:`Figure
@@ -386,7 +386,7 @@ addresses, DNS names, and so on—extracted from NetBox. :numref:`Figure
 details. For example, a home-grown Python program (``edgeconfig.py``)
 extracts data from NetBox using the REST API and outputs a corresponding
 set of YAML files, crafted to serve as input to Ansible, which creates yet
-more configuration on management and compute systems.  One example of this
+more configuration on the management and compute systems.  One example of this
 is the *Netplan* file, which is used in Ubuntu to manage network interfaces.
 More information about Ansible and Netplan can be found on their respective web
 sites.
@@ -644,18 +644,17 @@ Starting with declarative language and auto-generating the right
 sequence of API calls is a proven way to overcome that problem.
 
 
-We conclude the discussion by drawing attention to the fact that while
-we now have a declarative specification for our cloud infrastructure,
-which we refer to as the *Aether Platform*, these specification files
-are yet another software artifact that we check into the Config
-Repo. This is what we mean by Infrastructure-as-Code: infrastructure
-specifications are checked into a repo and version-controlled like
-any other code.  This repo, in turn, feeds the lifecycle management
-pipeline described in the next chapter. The physical provisioning
-steps described in Section 3.1 happen "outside" the pipeline (which is
-why we don't just fold resource provisioning into Lifecycle
-Management), but it is fair to think of resource provisioning as
-"Stage 0" of lifecycle management.
+We conclude by drawing attention to the fact that while we now have a
+declarative specification for our cloud infrastructure, which we refer
+to as the *Aether Platform*, these specification files are yet another
+software artifact that we check into the Config Repo. This is what we
+mean by Infrastructure-as-Code: infrastructure specifications are
+checked into a repo and version-controlled like any other code.  This
+repo, in turn, feeds the lifecycle management pipeline described in
+the next chapter. The physical provisioning steps described in Section
+3.1 happen "outside" the pipeline (which is why we don't just fold
+resource provisioning into Lifecycle Management), but it is fair to
+think of resource provisioning as "Stage 0" of lifecycle management.
 
 3.3 Platform Definition
 ------------------------
