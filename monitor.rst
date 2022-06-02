@@ -442,7 +442,7 @@ foreseeable future.
    `OpenTelemetry: High-quality, ubiquitous, and portable telemetry to
    enable effective observability <https://opentelemetry.io/>`__.
 
-   `Jaeger: End-to-End Distributed Tracing 
+   `Jaeger: End-to-End Distributed Tracing
    <https://www.jaegertracing.io/>`__.
 
 With respect to mechanisms, Jaeger is a widely used open source
@@ -576,7 +576,7 @@ about INT, we refer the reader to our companion SDN book.
 .. admonition:: Further Reading
 
    L. Peterson, *et al.* `Software-Defined Networking: A Systems Approach
-   <https://sdn.sysetmsapproach.org>`__. November 2021.
+   <https://sdn.systemsapproach.org>`__. November 2021.
 
 The second is the emergence of *Service Meshes* mentioned in
 Chapter 1. A Service Mesh framework such as Istio provides a means to
@@ -600,7 +600,7 @@ receiving security directives from a global policy engine.
    messages flowing between Services A and B. Each sidecar enforces
    security policy received from the central controller and sends
    telemetry data to the central controller.
-	   
+
 From the perspective of observability, sidecars can be programmed to
 record whatever information operators might want to collect, and in
 principle, they can even be dynamically updated as conditions warrant.
