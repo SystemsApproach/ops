@@ -162,7 +162,7 @@ that we can build upon.
     imperative language to define models.*
 
 With this background, :numref:`Figure %s <fig-roc>` shows the internal
-structure of Runtime Control for Aether, which has **x-config**\—a
+structure of Runtime Control for Aether, which has *x-config*\—a
 microservice that maintains a set of YANG models—at its core.\ [#]_
 x-config, in turn, uses Atomix (a key-value store microservice), to
 make configuration state persistent. Because x-config was originally
