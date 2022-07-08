@@ -37,13 +37,10 @@ commentary on how the Internet is evolving, you can follow the
 Build the Book
 --------------
 
-To build a web-viewable version, you first need to download the source:
+To build a web-viewable version, you first need to download the
+source:
 
-.. code:: shell
-
-   $ mkdir ~/ops
-   $ cd ~/ops
-   $ git clone https://github.com/SystemsApproach/ops.git
+.. literalinclude:: code/build.sh
 
 The build process is stored in the Makefile and requires Python be
 installed. The Makefile will create a virtualenv (``venv-docs``) which
