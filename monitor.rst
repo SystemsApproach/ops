@@ -593,7 +593,7 @@ receiving security directives from a global policy engine.
 
 .. _fig-mesh:
 .. figure:: figures/Slide27.png
-   :width: 350px
+   :width: 300px
    :align: center
 
    Overview of a Service Mesh framework, with sidecars intercepting
