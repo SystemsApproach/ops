@@ -142,21 +142,21 @@ export them.
 A YAML configuration file specifies the set of Exporter endpoints that
 Prometheus is to pull metrics from, along will the polling frequency
 for each endpoint. Alternatively, Kubernetes-based microservices can
-be extended with a *Service Monitor* custom resource that Prometheus
-then queries to learn about any Exporter endpoints the microservice
-has made available.
+be extended with a *Service Monitor* Custom Resource Descriptor (CRD)
+that Prometheus then queries to learn about any Exporter endpoints the
+microservice has made available.
 
-As an example of the latter, Aether runs a Service Monitor on every
-edge cluster that periodically tests end-to-end connectivity (for
-various definitions of end-to-end).  One test determines whether the
-5G control plane is working (i.e., the edge site can reach the SD-Core
-running in the central cloud) and a second test determines whether the
-5G user plane is working (i.e., UEs can reach the Internet). This is a
-common pattern: individual components can export accumulators and
-other local variables, but only a "third-party observer" can actively
-test external behavior, and report the results. These examples
-correspond to the rightmost "End-to-End Tests" shown in
-:numref:`Figure %s <fig-testing>` of Chapter 4.
+In addition to component-based Exporters, every edge cluster
+periodically tests end-to-end connectivity (for various definitions of
+end-to-end).  One test determines whether the 5G control plane is
+working (i.e., the edge site can reach the SD-Core running in the
+central cloud) and a second test determines whether the 5G user plane
+is working (i.e., UEs can reach the Internet). This is a common
+pattern: individual components can export accumulators and other local
+variables, but only a "third-party observer" can actively test
+external behavior, and report the results. These examples correspond
+to the rightmost "End-to-End Tests" shown in :numref:`Figure %s
+<fig-testing>` of Chapter 4.
 
 Finally, when a system is running across multiple edge sites, as is
 the case with Aether, there is an design question of whether
@@ -168,20 +168,21 @@ collected. By default, metrics collected by the local instantiation of
 Prometheus stay on the edge sites, and only query results are returned
 to the central location (e.g., to be displayed by Grafana as described
 in the next subsection). This is appropriate for metrics that are both
-high-volume and seldom viewed. The exception is the end-to-end Service
-Monitors described in the previous paragraph. These results are
-immediately pushed to the central site (bypassing Prometheus), because
-they are low-volume and may require immediate attention.
+high-volume and seldom viewed. The exception is the end-to-end tests
+described in the previous paragraph. These results are immediately
+pushed to the central site (bypassing Prometheus), because they are
+low-volume and may require immediate attention.
 
 6.1.2 Creating Dashboards
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The metrics collected and stored by Prometheus running on each local
-cluster are visualized centrally using Grafana dashboards.  In Aether,
-this means the Grafana instance running as part of AMP in the central
-cloud sends queries to the Prometheus instances running on all Aether
-edge clusters. For example, :numref:`Figure %s <fig-ace_dash>` shows
-the summary dashboard for a collection of Aether edge sites.
+The metrics collected by Prometheus are visualized using Grafana
+dashboards.  In Aether, this means the Grafana instance running as
+part of AMP in the central cloud sends queries to some combination of
+the central Prometheus and a subset of the Prometheus instances
+running on edge clusters. For example, :numref:`Figure %s
+<fig-ace_dash>` shows the summary dashboard for a collection of Aether
+edge sites.
 
 .. _fig-ace_dash:
 .. figure:: figures/ace_dash.png
@@ -214,7 +215,7 @@ panel has a well-defined *type* (e.g., graph, table, gauge, heatmap)
 bound to a particular Prometheus *query*. New dashboards are created
 using the Grafana GUI, and the resulting configuration then saved in a
 JSON file. This configuration file is then committed to the Config
-Repo, and later loaded into Grafana whenever is is restarted as part
+Repo, and later loaded into Grafana whenever it is restarted as part
 of Lifecycle Management. For example, the following code snippet
 shows the Prometheus query corresponding to the ``Uptime`` panel
 in :numref:`Figure %s <fig-ace_dash>`.
