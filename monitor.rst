@@ -168,10 +168,10 @@ collected. By default, metrics collected by the local instantiation of
 Prometheus stay on the edge sites, and only query results are returned
 to the central location (e.g., to be displayed by Grafana as described
 in the next subsection). This is appropriate for metrics that are both
-high-volume and seldom viewed. The exception is the end-to-end tests
+high-volume and seldom viewed. One exception is the end-to-end tests
 described in the previous paragraph. These results are immediately
-pushed to the central site (bypassing Prometheus), because they are
-low-volume and may require immediate attention.
+pushed to the central site (bypassing the local Prometheus), because
+they are low-volume and may require immediate attention.
 
 6.1.2 Creating Dashboards
 ~~~~~~~~~~~~~~~~~~~~~~~~~
