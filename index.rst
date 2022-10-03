@@ -28,4 +28,5 @@ Peterson, Baker, Bavier, Williams and Davie
    README.rst
    authors.rst
    latest.rst
+   print.rst
 
