@@ -1,6 +1,15 @@
 About The Book
 ===============
 
+.. image:: https://github.com/SystemsApproach/ops/actions/workflows/publish-docs.yaml/badge.svg
+  :align: left
+  :alt: deployment status button
+  :target: https://github.com/SystemsApproach/ops/actions/
+
+| 
+
+
+
 Source for *Edge Cloud Operations: A Systems Approach* is available on
 GitHub under
 terms of the `Creative Commons (CC BY-NC-ND 4.0)
