@@ -339,14 +339,16 @@ running in commodity switches. The microservice architecture is
 another example of disaggregation—it breaks monolithic cloud
 applications into a mesh of single-function components. Disaggregation
 is widely viewed as an essential step in accelerating feature velocity.
-This is the opportunity side of the story, which is nicely summarized
-by Weaveworks.
+This is the opportunity side of the story, which is one of the
+widely-claimed benefits of cloud native application architectures. A
+useful, if opinionated, view on such architectures is the Twelve-Factor
+App.
 
 .. _reading_disaggregate:
 .. admonition:: Further Reading
 
-   Weaveworks. `What You Need to Know for Cloud Native
-   <https://www.weave.works/technologies/going-cloud-native-6-essential-things-you-need-to-know>`__.
+   Adam Wiggins. `The Twelve-Factor App.
+   <https://12factor.net/>`__.
 
 The challenge side of the story is that there are many more moving
 parts that have to be integrated, coordinated, and managed. Circling
