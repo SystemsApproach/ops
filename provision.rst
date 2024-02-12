@@ -233,7 +233,7 @@ The following fields are also filled in when creating a Device:
 * MAC Addresses
 
 Note there is typically both a primary and a management (e.g., BMC/IPMI)
-interface. One convenience feature of Netbox is to use the *Device Type* as a
+interface. One convenience feature of NetBox is to use the *Device Type* as a
 template that sets the default naming of interfaces, power connections, and
 other equipment model specific attributes.
 
@@ -377,7 +377,7 @@ The Ansible playbooks install and configure the network services on the
 Management Server. The role of DNS and DHCP are obvious. As for iPXE and Nginx,
 they are used to bootstrap the rest of the infrastructure. The compute servers
 are configured by iPXE delivered over DHCP/TFTP, and then load the scripted OS
-installation from a Nginx webserver. The fabric switches load their
+installation from a Nginx web server. The fabric switches load their
 Stratum OS package from Nginx.
 
 In many cases, the playbooks use parameters—such as VLANs, IP

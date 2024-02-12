@@ -6,9 +6,7 @@ About The Book
   :alt: deployment status button
   :target: https://github.com/SystemsApproach/ops/actions/
 
-| 
-
-
+|
 
 Source for *Edge Cloud Operations: A Systems Approach* is available on
 GitHub under
