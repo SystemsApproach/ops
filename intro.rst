@@ -340,7 +340,7 @@ another example of disaggregation—it breaks monolithic cloud
 applications into a mesh of single-function components. Disaggregation
 is widely viewed as an essential step in accelerating feature velocity.
 This is the opportunity side of the story, which is one of the
-widely-claimed benefits of cloud-native application architectures. A
+widely-claimed benefits of cloud native application architectures. A
 useful, if opinionated, view on such architectures is the Twelve-Factor
 App.
 
