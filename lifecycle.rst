@@ -110,8 +110,8 @@ points throughout this chapter.
 .. _reading_gitops:
 .. admonition:: Further Reading
 
-   Weaveworks. `Guide to GitOps
-   <https://www.weave.works/technologies/gitops/>`__.
+   Red Hat. `An Illustrated Guide to GitOps
+   <https://www.redhat.com/architect/illustrated-guide-gitops/>`__.
 
 The third repository shown in :numref:`Figure %s <fig-pipeline>` is
 the Code Repo (on the far left). Although not explicitly indicated,
@@ -838,7 +838,7 @@ attack surface that needs to be protected.
    `git-crypt - transparent file encryption in git
    <https://github.com/AGWA/git-crypt/blob/master/README.md>`__.
 
-   `"Sealed Secrets" for Kubernetes <https://github.com/bitnami-labs/sealed-secrets#readme>`__.
+   `"Sealed Secrets" for Kubernetes <https://github.com/bitnami-labs/sealed-secrets>`__.
 
 4.7 What about GitOps?
 ----------------------
