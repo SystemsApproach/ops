@@ -43,7 +43,7 @@ Our roadmap may not be the right one for all circumstances, but it
 does shine a light on the fundamental challenges and trade-offs
 involved in operationalizing a cloud. As we can attest based on our
 experience, it’s a complicated design space with an overabundance of
-terminology and storylines to untangle. 
+terminology and storylines to untangle.
 
 Intended Audience
 ------------------
