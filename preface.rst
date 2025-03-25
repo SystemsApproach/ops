@@ -79,12 +79,11 @@ can be assembled to help manage cloud platforms and scalable
 applications built on those platforms. That's also the bad news. With
 several dozen cloud-related projects available at open source
 consortia like the Linux Foundation, Cloud Native Computing
-Foundation, Apache Foundation, and Open Networking Foundation,
-navigating the project space is one of the biggest challenges we faced
-in putting together a cloud management platform. This is in large part
-because these projects are competing for mindshare, with both
-significant overlap in the functionality they offer and extraneous
-dependencies on each other.
+Foundation, and Apache Foundation, navigating the project space is one
+of the biggest challenges we faced in putting together a cloud
+management platform. This is in large part because these projects are
+competing for mindshare, with both significant overlap in the
+functionality they offer and extraneous dependencies on each other.
 
 One way to read this book is as a guided tour of the open source
 landscape for cloud control and management. And in that spirit, we do
@@ -112,21 +111,22 @@ foundational.
 Acknowledgements
 ------------------
 
-The software described in this book is due to the hard work of the ONF
-engineering team and the open source community that works with
-them. We acknowledge their contributions, with a special thank-you to
-Hyunsun Moon, Sean Condon, and HungWei Chiu for their significant
+The software described in this book is due to the hard work of the
+Open Networking Foundation (ONF) engineering team and the open source
+community that worked with them to build the *Aether* edge cloud.  We
+acknowledge their contributions, with a special thank-you to Hyunsun
+Moon, Sean Condon, and HungWei Chiu for their significant
 contributions to Aether's control and management platform, and to Oguz
-Sunay for his influence on its overall design. Suchitra Vemuri's
+Sunay for his influence on Aether's overall design. Suchitra Vemuri's
 insights into testing and quality assurance were also invaluable.
 
-This book is still very much a work-in-progress, and we will happily
-acknowledge everyone that provides feedback. Please send us your
-comments using the `Issues Link
-<https://github.com/SystemsApproach/ops/issues>`__.  Also see the
-`Wiki <https://github.com/SystemsApproach/ops/wiki>`__ for the TODO
-list we're currently working on.
+The ONF is no longer active, but Aether continues as an open source
+project of the Linux Foundation. Visit https://aetherproject.org to
+learn about the ongoing project. We will also happily accept feedback
+to this book. Please send us your comments using the `Issues Link
+<https://github.com/SystemsApproach/ops/issues>`__, or submit a Pull
+Request with suggested changes.
 
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
-| June 2022
+| April 2025
 
