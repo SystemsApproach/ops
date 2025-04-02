@@ -525,6 +525,34 @@ Section 4.5. These two concerns are at the heart of realizing a sound
 approach to Continuous Integration. The tooling—in our case Jenkins—is
 just a means to that end.
 
+
+.. sidebar:: Balancing DIY Tools with Cloud Services
+
+    *We use Jenkins as our CI tool, but another popular option is
+    GitHub Actions. This is a relatively new feature of GitHub (the
+    cloud service, not the open source software package) that nicely
+    integrates the code repo with a set of workflows that can be
+    exectued every time a patch is submitted. In this setting, a
+    workflow is roughly analogous to a Groovy pipeline.*
+
+    *GitHub actions are especially convenient for open source projects
+    because they include spinning up containers in which each workflow
+    runs (for free, but with limits). A mixed strategy would be to run
+    simple GitHub Actions for unit and smoke tests when code is
+    checked in, but then use Jenkins to manage complex integration
+    tests that require additional testing resources (e.g., a full QA
+    cluster).*
+
+    *GitHub Actions are not unique. Many of the open source options
+    described in this book are paired with a cloud service
+    counterpart. The key consideration is how much you want to depend
+    on a service someone provides versus depend entirely on services
+    you stand up and manage yourself. The former can be easier, but
+    comes with the risk that the provider changes (or discontinues)
+    their service over time. The same can be said of open source
+    projects, but having access to source code does give you more
+    control.*
+
 4.4 Continuous Deployment
 -------------------------
 
