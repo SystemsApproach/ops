@@ -323,7 +323,7 @@ deployment currently include:
 
 * Configure the Management Server so it boots from a provided USB key.
 
-* Run Ansible roles and playbooks needed to complete configuration
+* Run Ansible playbooks needed to complete configuration
   onto the Management Server.
 
 * Configure the Compute Servers so they boot from the Management
@@ -364,14 +364,11 @@ parameters that NetBox maintains.
 
 The general idea is as follows. For every network service (e.g., DNS,
 DHCP, iPXE, Nginx) and every per-device subsystem (e.g., network
-interfaces, Docker) that needs to be configured, there is a corresponding
-Ansible role and playbook.\ [#]_ These configurations are applied to the
-Management Server during the manual configuration stage summarized above, once
-the management network is online.
-
-.. [#] We gloss over the distinction between *roles* and *playbooks*
-       in Ansible, and focus on the general idea of there being a
-       *script* that runs with a set of input parameters.
+interfaces, Docker) that needs to be configured, there is a
+corresponding Ansible role (set of related playbooks). These
+configurations are applied to the Management Server during the manual
+configuration stage summarized above, once the management network is
+online.
 
 The Ansible playbooks install and configure the network services on the
 Management Server. The role of DNS and DHCP are obvious. As for iPXE and Nginx,
