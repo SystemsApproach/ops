@@ -115,7 +115,7 @@ Central to this role is the requirement that Runtime Control be able
 to represent a set of abstract objects, which is to say, it implements
 a *data model*.  While there are several viable options for the
 specification language used to represent the data model, for Runtime
-Control we use YANG. This is for three reasons. First, YANG is a rich
+Control Aether uses YANG. This is for three reasons. First, YANG is a rich
 language for data modeling, with support for strong validation of the
 data stored in the models and the ability to define relations between
 objects. Second, it is agnostic as to how the data is stored (i.e.,

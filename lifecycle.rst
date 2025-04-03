@@ -514,6 +514,34 @@ patch set.
 
 .. literalinclude:: code/trigger-event.yaml
 
+
+.. sidebar:: Balancing DIY Tools with Cloud Services
+
+    *Aether uses Jenkins as our CI tool, but another popular option is
+    GitHub Actions. This is a relatively new feature of GitHub (the
+    cloud service, not the software package) that nicely integrates
+    the code repo with a set of workflows that can be exectued every
+    time a patch is submitted. In this setting, a workflow is roughly
+    analogous to a Groovy pipeline.*
+
+    *GitHub actions are especially convenient for open source projects
+    because they include spinning up a container in which the workflow
+    runs (for free, but with limits). A mixed strategy would be to run
+    simple GitHub Actions for unit and smoke tests when code is
+    checked in, but then use Jenkins to manage complex integration
+    tests that require additional testing resources (e.g., a full QA
+    cluster).*
+
+    *GitHub Actions are not unique. Many of the open source options
+    described in this book are paired with a cloud service
+    counterpart. The key consideration is how much you want to depend
+    on a service someone else provides versus depending entirely on
+    services you install and manage yourself. The former can be
+    easier, but comes with the risk that the provider changes (or
+    discontinues) the service. The same can be said of open source
+    projects, but having access to source code gives you more
+    control over your fate.*
+
 The important takeaway from this discussion is that there is no
 single or global CI job. There are many per-component jobs that
 independently publish deployable artifacts when conditions dictate.
@@ -524,34 +552,6 @@ strategy in Section 4.2 and we describe the versioning strategy in
 Section 4.5. These two concerns are at the heart of realizing a sound
 approach to Continuous Integration. The tooling—in our case Jenkins—is
 just a means to that end.
-
-
-.. sidebar:: Balancing DIY Tools with Cloud Services
-
-    *We use Jenkins as our CI tool, but another popular option is
-    GitHub Actions. This is a relatively new feature of GitHub (the
-    cloud service, not the open source software package) that nicely
-    integrates the code repo with a set of workflows that can be
-    exectued every time a patch is submitted. In this setting, a
-    workflow is roughly analogous to a Groovy pipeline.*
-
-    *GitHub actions are especially convenient for open source projects
-    because they include spinning up containers in which each workflow
-    runs (for free, but with limits). A mixed strategy would be to run
-    simple GitHub Actions for unit and smoke tests when code is
-    checked in, but then use Jenkins to manage complex integration
-    tests that require additional testing resources (e.g., a full QA
-    cluster).*
-
-    *GitHub Actions are not unique. Many of the open source options
-    described in this book are paired with a cloud service
-    counterpart. The key consideration is how much you want to depend
-    on a service someone provides versus depend entirely on services
-    you stand up and manage yourself. The former can be easier, but
-    comes with the risk that the provider changes (or discontinues)
-    their service over time. The same can be said of open source
-    projects, but having access to source code does give you more
-    control.*
 
 4.4 Continuous Deployment
 -------------------------
@@ -564,7 +564,7 @@ of microservices (sometimes called applications) that are to be
 deployed on that infrastructure. We already know about Terraform from
 Chapter 3: it's the agent that actually "acts on" the
 infrastructure-related forms. For its counterpart on the application
-side we use an open source project called Fleet.
+side Aether uses an open source project called Fleet.
 
 :numref:`Figure %s <fig-fleet>` shows the big picture we are working
 towards. Notice that both Fleet and Terraform depend on the

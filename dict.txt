@@ -55,6 +55,7 @@ POD
 PODs
 PaaS
 Ph
+Plugable
 Proxmox
 QoS
 RKE
@@ -102,6 +103,7 @@ disaggregate
 disaggregated
 disaggregation
 downlink
+eBPF
 eNB
 eNBs
 evolvable
@@ -112,6 +114,7 @@ frontend
 gNMI
 gNOI
 gNodeB
+gNodeBs
 gRPC
 heatmap
 hoc
