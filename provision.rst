@@ -28,7 +28,7 @@ infrastructure, which has inspired an approach known as
 *Configuration-as-Code* concept introduced in Chapter 2. The general
 idea is to document, in a declarative format that can be "executed",
 exactly what our infrastructure is to look like; how it is to be
-configured. We use Terraform as our open source approach to
+configured. Aether uses Terraform as its approach to
 Infrastructure-as-Code.
 
 When a cloud is built from a combination of virtual and physical
@@ -37,7 +37,7 @@ seamless way to accommodate both. To this end, our approach is to
 first overlay a *logical structure* on top of hardware resources,
 making them roughly equivalent to the virtual resources we get from a
 commercial cloud provider. This results in a hybrid scenario similar
-to the one shown in :numref:`Figure %s <fig-infra>`. We use NetBox as
+to the one shown in :numref:`Figure %s <fig-infra>`. NetBox is
 our open source solution for layering this logical structure on top of
 physical hardware. NetBox also helps us address the requirement of
 tracking physical inventory.
@@ -216,7 +216,7 @@ purposes:
 There are other edge prefixes used by Kubernetes, but they do not need
 to be created in NetBox. Note that ``qsfp0`` and ``qsfp1`` in this
 example denote transceiver ports connecting the switching fabric,
-where *QSFP* stands for Quad (4-channel) Small Form-factor Pluggable.
+where *QSFP* stands for Quad (4-channel) Small Form-factor Plugable.
 
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
@@ -543,7 +543,7 @@ some running at the edges on bare-metal and some instantiated in GCP)
 are to be instantiated, and how each is to be configured—and then
 automate the task of making calls against the programmatic API to make
 it so. This is the essence of Infrastructure-as-Code, and as we've
-already said, we use Terraform as our open source example.
+already said, Terraform is our open source example.
 
 Since Terraform specifications are declarative, the best way to
 understand them is to walk through a specific example. In doing so,

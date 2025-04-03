@@ -482,10 +482,10 @@ software components, which we describe next. Collectively, all the
 hardware and software components shown in the figure form the
 *platform*. Where we draw the line between what's *in the platform*
 and what runs *on top of the platform*, and why it is important, will
-become clear in later chapters, but the summary is that different
-mechanisms will be responsible for (a) bringing up the platform and
-prepping it to host workloads, and (b) managing the various workloads
-that need to be deployed on that platform.
+become clear in later chapters. The summary is that one mechanism is
+responsible for bringing up the platform and prepping it to host
+workloads, and a different mechanism is responsible for managing the
+various workloads that are deployed on that platform.
 
 
 1.3.2 Software Building Blocks
