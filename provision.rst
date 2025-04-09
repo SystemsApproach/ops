@@ -216,7 +216,7 @@ purposes:
 There are other edge prefixes used by Kubernetes, but they do not need
 to be created in NetBox. Note that ``qsfp0`` and ``qsfp1`` in this
 example denote transceiver ports connecting the switching fabric,
-where *QSFP* stands for Quad (4-channel) Small Form-factor Plugable.
+where *QSFP* stands for Quad (4-channel) Small Form-factor Pluggable.
 
 With this site-wide information recorded, the next step is to install
 and document each *Device*. This includes entering a ``<devname>``,
