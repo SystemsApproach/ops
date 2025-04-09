@@ -78,12 +78,12 @@ The good news is that there is a wealth of open source components that
 can be assembled to help manage cloud platforms and scalable
 applications built on those platforms. That's also the bad news. With
 several dozen cloud-related projects available at open source
-consortia like the Linux Foundation, Cloud Native Computing
+consortia such as the Linux Foundation, Cloud Native Computing
 Foundation, and Apache Foundation, navigating the project space is one
 of the biggest challenges we faced in putting together a cloud
 management platform. This is in large part because these projects are
 competing for mindshare, with both significant overlap in the
-functionality they offer and extraneous dependencies on each other.
+functionality they offer and dependencies on each other.
 
 One way to read this book is as a guided tour of the open source
 landscape for cloud control and management. And in that spirit, we do
@@ -93,7 +93,7 @@ provide, but instead include links to project-specific documentation
 include snippets of code from those projects, but these examples are
 chosen to help solidify the main points we're trying to make about the
 management platform as a whole; they should not be interpreted as an
-attempt to document the inner-working of the individual projects. Our
+attempt to document the inner working of the individual projects. Our
 goal is to explain how the various puzzle pieces fit together to build
 an end-to-end management system, and in doing so, identify both
 various tools that help and the hard problems that no amount of
