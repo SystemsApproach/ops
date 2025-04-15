@@ -111,7 +111,7 @@ because each of these three domains brings its own conventions and
 terminology to the table. But understanding how these three
 stakeholders approach operationalization gives us a broader
 perspective on the problem. We return to the confluence of enterprise,
-cloud, access technologies later in this chapter, but we start by
+cloud, and access technologies later in this chapter, but we start by
 addressing the terminology challenge.
 
 .. _reading_aether:
@@ -232,8 +232,9 @@ terminology.
     process and Operational requirements silos, balancing feature
     velocity against system reliability. As a practice, it leverages
     CI/CD methods and is typically associated with container-based
-    (also known as *cloud native*) systems, as typified by *Site
-    Reliability Engineering (SRE)* practiced by cloud providers like
+    (also known as *cloud native*) systems. There is some overlap
+    between DevOps and *Site
+    Reliability Engineering (SRE)* as practiced by cloud providers such as
     Google.
 
   * **In-Service Software Upgrade (ISSU):** A requirement that a
@@ -374,10 +375,10 @@ manageable:
 
 * Zero-Touch Provisioning is more tractable because the hardware is
   commodity, and hence, (nearly) identical. This also means the vast
-  majority of configuration involves initiating software parameters,
+  majority of configuration involves initializng software parameters,
   which is more readily automated.
 
-* Cloud native implies a set of best-practices for addressing many of
+* Cloud native implies a set of best practices for addressing many of
   the FCAPS requirements, especially as they relate to availability
   and performance, both of which are achieved through horizontal
   scaling. Secure communication is also typically built into cloud RPC
@@ -386,7 +387,7 @@ manageable:
 Another way to say this is that by rearchitecting bundled appliances
 and devices as horizontally scalable microservices running on
 commodity hardware, what used to be a set of one-off O&M problems are
-now solved by widely applied best-practices from distributed systems,
+now solved by widely applied best practices from distributed systems,
 which have in turn been codified in state-of-the-art cloud management
 frameworks (like Kubernetes). This leaves us with the problem of (a)
 provisioning commodity hardware, (b) orchestrating the container
@@ -483,7 +484,7 @@ hardware and software components shown in the figure form the
 *platform*. Where we draw the line between what's *in the platform*
 and what runs *on top of the platform*, and why it is important, will
 become clear in later chapters. The summary is that one mechanism is
-responsible for bringing up the platform and prepping it to host
+responsible for bringing up the platform and preparing it to host
 workloads, and a different mechanism is responsible for managing the
 various workloads that are deployed on that platform.
 
@@ -504,7 +505,7 @@ commodity processors in the cluster:
    interconnected to build applications.
 
 These are all well known and ubiquitous, and so we only summarize them
-here. Links to related information for anyone that is not familiar
+here. Links to related information for anyone who is not familiar
 with them (including excellent hands-on tutorials for the three
 container-related building blocks) are given below.
 
@@ -578,7 +579,7 @@ these open building blocks can be assembled into a comprehensive cloud
 management platform. We describe each tool in enough detail to
 appreciate how all the parts fit together—providing end-to-end
 coverage by connecting all the dots—plus links to full documentation
-for those that want to dig deeper into the details.
+for those who want to dig deeper into the details.
 
 ..
    List: NexBox, Ansible, Netplan, Terraform, Rancher, Fleet,
@@ -743,7 +744,7 @@ Cloud providers, because of the scale of the systems they build,
 cannot survive with operational silos, and so they introduced
 increasingly sophisticated cloud orchestration
 technologies. Kubernetes and Helm are two high-impact examples. These
-cloud best-practices are now available to enterprises as well, but
+cloud best practices are now available to enterprises as well, but
 they are often bundled as a managed service, with the cloud provider
 playing an ever-greater role in operating the enterprise’s services.
 Outsourcing portions of the IT responsibility to a cloud provider is an
@@ -756,9 +757,9 @@ within the enterprise, deployed as yet another cloud service.
 The approach this book takes is to explore a best-of-both-worlds
 opportunity. It does this by walking you through the collection of
 subsystems, and associated management processes, required to
-operationalize an on-prem cloud, and then provide on-going support for
+operationalize an on-premises cloud, and then provide on-going support for
 that cloud and the services it hosts (including 5G connectivity). Our
 hope is that understanding what’s under the covers of cloud-managed
 services will help enterprises better share responsibility for
-managing their IT infrastructure with cloud providers, and potentially
+managing their IT infrastructure with cloud providers, and potentially with
 MNOs.
