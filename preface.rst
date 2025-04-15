@@ -9,7 +9,7 @@ Microsoft, Amazon and the other cloud providers do for us, and they do
 a perfectly good job of it.
 
 The answer, we believe, is that the cloud is becoming ubiquitous in
-another way, as distributed applications increasing run not just in
+another way, as distributed applications increasingly run not just in
 large, central datacenters but at the edge. As applications are
 disaggregated, the cloud is expanding from hundreds of datacenters to tens of
 thousands of enterprises. And while it is clear that the commodity
