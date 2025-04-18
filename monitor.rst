@@ -515,7 +515,7 @@ certainly possible.)
    Example control dashboard showing the set of Device Groups defined
    for a fictional set of Aether sites.
 
-For example, :numref:`Figure %s <fig-dev_group>` shows the current set
+For example, :numref:`Figure %s <fig-dev_group>` shows the set
 of device groups for a fictional set of Aether sites, where clicking
 on the "Edit" button pops up a web form that lets the enterprise admin
 modify the corresponding fields of the `Device-Group` model (not
