@@ -316,7 +316,7 @@ goal is to minimize manual configuration required to onboard physical
 infrastructure like that shown in :numref:`Figure %s
 <fig-cable_plan>`, but *zero-touch* is a high bar. To illustrate, the
 bootstrapping steps needed to complete provisioning for our example
-deployment currently include:
+deployment include:
 
 * Configure the Management Switch to know the set of VLANs being
   used.
@@ -439,7 +439,7 @@ and using each Kubernetes cluster, and a way to manage
 independent projects that are to be deployed on a given cluster (i.e.,
 manage namespaces for multiple applications).
 
-As an example, Aether currently uses Rancher to manage Kubernetes on
+As an example, Aether uses Rancher to manage Kubernetes on
 the bare-metal clusters, with one centralized instance of Rancher
 being responsible for managing all the edge sites. This results in the
 configuration shown in :numref:`Figure %s <fig-rancher>`, which to

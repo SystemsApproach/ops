@@ -355,7 +355,7 @@ Internally, each of these subsystems is implemented as a highly
 available cloud service, running as a collection of microservices. The
 design is cloud-agnostic, so AMP can be deployed in a public cloud
 (e.g., Google Cloud, AWS, Azure), an operator-owned Telco cloud, (e.g,
-AT&T’s AIC), or an enterprise-owned private cloud. For the current pilot
+AT&T’s AIC), or an enterprise-owned private cloud. For the pilot
 deployment of Aether, AMP runs in the Google Cloud.
 
 The rest of this section introduces these four subsystems, with the
