@@ -447,12 +447,12 @@ foreseeable future.
    <https://www.jaegertracing.io/>`__.
 
 With respect to mechanisms, Jaeger is a widely used open source
-tracing tool originally developed by Uber. (Jaeger is not currently
-included in Aether, but was utilized in a predecessor ONF edge cloud.)
-Jaeger includes instrumentation of the runtime system for the
-language(s) used to implement an application, a collector, storage,
-and a query language that can be used to diagnose performance problems
-and do root cause analysis.
+tracing tool originally developed by Uber. (Jaeger is not included in
+Aether, but was utilized in a predecessor edge cloud.)  Jaeger
+includes instrumentation of the runtime system for the language(s)
+used to implement an application, a collector, storage, and a query
+language that can be used to diagnose performance problems and do root
+cause analysis.
 
 6.4 Integrated Dashboards
 -------------------------

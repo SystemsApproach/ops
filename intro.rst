@@ -71,8 +71,8 @@ like. Our approach is to focus on the fundamental problems that must
 be addressed—design issues that are common to all clouds—but then
 couple this conceptual discussion with specific engineering choices
 made while operationalizing a specific enterprise cloud. Our example
-is Aether, an ONF project to support 5G-enabled edge clouds as a
-managed service. Aether has the following properties that make it an
+is Aether, an open source edge cloud that supports 5G connectivity as
+a managed service. Aether has the following properties that make it an
 interesting use case to study:
 
 * Aether starts with bare-metal hardware (servers and switches)
@@ -375,7 +375,7 @@ manageable:
 
 * Zero-Touch Provisioning is more tractable because the hardware is
   commodity, and hence, (nearly) identical. This also means the vast
-  majority of configuration involves initializng software parameters,
+  majority of configuration involves initializing software parameters,
   which is more readily automated.
 
 * Cloud native implies a set of best practices for addressing many of
