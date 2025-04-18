@@ -111,13 +111,13 @@ foundational.
 Acknowledgements
 ------------------
 
-The software described in this book is due to the hard work of the
-Open Networking Foundation (ONF) engineering team and the open source
-community that worked with them to build the *Aether* edge cloud.  We
-acknowledge their contributions, with a special thank-you to Hyunsun
-Moon, Sean Condon, and HungWei Chiu for their significant
+*Aether*, the example edge cloud this book uses to illustrate how to
+operationalize a cloud, was built by the Open Networking Foundation
+(ONF) engineering team and the open source community that worked with
+them. We acknowledge their contributions, with a special thank-you to
+Hyunsun Moon, Sean Condon, and HungWei Chiu for their significant
 contributions to Aether's control and management platform, and to Oguz
-Sunay for his influence on Aether's overall design. Suchitra Vemuri's
+Sunay for his influence on Aether's overall design.  Suchitra Vemuri's
 insights into testing and quality assurance were also invaluable.
 
 The ONF is no longer active, but Aether continues as an open source

@@ -6,12 +6,12 @@ Science, Emeritus at Princeton University, where he served as Chair
 from 2003-2009. His research focuses on the design, implementation,
 and operation of Internet-scale distributed systems, including the
 widely used PlanetLab and MeasurementLab platforms.  He is currently
-contributing to the Aether access-edge cloud project at the Open
-Networking Foundation (ONF), where he serves as Chief Scientist.
-Peterson is a member of the National Academy of Engineering, a Fellow
-of the ACM and the IEEE, the 2010 recipient of the IEEE Kobayashi
-Computer and Communication Award, and the 2013 recipient of the ACM
-SIGCOMM Award. He received his Ph.D. degree from Purdue University.
+contributing to the Aether access-edge cloud project at the Linux
+Foundation.  Peterson is a member of the National Academy of
+Engineering, a Fellow of the ACM and the IEEE, the 2010 recipient of
+the IEEE Kobayashi Computer and Communication Award, and the 2013
+recipient of the ACM SIGCOMM Award. He received his Ph.D. degree from
+Purdue University.
 
 **Scott Baker** is a Cloud Software Architect at Intel, which he
 joined as part of Intel's acquisition of the Open Networking
