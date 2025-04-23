@@ -526,13 +526,13 @@ diagnostics and analytics.
 
 This overview of the management architecture could lead one to
 conclude that these four subsystems were architected, in a rigorous,
-top-down fashion, to be completely independent.  But that is not
-the case. It is more accurate to say that the system evolved bottom
-up, solving the next immediate problem one at a time, all the while
+top-down fashion, to be completely independent.  But that is not the
+case. It is more accurate to say that the system evolved bottom up,
+solving the next immediate problem one at a time, all the while
 creating a large ecosystem of open source components that can be used
-in different combinations. What we are presenting in this book is a
-retrospective description of an end result, organized into four
-subsystems to help make sense of it all.
+in different combinations. What this book presents is a retrospective
+description of the end result, organized into four subsystems to help
+make sense of it all.
 
 There are, in practice, many opportunities for interactions among the
 four components, and in some cases, there are overlapping concerns
