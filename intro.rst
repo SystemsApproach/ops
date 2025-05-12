@@ -711,22 +711,26 @@ describe how to introduce VMs as an optional way to provision the
 underlying infrastructure for that PaaS.
 
 Finally, the Aether edge cloud we use as an example is similar to many
-other edge cloud platforms now being promoted as an enabling
-technology for Internet-of-Things. That Kubernetes-based on-prem/edge
-clouds are becoming so popular is one reason they make for such a good
-case study. For example, *Smart Edge Open* (formerly known as
-OpenNESS) is another open source edge platform, unique in that it
-includes several Intel-specific acceleration technologies (e.g., DPDK,
-SR-IOV, OVS/OVN). For our purposes, however, the exact set of
-components that make up the platform is less important than how the
-platform, along with all the cloud services that run on top of it, are
-managed as a whole. The Aether example allows us to be specific, but
-hopefully not at the expense of general applicability.
+other cloud platforms being promoted in support of on-prem
+deployments. The dominant use case shifts over time—with Artificial
+Intelligence (AI) recently overtaking Internet-of-Things (IoT) as the
+most compelling justification for edge clouds—but the the operational
+challenge remains the same. For example, *Open Edge Platform* recently
+open sourced by Intel includes example AI applications and a
+collection of AI libraries, but also an *Edge Management Framework*
+that mirrors the one describe this book. It starts with a Kubernetes
+foundation, and includes tools for provisioning edge clusters and
+onboarding and lifecycle managing edge applications. Some of the
+engineering choices are the same as in Aether and some are different,
+but the important takeaway is that Kubernetes-based edge clouds are
+quickly becoming commonplace. That's the reason they are such a good
+case study.
 
 .. admonition:: Further Reading
 
-   `Smart Edge Open
-   <https://smart-edge-open.github.io/>`__.
+   `Open Edge Platform <https://github.com/open-edge-platform/>`__.
+
+   `Edge Management Framework <https://github.com/open-edge-platform/edge-manageability-framework>`__.
 
 1.4 Future of the Sysadmin
 --------------------------
