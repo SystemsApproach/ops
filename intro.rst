@@ -711,20 +711,21 @@ describe how to introduce VMs as an optional way to provision the
 underlying infrastructure for that PaaS.
 
 Finally, the Aether edge cloud we use as an example is similar to many
-other cloud platforms being promoted in support of on-prem
-deployments. The dominant use case shifts over time—with Artificial
-Intelligence (AI) recently overtaking Internet-of-Things (IoT) as the
-most compelling justification for edge clouds—but the the operational
+other cloud platforms being built to support of on-prem deployments.
+The dominant use case shifts over time—with Artificial Intelligence
+(AI) recently overtaking Internet-of-Things (IoT) as the most
+compelling justification for edge clouds—but the the operational
 challenge remains the same. For example, *Open Edge Platform* recently
 open sourced by Intel includes example AI applications and a
 collection of AI libraries, but also an *Edge Management Framework*
 that mirrors the one describe this book. It starts with a Kubernetes
-foundation, and includes tools for provisioning edge clusters and
-onboarding and lifecycle managing edge applications. Some of the
-engineering choices are the same as in Aether and some are different,
-but the important takeaway is that Kubernetes-based edge clouds are
-quickly becoming commonplace. That's the reason they are such a good
-case study.
+foundation, and includes tools for provisioning edge servers,
+orchestrating edge clusters using those servers, lifecycle managing
+edge applications, and enabling observability. Many of the engineering
+choices are the same as in Aether (some are different), but the
+important takeaway is that Kubernetes-based edge clouds are quickly
+becoming commonplace. That's the reason they are such a good case
+study.
 
 .. admonition:: Further Reading
 
