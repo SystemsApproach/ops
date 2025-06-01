@@ -10,15 +10,14 @@ assume the base platform includes Linux running on each server and
 switch, plus Docker, Kubernetes, and Helm, with SD-Fabric controlling
 the network.
 
-While we could take a narrow view of Lifecycle Management, and assume
-the software we want to roll out has already gone through an off-line
-integration-and-testing process (this is the traditional model of
-vendors releasing a new version of their product), we take a more
-expansive approach that starts with the development process—the creation
-of new features and capabilities. Including the “innovation” step
-closes the virtuous cycle depicted in :numref:`Figure %s<fig-cycle>`,
-which the cloud industry has taught us leads to greater *feature
-velocity*.
+Traditionally, software would go through an offline integration and
+testing process before any effort to roll it out in production could
+begin. However, the approach taken in most modern cloud environments,
+including ours, is more expansive: it starts with the development
+process—the creation of new features and capabilities. Including the
+“innovation” step closes the virtuous cycle depicted in
+:numref:`Figure %s<fig-cycle>`, which the cloud industry has taught us
+leads to greater *feature velocity*.
 
 .. _fig-cycle:
 .. figure:: figures/Slide9.png
