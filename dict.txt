@@ -1,4 +1,6 @@
 Acknowledgements
+Adaptor
+Adaptors
 Aether
 Alertmanager
 Ansible
@@ -85,6 +87,8 @@ VMware
 Vemuri
 Weaveworks
 absorber
+adaptor
+adaptors
 analytics
 architected
 auth
