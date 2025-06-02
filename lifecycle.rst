@@ -655,10 +655,11 @@ when.
     overloaded the repo.  A "polling-frequency" parameter change
     improved the situation, but led people to wonder why Jenkins'
     trigger mechanism hadn't caused the same problem. The answer is
-    that Jenkins is better integrated with the repo (specifically,
-    Gerrit running on top of Git), with the repo pushing event
-    notifications to Jenkins when a file check-in actually occurs.
-    There is no polling.*
+    that Jenkins is better integrated with the repo, with a GitHub
+    webhook pushing event notifications to Jenkins when a file
+    check-in actually occurs.  There is no polling. (Polling can also
+    be disabled in Fleet, in favor of webhooks, but polling is the
+    default.)*
 
 This focus on Fleet as the agent triggering the execution of Helm
 Charts should not distract from the central role of the charts

@@ -432,7 +432,7 @@ Kubernetes cluster. For starters, the API needs to provide a means to
 install and configure Kubernetes on each physical cluster. This
 includes specifying which version of Kubernetes to run, selecting the
 right combination of Container Network Interface (CNI) plugins
-(virtual network adapters), and connecting Kubernetes to the local
+(virtual network adaptors), and connecting Kubernetes to the local
 network (and any VPNs it might need). This layer also needs to provide
 a means to set up accounts (and associated credentials) for accessing
 and using each Kubernetes cluster, and a way to manage
