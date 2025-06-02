@@ -11,12 +11,18 @@ a perfectly good job of it.
 The answer, we believe, is that the cloud is becoming ubiquitous in
 another way, as distributed applications increasingly run not just in
 large, central datacenters but at the edge. As applications are
-disaggregated, the cloud is expanding from hundreds of datacenters to tens of
-thousands of enterprises. And while it is clear that the commodity
-cloud providers are eager to manage those edge clouds as a logical
-extension of their datacenters, they do not have a monopoly on the
-know-how for making that happen. The increasing importance being
-placed on *digital sovereignty* only accentuates this point.
+disaggregated, the cloud is expanding from hundreds of datacenters to
+tens of thousands of enterprises. And while it is clear that the
+commodity cloud providers are eager to manage those edge clouds as a
+logical extension of their datacenters, they do not have a monopoly on
+the know-how for making that happen.
+
+At the same time edge applications are moving to the forefront,
+increasing importance is also being placed on *digital sovereignty*,
+the ability of nations and organizations to control their own destiny.
+Cloud technology is important for running today's workloads, but
+access to that technology does not necessarily have to be bundled with
+outsourcing operational control.
 
 This book lays out a roadmap that a small team of engineers followed
 over the course of a year to stand up and operationalize an edge cloud
