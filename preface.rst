@@ -19,10 +19,10 @@ the know-how for making that happen.
 
 At the same time edge applications are moving to the forefront,
 increasing importance is also being placed on *digital sovereignty*,
-the ability of nations and organizations to control their own destiny.
-Cloud technology is important for running today's workloads, but
-access to that technology does not necessarily have to be bundled with
-outsourcing operational control.
+the ability of nations and organizations to control their destiny and
+their data. Cloud technology is important for running today's
+workloads, but access to that technology does not necessarily have to
+be bundled with outsourcing operational control.
 
 This book lays out a roadmap that a small team of engineers followed
 over the course of a year to stand up and operationalize an edge cloud
