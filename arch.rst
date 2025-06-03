@@ -187,10 +187,10 @@ cluster built out of bare-metal components, each of the SD-Core CP
 subsystems shown in :numref:`Figure %s <fig-aether>` is actually
 deployed in a logical Kubernetes cluster on a commodity cloud. The
 same is true for AMP. Aether’s centralized components are able to run
-in Google Cloud Platform, Microsoft Azure, and Amazon’s AWS. They also
+in Google Cloud Platform, Microsoft Azure, and Amazon’s AWS. They can also
 run as an emulated cluster implemented by a system like
 KIND—Kubernetes in Docker—making it possible for developers to run
-these components on their laptop.
+these components on their laptops.
 
 To be clear, Kubernetes adopts generic terminology, such as “cluster”
 and “service”, and gives it a very specific meaning. In
@@ -239,8 +239,8 @@ There is a potential third stakeholder of note—third-party service
 providers—which points to the larger issue of how we deploy and manage
 additional edge applications. To keep the discussion tangible—but
 remaining in the open source arena—we use OpenVINO as an illustrative
-example. OpenVINO is a framework for deploying AI inference models,
-which is interesting in the context of Aether because one of its use
+example. OpenVINO is a framework for deploying AI inference models.
+It is interesting in the context of Aether because one of its use
 cases is processing video streams, for example to detect and count
 people who enter the field of view of a collection of 5G-connected
 cameras.
@@ -274,11 +274,11 @@ but for completeness, we take note of two other possibilities.  One is
 that we extend our hybrid architecture to support independent
 third-party service providers. Each new edge service acquires its own
 isolated Kubernetes cluster from the edge cloud, and then the
-3rd-party provider subsumes all responsibility for managing the
+3rd-party provider takes over all responsibility for managing the
 service running in that cluster. From the perspective of the cloud
 operator, though, the task just became significantly more difficult
 because the architecture would need to support Kubernetes as a managed
-service, which is sometimes called *Container-as-a-Service (CaaS)*.\ [#]_
+service, which is sometimes called *Containers-as-a-Service (CaaS)*.\ [#]_
 Creating isolated Kubernetes clusters on-demand is a step further than
 we take things in this book, in part because there is a second
 possible answer that seems more likely to happen.
@@ -355,7 +355,7 @@ Internally, each of these subsystems is implemented as a highly
 available cloud service, running as a collection of microservices. The
 design is cloud-agnostic, so AMP can be deployed in a public cloud
 (e.g., Google Cloud, AWS, Azure), an operator-owned Telco cloud, (e.g,
-AT&T’s AIC), or an enterprise-owned private cloud. For the current pilot
+AT&T’s AIC), or an enterprise-owned private cloud. For the pilot
 deployment of Aether, AMP runs in the Google Cloud.
 
 The rest of this section introduces these four subsystems, with the
@@ -485,9 +485,9 @@ Given this mediation role, Runtime Control provides mechanisms to
 model (represent) the abstract services to be offered to users; store
 any configuration and control state associated with those models;
 apply that state to the underlying components, ensuring they remain in
-sync with the operator’s intentions; and authorize the set API calls
-users try to invoke on each service. These details are spelled out in
-Chapter 5.
+sync with the operator’s intentions; and authorize the set of API
+calls that users try to invoke on each service. These details are
+spelled out in Chapter 5.
 
 
 2.4.4 Monitoring and Telemetry
@@ -526,13 +526,13 @@ diagnostics and analytics.
 
 This overview of the management architecture could lead one to
 conclude that these four subsystems were architected, in a rigorous,
-top-down fashion, to be completely independent.  But that is not
-the case. It is more accurate to say that the system evolved bottom
-up, solving the next immediate problem one at a time, all the while
+top-down fashion, to be completely independent.  But that is not the
+case. It is more accurate to say that the system evolved bottom up,
+solving the next immediate problem one at a time, all the while
 creating a large ecosystem of open source components that can be used
-in different combinations. What we are presenting in this book is a
-retrospective description of an end result, organized into four
-subsystems to help make sense of it all.
+in different combinations. What this book presents is a retrospective
+description of the end result, organized into four subsystems to help
+make sense of it all.
 
 There are, in practice, many opportunities for interactions among the
 four components, and in some cases, there are overlapping concerns
@@ -686,7 +686,7 @@ own. The Control and Management Platform now has its own DevOps
 team(s), who in addition to continually improving the platform, also
 field operational events, and when necessary, interact with other
 teams (e.g., the SD-RAN team in Aether) to resolve issues that come
-up. They are sometimes called System Reliability Engineers (SREs), and
+up. They are sometimes called Site Reliability Engineers (SREs), and
 in addition to being responsible for the Control and Management
 Platform, they enforce operational discipline—the third aspect of
 DevOps discussed next—on everyone else.

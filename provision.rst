@@ -28,7 +28,7 @@ infrastructure, which has inspired an approach known as
 *Configuration-as-Code* concept introduced in Chapter 2. The general
 idea is to document, in a declarative format that can be "executed",
 exactly what our infrastructure is to look like; how it is to be
-configured. We use Terraform as our open source approach to
+configured. Aether uses Terraform as its approach to
 Infrastructure-as-Code.
 
 When a cloud is built from a combination of virtual and physical
@@ -37,7 +37,7 @@ seamless way to accommodate both. To this end, our approach is to
 first overlay a *logical structure* on top of hardware resources,
 making them roughly equivalent to the virtual resources we get from a
 commercial cloud provider. This results in a hybrid scenario similar
-to the one shown in :numref:`Figure %s <fig-infra>`. We use NetBox as
+to the one shown in :numref:`Figure %s <fig-infra>`. NetBox is
 our open source solution for layering this logical structure on top of
 physical hardware. NetBox also helps us address the requirement of
 tracking physical inventory.
@@ -316,14 +316,14 @@ goal is to minimize manual configuration required to onboard physical
 infrastructure like that shown in :numref:`Figure %s
 <fig-cable_plan>`, but *zero-touch* is a high bar. To illustrate, the
 bootstrapping steps needed to complete provisioning for our example
-deployment currently include:
+deployment include:
 
 * Configure the Management Switch to know the set of VLANs being
   used.
 
 * Configure the Management Server so it boots from a provided USB key.
 
-* Run Ansible roles and playbooks needed to complete configuration
+* Run Ansible playbooks needed to complete configuration
   onto the Management Server.
 
 * Configure the Compute Servers so they boot from the Management
@@ -364,14 +364,11 @@ parameters that NetBox maintains.
 
 The general idea is as follows. For every network service (e.g., DNS,
 DHCP, iPXE, Nginx) and every per-device subsystem (e.g., network
-interfaces, Docker) that needs to be configured, there is a corresponding
-Ansible role and playbook.\ [#]_ These configurations are applied to the
-Management Server during the manual configuration stage summarized above, once
-the management network is online.
-
-.. [#] We gloss over the distinction between *roles* and *playbooks*
-       in Ansible, and focus on the general idea of there being a
-       *script* that runs with a set of input parameters.
+interfaces, Docker) that needs to be configured, there is a
+corresponding Ansible role (set of related playbooks). These
+configurations are applied to the Management Server during the manual
+configuration stage summarized above, once the management network is
+online.
 
 The Ansible playbooks install and configure the network services on the
 Management Server. The role of DNS and DHCP are obvious. As for iPXE and Nginx,
@@ -435,14 +432,14 @@ Kubernetes cluster. For starters, the API needs to provide a means to
 install and configure Kubernetes on each physical cluster. This
 includes specifying which version of Kubernetes to run, selecting the
 right combination of Container Network Interface (CNI) plugins
-(virtual network adapters), and connecting Kubernetes to the local
+(virtual network adaptors), and connecting Kubernetes to the local
 network (and any VPNs it might need). This layer also needs to provide
 a means to set up accounts (and associated credentials) for accessing
 and using each Kubernetes cluster, and a way to manage
 independent projects that are to be deployed on a given cluster (i.e.,
 manage namespaces for multiple applications).
 
-As an example, Aether currently uses Rancher to manage Kubernetes on
+As an example, Aether uses Rancher to manage Kubernetes on
 the bare-metal clusters, with one centralized instance of Rancher
 being responsible for managing all the edge sites. This results in the
 configuration shown in :numref:`Figure %s <fig-rancher>`, which to
@@ -546,7 +543,7 @@ some running at the edges on bare-metal and some instantiated in GCP)
 are to be instantiated, and how each is to be configured—and then
 automate the task of making calls against the programmatic API to make
 it so. This is the essence of Infrastructure-as-Code, and as we've
-already said, we use Terraform as our open source example.
+already said, Terraform is our open source example.
 
 Since Terraform specifications are declarative, the best way to
 understand them is to walk through a specific example. In doing so,
