@@ -77,7 +77,7 @@ closed-loop control where the automated tool not only detects problems
 but is also able to issue corrective control directives. For the
 purpose of this chapter, we give examples of the first two (alerts and
 dashboards), and declare the latter two (analytics and close-loop
-control) as out-of-scope (but likely running as applications that
+control) as out of scope (but likely running as applications that
 consume the telemetry data outlined in the sections that follow).
 
 Third, when viewed from the perspective of lifecycle management,
@@ -96,9 +96,9 @@ Finally, because the metrics, logs, and traces collected by the
 various subsystems are timestamped, it is possible to establish
 correlations among them, which is helpful when debugging a problem or
 deciding whether or not an alert is warranted. We give examples of how
-such telemetry-wide functions are implemented in practice today, as
-well as discuss the future future of generating and using telemetry
-data, in the final two sections of this chapter.
+such telemetry-wide functions are implemented in practice today, and
+discuss the future of generating and using telemetry data, in the
+final two sections of this chapter.
 
 6.1 Metrics and Alerts
 -------------------------------
@@ -170,7 +170,7 @@ to the central location (e.g., to be displayed by Grafana as described
 in the next subsection). This is appropriate for metrics that are both
 high-volume and seldom viewed. One exception is the end-to-end tests
 described in the previous paragraph. These results are immediately
-pushed to the central site (bypassing the local Prometheus), because
+pushed to the central site (bypassing the local Prometheus instance), because
 they are low-volume and may require immediate attention.
 
 6.1.2 Creating Dashboards
@@ -179,7 +179,7 @@ they are low-volume and may require immediate attention.
 The metrics collected by Prometheus are visualized using Grafana
 dashboards.  In Aether, this means the Grafana instance running as
 part of AMP in the central cloud sends queries to some combination of
-the central Prometheus and a subset of the Prometheus instances
+the central Prometheus instance and a subset of the Prometheus instances
 running on edge clusters. For example, :numref:`Figure %s
 <fig-ace_dash>` shows the summary dashboard for a collection of Aether
 edge sites.
@@ -497,9 +497,9 @@ SD-Core, which augments the UPF performance data shown in
    in a Grafana dashboard.
 
 Second, the runtime control interface described in Chapter 5 provides
-a means to change various parameters of a running system, but having
-access to the data needed to know what changes (if any) need to be
-made is a prerequisite for making informed decisions. To this end, it
+a means to change various parameters of a running system, but to make
+informed decisions about what changes (if any) need to be
+made, it is necessary to have access to the right data. To this end, it
 is ideal to have access to both the "knobs" and the "dials" on an
 integrated dashboard.  This can be accomplished by incorporating
 Grafana frames in the Runtime Control GUI, which, in its simplest form,
@@ -584,9 +584,9 @@ Chapter 1. A Service Mesh framework such as Istio provides a means to
 enforce fine-grained security policies and collect telemetry data in
 cloud native applications by injecting "observation/enforcement
 points" between microservices. These injection points, called
-*sidecars*, are typically implemented by a container that "runs along
-side" the containers that implement each microservice, with all RPC
-calls from Service A to Service B passing through their associated
+*sidecars*, are typically implemented by a container that "runs
+alongside" the containers that implement each microservice, with all
+RPC calls from Service A to Service B passing through their associated
 sidecars. As shown in :numref:`Figure %s <fig-mesh>`, these sidecars
 then implement whatever policies the operator wants to impose on the
 application, sending telemetry data to a global collector and

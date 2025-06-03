@@ -38,14 +38,17 @@ been a systems programmer at the University of Arizona. He received
 his BS in Computer Science from the University of Arizona in 2001.
 
 **Bruce Davie** is a computer scientist noted for his contributions to
-the field of networking. He is a former VP and CTO for the Asia
-Pacific region at VMware. He joined VMware during the acquisition of
-Software Defined Networking (SDN) startup Nicira. Prior to that, he
-was a Fellow at Cisco Systems, leading a team of architects
-responsible for Multiprotocol Label Switching (MPLS). Davie has over
-30 years of networking industry experience and has co-authored 17
-RFCs. He was recognized as an ACM Fellow in 2009 and chaired ACM
-SIGCOMM from 2009 to 2013. He was also a visiting lecturer at the
-Massachusetts Institute of Technology for five years. Davie is the
-author of multiple books and the holder of more than 40 U.S. Patents.
+the field of networking. He began his networking career at Bellcore
+where he worked on the Aurora Gigabit testbed and collaborated with
+Larry Peterson on high-speed host-network interfaces. He then went to
+Cisco where he led a team of architects responsible for Multiprotocol
+Label Switching (MPLS). He worked extensively at the IETF on
+standardizing MPLS and various quality of service technologies. He
+also spent five years as a visiting lecturer at the Massachusetts
+Institute of Technology. In 2012 he joined Software Defined Networking
+(SDN) startup Nicira and was then a principal engineer at VMware
+following the acquisition of Nicira. In 2017 he took on the role of VP
+and CTO for the Asia Pacific region at VMware. He is a Fellow of the
+ACM and chaired ACM SIGCOMM from 2009 to 2013. Davie is the author of
+multiple books and the holder of more than 40 U.S. patents.
 
