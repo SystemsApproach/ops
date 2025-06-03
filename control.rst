@@ -81,7 +81,7 @@ deployments of 5G, and to that end, defines a *user* to be a principal
 that accesses the API or GUI portal with some prescribed level of
 privilege. There is not necessarily a one-to-one relationship between
 users and Core-defined subscribers, and more importantly, not all
-devices have subscribers, as would be the case with IoT devices that
+devices have subscribers; a concrete example would be IoT devices that
 are not typically associated with a particular person.
 
 5.1 Design Overview
@@ -428,8 +428,8 @@ models are changing due to volatility in the backend systems they
 control, then it is often the case that the models can be
 distinguished as "low-level" or "high-level", with only the latter
 directly visible to clients via the API. In semantic versioning terms,
-a change to a low-level model would then effectively be a backwards
-compatible PATCH.
+a change to a low-level model would then effectively be a
+backward-compatible PATCH.
 
 
 5.2.3 Identity Management
