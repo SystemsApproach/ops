@@ -135,5 +135,5 @@ to this book. Please send us your comments using the `Issues Link
 Request with suggested changes.
 
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
-| April 2025
+| June 2025
 
