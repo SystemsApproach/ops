@@ -1,4 +1,6 @@
 Acknowledgements
+Adaptor
+Adaptors
 Aether
 Alertmanager
 Ansible
@@ -55,6 +57,8 @@ POD
 PODs
 PaaS
 Ph
+Plugable
+Pluggable
 Proxmox
 QoS
 RKE
@@ -83,6 +87,8 @@ VMware
 Vemuri
 Weaveworks
 absorber
+adaptor
+adaptors
 analytics
 architected
 auth
@@ -102,6 +108,7 @@ disaggregate
 disaggregated
 disaggregation
 downlink
+eBPF
 eNB
 eNBs
 evolvable
@@ -112,6 +119,7 @@ frontend
 gNMI
 gNOI
 gNodeB
+gNodeBs
 gRPC
 heatmap
 hoc
