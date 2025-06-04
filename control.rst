@@ -81,7 +81,7 @@ deployments of 5G, and to that end, defines a *user* to be a principal
 that accesses the API or GUI portal with some prescribed level of
 privilege. There is not necessarily a one-to-one relationship between
 users and Core-defined subscribers, and more importantly, not all
-devices have subscribers, as would be the case with IoT devices that
+devices have subscribers; a concrete example would be IoT devices that
 are not typically associated with a particular person.
 
 5.1 Design Overview
@@ -115,7 +115,7 @@ Central to this role is the requirement that Runtime Control be able
 to represent a set of abstract objects, which is to say, it implements
 a *data model*.  While there are several viable options for the
 specification language used to represent the data model, for Runtime
-Control we use YANG. This is for three reasons. First, YANG is a rich
+Control Aether uses YANG. This is for three reasons. First, YANG is a rich
 language for data modeling, with support for strong validation of the
 data stored in the models and the ability to define relations between
 objects. Second, it is agnostic as to how the data is stored (i.e.,
@@ -155,7 +155,7 @@ that we can build upon.
     from (1) a GUI, which is itself typically built using another
     framework, such as AngularJS; (2) a CLI; or (3) a closed-loop
     control program. There are other differences—for example,
-    Adapters (a kind of Controller) use gNMI as a standard
+    Adaptors (a kind of Controller) use gNMI as a standard
     interface for controlling backend components, and persistent
     state is stored in a key-value store instead of a SQL DB—but the
     biggest difference is the use of a declarative rather than an
@@ -168,11 +168,11 @@ x-config, in turn, uses Atomix (a key-value store microservice), to
 make configuration state persistent. Because x-config was originally
 designed to manage configuration state for devices, it uses gNMI as
 its southbound interface to communicate configuration changes to
-devices (or in our case, software services). An Adapter has to be
+devices (or in our case, software services). An Adaptor has to be
 written for any service/device that does not support gNMI
-natively. These adapters are shown as part of Runtime Control in
+natively. These adaptors are shown as part of Runtime Control in
 :numref:`Figure %s <fig-roc>`, but it is equally correct to view each
-adapter as part of the backend component, responsible for making that
+adaptor as part of the backend component, responsible for making that
 component management-ready. Finally, Runtime Control includes a
 Workflow Engine that is responsible for executing multi-step
 operations on the data model. This happens, for example, when a change
@@ -428,8 +428,8 @@ models are changing due to volatility in the backend systems they
 control, then it is often the case that the models can be
 distinguished as "low-level" or "high-level", with only the latter
 directly visible to clients via the API. In semantic versioning terms,
-a change to a low-level model would then effectively be a backwards
-compatible PATCH.
+a change to a low-level model would then effectively be a
+backward-compatible PATCH.
 
 
 5.2.3 Identity Management
@@ -467,15 +467,15 @@ the case of Aether, Open Policy Agent (OPA) serves this role.
    <https://www.openpolicyagent.org/>`__.
 
 
-5.2.4 Adapters
+5.2.4 Adaptors
 ~~~~~~~~~~~~~~
 
 Not every service or subsystem beneath Runtime Control supports gNMI,
-and in the case where it is not supported, an adapter is written to
+and in the case where it is not supported, an adaptor is written to
 translate between gNMI and the service’s native API. In Aether, for
-example, a gNMI :math:`\rightarrow` REST adapter translates between
+example, a gNMI :math:`\rightarrow` REST adaptor translates between
 the Runtime Control’s southbound gNMI calls and the SD-Core
-subsystem’s RESTful northbound interface. The adapter is not
+subsystem’s RESTful northbound interface. The adaptor is not
 necessarily just a syntactic translator, but may also include its own
 semantic layer. This supports a logical decoupling of the models
 stored in x-config and the interface used by the southbound
@@ -484,15 +484,15 @@ Control to evolve independently. It also allows for southbound
 devices/services to be replaced without affecting the northbound
 interface.
 
-An adapter does not necessarily support only a single service. An
-adapter is one means of taking an abstraction that spans multiple
+An adaptor does not necessarily support only a single service. An
+adaptor is one means of taking an abstraction that spans multiple
 services and applying it to each of those services. An example in
 Aether is the *User Plane Function* (the main packet-forwarding module
 in the SD-Core User Plane) and *SD-Core*, which are jointly
-responsible for enforcing *Quality of Service*, where the adapter
+responsible for enforcing *Quality of Service*, where the adaptor
 applies a single set of models to both services. Some care is needed
 to deal with partial failure, in case one service accepts the change,
-but the other does not. In this case, the adapter keeps trying the
+but the other does not. In this case, the adaptor keeps trying the
 failed backend service until it succeeds.
 
 5.2.5 Workflow Engine
@@ -519,7 +519,7 @@ ongoing development.
 gNMI naturally lends itself to mutual TLS for authentication, and that
 is the recommended way to secure communications between components
 that speak gNMI. For example, communication between x-config and
-its adapters uses gNMI, and therefore, uses mutual TLS. Distributing
+its adaptors uses gNMI, and therefore, uses mutual TLS. Distributing
 certificates between components is a problem outside the scope of
 Runtime Control. It is assumed that another tool will be responsible
 for distributing, revoking, and renewing certificates.
@@ -738,7 +738,7 @@ that it supports the option of spinning up an entirely new copy of the
 SD-Core rather than sharing an existing UPF with another Slice. This is
 done to ensure isolation, and illustrates one possible touch-point
 between Runtime Control and the Lifecycle Management subsystem:
-Runtime Control, via an Adapter, engages Lifecycle Management to
+Runtime Control, via an Adaptor, engages Lifecycle Management to
 launch the necessary set of Kubernetes containers that implement an
 isolated slice.
 
@@ -802,7 +802,7 @@ Giving enterprises the ability to set isolation and QoS parameters is
 an illustrative example in Aether.  Auto-generating that API from a
 set of models is an attractive approach to realizing such a control
 interface, if for no other reason than it forces a decoupling of the
-interface definition from the underlying implementation (with Adapters
+interface definition from the underlying implementation (with Adaptors
 bridging the gap).
 
 .. sidebar:: UX Considerations
@@ -839,7 +839,7 @@ configuration change requires a container restart, then there may be
 little choice.  But ideally, microservices are implemented with their
 own well-defined management interfaces, which can be invoked from
 either a configuration-time Operator (to initialize the component at
-boot time) or a control-time Adapter (to change the component at
+boot time) or a control-time Adaptor (to change the component at
 runtime).
 
 For resource-related operations, such as spinning up additional
@@ -847,7 +847,7 @@ containers in response to a user request to create a *Slice* or
 activate an edge service, a similar implementation strategy is
 feasible. The Kubernetes API can be called from either Helm (to
 initialize a microservice at boot time) or from a Runtime Control
-Adapter (to add resources at runtime). The remaining challenge is
+Adaptor (to add resources at runtime). The remaining challenge is
 deciding which subsystem maintains the authoritative copy of that
 state, and ensuring that decision is enforced as a system invariant.\ [#]_
 Such decisions are often situation-dependent, but our experience is

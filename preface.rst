@@ -9,13 +9,20 @@ Microsoft, Amazon and the other cloud providers do for us, and they do
 a perfectly good job of it.
 
 The answer, we believe, is that the cloud is becoming ubiquitous in
-another way, as distributed applications increasing run not just in
+another way, as distributed applications increasingly run not just in
 large, central datacenters but at the edge. As applications are
-disaggregated, the cloud is expanding from hundreds of datacenters to tens of
-thousands of enterprises. And while it is clear that the commodity
-cloud providers are eager to manage those edge clouds as a logical
-extension of their datacenters, they do not have a monopoly on the
-know-how for making that happen.
+disaggregated, the cloud is expanding from hundreds of datacenters to
+tens of thousands of enterprises. And while it is clear that the
+commodity cloud providers are eager to manage those edge clouds as a
+logical extension of their datacenters, they do not have a monopoly on
+the know-how for making that happen.
+
+At the same time edge applications are moving to the forefront,
+increasing importance is also being placed on *digital sovereignty*,
+the ability of nations and organizations to control their destiny and
+their data. Cloud technology is important for running today's
+workloads, but access to that technology does not necessarily have to
+be bundled with outsourcing operational control.
 
 This book lays out a roadmap that a small team of engineers followed
 over the course of a year to stand up and operationalize an edge cloud
@@ -78,13 +85,12 @@ The good news is that there is a wealth of open source components that
 can be assembled to help manage cloud platforms and scalable
 applications built on those platforms. That's also the bad news. With
 several dozen cloud-related projects available at open source
-consortia like the Linux Foundation, Cloud Native Computing
-Foundation, Apache Foundation, and Open Networking Foundation,
-navigating the project space is one of the biggest challenges we faced
-in putting together a cloud management platform. This is in large part
-because these projects are competing for mindshare, with both
-significant overlap in the functionality they offer and extraneous
-dependencies on each other.
+consortia such as the Linux Foundation, Cloud Native Computing
+Foundation, and Apache Foundation, navigating the project space is one
+of the biggest challenges we faced in putting together a cloud
+management platform. This is in large part because these projects are
+competing for mindshare, with both significant overlap in the
+functionality they offer and dependencies on each other.
 
 One way to read this book is as a guided tour of the open source
 landscape for cloud control and management. And in that spirit, we do
@@ -94,7 +100,7 @@ provide, but instead include links to project-specific documentation
 include snippets of code from those projects, but these examples are
 chosen to help solidify the main points we're trying to make about the
 management platform as a whole; they should not be interpreted as an
-attempt to document the inner-working of the individual projects. Our
+attempt to document the inner working of the individual projects. Our
 goal is to explain how the various puzzle pieces fit together to build
 an end-to-end management system, and in doing so, identify both
 various tools that help and the hard problems that no amount of
@@ -112,21 +118,22 @@ foundational.
 Acknowledgements
 ------------------
 
-The software described in this book is due to the hard work of the ONF
-engineering team and the open source community that works with
+*Aether*, the example edge cloud this book uses to illustrate how to
+operationalize a cloud, was built by the Open Networking Foundation
+(ONF) engineering team and the open source community that worked with
 them. We acknowledge their contributions, with a special thank-you to
 Hyunsun Moon, Sean Condon, and HungWei Chiu for their significant
 contributions to Aether's control and management platform, and to Oguz
-Sunay for his influence on its overall design. Suchitra Vemuri's
+Sunay for his influence on Aether's overall design.  Suchitra Vemuri's
 insights into testing and quality assurance were also invaluable.
 
-This book is still very much a work-in-progress, and we will happily
-acknowledge everyone that provides feedback. Please send us your
-comments using the `Issues Link
-<https://github.com/SystemsApproach/ops/issues>`__.  Also see the
-`Wiki <https://github.com/SystemsApproach/ops/wiki>`__ for the TODO
-list we're currently working on.
+The ONF is no longer active, but Aether continues as an open source
+project of the Linux Foundation. Visit https://aetherproject.org to
+learn about the ongoing project. We will also happily accept feedback
+to this book. Please send us your comments using the `Issues Link
+<https://github.com/SystemsApproach/ops/issues>`__, or submit a Pull
+Request with suggested changes.
 
 | Larry Peterson, Scott Baker, Andy Bavier, Zack Williams, and Bruce Davie
-| June 2022
+| April 2025
 

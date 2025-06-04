@@ -71,8 +71,8 @@ like. Our approach is to focus on the fundamental problems that must
 be addressed—design issues that are common to all clouds—but then
 couple this conceptual discussion with specific engineering choices
 made while operationalizing a specific enterprise cloud. Our example
-is Aether, an ONF project to support 5G-enabled edge clouds as a
-managed service. Aether has the following properties that make it an
+is Aether, an open source edge cloud that supports 5G connectivity as
+a managed service. Aether has the following properties that make it an
 interesting use case to study:
 
 * Aether starts with bare-metal hardware (servers and switches)
@@ -111,7 +111,7 @@ because each of these three domains brings its own conventions and
 terminology to the table. But understanding how these three
 stakeholders approach operationalization gives us a broader
 perspective on the problem. We return to the confluence of enterprise,
-cloud, access technologies later in this chapter, but we start by
+cloud, and access technologies later in this chapter, but we start by
 addressing the terminology challenge.
 
 .. _reading_aether:
@@ -232,8 +232,9 @@ terminology.
     process and Operational requirements silos, balancing feature
     velocity against system reliability. As a practice, it leverages
     CI/CD methods and is typically associated with container-based
-    (also known as *cloud native*) systems, as typified by *Site
-    Reliability Engineering (SRE)* practiced by cloud providers like
+    (also known as *cloud native*) systems. There is some overlap
+    between DevOps and *Site
+    Reliability Engineering (SRE)* as practiced by cloud providers such as
     Google.
 
   * **In-Service Software Upgrade (ISSU):** A requirement that a
@@ -374,10 +375,10 @@ manageable:
 
 * Zero-Touch Provisioning is more tractable because the hardware is
   commodity, and hence, (nearly) identical. This also means the vast
-  majority of configuration involves initiating software parameters,
+  majority of configuration involves initializing software parameters,
   which is more readily automated.
 
-* Cloud native implies a set of best-practices for addressing many of
+* Cloud native implies a set of best practices for addressing many of
   the FCAPS requirements, especially as they relate to availability
   and performance, both of which are achieved through horizontal
   scaling. Secure communication is also typically built into cloud RPC
@@ -386,7 +387,7 @@ manageable:
 Another way to say this is that by rearchitecting bundled appliances
 and devices as horizontally scalable microservices running on
 commodity hardware, what used to be a set of one-off O&M problems are
-now solved by widely applied best-practices from distributed systems,
+now solved by widely applied best practices from distributed systems,
 which have in turn been codified in state-of-the-art cloud management
 frameworks (like Kubernetes). This leaves us with the problem of (a)
 provisioning commodity hardware, (b) orchestrating the container
@@ -482,10 +483,10 @@ software components, which we describe next. Collectively, all the
 hardware and software components shown in the figure form the
 *platform*. Where we draw the line between what's *in the platform*
 and what runs *on top of the platform*, and why it is important, will
-become clear in later chapters, but the summary is that different
-mechanisms will be responsible for (a) bringing up the platform and
-prepping it to host workloads, and (b) managing the various workloads
-that need to be deployed on that platform.
+become clear in later chapters. The summary is that one mechanism is
+responsible for bringing up the platform and preparing it to host
+workloads, and a different mechanism is responsible for managing the
+various workloads that are deployed on that platform.
 
 
 1.3.2 Software Building Blocks
@@ -504,7 +505,7 @@ commodity processors in the cluster:
    interconnected to build applications.
 
 These are all well known and ubiquitous, and so we only summarize them
-here. Links to related information for anyone that is not familiar
+here. Links to related information for anyone who is not familiar
 with them (including excellent hands-on tutorials for the three
 container-related building blocks) are given below.
 
@@ -578,7 +579,7 @@ these open building blocks can be assembled into a comprehensive cloud
 management platform. We describe each tool in enough detail to
 appreciate how all the parts fit together—providing end-to-end
 coverage by connecting all the dots—plus links to full documentation
-for those that want to dig deeper into the details.
+for those who want to dig deeper into the details.
 
 ..
    List: NexBox, Ansible, Netplan, Terraform, Rancher, Fleet,
@@ -710,22 +711,27 @@ describe how to introduce VMs as an optional way to provision the
 underlying infrastructure for that PaaS.
 
 Finally, the Aether edge cloud we use as an example is similar to many
-other edge cloud platforms now being promoted as an enabling
-technology for Internet-of-Things. That Kubernetes-based on-prem/edge
-clouds are becoming so popular is one reason they make for such a good
-case study. For example, *Smart Edge Open* (formerly known as
-OpenNESS) is another open source edge platform, unique in that it
-includes several Intel-specific acceleration technologies (e.g., DPDK,
-SR-IOV, OVS/OVN). For our purposes, however, the exact set of
-components that make up the platform is less important than how the
-platform, along with all the cloud services that run on top of it, are
-managed as a whole. The Aether example allows us to be specific, but
-hopefully not at the expense of general applicability.
+other cloud platforms being built to support on-prem deployments.
+The dominant use case shifts over time—with Artificial Intelligence
+(AI) recently overtaking Internet-of-Things (IoT) as the most
+compelling justification for edge clouds—but the operational
+challenge remains the same. For example, *Open Edge Platform* recently
+open sourced by Intel includes example AI applications and a
+collection of AI libraries, but also an *Edge Management Framework*
+that mirrors the one describe this book. It starts with a Kubernetes
+foundation, and includes tools for provisioning edge servers,
+orchestrating edge clusters using those servers, lifecycle managing
+edge applications, and enabling observability. Many of the engineering
+choices are the same as in Aether (some are different), but the
+important takeaway is that Kubernetes-based edge clouds are quickly
+becoming commonplace. That's the reason they are such a good case
+study.
 
 .. admonition:: Further Reading
 
-   `Smart Edge Open
-   <https://smart-edge-open.github.io/>`__.
+   `Open Edge Platform <https://github.com/open-edge-platform/>`__.
+
+   `Edge Management Framework <https://github.com/open-edge-platform/edge-manageability-framework>`__.
 
 1.4 Future of the Sysadmin
 --------------------------
@@ -743,7 +749,7 @@ Cloud providers, because of the scale of the systems they build,
 cannot survive with operational silos, and so they introduced
 increasingly sophisticated cloud orchestration
 technologies. Kubernetes and Helm are two high-impact examples. These
-cloud best-practices are now available to enterprises as well, but
+cloud best practices are now available to enterprises as well, but
 they are often bundled as a managed service, with the cloud provider
 playing an ever-greater role in operating the enterprise’s services.
 Outsourcing portions of the IT responsibility to a cloud provider is an
@@ -756,9 +762,9 @@ within the enterprise, deployed as yet another cloud service.
 The approach this book takes is to explore a best-of-both-worlds
 opportunity. It does this by walking you through the collection of
 subsystems, and associated management processes, required to
-operationalize an on-prem cloud, and then provide on-going support for
+operationalize an on-premises cloud, and then provide on-going support for
 that cloud and the services it hosts (including 5G connectivity). Our
 hope is that understanding what’s under the covers of cloud-managed
 services will help enterprises better share responsibility for
-managing their IT infrastructure with cloud providers, and potentially
+managing their IT infrastructure with cloud providers, and potentially with
 MNOs.
