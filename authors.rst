@@ -27,7 +27,7 @@ Networking Foundation (ONF) engineering team that built Aether,
 leading the observability effort. Bavier has also been a Research
 Scientist at Princeton University, where he worked on the PlanetLab
 project. He received a BA in Philosophy from William & Mary in 1990,
-and MS in Computer Science from the University of Arizona in 1995, and
+an MS in Computer Science from the University of Arizona in 1995, and
 a PhD in Computer Science from Princeton University in 2004.
 
 **Zack Williams** is a Cloud Software Engineer at Intel, where he
