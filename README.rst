@@ -46,7 +46,13 @@ Build the Book
 To build a web-viewable version, you first need to download the
 source:
 
-.. literalinclude:: code/build.sh
+.. code:: shell
+
+   $ mkdir ~/systemsapproach
+   $ cd ~/systemsapproach
+   $ git clone https://github.com/SystemsApproach/ops.git
+   $ cd ops
+
 
 The build process is stored in the Makefile and requires Python be
 installed. The Makefile will create a virtualenv (``venv-docs``) which
