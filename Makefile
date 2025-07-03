@@ -2,10 +2,10 @@
 
 # use bash for pushd/popd, and to fail quickly. virtualenv's activate
 # has undefined variables, so no -u
-SHELL = bash -e -o pipefail
+SHELL = bash -eu -o pipefail
 
 # You can set these variables from the command line.
-SPHINXOPTS   ?= 
+SPHINXOPTS   ?=
 SPHINXBUILD  ?= sphinx-build
 SOURCEDIR    ?= .
 BUILDDIR     ?= _build
@@ -45,5 +45,5 @@ clean-all: clean
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: $(VIRTUALENV) Makefile
-	source ./$</bin/activate ; set -u;\
+	source ./$</bin/activate ;\
   $(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
