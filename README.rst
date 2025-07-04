@@ -8,12 +8,11 @@ About The Book
   :alt: written by humans not by AI button
   :target: https://notbyai.fyi
 
-.. only:: html
 
-  .. image:: https://github.com/SystemsApproach/ops/actions/workflows/publish-docs.yaml/badge.svg
-    :align: left
-    :alt: deployment status button
-    :target: https://github.com/SystemsApproach/ops/actions/
+.. image:: https://github.com/SystemsApproach/ops/actions/workflows/publish-docs.yaml/badge.svg
+  :align: left
+  :alt: deployment status button
+  :target: https://github.com/SystemsApproach/ops/actions/
 
 |
 
